@@ -45,7 +45,27 @@
             </svg>
             +7&nbsp;(800)&nbsp;555&#8209;35&#8209;35
           </a>
-          <a href="contacts.html" class="btn btn-primary header-btn">Оставить заявку</a>
+          <!-- Language Switcher -->
+          <div class="lang-switcher" id="langSwitcher">
+            <button type="button" class="lang-btn" id="langBtn"
+                    aria-haspopup="listbox" aria-expanded="false" aria-label="Выбрать язык">
+              <span class="lang-flag" id="langFlag">🇷🇺</span>
+              <span class="lang-code" id="langCode">RU</span>
+              <svg class="lang-chevron" width="10" height="10" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <ul class="lang-dropdown" role="listbox" id="langDropdown">
+              <li role="option"><button type="button" data-lang="ru" data-active="true">🇷🇺 Русский</button></li>
+              <li role="option"><button type="button" data-lang="en">🇬🇧 English</button></li>
+              <li role="option"><button type="button" data-lang="zh">🇨🇳 中文</button></li>
+              <li role="option"><button type="button" data-lang="ja">🇯🇵 日本語</button></li>
+              <li role="option"><button type="button" data-lang="ko">🇰🇷 한국어</button></li>
+            </ul>
+          </div>
+          <a href="contacts.html" class="btn btn-outline header-btn" style="padding:8px 14px;">Оставить заявку</a>
+          <a href="account.html" class="btn btn-primary header-btn">Кабинет</a>
         </div>
         <button class="burger" aria-label="Открыть меню" aria-expanded="false" type="button">
           <span class="burger-line"></span>
@@ -74,6 +94,7 @@
       +7&nbsp;(800)&nbsp;555&#8209;35&#8209;35
     </a>
     <a href="contacts.html" class="btn btn-primary header-btn">Оставить заявку</a>
+    <a href="account.html" class="btn btn-outline header-btn">Кабинет</a>
   </nav>
 
   <main>
@@ -374,6 +395,7 @@
     </svg>
   </button>
 
+  <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
