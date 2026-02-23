@@ -63,8 +63,24 @@
   }
 
   function showError() {
+    /* On API failure: use hardcoded reference rates so widget stays useful */
+    var FALLBACK = { USD: 90.50, EUR: 98.20, CNY: 12.50, JPY: 0.615, KRW: 0.068 };
+    var hasFallback = false;
+    CURRENCIES.forEach(function (c) {
+      if (!rates[c.code] && FALLBACK[c.code]) {
+        rates[c.code] = FALLBACK[c.code] / c.nominal;
+        hasFallback = true;
+      }
+    });
     var errorEl = document.getElementById('currencyError');
-    if (errorEl) errorEl.style.display = 'flex';
+    if (errorEl) {
+      errorEl.style.display = 'flex';
+      if (hasFallback) {
+        var msgEl = errorEl.querySelector('span');
+        if (msgEl) msgEl.textContent = 'Нет соединения с ЦБ РФ. Показаны ориентировочные курсы.';
+        updateCards();
+      }
+    }
   }
 
   /* ── Update rate cards ── */

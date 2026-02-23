@@ -292,50 +292,62 @@
 
     svg.appendChild(defs);
 
-    /* ── Ocean background ── */
-    svg.appendChild(el('rect', {width:W, height:H, fill:'#071520'}));
+    /* ── Ocean background with gradient ── */
+    var oceanGrad = el('linearGradient', {id:'oceanGrad', x1:'0%', y1:'0%', x2:'100%', y2:'100%'});
+    oceanGrad.appendChild(el('stop', {'offset':'0%',   'stop-color':'#0a2a45'}));
+    oceanGrad.appendChild(el('stop', {'offset':'100%', 'stop-color':'#071730'}));
+    defs.appendChild(oceanGrad);
+    svg.appendChild(el('rect', {width:W, height:H, fill:'url(#oceanGrad)'}));
 
     /* ── Helper: land polygon ── */
-    function landPoly(pts, fill, stroke) {
+    function landPoly(pts, fill, stroke, sw) {
       return el('polygon', {
         points: polyStr(pts),
         fill: fill,
-        stroke: stroke || 'rgba(255,255,255,0.18)',
-        'stroke-width': '0.8',
+        stroke: stroke || 'rgba(255,255,255,0.20)',
+        'stroke-width': sw || '1',
         'stroke-linejoin': 'round'
       });
     }
 
-    /* ── Neighboring countries (draw before Russia so Russia is on top) ── */
-    var COLOR_NEIGH = '#142340';
-    svg.appendChild(landPoly(KAZAKHSTAN, COLOR_NEIGH));
-    svg.appendChild(landPoly(MONGOLIA,   '#16284a'));
-    svg.appendChild(landPoly(CHINA,      '#152240'));
-    svg.appendChild(landPoly(KOREA,      '#16274a', 'rgba(255,255,255,0.22)'));
-    svg.appendChild(landPoly(HONSHU,     '#16274a', 'rgba(255,255,255,0.22)'));
-    svg.appendChild(landPoly(HOKKAIDO,   '#16274a', 'rgba(255,255,255,0.22)'));
-    svg.appendChild(landPoly(KYUSHU,     '#16274a', 'rgba(255,255,255,0.22)'));
+    /* ── Neighboring countries — drawn before Russia so Russia sits on top ── */
+    /* Kazakhstan — sandy brown */
+    svg.appendChild(landPoly(KAZAKHSTAN, '#2a3d55'));
+    /* Mongolia — muted olive */
+    svg.appendChild(landPoly(MONGOLIA,   '#2d4260'));
+    /* China — teal-blue */
+    svg.appendChild(landPoly(CHINA,      '#1f4060', 'rgba(255,255,255,0.22)'));
+    /* Korea — medium teal */
+    svg.appendChild(landPoly(KOREA,      '#245060', 'rgba(255,255,255,0.28)', '1.2'));
+    /* Japan — slightly lighter */
+    svg.appendChild(landPoly(HONSHU,     '#245060', 'rgba(255,255,255,0.28)', '1.2'));
+    svg.appendChild(landPoly(HOKKAIDO,   '#245060', 'rgba(255,255,255,0.28)', '1.2'));
+    svg.appendChild(landPoly(KYUSHU,     '#245060', 'rgba(255,255,255,0.28)', '1.2'));
 
-    /* ── Russia (brighter, on top) ── */
-    var COLOR_RUSSIA = '#1e3f72';
-    svg.appendChild(landPoly(RUSSIA,    COLOR_RUSSIA, 'rgba(255,255,255,0.25)'));
-    svg.appendChild(landPoly(KAMCHATKA, COLOR_RUSSIA, 'rgba(255,255,255,0.25)'));
-    svg.appendChild(landPoly(SAKHALIN,  COLOR_RUSSIA, 'rgba(255,255,255,0.25)'));
+    /* ── Russia — distinctly brighter blue, on top ── */
+    var COLOR_RUSSIA = '#2a5fa8';
+    svg.appendChild(landPoly(RUSSIA,    COLOR_RUSSIA, 'rgba(255,255,255,0.30)', '1.2'));
+    svg.appendChild(landPoly(KAMCHATKA, COLOR_RUSSIA, 'rgba(255,255,255,0.30)', '1.2'));
+    svg.appendChild(landPoly(SAKHALIN,  COLOR_RUSSIA, 'rgba(255,255,255,0.30)', '1.2'));
 
-    /* Subtle warm Far-East highlight */
+    /* Subtle amber glow on the Far East area */
+    var feGrad = el('linearGradient', {id:'feGrad', x1:'0%', y1:'0%', x2:'100%', y2:'0%'});
+    feGrad.appendChild(el('stop', {'offset':'0%',   'stop-color':'rgba(245,166,35,0)'}));
+    feGrad.appendChild(el('stop', {'offset':'100%', 'stop-color':'rgba(245,166,35,0.06)'}));
+    defs.appendChild(feGrad);
     svg.appendChild(el('rect', {
       x: String(px(107, 22)[0]), y: '0',
       width: String(W - px(107, 22)[0]), height: String(H),
-      fill: 'rgba(245,166,35,0.04)'
+      fill: 'url(#feGrad)'
     }));
 
     /* ── Sea labels ── */
     SEAS.forEach(function (s) {
       var c = px(s.lon, s.lat);
       s.lines.forEach(function (line, i) {
-        svg.appendChild(text(line, c[0], c[1] + i * 13, {
-          fill: 'rgba(100,185,255,0.38)',
-          'font-size': '10',
+        svg.appendChild(text(line, c[0], c[1] + i * 14, {
+          fill: 'rgba(130,210,255,0.55)',
+          'font-size': '11',
           'font-family': 'Roboto,sans-serif',
           'font-style': 'italic',
           'text-anchor': 'middle',
@@ -344,28 +356,28 @@
       });
     });
 
-    /* ── Region labels (very faint, all-caps) ── */
+    /* ── Region labels (faint watermark) ── */
     REGION_LABELS.forEach(function (rl) {
       var c = px(rl.lon, rl.lat);
       rl.lines.forEach(function (line, i) {
-        svg.appendChild(text(line, c[0], c[1] + i * 10, {
-          fill: 'rgba(255,255,255,0.10)',
-          'font-size': '8.5',
+        svg.appendChild(text(line, c[0], c[1] + i * 11, {
+          fill: 'rgba(255,255,255,0.13)',
+          'font-size': '9',
           'font-family': 'Roboto,sans-serif',
           'font-weight': '700',
-          'letter-spacing': '1.5',
+          'letter-spacing': '1.8',
           'text-anchor': 'middle',
           'pointer-events': 'none'
         }));
       });
     });
 
-    /* ── Country labels ── */
+    /* ── Country labels — more visible ── */
     COUNTRY_LABELS.forEach(function (cl) {
       var c = px(cl.lon, cl.lat);
       svg.appendChild(text(cl.text, c[0], c[1], {
-        fill: 'rgba(255,255,255,0.32)',
-        'font-size': '10',
+        fill: 'rgba(200,230,255,0.55)',
+        'font-size': '11',
         'font-family': 'Roboto,sans-serif',
         'font-weight': '700',
         'letter-spacing': '2',
@@ -381,9 +393,9 @@
       var isSea = (r.t === 'sea');
       var line = el('line', {
         x1: a.x, y1: a.y, x2: b.x, y2: b.y,
-        stroke: isSea ? '#f5a623' : '#6ea8d8',
-        'stroke-width': isSea ? '1.6' : '1.2',
-        'stroke-opacity': isSea ? '0.55' : '0.45'
+        stroke: isSea ? '#f5a623' : '#8ec8f0',
+        'stroke-width': isSea ? '1.8' : '1.4',
+        'stroke-opacity': isSea ? '0.70' : '0.55'
       });
       line.classList.add(isSea ? 'ps-sea-route' : 'ps-land-route');
       svg.appendChild(line);
@@ -391,18 +403,21 @@
 
     /* ── City markers + permanent labels ── */
     CITIES.forEach(function (c) {
-      var col = c.type === 'mega'    ? '#5aadff'
+      var col = c.type === 'mega'    ? '#6ec0ff'
               : c.type === 'port'    ? '#f5a623'
               :                        '#4de8c2';
+      var r   = c.type === 'mega'    ? 3.5
+              : c.type === 'port'    ? 4.5
+              :                        5;
 
-      /* Animated ring for ports and Yakutsk */
+      /* Animated ring for ports and special cities */
       if (c.type !== 'mega') {
         var ring = el('circle', {
-          cx: c.x, cy: c.y, r: '7',
+          cx: c.x, cy: c.y, r: '8',
           fill: 'none',
           stroke: col,
           'stroke-width': '1.5',
-          'stroke-opacity': '0.5'
+          'stroke-opacity': '0.45'
         });
         ring.classList.add('ps-port-ring');
         svg.appendChild(ring);
@@ -411,23 +426,23 @@
       /* Dot */
       svg.appendChild(el('circle', {
         cx: c.x, cy: c.y,
-        r: c.type === 'port' ? '4' : (c.type === 'special' ? '5' : '4'),
+        r: String(r),
         fill: col,
-        stroke: 'rgba(255,255,255,0.75)',
-        'stroke-width': '1.2',
+        stroke: 'rgba(255,255,255,0.85)',
+        'stroke-width': '1.4',
         filter: c.type !== 'mega' ? 'url(#ps-glow)' : ''
       }));
 
-      /* Label — always visible */
-      var OFF = 7;
-      var dx = OFF, dy = 4, anchor = 'start';
+      /* Label — always visible, slightly larger font */
+      var OFF = 8;
+      var dx = OFF, dy = 4.5, anchor = 'start';
       if      (c.lp === 'l') { dx = -OFF;  anchor = 'end'; }
-      else if (c.lp === 't') { dx = 0; dy = -OFF;  anchor = 'middle'; }
-      else if (c.lp === 'b') { dx = 0; dy = OFF+8;  anchor = 'middle'; }
+      else if (c.lp === 't') { dx = 0; dy = -OFF;   anchor = 'middle'; }
+      else if (c.lp === 'b') { dx = 0; dy = OFF + 9; anchor = 'middle'; }
 
       svg.appendChild(text(c.name, c.x + dx, c.y + dy, {
-        fill: 'rgba(255,255,255,0.92)',
-        'font-size': '9',
+        fill: 'rgba(255,255,255,0.95)',
+        'font-size': c.type === 'mega' ? '9.5' : '10',
         'font-family': 'Roboto,sans-serif',
         'font-weight': c.type === 'mega' ? '400' : '600',
         'text-anchor': anchor,
@@ -437,36 +452,37 @@
     });
 
     /* ── Legend (bottom-left) ── */
-    var LX = 14, LY = H - 74;
+    var LX = 14, LY = H - 84;
     svg.appendChild(el('rect', {
-      x: LX - 8, y: LY - 18, width: '172', height: '82',
-      rx: '6', fill: 'rgba(7,21,32,0.80)',
-      stroke: 'rgba(255,255,255,0.12)', 'stroke-width': '1'
+      x: LX - 8, y: LY - 16, width: '188', height: '94',
+      rx: '8', fill: 'rgba(5,18,30,0.82)',
+      stroke: 'rgba(255,255,255,0.14)', 'stroke-width': '1'
     }));
 
     [
-      {col:'#5aadff',  lbl:'Города 1 млн+'},
+      {col:'#6ec0ff',  lbl:'Города с населением 1 млн+'},
       {col:'#f5a623',  lbl:'Морские порты / КПП'},
-      {col:'#4de8c2',  lbl:'Якутск — ключевой узел'}
+      {col:'#4de8c2',  lbl:'Якутск — северный узел'}
     ].forEach(function (ld, i) {
-      var cy = LY + i * 20;
-      svg.appendChild(el('circle', {cx:LX+5, cy:cy, r:'4',
-        fill:ld.col, stroke:'rgba(255,255,255,0.4)', 'stroke-width':'1'}));
-      svg.appendChild(text(ld.lbl, LX + 15, cy + 4, {
-        fill: 'rgba(255,255,255,0.70)',
-        'font-size': '9',
+      var cy = LY + i * 22;
+      svg.appendChild(el('circle', {cx:LX+5, cy:cy, r:'4.5',
+        fill:ld.col, stroke:'rgba(255,255,255,0.45)', 'stroke-width':'1'}));
+      svg.appendChild(text(ld.lbl, LX + 16, cy + 4.5, {
+        fill: 'rgba(255,255,255,0.78)',
+        'font-size': '9.5',
         'font-family': 'Roboto,sans-serif'
       }));
     });
 
-    /* route legend entry */
+    /* route legend entries */
+    var routeY = LY + 70;
     svg.appendChild(el('line', {
-      x1:LX, y1:LY+62, x2:LX+22, y2:LY+62,
-      stroke:'#f5a623', 'stroke-width':'1.5', 'stroke-dasharray':'8 4'
+      x1:LX, y1:routeY, x2:LX+24, y2:routeY,
+      stroke:'#f5a623', 'stroke-width':'1.8', 'stroke-dasharray':'8 4'
     }));
-    svg.appendChild(text('Морские маршруты', LX + 28, LY + 66, {
-      fill:'rgba(255,255,255,0.70)',
-      'font-size':'9',
+    svg.appendChild(text('Морские маршруты', LX + 30, routeY + 4, {
+      fill:'rgba(255,255,255,0.78)',
+      'font-size':'9.5',
       'font-family':'Roboto,sans-serif'
     }));
 

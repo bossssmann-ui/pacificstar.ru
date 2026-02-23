@@ -74,18 +74,32 @@
   }
 
   /* =======================================
-     FADE-IN ON SCROLL (Intersection Observer)
-     Three-layer progressive enhancement:
-       1. CSS animation fallback (makes all .fade-in
-          visible after ~2 s even if JS / IO never fires)
-       2. IntersectionObserver for smooth scroll-reveal
-       3. Hard timeout — catches any element the observer
-          missed (e.g. very short pages, fast scroll)
+     FADE-IN ON SCROLL — opt-in approach
+     ─────────────────────────────────────
+     1. Mark elements already in viewport as
+        .visible BEFORE enabling animations
+        → no content ever flashes invisible
+     2. Add .anim-ready to <html> — only
+        off-screen .fade-in els are hidden
+     3. IntersectionObserver reveals on scroll
+     4. 300 ms safety-net for any stragglers
      ======================================= */
   const fadeEls = document.querySelectorAll('.fade-in');
 
   if (fadeEls.length) {
-    /* Layer 2 — scroll-reveal via IntersectionObserver */
+    /* Step 1 — tag in-viewport elements FIRST */
+    const vpH = window.innerHeight;
+    fadeEls.forEach(function (el) {
+      const r = el.getBoundingClientRect();
+      if (r.top < vpH + 200) {
+        el.classList.add('visible');
+      }
+    });
+
+    /* Step 2 — enable animations for off-screen els */
+    document.documentElement.classList.add('anim-ready');
+
+    /* Step 3 — scroll-reveal via IntersectionObserver */
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver(
         function (entries) {
@@ -96,21 +110,23 @@
             }
           });
         },
-        /* rootMargin: generous bottom margin so elements
-           just outside the viewport are pre-revealed     */
-        { threshold: 0.05, rootMargin: '0px 0px 60px 0px' }
+        { threshold: 0.05, rootMargin: '0px 0px 80px 0px' }
       );
 
-      fadeEls.forEach(function (el) { observer.observe(el); });
+      fadeEls.forEach(function (el) {
+        if (!el.classList.contains('visible')) {
+          observer.observe(el);
+        }
+      });
     } else {
-      /* Fallback for browsers without IntersectionObserver */
+      /* Fallback: no IO support */
       fadeEls.forEach(function (el) { el.classList.add('visible'); });
     }
 
-    /* Layer 3 — safety net: reveal everything after 1.8 s */
+    /* Step 4 — safety-net at 300 ms */
     setTimeout(function () {
       fadeEls.forEach(function (el) { el.classList.add('visible'); });
-    }, 1800);
+    }, 300);
   }
 
   /* =======================================
