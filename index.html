@@ -727,6 +727,7 @@
             <a href="services.html">Услуги</a>
             <a href="remote-regions.html">Северный завоз</a>
             <a href="contacts.html">Контакты</a>
+            <a href="integrations.html">Интеграции</a>
           </nav>
         </div>
 
@@ -772,6 +773,82 @@
       </div>
     </div>
   </footer>
+
+
+  <!-- ========== FLOATING CONTACTS ========== -->
+  <div class="floating-contacts" id="floatingContacts">
+    <div class="floating-menu" id="floatingMenu" role="menu" aria-label="Способы связи">
+      <a href="https://wa.me/78005553535?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D1%8E%D1%81%D1%8C%20%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B7%D0%BA%D0%BE%D0%B9."
+         class="floating-item floating-wa" target="_blank" rel="noopener noreferrer"
+         role="menuitem" aria-label="WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.135.559 4.14 1.535 5.878L0 24l6.273-1.508A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.896 0-3.678-.513-5.2-1.408l-.368-.224-3.85.924.999-3.77-.248-.386A9.955 9.955 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
+        </svg>
+        <span>WhatsApp</span>
+      </a>
+      <a href="https://t.me/pacificstar_bot" class="floating-item floating-tg"
+         target="_blank" rel="noopener noreferrer" role="menuitem" aria-label="Telegram">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="currentColor" aria-hidden="true">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.26 13.593l-2.95-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.537-.194 1.006.131.883.964z"/>
+        </svg>
+        <span>Telegram</span>
+      </a>
+      <button type="button" class="floating-item floating-cb" id="openCallback" role="menuitem">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.2 19.79 19.79 0 010 2.57 2 2 0 012 .38h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.26a16 16 0 006.29 6.29l1.25-1.25a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+        <span>Перезвоним</span>
+      </button>
+    </div>
+    <button type="button" class="floating-toggle" id="floatingToggle"
+            aria-label="Связаться с нами" aria-expanded="false" aria-controls="floatingMenu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.2 19.79 19.79 0 010 2.57 2 2 0 012 .38h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.26a16 16 0 006.29 6.29l1.25-1.25a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ========== CALLBACK PANEL ========== -->
+  <div class="callback-overlay" id="callbackOverlay"></div>
+  <div class="callback-panel" id="callbackPanel" role="dialog" aria-modal="true"
+       aria-labelledby="callback-title" aria-hidden="true">
+    <button type="button" class="callback-close" id="callbackClose" aria-label="Закрыть панель">✕</button>
+    <div class="callback-icon" aria-hidden="true">📞</div>
+    <h3 id="callback-title">Перезвоним вам</h3>
+    <p class="callback-desc">Менеджер свяжется с вами в течение 5&nbsp;минут в рабочее время</p>
+    <form id="callbackForm" novalidate>
+      <div class="form-group">
+        <label for="cbName" class="form-label">Ваше имя</label>
+        <input type="text" id="cbName" name="name" class="form-control" placeholder="Иван" autocomplete="given-name" >
+      </div>
+      <div class="form-group">
+        <label for="cbPhone" class="form-label">Телефон <span class="form-required">(обязательно)</span></label>
+        <input type="tel" id="cbPhone" name="phone" class="form-control" placeholder="+7 (___) ___-__-__" required autocomplete="tel" >
+      </div>
+      <div class="form-group">
+        <label for="cbTime" class="form-label">Удобное время</label>
+        <select id="cbTime" name="time" class="form-control">
+          <option value="any">Любое рабочее время (9:00–18:00)</option>
+          <option value="morning">Утром (9:00–12:00)</option>
+          <option value="afternoon">Днём (12:00–15:00)</option>
+          <option value="evening">Вечером (15:00–18:00)</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px;">Перезвоните мне</button>
+    </form>
+    <div class="callback-success" id="callbackSuccess" style="display:none;" aria-live="polite">
+      <div class="cb-ok-icon" aria-hidden="true">✅</div>
+      <h4>Заявка принята!</h4>
+      <p>Перезвоним в ближайшее время</p>
+    </div>
+    <p class="callback-notice">Нажимая кнопку, вы соглашаетесь на <a href="privacy.html">обработку персональных данных</a></p>
+  </div>
+
 
   <button class="scroll-top" aria-label="Наверх" title="Вернуться наверх" type="button">
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"

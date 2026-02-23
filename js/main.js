@@ -301,3 +301,92 @@
     });
   });
 })();
+
+/* =========================================================
+   FLOATING CONTACT WIDGET + CALLBACK PANEL
+   ========================================================= */
+(function () {
+  'use strict';
+
+  var toggle   = document.getElementById('floatingToggle');
+  var menu     = document.getElementById('floatingMenu');
+  var openBtn  = document.getElementById('openCallback');
+  var overlay  = document.getElementById('callbackOverlay');
+  var panel    = document.getElementById('callbackPanel');
+  var closeBtn = document.getElementById('callbackClose');
+  var cbForm   = document.getElementById('callbackForm');
+  var cbOk     = document.getElementById('callbackSuccess');
+
+  if (!toggle || !menu) return;
+
+  /* --- floating menu toggle --- */
+  function setMenu(open) {
+    menu.classList.toggle('is-open', open);
+    toggle.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  toggle.addEventListener('click', function () {
+    setMenu(!menu.classList.contains('is-open'));
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('#floatingContacts')) setMenu(false);
+  });
+
+  /* --- callback panel --- */
+  function openCallback() {
+    setMenu(false);
+    if (!panel) return;
+    panel.classList.add('is-open');
+    overlay && overlay.classList.add('is-open');
+    panel.removeAttribute('aria-hidden');
+    document.body.style.overflow = 'hidden';
+    var first = panel.querySelector('input, select, button');
+    if (first) setTimeout(function () { first.focus(); }, 60);
+  }
+
+  function closeCallback() {
+    if (!panel) return;
+    panel.classList.remove('is-open');
+    overlay && overlay.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (openBtn)  openBtn.addEventListener('click', openCallback);
+  if (overlay)  overlay.addEventListener('click', closeCallback);
+  if (closeBtn) closeBtn.addEventListener('click', closeCallback);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { setMenu(false); closeCallback(); }
+  });
+
+  /* --- callback form submit --- */
+  if (cbForm) {
+    cbForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var phoneEl = document.getElementById('cbPhone');
+      if (!phoneEl || !phoneEl.value.trim()) {
+        if (phoneEl) phoneEl.focus();
+        return;
+      }
+      /*
+       * TODO: replace stub with AmoCRM webhook after API key is configured.
+       * fetch('/api/callback', {
+       *   method: 'POST',
+       *   headers: { 'Content-Type': 'application/json' },
+       *   body: JSON.stringify({
+       *     name:  document.getElementById('cbName').value,
+       *     phone: phoneEl.value,
+       *     time:  document.getElementById('cbTime').value,
+       *     source: 'callback-widget'
+       *   })
+       * });
+       */
+      cbForm.style.display = 'none';
+      if (cbOk) cbOk.style.display = 'block';
+      setTimeout(closeCallback, 3200);
+    });
+  }
+}());

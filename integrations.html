@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+  <meta name="robots" content="index, follow" >
+  <meta name="description" content="Цифровые инструменты Pacific Star: личный кабинет, трекинг грузов, калькуляторы, интеграции с AmoCRM, 1C, Telegram, WhatsApp. Сравнение с лидерами рынка и план развития." >
+  <meta property="og:title" content="Цифровые инструменты и интеграции — Pacific Star" >
+  <meta property="og:description" content="Личный кабинет, калькулятор маршрутов, курсы ЦБ, интерактивная карта, мультиязычность и план подключения AmoCRM, Telegram-бота, API трекинга." >
+  <meta property="og:type" content="website" >
+  <meta property="og:url" content="https://pacificstar.ru/integrations.html" >
+  <link rel="canonical" href="https://pacificstar.ru/integrations.html" >
+  <title>Цифровые инструменты и интеграции — Pacific Star</title>
+  <noscript><style>.fade-in{opacity:1!important;transform:none!important;animation:none!important}</style></noscript>
+  <link rel="preconnect" href="https://fonts.googleapis.com" >
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&display=swap" rel="stylesheet" >
+  <link rel="stylesheet" href="css/style.css" >
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="logo" aria-label="Pacific Star — главная страница">
+          <div class="logo-icon" aria-hidden="true">🌟</div>
+          <div class="logo-text">
+            <strong>Pacific Star</strong>
+            <span>Логистика</span>
+          </div>
+        </a>
+        <nav class="nav-menu" aria-label="Основное меню">
+          <a href="index.html" class="nav-link">Главная</a>
+          <a href="about.html" class="nav-link">О нас</a>
+          <a href="services.html" class="nav-link">Услуги</a>
+          <a href="remote-regions.html" class="nav-link">Северный завоз</a>
+          <a href="contacts.html" class="nav-link">Контакты</a>
+        </nav>
+        <div class="header-cta">
+          <a href="tel:+78005553535" class="header-phone" aria-label="Позвонить нам">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07
+                       11.2 19.79 19.79 0 010 2.57 2 2 0 012 .38h3a2 2 0 012 1.72c.127.96.361
+                       1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.26a16 16 0 006.29 6.29l1.25-1.25a2
+                       2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+            +7&nbsp;(800)&nbsp;555&#8209;35&#8209;35
+          </a>
+          <div class="lang-switcher" id="langSwitcher">
+            <button type="button" class="lang-btn" id="langBtn"
+                    aria-haspopup="listbox" aria-expanded="false" aria-label="Выбрать язык">
+              <span class="lang-flag" id="langFlag">🇷🇺</span>
+              <span class="lang-code" id="langCode">RU</span>
+              <svg class="lang-chevron" width="10" height="10" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <ul class="lang-dropdown" role="listbox" id="langDropdown">
+              <li role="option"><button type="button" data-lang="ru" data-active="true">🇷🇺 Русский</button></li>
+              <li role="option"><button type="button" data-lang="en">🇬🇧 English</button></li>
+              <li role="option"><button type="button" data-lang="zh">🇨🇳 中文</button></li>
+              <li role="option"><button type="button" data-lang="ja">🇯🇵 日本語</button></li>
+              <li role="option"><button type="button" data-lang="ko">🇰🇷 한국어</button></li>
+            </ul>
+          </div>
+          <a href="contacts.html" class="btn btn-outline header-btn" style="padding:8px 14px;">Оставить заявку</a>
+          <a href="account.html" class="btn btn-primary header-btn">Кабинет</a>
+        </div>
+        <button class="burger" aria-label="Открыть меню" aria-expanded="false" type="button">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== MOBILE NAV ========== -->
+  <nav class="mobile-nav" aria-label="Мобильное меню">
+    <a href="index.html" class="nav-link">Главная</a>
+    <a href="about.html" class="nav-link">О нас</a>
+    <a href="services.html" class="nav-link">Услуги</a>
+    <a href="remote-regions.html" class="nav-link">Северный завоз</a>
+    <a href="contacts.html" class="nav-link">Контакты</a>
+    <a href="tel:+78005553535" class="header-phone">+7&nbsp;(800)&nbsp;555&#8209;35&#8209;35</a>
+    <a href="contacts.html" class="btn btn-primary header-btn">Оставить заявку</a>
+    <a href="account.html" class="btn btn-outline header-btn">Кабинет</a>
+  </nav>
+
+  <main>
+
+    <!-- ========== PAGE HERO ========== -->
+    <section class="page-hero" aria-label="Цифровые инструменты">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Хлебные крошки">
+          <a href="index.html">Главная</a>
+          <span aria-hidden="true">›</span>
+          <span>Интеграции</span>
+        </nav>
+        <h1>Цифровые инструменты</h1>
+        <p>Анализ рынка, реализованные решения и план развития цифровой платформы Pacific Star</p>
+      </div>
+    </section>
+
+    <!-- ========== УЖЕ РАБОТАЕТ ========== -->
+    <section class="section" id="implemented" aria-labelledby="impl-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Статус: активно</span>
+          <h2 class="section-title" id="impl-title">Уже работает на сайте</h2>
+          <p class="section-desc">
+            Инструменты, доступные прямо сейчас — без регистрации и скачивания приложений
+          </p>
+          <div class="divider" aria-hidden="true"></div>
+        </div>
+
+        <div class="integration-grid">
+
+          <div class="integration-card fade-in">
+            <div class="integration-card-head">
+              <div class="integration-icon" aria-hidden="true">👤</div>
+              <div>
+                <p class="integration-name">Личный кабинет</p>
+                <p class="integration-type">Клиентский портал</p>
+              </div>
+            </div>
+            <span class="integration-badge badge-done">✅ Работает</span>
+            <p class="integration-desc">
+              Регистрация, вход, трекинг груза по номеру заявки, история отправлений,
+              конструктор маршрута и создание новых заявок. Готов к интеграции с AmoCRM.
+            </p>
+          </div>
+
+          <div class="integration-card fade-in">
+            <div class="integration-card-head">
+              <div class="integration-icon" aria-hidden="true">🧮</div>
+              <div>
+                <p class="integration-name">Калькулятор стоимости</p>
+                <p class="integration-type">Интерактивный инструмент</p>
+              </div>
+            </div>
+            <span class="integration-badge badge-done">✅ Работает</span>
+            <p class="integration-desc">
+              18 ключевых маршрутов, 4 вида транспорта, 7 типов груза, объёмный вес,
+              арктическая надбавка. Мгновенный расчёт диапазона стоимости.
+            </p>
+          </div>
+
+          <div class="integration-card fade-in">
+            <div class="integration-card-head">
+              <div class="integration-icon" aria-hidden="true">💱</div>
+              <div>
+                <p class="integration-name">Курсы валют ЦБ РФ</p>
+                <p class="integration-type">Live-данные</p>
+              </div>
+            </div>
+            <span class="integration-badge badge-done">✅ Работает</span>
+            <p class="integration-desc">
+              Актуальные курсы USD, EUR, CNY, JPY, KRW к рублю. Автообновление каждые
+              10 минут. Встроенный конвертер с переключением направления.
+            </p>
+          </div>
+
+          <div class="integration-card fade-in">
+            <div class="integration-card-head">
+              <div class="integration-icon" aria-hidden="true">🗺️</div>
+              <div>
+                <p class="integration-name">Интерактивная карта</p>
+                <p class="integration-type">SVG-визуализация</p>
+              </div>
+            </div>
+            <span class="integration-badge badge-done">✅ Работает</span>
+            <p class="integration-desc">
+              Карта России и АТР: 28 городов с метками, морские и наземные маршруты,
+              анимация торговых путей, обозначения стран и морей.
+            </p>
+          </div>
+
+          <div class="integration-card fade-in">
+            <div class="integration-card-head">
+              <div class="integration-icon" aria-hidden="true">🌐</div>
+              <div>
+                <p class="integration-name">Мультиязычность</p>
+                <p class="integration-type">i18n-движок</p>
+              </div>
+            </div>
+            <span class="integration-badge badge-done">✅ Работает</span>
+            <p class="integration-desc">
+              5 языков: RU, EN, ZH, JA, KO. Мгновенное переключение без перезагрузки.
+              Правильный шрифт для каждого языка. Сохраняется в браузере.
+            </p>
+          </div>
+
+          <div class="integration-card fade-in">
+            <div class="integration-card-head">
+              <div class="integration-icon" aria-hidden="true">📞</div>
+              <div>
+                <p class="integration-name">Виджет обратного звонка</p>
+                <p class="integration-type">Лидогенерация</p>
+              </div>
+            </div>
+            <span class="integration-badge badge-done">✅ Работает</span>
+            <p class="integration-desc">
+              Плавающая кнопка быстрой связи — WhatsApp, Telegram и форма «Перезвоните мне».
+              Готова к подключению AmoCRM: заявки автоматически попадут в воронку.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== ГОТОВО К АКТИВАЦИИ ========== -->
+    <section class="section" style="background:var(--color-light);" id="ready" aria-labelledby="ready-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Нужен только API-ключ</span>
+          <h2 class="section-title" id="ready-title">Готово к активации</h2>
+          <p class="section-desc">
+            Код написан, логика встроена. Для запуска достаточно предоставить ключи доступа
+          </p>
+          <div class="divider" aria-hidden="true"></div>
+        </div>
+
+        <div class="integration-grid">
+
+          <div class="integration-card fade-in">
+            <div class="integration-card-head">
+              <div class="integration-icon" aria-hidden="true">🔗</div>
+              <div>
+                <p class="integration-name">AmoCRM</p>
+                <p class="integration-type">CRM-система</p>
+              </div>
+            </div>
+            <span class="integration-badge badge-ready">⏳ Ждёт API-ключ</span>
+            <p class="integration-desc">
+              Все заявки с сайта (форма контактов, обратный звонок, калькулятор, личный кабинет)
+              будут автоматически создавать сделки в AmoCRM с тегами источника, суммой и маршрутом.
+              Менеджер увидит лид сразу после его отправки.
+            </p>
+          </div>
+
+          <div class="integration-card fade-in">
+            <div class="integration-card-head">
+              <div class="integration-icon" aria-hidden="true">📊</div>
+              <div>
+                <p class="integration-name">Яндекс.Метрика</p>
+                <p class="integration-type">Аналитика посещаемости</p>
+              </div>
+            </div>
+            <span class="integration-badge badge-ready">⏳ Ждёт счётчик</span>
+            <p class="integration-desc">
+              Счётчик встроен. Нужно вставить ваш номер счётчика в тег &lt;head&gt;.
+              Вы получите карту кликов, воронку по страницам, источники трафика
+              и цели (заявки, звонки, скачивания).
+            </p>
+          </div>
+
+          <div class="integration-card fade-in">
+            <div class="integration-card-head">
+              <div class="integration-icon" aria-hidden="true">🗾</div>
+              <div>
+                <p class="integration-name">Яндекс.Карты</p>
+                <p class="integration-type">Встроенная карта</p>
+              </div>
+            </div>
+            <span class="integration-badge badge-ready">⏳ Ждёт API-ключ</span>
+            <p class="integration-desc">
+              Страница контактов уже содержит заглушку для iframe-карты.
+              После подключения ключа клиент увидит ваш офис на карте
+              с маршрутом и панорамой.
+            </p>
+          </div>
+
+          <div class="integration-card fade-in">
+            <div class="integration-card-head">
+              <div class="integration-icon" aria-hidden="true">✅</div>
+              <div>
+                <p class="integration-name">WhatsApp Business API</p>
+                <p class="integration-type">Мессенджер</p>
+              </div>
+            </div>
+            <span class="integration-badge badge-ready">⏳ Ждёт номер</span>
+            <p class="integration-desc">
+              Кнопка WhatsApp в плавающем виджете уже размещена.
+              Укажите рабочий номер телефона — и клиент нажмёт одну кнопку,
+              чтобы начать диалог в WhatsApp.
+            </p>
+          </div>
+
+          <div class="integration-card fade-in">
+            <div class="integration-card-head">
+              <div class="integration-icon" aria-hidden="true">✈️</div>
+              <div>
+                <p class="integration-name">Telegram Bot</p>
+                <p class="integration-type">Мессенджер + уведомления</p>
+              </div>
+            </div>
+            <span class="integration-badge badge-ready">⏳ Ждёт @username бота</span>
+            <p class="integration-desc">
+              Кнопка Telegram уже размещена в плавающем виджете.
+              Создайте бота через @BotFather, укажите username — и клиенты
+              смогут писать вам напрямую и получать автоуведомления о статусе груза.
+            </p>
+          </div>
+
+          <div class="integration-card fade-in">
+            <div class="integration-card-head">
+              <div class="integration-icon" aria-hidden="true">📧</div>
+              <div>
+                <p class="integration-name">SMTP / Email-уведомления</p>
+                <p class="integration-type">Транзакционная почта</p>
+              </div>
+            </div>
+            <span class="integration-badge badge-ready">⏳ Ждёт SMTP-настройки</span>
+            <p class="integration-desc">
+              После регистрации в личном кабинете клиент получит письмо с подтверждением.
+              При смене статуса заявки — автоматическое уведомление на e-mail.
+              Работает с любым SMTP: Яндекс, Mail.ru, SendGrid.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== СРАВНИТЕЛЬНЫЙ АНАЛИЗ ========== -->
+    <section class="section" id="comparison" aria-labelledby="comp-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Анализ рынка</span>
+          <h2 class="section-title" id="comp-title">Сравнение с лидерами рынка</h2>
+          <p class="section-desc">
+            Мы изучили сайты 10 ведущих транспортно-экспедиторских компаний и выявили
+            ключевые цифровые функции
+          </p>
+          <div class="divider" aria-hidden="true"></div>
+        </div>
+
+        <div class="comparison-wrap fade-in">
+          <table class="comparison-table" aria-label="Сравнение функций сайтов логистических компаний">
+            <thead>
+              <tr>
+                <th scope="col">Функция</th>
+                <th scope="col">FESCO</th>
+                <th scope="col">СДЭК</th>
+                <th scope="col">ПЭК</th>
+                <th scope="col">DHL Россия</th>
+                <th scope="col" class="ct-us">Pacific Star</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Личный кабинет</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-us">✅</td>
+              </tr>
+              <tr>
+                <td>Трекинг груза</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-us">✅ (демо)</td>
+              </tr>
+              <tr>
+                <td>Калькулятор стоимости</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-us">✅</td>
+              </tr>
+              <tr>
+                <td>Мультиязычность</td>
+                <td class="ct-yes">✅ (EN)</td>
+                <td class="ct-no">❌</td>
+                <td class="ct-no">❌</td>
+                <td class="ct-yes">✅ (EN)</td>
+                <td class="ct-us">✅ (5 яз.)</td>
+              </tr>
+              <tr>
+                <td>Конвертер валют</td>
+                <td class="ct-no">❌</td>
+                <td class="ct-no">❌</td>
+                <td class="ct-no">❌</td>
+                <td class="ct-plan">частично</td>
+                <td class="ct-us">✅ (5 валют)</td>
+              </tr>
+              <tr>
+                <td>Интерактивная карта</td>
+                <td class="ct-plan">статичная</td>
+                <td class="ct-plan">карта ПВЗ</td>
+                <td class="ct-plan">карта ПВЗ</td>
+                <td class="ct-plan">статичная</td>
+                <td class="ct-us">✅ SVG-анимация</td>
+              </tr>
+              <tr>
+                <td>WhatsApp / Telegram</td>
+                <td class="ct-no">❌</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-no">❌</td>
+                <td class="ct-us">✅ (виджет)</td>
+              </tr>
+              <tr>
+                <td>Виджет обратного звонка</td>
+                <td class="ct-plan">JivoChat</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-no">❌</td>
+                <td class="ct-us">✅ (встроен)</td>
+              </tr>
+              <tr>
+                <td>AmoCRM / CRM-интеграция</td>
+                <td class="ct-plan">собственная</td>
+                <td class="ct-plan">собственная</td>
+                <td class="ct-plan">собственная</td>
+                <td class="ct-plan">Salesforce</td>
+                <td class="ct-us ct-plan">⏳ готово</td>
+              </tr>
+              <tr>
+                <td>Яндекс.Метрика / GA</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-us ct-plan">⏳ готово</td>
+              </tr>
+              <tr>
+                <td>Электронный документооборот</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-plan">📋 план 2025</td>
+              </tr>
+              <tr>
+                <td>API для партнёров</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-yes">✅</td>
+                <td class="ct-plan">📋 план 2026</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p style="margin-top:16px;font-size:0.82rem;color:var(--color-muted);text-align:right;">
+          Источники: fesco.com, cdek.ru, pecom.ru, dhl.com/ru — проверено февраль 2026
+        </p>
+      </div>
+    </section>
+
+    <!-- ========== ДОРОЖНАЯ КАРТА ========== -->
+    <section class="section" style="background:var(--color-light);" id="roadmap" aria-labelledby="road-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Дорожная карта</span>
+          <h2 class="section-title" id="road-title">План развития 2025–2026</h2>
+          <p class="section-desc">
+            Приоритизированный список интеграций с оценкой пользы для клиентов и команды
+          </p>
+          <div class="divider" aria-hidden="true"></div>
+        </div>
+
+        <div class="roadmap-list">
+
+          <div class="roadmap-item fade-in">
+            <div class="roadmap-quarter">Q2<br>2025</div>
+            <div>
+              <p class="roadmap-title">AmoCRM: полная интеграция форм</p>
+              <p class="roadmap-desc">
+                Все формы сайта (заявка, обратный звонок, регистрация) создают сделки в AmoCRM
+                с тегами источника, суммой и маршрутом. Менеджер видит лид за секунды.
+                <strong>Польза для команды:</strong> нет ручного переноса заявок.
+                <strong>Польза для клиента:</strong> быстрый отклик.
+              </p>
+            </div>
+          </div>
+
+          <div class="roadmap-item fade-in">
+            <div class="roadmap-quarter">Q2<br>2025</div>
+            <div>
+              <p class="roadmap-title">Яндекс.Метрика + цели конверсии</p>
+              <p class="roadmap-desc">
+                Счётчик с настроенными целями: отправка формы, клик по телефону, открытие
+                калькулятора, переход в мессенджер. Даёт понимание, откуда приходят клиенты
+                и какие страницы конвертируют лучше всего.
+              </p>
+            </div>
+          </div>
+
+          <div class="roadmap-item fade-in">
+            <div class="roadmap-quarter">Q3<br>2025</div>
+            <div>
+              <p class="roadmap-title">Telegram-бот для уведомлений</p>
+              <p class="roadmap-desc">
+                Клиент подписывается на уведомления через Telegram и получает автоматические
+                сообщения о каждом изменении статуса груза: «Принят на склад», «Вышел в рейс»,
+                «На таможенном оформлении», «Доставлен». Также бот отвечает на типовые вопросы.
+              </p>
+            </div>
+          </div>
+
+          <div class="roadmap-item fade-in">
+            <div class="roadmap-quarter">Q3<br>2025</div>
+            <div>
+              <p class="roadmap-title">Реальный трекинг контейнеров через SeaRates API</p>
+              <p class="roadmap-desc">
+                Подключение к SeaRates или ShipsGo API: клиент вводит номер контейнера или
+                коносамента и видит реальное положение судна, ETA, портовые события.
+                Покрытие: Maersk, MSC, CMA CGM, FESCO, Cosco, Evergreen и другие линии.
+              </p>
+            </div>
+          </div>
+
+          <div class="roadmap-item fade-in">
+            <div class="roadmap-quarter">Q4<br>2025</div>
+            <div>
+              <p class="roadmap-title">Электронный документооборот (ЭДО)</p>
+              <p class="roadmap-desc">
+                Интеграция с операторами ЭДО (Диадок, СБИС): клиент подписывает
+                накладные, акты и счёт-фактуры в личном кабинете без распечатки.
+                Сокращает цикл закрытия сделки с 5–7 дней до 1 дня.
+              </p>
+            </div>
+          </div>
+
+          <div class="roadmap-item fade-in">
+            <div class="roadmap-quarter">Q4<br>2025</div>
+            <div>
+              <p class="roadmap-title">Интеграция с 1С: Бухгалтерия / 1С: Управление торговлей</p>
+              <p class="roadmap-desc">
+                Автоматическая выгрузка счетов и актов из 1С в личный кабинет клиента.
+                Клиент видит финансовые документы без запросов бухгалтерии.
+                Для команды: исключает ручную выгрузку PDF из 1С.
+              </p>
+            </div>
+          </div>
+
+          <div class="roadmap-item fade-in">
+            <div class="roadmap-quarter">Q1<br>2026</div>
+            <div>
+              <p class="roadmap-title">Мобильное приложение (PWA)</p>
+              <p class="roadmap-desc">
+                Прогрессивное веб-приложение: клиент добавляет сайт на экран смартфона и
+                получает push-уведомления о грузах. Работает без AppStore/Google Play.
+                Стоимость разработки в 3–4 раза ниже нативного приложения.
+              </p>
+            </div>
+          </div>
+
+          <div class="roadmap-item fade-in">
+            <div class="roadmap-quarter">Q2<br>2026</div>
+            <div>
+              <p class="roadmap-title">Open API для партнёров и клиентов</p>
+              <p class="roadmap-desc">
+                REST API позволит крупным клиентам интегрировать данные Pacific Star
+                напрямую в свою ERP/TMS-систему: создавать заявки, получать статусы,
+                скачивать документы программно. Аналог FESCO и TransContainer.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== ДЛЯ КОМАНДЫ ========== -->
+    <section class="section" id="team-tools" aria-labelledby="team-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Внутренние инструменты</span>
+          <h2 class="section-title" id="team-title">Автоматизация для вашей команды</h2>
+          <p class="section-desc">
+            Помимо клиентских функций, ряд инструментов напрямую снижает нагрузку на сотрудников
+          </p>
+          <div class="divider" aria-hidden="true"></div>
+        </div>
+
+        <div class="adv-grid">
+          <div class="adv-card fade-in">
+            <div class="adv-icon" aria-hidden="true">📬</div>
+            <h3>Нет ручного переноса заявок</h3>
+            <p>После подключения AmoCRM любая заявка с сайта автоматически становится сделкой с нужными полями, тегами и ответственным менеджером.</p>
+          </div>
+          <div class="adv-card fade-in">
+            <div class="adv-icon" aria-hidden="true">📉</div>
+            <h3>Меньше звонков с типовыми вопросами</h3>
+            <p>Трекинг груза, калькулятор и FAQ на сайте отвечают на 60–70% стандартных вопросов клиентов ещё до звонка в офис.</p>
+          </div>
+          <div class="adv-card fade-in">
+            <div class="adv-icon" aria-hidden="true">🌙</div>
+            <h3>Заявки в нерабочее время</h3>
+            <p>Форма обратного звонка, личный кабинет и калькулятор работают круглосуточно. Клиент оформляет заявку в 23:00 — менеджер видит её утром.</p>
+          </div>
+          <div class="adv-card fade-in">
+            <div class="adv-icon" aria-hidden="true">🌏</div>
+            <h3>Иностранные клиенты без переводчика</h3>
+            <p>5 языков сайта позволяют китайским, японским и корейским партнёрам изучить услуги и оставить заявку самостоятельно на родном языке.</p>
+          </div>
+          <div class="adv-card fade-in">
+            <div class="adv-icon" aria-hidden="true">📊</div>
+            <h3>Понятные источники клиентов</h3>
+            <p>Яндекс.Метрика после подключения покажет: откуда пришли клиенты, какие страницы конвертируют, на каком этапе уходят — без догадок.</p>
+          </div>
+          <div class="adv-card fade-in">
+            <div class="adv-icon" aria-hidden="true">🔔</div>
+            <h3>Автоуведомления вместо обзвона</h3>
+            <p>Telegram-бот и SMS-уведомления сообщают клиенту о смене статуса груза. Менеджер не тратит время на «позвоните и скажите, где груз».</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CTA ========== -->
+    <section class="cta-section" aria-labelledby="integ-cta-title">
+      <div class="container">
+        <div class="cta-inner">
+          <h2 class="cta-title" id="integ-cta-title">Готовы подключить интеграции?</h2>
+          <p class="cta-desc">
+            Предоставьте API-ключ AmoCRM и номер счётчика Яндекс.Метрики —
+            мы настроим всё за один рабочий день
+          </p>
+          <div class="cta-actions">
+            <a href="contacts.html" class="btn btn-primary">Написать нам</a>
+            <a href="account.html" class="btn btn-secondary">Личный кабинет</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" aria-label="Pacific Star — главная">
+            <div class="logo-icon" aria-hidden="true">🌟</div>
+            <div class="logo-text">
+              <strong>Pacific Star</strong>
+              <span>Логистика</span>
+            </div>
+          </a>
+          <p>Транспортно-логистическая компания, оказывающая полный спектр услуг по перевозке,
+             хранению и экспедированию грузов по России и за рубежом с 2012 года.</p>
+          <nav class="social-links" aria-label="Мы в социальных сетях">
+            <a href="#" class="social-link" aria-label="ВКонтакте">ВК</a>
+            <a href="#" class="social-link" aria-label="Telegram">TG</a>
+            <a href="#" class="social-link" aria-label="WhatsApp">WA</a>
+          </nav>
+        </div>
+        <div>
+          <p class="footer-col-title">Навигация</p>
+          <nav class="footer-nav" aria-label="Навигация в подвале">
+            <a href="index.html">Главная</a>
+            <a href="about.html">О компании</a>
+            <a href="services.html">Услуги</a>
+            <a href="remote-regions.html">Северный завоз</a>
+            <a href="contacts.html">Контакты</a>
+          </nav>
+        </div>
+        <div>
+          <p class="footer-col-title">Инструменты</p>
+          <nav class="footer-nav" aria-label="Инструменты">
+            <a href="account.html">Личный кабинет</a>
+            <a href="services.html#calculator">Калькулятор маршрута</a>
+            <a href="index.html#currency">Курсы валют</a>
+            <a href="index.html#routeMap">Карта маршрутов</a>
+            <a href="integrations.html">Интеграции</a>
+          </nav>
+        </div>
+        <div>
+          <p class="footer-col-title">Контакты</p>
+          <div class="footer-contacts">
+            <div class="footer-contact-item">
+              <span aria-hidden="true">📍</span>
+              <span>г. Москва, ул. Логистическая, д. 1, офис 100</span>
+            </div>
+            <div class="footer-contact-item">
+              <span aria-hidden="true">📞</span>
+              <span><a href="tel:+78005553535">+7&nbsp;(800)&nbsp;555&#8209;35&#8209;35</a> (бесплатно)</span>
+            </div>
+            <div class="footer-contact-item">
+              <span aria-hidden="true">✉️</span>
+              <span><a href="mailto:info@pacificstar.ru">info@pacificstar.ru</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-bottom-text">© 2012–2026 ООО «Pacific Star». Все права защищены.</p>
+        <div class="footer-bottom-links">
+          <a href="privacy.html">Политика конфиденциальности</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== FLOATING CONTACTS ========== -->
+  <div class="floating-contacts" id="floatingContacts">
+    <div class="floating-menu" id="floatingMenu" role="menu" aria-label="Способы связи">
+      <a href="https://wa.me/78005553535?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D1%8E%D1%81%D1%8C%20%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B7%D0%BA%D0%BE%D0%B9."
+         class="floating-item floating-wa" target="_blank" rel="noopener noreferrer"
+         role="menuitem" aria-label="Написать в WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15
+                   -.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463
+                   -2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606
+                   .134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025
+                   -.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008
+                   -.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0
+                   1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262
+                   .489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413
+                   .248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.135.559 4.14 1.535 5.878L0 24l6.273-1.508
+                   A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22
+                   c-1.896 0-3.678-.513-5.2-1.408l-.368-.224-3.85.924.999-3.77-.248-.386
+                   A9.955 9.955 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
+        </svg>
+        <span>WhatsApp</span>
+      </a>
+      <a href="https://t.me/pacificstar_bot"
+         class="floating-item floating-tg" target="_blank" rel="noopener noreferrer"
+         role="menuitem" aria-label="Написать в Telegram">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="currentColor" aria-hidden="true">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894
+                   8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16
+                   -.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.26
+                   13.593l-2.95-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.537-.194
+                   1.006.131.883.964z"/>
+        </svg>
+        <span>Telegram</span>
+      </a>
+      <button type="button" class="floating-item floating-cb" id="openCallback" role="menuitem">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0
+                   013.07 11.2 19.79 19.79 0 010 2.57 2 2 0 012 .38h3a2 2 0 012 1.72
+                   c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.26a16 16 0 006.29
+                   6.29l1.25-1.25a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+        <span>Перезвоним</span>
+      </button>
+    </div>
+    <button type="button" class="floating-toggle" id="floatingToggle"
+            aria-label="Связаться с нами" aria-expanded="false" aria-controls="floatingMenu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0
+                 013.07 11.2 19.79 19.79 0 010 2.57 2 2 0 012 .38h3a2 2 0 012 1.72
+                 c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.26a16 16 0 006.29
+                 6.29l1.25-1.25a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ========== CALLBACK PANEL ========== -->
+  <div class="callback-overlay" id="callbackOverlay"></div>
+  <div class="callback-panel" id="callbackPanel" role="dialog" aria-modal="true"
+       aria-labelledby="callback-title" aria-hidden="true">
+    <button type="button" class="callback-close" id="callbackClose" aria-label="Закрыть панель">
+      ✕
+    </button>
+    <div class="callback-icon" aria-hidden="true">📞</div>
+    <h3 id="callback-title">Перезвоним вам</h3>
+    <p class="callback-desc">
+      Менеджер свяжется с вами в течение 5&nbsp;минут в рабочее время
+    </p>
+    <form id="callbackForm" novalidate>
+      <div class="form-group">
+        <label for="cbName" class="form-label">Ваше имя</label>
+        <input type="text" id="cbName" name="name" class="form-control"
+               placeholder="Иван" autocomplete="given-name" >
+      </div>
+      <div class="form-group">
+        <label for="cbPhone" class="form-label">
+          Телефон <span class="form-required">(обязательно)</span>
+        </label>
+        <input type="tel" id="cbPhone" name="phone" class="form-control"
+               placeholder="+7 (___) ___-__-__" required autocomplete="tel" >
+      </div>
+      <div class="form-group">
+        <label for="cbTime" class="form-label">Удобное время</label>
+        <select id="cbTime" name="time" class="form-control">
+          <option value="any">Любое рабочее время (9:00–18:00)</option>
+          <option value="morning">Утром (9:00–12:00)</option>
+          <option value="afternoon">Днём (12:00–15:00)</option>
+          <option value="evening">Вечером (15:00–18:00)</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px;">
+        Перезвоните мне
+      </button>
+    </form>
+    <div class="callback-success" id="callbackSuccess" style="display:none;" aria-live="polite">
+      <div class="cb-ok-icon" aria-hidden="true">✅</div>
+      <h4>Заявка принята!</h4>
+      <p>Перезвоним в ближайшее время</p>
+    </div>
+    <p class="callback-notice">
+      Нажимая кнопку, вы соглашаетесь на
+      <a href="privacy.html">обработку персональных данных</a>
+    </p>
+  </div>
+
+  <button class="scroll-top" aria-label="Наверх" title="Вернуться наверх" type="button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+         fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
