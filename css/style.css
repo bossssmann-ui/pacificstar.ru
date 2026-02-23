@@ -1942,3 +1942,659 @@ select.form-control {
     right: 20px;
   }
 }
+
+/* =========================================
+   ARCTIC / REMOTE REGIONS PAGE
+   ========================================= */
+
+/* Arctic hero overlay */
+.arctic-hero {
+  background: linear-gradient(
+    135deg,
+    #071a3a 0%,
+    #0d2b5e 45%,
+    #0a4a6b 100%
+  );
+}
+
+.arctic-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' stroke='%23ffffff' stroke-width='0.3' fill='none' opacity='0.06'/%3E%3Ccircle cx='50' cy='50' r='20' stroke='%23ffffff' stroke-width='0.3' fill='none' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Intro layout */
+.arctic-intro {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 56px;
+  align-items: start;
+}
+
+.arctic-intro-text h2 { margin-bottom: 20px; }
+
+.arctic-intro-text p {
+  color: var(--color-muted);
+  margin-bottom: 14px;
+}
+
+.arctic-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.arctic-badge {
+  background: var(--color-light);
+  border: 1px solid var(--color-border);
+  border-radius: 50px;
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* Stats block */
+.arctic-stats-block {
+  background: linear-gradient(135deg, var(--color-primary), #0a4a6b);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.arctic-stat-item {
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  padding-bottom: 20px;
+}
+
+.arctic-stat-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.arctic-stat-num {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--color-accent);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.arctic-stat-label {
+  font-size: 0.84rem;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.4;
+}
+
+/* ---- Region Cards ---- */
+.regions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+}
+
+.region-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.region-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+}
+
+.region-card-header {
+  padding: 28px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+
+.region-sakhalin  { background: linear-gradient(135deg, #1a4da0, #2060b8); }
+.region-magadan   { background: linear-gradient(135deg, #0d2b5e, #1a4da0); }
+.region-kamchatka { background: linear-gradient(135deg, #7b2c00, #b84a1a); }
+.region-chukotka  { background: linear-gradient(135deg, #071a3a, #0a3a60); }
+
+.region-icon {
+  font-size: 2.4rem;
+  flex-shrink: 0;
+}
+
+.region-card-header h3 {
+  color: var(--color-white);
+  margin-bottom: 4px;
+}
+
+.region-card-header p {
+  color: rgba(255,255,255,0.75);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.region-season {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 50px;
+  text-transform: uppercase;
+}
+
+.season-all {
+  background: rgba(39,174,96,0.2);
+  border: 1px solid rgba(39,174,96,0.5);
+  color: #a8ffc8;
+}
+
+.season-limited {
+  background: rgba(245,166,35,0.2);
+  border: 1px solid rgba(245,166,35,0.5);
+  color: #ffd98e;
+}
+
+.region-card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+.region-ports {
+  font-size: 0.88rem;
+  color: var(--color-muted);
+}
+
+.region-ports strong { color: var(--color-primary); }
+
+.region-routes {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--color-light);
+  border-radius: var(--radius);
+  padding: 14px;
+}
+
+.route-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.84rem;
+  flex-wrap: wrap;
+}
+
+.route-from,
+.route-to {
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.route-arrow { color: var(--color-accent); font-weight: 700; }
+
+.route-meta {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.region-cargo p.cargo-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-muted);
+  margin-bottom: 8px;
+}
+
+.region-cargo ul {
+  list-style: disc;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.region-cargo li {
+  font-size: 0.88rem;
+  color: var(--color-text);
+}
+
+/* ---- Season Table ---- */
+.season-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.season-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-white);
+  font-size: 0.9rem;
+}
+
+.season-table thead tr {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.season-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.season-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+.season-table td small {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--color-muted);
+  margin-top: 2px;
+}
+
+.season-table tr:last-child td { border-bottom: none; }
+
+.season-table tr:hover td { background: var(--color-light); }
+
+.season-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+.season-all-badge {
+  background: #d4f5e3;
+  color: #1a7240;
+}
+
+.season-limited-badge {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.season-arctic-badge {
+  background: #cce0ff;
+  color: #003d99;
+}
+
+.season-note {
+  font-size: 0.83rem;
+  color: var(--color-muted);
+  margin-top: 16px;
+  font-style: italic;
+}
+
+/* ---- Cargo Cards ---- */
+.cargo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.cargo-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition);
+  border-left: 4px solid var(--color-accent);
+}
+
+.cargo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.cargo-icon {
+  font-size: 2rem;
+  margin-bottom: 14px;
+}
+
+.cargo-card h3 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.cargo-card p {
+  font-size: 0.88rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* ---- Arctic Process ---- */
+.arctic-process {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.arctic-step {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  border-top: 3px solid var(--color-border);
+  transition: border-top-color var(--transition), transform var(--transition);
+}
+
+.arctic-step:hover {
+  border-top-color: var(--color-accent);
+  transform: translateY(-4px);
+}
+
+.arctic-step-num {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--color-light);
+  line-height: 1;
+  margin-bottom: 12px;
+  font-feature-settings: "tnum";
+}
+
+.arctic-step h3 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.arctic-step p {
+  font-size: 0.88rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* ---- Law Section ---- */
+.arctic-law-section {
+  background: var(--color-primary);
+}
+
+.arctic-law-inner {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 56px;
+  align-items: start;
+}
+
+.arctic-law-text .section-label { color: var(--color-accent); }
+
+.arctic-law-text h2 {
+  color: var(--color-white);
+  margin-bottom: 20px;
+}
+
+.arctic-law-text p {
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 16px;
+}
+
+.arctic-law-text strong { color: var(--color-accent); }
+
+.law-points {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.law-point {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.law-point-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.law-point strong {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  color: var(--color-white) !important;
+}
+
+.law-point p {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.7) !important;
+  margin: 0;
+}
+
+/* Law aside card */
+.law-aside-card {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+}
+
+.law-aside-icon {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.law-aside-card h3 {
+  color: var(--color-white);
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.law-aside-card ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.law-aside-card li {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.8);
+}
+
+/* ---- FAQ Items (remote-regions style) ---- */
+.faq-item {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.faq-item summary {
+  padding: 18px 24px;
+  font-weight: 700;
+  font-size: 0.97rem;
+  color: var(--color-primary);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background var(--transition);
+}
+
+.faq-item summary::after {
+  content: '+';
+  font-size: 1.4rem;
+  color: var(--color-accent);
+  flex-shrink: 0;
+  margin-left: 12px;
+  transition: transform var(--transition);
+}
+
+.faq-item[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.faq-item summary:hover { background: var(--color-light); }
+
+.faq-item summary::-webkit-details-marker { display: none; }
+
+.faq-answer {
+  padding: 0 24px 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+.faq-answer p {
+  font-size: 0.93rem;
+  color: var(--color-muted);
+  line-height: 1.7;
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+.faq-answer p + p { margin-top: 10px; }
+
+/* ---- INDEX PAGE: Arctic Promo Banner ---- */
+.arctic-promo {
+  background: linear-gradient(135deg, #071a3a 0%, #0d2b5e 60%, #0a4a6b 100%);
+  border-radius: var(--radius-lg);
+  padding: 48px 40px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.arctic-promo::before {
+  content: '🧊';
+  position: absolute;
+  font-size: 12rem;
+  right: 180px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.06;
+  pointer-events: none;
+}
+
+.arctic-promo-label {
+  display: inline-block;
+  background: rgba(245,166,35,0.18);
+  border: 1px solid rgba(245,166,35,0.4);
+  color: var(--color-accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 50px;
+  margin-bottom: 14px;
+}
+
+.arctic-promo h2 {
+  color: var(--color-white);
+  font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+  margin-bottom: 12px;
+}
+
+.arctic-promo p {
+  color: rgba(255,255,255,0.78);
+  font-size: 0.96rem;
+  margin-bottom: 24px;
+  max-width: 520px;
+}
+
+.arctic-promo-destinations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 0;
+}
+
+.arctic-promo-dest {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.9);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 50px;
+}
+
+.arctic-promo-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* ---- SERVICES PAGE: Arctic card accent ---- */
+.service-full-card.arctic-card .service-full-header {
+  background: linear-gradient(135deg, #071a3a, #0a4a6b);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+  .arctic-intro,
+  .arctic-law-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .regions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cargo-grid,
+  .arctic-process {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .arctic-promo {
+    grid-template-columns: 1fr;
+    padding: 36px 28px;
+  }
+
+  .arctic-promo::before { display: none; }
+
+  .arctic-promo-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .cargo-grid,
+  .arctic-process {
+    grid-template-columns: 1fr;
+  }
+
+  .season-table { font-size: 0.82rem; }
+  .season-table th,
+  .season-table td { padding: 10px 12px; }
+
+  .arctic-badges { gap: 7px; }
+  .arctic-badge { font-size: 0.76rem; }
+
+  .region-card-header { flex-wrap: wrap; }
+  .region-season { position: static; margin-left: auto; }
+}

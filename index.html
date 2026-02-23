@@ -3,17 +3,78 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Pacific Star — надёжная транспортно-логистическая компания. Грузоперевозки, складские услуги и экспедирование по всей России и за рубежом. Звоните: +7 (800) 555-35-35." />
-  <meta name="keywords" content="грузоперевозки, логистика, экспедирование, складские услуги, Pacific Star, доставка грузов" />
-  <meta property="og:title" content="Pacific Star — Транспортно-логистическая компания" />
-  <meta property="og:description" content="Надёжные грузоперевозки, складские услуги и экспедирование по всей России и за рубежом." />
+  <meta name="robots" content="index, follow" />
+  <meta name="description" content="Pacific Star — транспортно-логистическая компания. Грузоперевозки по России, странам АТР и СНГ. Морские перевозки на Сахалин, Магадан, Камчатку, Чукотку. Северный завоз по 411-ФЗ. Звоните: +7 (800) 555-35-35." />
+  <meta name="keywords" content="грузоперевозки, логистика, экспедирование, морские перевозки Дальний Восток, Северный завоз, перевозки Сахалин, доставка Магадан, Камчатка, Чукотка, складские услуги, Pacific Star" />
+  <meta property="og:title" content="Pacific Star — Грузоперевозки, Северный завоз, Дальний Восток" />
+  <meta property="og:description" content="Надёжные грузоперевозки по России и АТР. Морской Северный завоз на Сахалин, Магадан, Камчатку, Чукотку по Федеральному закону № 411-ФЗ." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pacificstar.ru/" />
-  <title>Pacific Star — Надёжная логистика и грузоперевозки</title>
+  <link rel="canonical" href="https://pacificstar.ru/" />
+  <title>Pacific Star — Грузоперевозки, Северный завоз, Дальний Восток и АТР</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+
+  <!-- JSON-LD: Organization + LocalBusiness -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "FreightForwarder",
+        "@id": "https://pacificstar.ru/#organization",
+        "name": "Pacific Star",
+        "legalName": "ООО «Pacific Star»",
+        "url": "https://pacificstar.ru",
+        "logo": "https://pacificstar.ru/img/logo.png",
+        "description": "Транспортно-логистическая компания. Грузоперевозки по России, странам АТР и СНГ, морские перевозки на Дальний Восток и в Арктику, Северный завоз по ФЗ № 411-ФЗ.",
+        "foundingDate": "2012",
+        "telephone": "+78005553535",
+        "email": "info@pacificstar.ru",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "ул. Логистическая, д. 1, офис 100",
+          "addressLocality": "Москва",
+          "addressCountry": "RU"
+        },
+        "areaServed": [
+          "Россия", "СНГ", "Китай", "Япония", "Республика Корея",
+          "Сахалинская область", "Магаданская область", "Камчатский край",
+          "Чукотский автономный округ"
+        ],
+        "knowsAbout": [
+          "Грузоперевозки", "Морские перевозки", "Северный завоз",
+          "Арктическая логистика", "Каботажные перевозки", "Экспедирование",
+          "Перевозки на Сахалин", "Доставка в Магадан", "Перевозки на Камчатку",
+          "Северный завоз Чукотка", "Федеральный закон 411-ФЗ"
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Транспортно-логистические услуги",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Автомобильные грузоперевозки по России и СНГ" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Железнодорожные перевозки контейнеров и вагонов" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Морские перевозки на Сахалин, Магадан, Камчатку, Чукотку" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Северный завоз по 411-ФЗ — Анадырь, Певек, Эгвекинот" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Складские услуги и ответственное хранение" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Международные перевозки АТР — Китай, Япония, Корея" } }
+          ]
+        },
+        "sameAs": []
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://pacificstar.ru/#website",
+        "url": "https://pacificstar.ru",
+        "name": "Pacific Star — Логистика",
+        "publisher": { "@id": "https://pacificstar.ru/#organization" },
+        "inLanguage": "ru-RU"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -34,6 +95,7 @@
           <a href="index.html" class="nav-link">Главная</a>
           <a href="about.html" class="nav-link">О нас</a>
           <a href="services.html" class="nav-link">Услуги</a>
+          <a href="remote-regions.html" class="nav-link">Северный завоз</a>
           <a href="contacts.html" class="nav-link">Контакты</a>
         </nav>
 
@@ -66,6 +128,7 @@
     <a href="index.html" class="nav-link">Главная</a>
     <a href="about.html" class="nav-link">О нас</a>
     <a href="services.html" class="nav-link">Услуги</a>
+    <a href="remote-regions.html" class="nav-link">Северный завоз</a>
     <a href="contacts.html" class="nav-link">Контакты</a>
     <a href="tel:+78005553535" class="header-phone">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
@@ -377,6 +440,35 @@
       </div>
     </section>
 
+    <!-- ========== ARCTIC PROMO ========== -->
+    <section class="section" style="background:var(--color-light);" aria-labelledby="arctic-promo-title">
+      <div class="container">
+        <div class="arctic-promo">
+          <div>
+            <span class="arctic-promo-label">Специализация</span>
+            <h2 id="arctic-promo-title">Доставка в труднодоступные<br>районы России</h2>
+            <p>
+              Морские перевозки на Сахалин, в Магадан, Петропавловск-Камчатский
+              и в арктические порты Чукотки. Работаем в рамках Федерального закона
+              № 411-ФЗ «О северном завозе».
+            </p>
+            <div class="arctic-promo-destinations">
+              <span class="arctic-promo-dest">🏝️ Сахалин</span>
+              <span class="arctic-promo-dest">⚓ Магадан</span>
+              <span class="arctic-promo-dest">🌋 Камчатка</span>
+              <span class="arctic-promo-dest">🧊 Анадырь</span>
+              <span class="arctic-promo-dest">❄️ Певек</span>
+              <span class="arctic-promo-dest">🌊 Эгвекинот</span>
+            </div>
+          </div>
+          <div class="arctic-promo-actions">
+            <a href="remote-regions.html" class="btn btn-primary">Подробнее об услуге</a>
+            <a href="contacts.html" class="btn btn-secondary">Запросить тариф</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ========== CTA ========== -->
     <section class="cta-section" aria-labelledby="cta-title">
       <div class="container">
@@ -434,6 +526,7 @@
             <a href="index.html">Главная</a>
             <a href="about.html">О компании</a>
             <a href="services.html">Услуги</a>
+            <a href="remote-regions.html">Северный завоз</a>
             <a href="contacts.html">Контакты</a>
           </nav>
         </div>
@@ -444,6 +537,7 @@
             <a href="services.html">Грузоперевозки</a>
             <a href="services.html">Складские услуги</a>
             <a href="services.html">Экспедирование</a>
+            <a href="remote-regions.html">Северный завоз</a>
             <a href="services.html">Тарифы</a>
           </nav>
         </div>
