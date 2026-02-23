@@ -1,0 +1,21 @@
+# Node.js dev dependencies (html-validate etc.) — NOT part of the website
+node_modules/
+package-lock.json
+
+# macOS
+.DS_Store
+
+# Editor artefacts
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build output (if added later)
+dist/
+build/
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local

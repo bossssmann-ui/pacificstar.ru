@@ -15,7 +15,7 @@
   var LANGS = {
     ru: { flag: '🇷🇺', label: 'Русский',  code: 'RU' },
     en: { flag: '🇬🇧', label: 'English',  code: 'EN' },
-    zh: { flag: '🇨��', label: '中文',     code: '中文' },
+    zh: { flag: '🇨🇳', label: '中文',     code: '中文' },
     ja: { flag: '🇯🇵', label: '日本語',   code: '日本語' },
     ko: { flag: '🇰🇷', label: '한국어',   code: '한국어' }
   };
