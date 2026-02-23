@@ -2598,3 +2598,156 @@ select.form-control {
   .region-card-header { flex-wrap: wrap; }
   .region-season { position: static; margin-left: auto; }
 }
+
+/* =========================================
+   PARTNERS SECTION
+   ========================================= */
+
+.partners-section {
+  background: var(--color-white);
+  padding-bottom: 0;
+  overflow: hidden;
+}
+
+.partners-section .section-header {
+  padding-bottom: 32px;
+}
+
+/* ── Scrolling strip ── */
+.partners-strip {
+  width: 100%;
+  overflow: hidden;
+  background: var(--color-light);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: 20px 0;
+  /* Fade edges */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+}
+
+/* Pause on hover / reduced-motion */
+@media (prefers-reduced-motion: no-preference) {
+  .partners-track {
+    animation: partners-scroll 28s linear infinite;
+  }
+
+  .partners-strip:hover .partners-track,
+  .partners-strip:focus-within .partners-track {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes partners-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.partners-track {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: max-content;
+  padding: 4px 10px;
+}
+
+/* ── Individual partner card ── */
+.partner-card {
+  flex-shrink: 0;
+  width: 200px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.partner-logo-wrap {
+  width: 100%;
+  height: 100%;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 20px;
+  transition: box-shadow var(--transition), border-color var(--transition), transform var(--transition);
+  cursor: default;
+}
+
+.partner-logo-wrap:hover {
+  box-shadow: var(--shadow-sm);
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+}
+
+/* Real logo image */
+.partner-logo-wrap img {
+  max-width: 100%;
+  max-height: 56px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  /* Desaturate logos for a unified look; color on hover */
+  filter: grayscale(60%) opacity(0.75);
+  transition: filter var(--transition);
+}
+
+.partner-logo-wrap:hover img {
+  filter: grayscale(0%) opacity(1);
+}
+
+/* Placeholder (shown until real logo is added) */
+.partner-placeholder {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-muted);
+  text-align: center;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  user-select: none;
+  pointer-events: none;
+  /* Dashed border to make placeholders visually obvious in editing */
+  display: block;
+  width: 100%;
+  height: 100%;
+  line-height: 56px;
+  border-radius: calc(var(--radius) - 1px);
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 5px,
+    rgba(13,43,94,0.03) 5px,
+    rgba(13,43,94,0.03) 10px
+  );
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .partner-card {
+    width: 160px;
+    height: 76px;
+  }
+  .partner-logo-wrap {
+    padding: 10px 14px;
+  }
+  .partner-placeholder {
+    font-size: 0.75rem;
+    line-height: 48px;
+  }
+  .partners-track {
+    gap: 14px;
+  }
+}
