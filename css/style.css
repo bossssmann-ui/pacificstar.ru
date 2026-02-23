@@ -1764,22 +1764,52 @@ select.form-control {
 
 /* =========================================
    ANIMATIONS (fade-in on scroll)
+   ─────────────────────────────────────────
+   Progressive enhancement: three layers.
+   Layer 1 (CSS) — keyframe animation with
+     forwards fill-mode ensures content is
+     ALWAYS visible after 2 s, even if JS or
+     IntersectionObserver never fires (bots,
+     Playwright, JS-disabled browsers).
+   Layer 2 (JS) — IntersectionObserver adds
+     .visible for smooth scroll-reveal.
+   Layer 3 (JS) — setTimeout safety-net.
    ========================================= */
+
+@keyframes ps-fade-in {
+  to { opacity: 1; transform: none; }
+}
+
 .fade-in {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
+  /* CSS fallback: become visible 2 s after page load   */
+  /* animation-fill-mode: forwards keeps opacity: 1     */
+  animation: ps-fade-in 0.01s ease 2s forwards;
 }
 
 .fade-in.visible {
+  /* JS is in control — disable CSS fallback animation  */
+  animation: none;
   opacity: 1;
   transform: none;
 }
 
-/* stagger delays */
-.fade-in:nth-child(2) { transition-delay: 0.1s; }
-.fade-in:nth-child(3) { transition-delay: 0.2s; }
-.fade-in:nth-child(4) { transition-delay: 0.3s; }
+/* stagger delays (transition path) */
+.fade-in:nth-child(2) { transition-delay: 0.10s; animation-delay: 2.10s; }
+.fade-in:nth-child(3) { transition-delay: 0.20s; animation-delay: 2.20s; }
+.fade-in:nth-child(4) { transition-delay: 0.30s; animation-delay: 2.30s; }
+
+/* Respect system-level "reduce motion" preference */
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    transition: none;
+  }
+}
 
 /* =========================================
    RESPONSIVE
