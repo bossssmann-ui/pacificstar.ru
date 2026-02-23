@@ -1088,7 +1088,7 @@
     if (browser === 'zh') return 'zh';
     if (browser === 'ja') return 'ja';
     if (browser === 'ko') return 'ko';
-    if (browser === 'en') return 'en';
+    /* English-speaking browsers: still default to Russian (user can switch manually) */
     return 'ru';
   }
 
