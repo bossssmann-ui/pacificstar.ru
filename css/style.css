@@ -39,6 +39,8 @@ body {
   background: var(--color-white);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  hyphens: none;
+  overflow-wrap: break-word;
 }
 
 a {
@@ -73,6 +75,8 @@ h1, h2, h3, h4 {
   font-weight: 700;
   line-height: 1.25;
   color: var(--color-primary);
+  hyphens: none;
+  word-break: normal;
 }
 
 h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
@@ -137,12 +141,12 @@ p { margin-bottom: 1rem; }
 
 /* --- Section common --- */
 .section {
-  padding: 80px 0;
+  padding: 64px 0;
 }
 
 .section-header {
   text-align: center;
-  margin-bottom: 56px;
+  margin-bottom: 44px;
 }
 
 .section-label {
@@ -248,11 +252,12 @@ p { margin-bottom: 1rem; }
 }
 
 .nav-link {
-  padding: 8px 16px;
+  padding: 8px 12px;
   border-radius: 6px;
   font-weight: 500;
-  font-size: 0.96rem;
+  font-size: 0.92rem;
   color: var(--color-text);
+  white-space: nowrap;
   transition: color var(--transition), background var(--transition);
 }
 
@@ -2843,7 +2848,7 @@ select.form-control {
 }
 .route-map-svg {
   width: 100%; height: auto; display: block;
-  max-height: 480px;
+  max-height: 600px;
 }
 .route-map-container:focus-within { outline: 2px solid var(--color-accent); }
 .map-legend-note {
@@ -3150,4 +3155,135 @@ select.form-control {
 .header-btn.btn-outline:hover {
   background: rgba(255,255,255,0.12) !important;
   border-color: rgba(255,255,255,0.6) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   ROAD / TRUCK DELIVERY — remote-regions.html
+   ═══════════════════════════════════════════════════════════════════════ */
+.road-intro {
+  max-width: 800px;
+  margin: 0 auto 40px;
+  font-size: 1.02rem;
+  text-align: center;
+  color: var(--color-text);
+}
+.road-routes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+.road-route-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+.road-route-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+.road-route-icon { font-size: 2rem; margin-bottom: 10px; }
+.road-route-card h3 {
+  font-size: 1.08rem;
+  margin-bottom: 4px;
+  color: var(--color-primary);
+}
+.road-route-meta {
+  font-size: 0.8rem;
+  color: var(--color-accent);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.road-route-card p {
+  font-size: 0.88rem;
+  color: var(--color-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Multimodal block */
+.multimodal-block {
+  background: var(--color-primary);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  margin-bottom: 40px;
+  color: var(--color-white);
+}
+.multimodal-title {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.multimodal-title .section-label { margin: 0; }
+.multimodal-title h3 {
+  color: var(--color-white);
+  margin-top: 8px;
+  font-size: 1.2rem;
+}
+.multimodal-chain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.mm-step { text-align: center; min-width: 90px; }
+.mm-icon { font-size: 1.6rem; margin-bottom: 6px; }
+.mm-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-white);
+  margin-bottom: 3px;
+}
+.mm-sub { font-size: 0.74rem; color: rgba(255,255,255,0.55); }
+.mm-arrow {
+  font-size: 1.3rem;
+  color: var(--color-accent);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* North destinations */
+.north-destinations-header {
+  text-align: center;
+  margin: 36px 0 20px;
+  font-size: 1.15rem;
+  color: var(--color-primary);
+}
+.north-destinations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+}
+.north-dest-item {
+  background: var(--color-light);
+  border-radius: var(--radius);
+  padding: 16px;
+  border-left: 3px solid var(--color-accent);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.north-dest-city {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+.north-dest-route {
+  font-size: 0.78rem;
+  color: var(--color-accent);
+  font-weight: 600;
+}
+.north-dest-note {
+  font-size: 0.82rem;
+  color: var(--color-muted);
+}
+
+@media (max-width: 600px) {
+  .multimodal-chain { gap: 6px; }
+  .mm-step { min-width: 70px; }
+  .mm-icon { font-size: 1.3rem; }
+  .mm-label { font-size: 0.75rem; }
+  .mm-arrow { font-size: 1rem; }
 }
