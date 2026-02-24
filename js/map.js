@@ -244,6 +244,7 @@
     {id:'khv',  name:'Хабаровск',         lat:48.48, lon:135.08, type:'port', lp:'r'},
     {id:'nkh',  name:'Находка',           lat:42.82, lon:132.87, type:'port', lp:'r'},
     {id:'blg',  name:'Благовещенск',      lat:50.28, lon:127.53, type:'port', lp:'l'},
+    {id:'zbk',  name:'Забайкальск',       lat:49.65, lon:117.35, type:'port', lox:-9, loy:-12, anc:'end'},
     {id:'yta',  name:'Ю-Сахалинск',       lat:46.96, lon:142.73, type:'port', lp:'r'},
     {id:'krs',  name:'Корсаков',          lat:46.63, lon:142.78, type:'port', lp:'b'},
     {id:'pkc',  name:'Петропавловск-К',   lat:53.01, lon:158.65, type:'port', lp:'b'},

@@ -3207,6 +3207,100 @@ select.form-control {
   margin: 0;
 }
 
+/* ── Own Fleet section ───────────────────────────────── */
+.fleet-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-bottom: 40px;
+}
+@media (max-width: 900px) { .fleet-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 580px) { .fleet-grid { grid-template-columns: 1fr; } }
+
+.fleet-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.fleet-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+.fleet-icon { font-size: 2.4rem; margin-bottom: 14px; }
+.fleet-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 10px;
+}
+.fleet-desc {
+  font-size: 0.88rem;
+  color: var(--color-muted);
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
+.fleet-specs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.fleet-specs li {
+  font-size: 0.82rem;
+  color: var(--color-text);
+  padding-left: 18px;
+  position: relative;
+}
+.fleet-specs li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* Port accreditation bar */
+.fleet-accreditation {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius: var(--radius-lg);
+  padding: 32px 36px;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  color: var(--color-white);
+}
+.fleet-accr-icon { font-size: 2.8rem; flex-shrink: 0; margin-top: 2px; }
+.fleet-accr-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-white);
+  margin-bottom: 10px;
+}
+.fleet-accr-desc {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+.fleet-accr-ports { display: flex; flex-wrap: wrap; gap: 10px; }
+.fleet-port-badge {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 0.82rem;
+  color: var(--color-white);
+  font-weight: 600;
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .fleet-accreditation { flex-direction: column; gap: 16px; padding: 24px 20px; }
+}
+
 /* Multimodal block */
 .multimodal-block {
   background: var(--color-primary);
