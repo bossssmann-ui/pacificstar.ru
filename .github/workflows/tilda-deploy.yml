@@ -1,17 +1,17 @@
-name: Deploy to Tilda & GitHub Pages
+name: Deploy — GitHub Pages + VPS + Tilda
 
-# Runs automatically on every push to main / copilot branch
+# Запускается автоматически при каждом обновлении кода
 on:
   push:
     branches:
       - main
       - copilot/refactor-site-description
-  workflow_dispatch:   # ← allows manual run from GitHub UI
+  workflow_dispatch:   # ← ручной запуск через кнопку на GitHub
 
 jobs:
   # ─────────────────────────────────────────────────────────────
-  # JOB 1: Publish to GitHub Pages (CDN for CSS/JS)
-  # Always runs, no Tilda keys required
+  # JOB 1: Публикация на GitHub Pages (резервный CDN для CSS/JS)
+  # Работает всегда, ключи не нужны
   # ─────────────────────────────────────────────────────────────
   github-pages:
     runs-on: ubuntu-latest
@@ -38,13 +38,52 @@ jobs:
         uses: actions/deploy-pages@v4
 
   # ─────────────────────────────────────────────────────────────
-  # JOB 2: Push updated pages to Tilda via API
-  # Only runs when TILDA_PUBLIC_KEY secret is configured
+  # JOB 2: Автодеплой на VPS-хостинг (Beget / Timeweb / REG.RU)
+  # Запускается только когда добавлен секрет VPS_HOST
+  # Инструкция по настройке: HOSTING_GUIDE.md
+  # ─────────────────────────────────────────────────────────────
+  deploy-vps:
+    runs-on: ubuntu-latest
+    needs: github-pages
+    # Пропускается, пока не добавлены SSH-секреты
+    if: ${{ secrets.VPS_HOST != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Установить SSH-ключ
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Загрузить файлы сайта на сервер
+        run: |
+          rsync -avz --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='node_modules/' \
+            --exclude='previews/' \
+            --exclude='*.md' \
+            --exclude='package*.json' \
+            --exclude='.htmlvalidate.json' \
+            --exclude='.gitignore' \
+            ./ \
+            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}"
+
+      - name: Перезагрузить веб-сервер (nginx)
+        # Необязательно для статики, но обновляет кэш
+        run: |
+          ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" \
+            "command -v nginx >/dev/null && sudo nginx -s reload || true"
+
+  # ─────────────────────────────────────────────────────────────
+  # JOB 3: Синхронизация с Tilda (если используется)
+  # Запускается только когда задана переменная TILDA_ENABLED=true
   # ─────────────────────────────────────────────────────────────
   tilda-sync:
     runs-on: ubuntu-latest
     needs: github-pages
-    # Skip gracefully if secrets are not yet configured
     if: ${{ vars.TILDA_ENABLED == 'true' }}
     steps:
       - uses: actions/checkout@v4

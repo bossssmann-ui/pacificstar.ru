@@ -13,6 +13,7 @@
 | **Pull Request (итог работы)** | https://github.com/bossssmann-ui/pacificstar.ru/pulls |
 | **Скриншоты страниц** | https://github.com/bossssmann-ui/pacificstar.ru/tree/copilot/refactor-site-description/previews |
 | **Инструкция по Tilda** | https://github.com/bossssmann-ui/pacificstar.ru/blob/copilot/refactor-site-description/TILDA_COPILOT_ACCESS.md |
+| **Инструкция по хостингу** | https://github.com/bossssmann-ui/pacificstar.ru/blob/copilot/refactor-site-description/HOSTING_GUIDE.md |
 
 ---
 
@@ -77,7 +78,11 @@
 ### Ваши замечания по сайту
 - ⏳ **Вы сказали, что у вас много замечаний по внешнему виду** — готовы записать их когда удобно
 
-### Tilda (инструкция уже готова)
+### Хостинг (новый вопрос)
+- ⏳ **Решение по хостингу** — рекомендую Beget Start (590 ₽/мес), инструкция в `HOSTING_GUIDE.md`
+- ⏳ После выбора хостинга — сообщите IP + логин + пароль SSH → автодеплой настрою за 10 минут
+
+
 - ⏳ **ШАГ 1** — Открыть https://github.com/bossssmann-ui/pacificstar.ru/settings/pages → включить Pages
 - ⏳ **ШАГ 2** — Вставить 2 строки кода в Tilda (инструкция: `TILDA_COPILOT_ACCESS.md`)
 - ⏳ Подключение AmoCRM (ждёт API ключ)
