@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Загрузка сайта на Timeweb — Pacific Star</title>
+<title>Исправить пустую страницу — Pacific Star</title>
 <style>
 * { box-sizing:border-box; margin:0; padding:0; }
 body {
@@ -99,27 +99,50 @@ h1 { text-align:center; font-size:24px; color:#0a3d6b; margin-bottom:4px; }
 </head>
 <body>
 
-<h1>🚀 Загружаем сайт на Timeweb</h1>
-<p class="subtitle">Выполните 4 шага — займёт около 10 минут</p>
+<!-- ===== WHY BLANK PAGE ===== -->
+<div style="background:#fef2f2;border:2px solid #ef4444;border-radius:14px;padding:20px;margin-bottom:24px;">
+  <div style="font-size:32px;text-align:center;margin-bottom:8px;">⬜ Пустая страница?</div>
+  <p style="font-weight:700;font-size:16px;color:#991b1b;text-align:center;margin-bottom:12px;">
+    Понятно что случилось — и есть простое решение
+  </p>
+  <p style="font-size:14px;color:#7f1d1d;margin-bottom:12px;">
+    Когда вы распаковали ZIP, файловый менеджер Timeweb автоматически создал
+    папку <strong>«site-pacificstar»</strong> внутри <code>public_html</code>.
+    Получилось вот так:
+  </p>
+  <div style="background:#1e293b;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#94a3b8;margin-bottom:12px;">
+    <div>📁 public_html/</div>
+    <div style="padding-left:24px;">📁 site-pacificstar/ &nbsp;<span style="color:#f87171;font-size:11px;">← лишняя папка!</span></div>
+    <div style="padding-left:48px;">📄 index.html &nbsp;<span style="color:#f87171;font-size:11px;">← сайт спрятан здесь</span></div>
+  </div>
+  <p style="font-size:14px;color:#7f1d1d;">
+    Сервер ищет <code>index.html</code> прямо в <code>public_html</code>, но находит только пустую папку.
+    Отсюда пустая страница.<br><br>
+    <strong>Решение:</strong> загрузите скрипт <code>fix.php</code> — он сам переместит все файлы на нужное место за секунду.
+  </p>
+</div>
+
+<h1>🔧 Исправляем за 3 шага</h1>
+<p class="subtitle">Займёт около 2 минут</p>
 
 <!-- STEP 1 -->
 <div class="step">
   <div class="step-head">
     <div class="step-num">1</div>
     <div>
-      <div class="step-title">Скачайте файлы сайта</div>
-      <div class="step-sub">Нажмите на кнопку ниже — файл сохранится в папку «Загрузки»</div>
+      <div class="step-title">Скачайте файл-помощник fix.php</div>
+      <div class="step-sub">Нажмите кнопку — файл сохранится в папку «Загрузки»</div>
     </div>
   </div>
 
-  <a href="https://github.com/bossssmann-ui/pacificstar.ru/raw/copilot/refactor-site-description/site-pacificstar.zip"
+  <a href="https://github.com/bossssmann-ui/pacificstar.ru/raw/copilot/refactor-site-description/fix.php"
      class="big-btn" download>
-    📦 Скачать сайт (site-pacificstar.zip)
+    ⬇️ Скачать fix.php
   </a>
 
   <div class="note">
-    ✅ Этот архив уже <strong>без лишней папки внутри</strong> — файлы сразу готовы к загрузке.
-    Именно поэтому создали новый ZIP специально для вас.
+    Это безопасный файл — он только перемещает файлы сайта на нужное место.
+    После работы его нужно удалить (напомним об этом).
   </div>
 </div>
 
@@ -128,43 +151,27 @@ h1 { text-align:center; font-size:24px; color:#0a3d6b; margin-bottom:4px; }
   <div class="step-head">
     <div class="step-num">2</div>
     <div>
-      <div class="step-title">Зайдите в Timeweb → Файловый менеджер</div>
-      <div class="step-sub">Откройте papky public_html и удалите старые файлы</div>
+      <div class="step-title">Загрузите fix.php на Timeweb</div>
+      <div class="step-sub">В ту же папку public_html</div>
     </div>
   </div>
 
   <a href="https://timeweb.com/ru/my/hosting" class="big-btn" target="_blank">
-    🌐 Открыть панель Timeweb
+    🌐 Открыть Timeweb
   </a>
 
-  <p style="margin:14px 0 8px;font-weight:600;">Удалите всё старое из public_html:</p>
+  <div class="check-row" style="margin-top:14px;"><span class="ck">1️⃣</span> Зайдите в <strong>Файловый менеджер</strong> → папка <strong>public_html</strong></div>
+  <div class="check-row"><span class="ck">2️⃣</span> Нажмите <strong>«Загрузить файл»</strong></div>
+  <div class="check-row"><span class="ck">3️⃣</span> Выберите <code>fix.php</code> из папки «Загрузки»</div>
+  <div class="check-row"><span class="ck">4️⃣</span> Дождитесь загрузки (маленький файл — секунда)</div>
 
-  <div class="fm-box">
-    <div class="fm-toolbar">
-      <span class="fm-btn">Новая папка</span>
-      <span class="fm-btn green">Загрузить</span>
-      <span class="fm-btn red active">Удалить ✖</span>
-      <span class="fm-btn">Переименовать</span>
+  <div style="background:#1e293b;border-radius:10px;padding:14px;margin-top:12px;font-family:monospace;font-size:13px;color:#94a3b8;">
+    <div>📁 public_html/ &nbsp;<span style="color:#64748b;font-size:11px;">← вы здесь</span></div>
+    <div style="padding-left:20px;">📁 site-pacificstar/ &nbsp;<span style="color:#94a3b8;font-size:11px;">← папка с сайтом</span></div>
+    <div style="padding-left:20px;background:#1d4ed8;color:#bfdbfe;border-radius:4px;padding:4px 8px;margin-top:4px;display:inline-block;">
+      🔧 fix.php
+      <span style="color:#93c5fd;font-size:11px;"> ← только что загрузили</span>
     </div>
-    <div class="fm-file"><span>📁</span> public_html &nbsp;<span style="color:#64748b;font-size:12px;">← вы здесь</span></div>
-    <div class="fm-sep"></div>
-    <div class="fm-file hi"><span>☑</span> index.html &nbsp;<span style="color:#93c5fd;font-size:11px;">выделен</span></div>
-    <div class="fm-file hi"><span>☑</span> 📁 css/</div>
-    <div class="fm-file hi"><span>☑</span> 📁 js/</div>
-    <div class="fm-file hi"><span>☑</span> 📁 images/ &nbsp;<span style="color:#93c5fd;font-size:11px;">(старые)</span></div>
-    <div class="fm-file hi"><span>☑</span> style.css &nbsp;<span style="color:#93c5fd;font-size:11px;">(всё старое — удалить)</span></div>
-    <div class="fm-sep"></div>
-    <div class="fm-file"><span>☐</span> .htaccess &nbsp;<span style="color:#64748b;font-size:11px;">← этот НЕ удалять (если есть)</span></div>
-  </div>
-
-  <p style="margin:10px 0 6px;font-weight:600;font-size:14px;">Как выделить всё сразу:</p>
-  <div class="check-row"><span class="ck">1️⃣</span> Поставить галочку в самом верху списка файлов — выделит всё</div>
-  <div class="check-row"><span class="ck">2️⃣</span> Снять галочку с <code>.htaccess</code> если он есть (оставить его)</div>
-  <div class="check-row"><span class="ck">3️⃣</span> Нажать кнопку <strong>«Удалить»</strong> → подтвердить</div>
-
-  <div class="warn">
-    ⚠️ Не видите .htaccess? Нажмите «Показать скрытые файлы» — он начинается с точки.
-    Если его вообще нет — ничего страшного, просто удалите всё.
   </div>
 </div>
 
@@ -173,81 +180,54 @@ h1 { text-align:center; font-size:24px; color:#0a3d6b; margin-bottom:4px; }
   <div class="step-head">
     <div class="step-num">3</div>
     <div>
-      <div class="step-title">Загрузите ZIP-архив и распакуйте</div>
-      <div class="step-sub">Находясь в пустой папке public_html</div>
+      <div class="step-title">Откройте fix.php в браузере</div>
+      <div class="step-sub">Он сам сделает всё за вас — за секунду</div>
     </div>
   </div>
 
-  <div class="check-row"><span class="ck">1️⃣</span> Нажмите кнопку <strong>«Загрузить файл»</strong> в файловом менеджере</div>
-  <div class="check-row"><span class="ck">2️⃣</span> Выберите файл <code>site-pacificstar.zip</code> из папки «Загрузки»</div>
-  <div class="check-row"><span class="ck">3️⃣</span> Дождитесь загрузки (файл ~140 КБ, займёт несколько секунд)</div>
-  <div class="check-row"><span class="ck">4️⃣</span> Нажмите правой кнопкой на <code>site-pacificstar.zip</code></div>
-  <div class="check-row"><span class="ck">5️⃣</span> Выберите <strong>«Распаковать»</strong> или <strong>«Извлечь»</strong></div>
-
-  <div class="fm-box" style="margin-top:14px;">
-    <div class="fm-toolbar">
-      <span class="fm-btn">Новая папка</span>
-      <span class="fm-btn green active">✓ Загрузить</span>
-      <span class="fm-btn">Удалить</span>
-    </div>
-    <div class="fm-file hi"><span>📦</span> site-pacificstar.zip
-      <span class="circle arrow" style="margin-left:auto;">!</span>
-      <span class="arrow">← правая кнопка → Распаковать</span>
-    </div>
-  </div>
-
-  <div class="note" style="margin-top:12px;">
-    ℹ️ После распаковки вы должны увидеть в public_html файлы:
-    <code>index.html</code>, <code>about.html</code>, папки <code>css/</code> и <code>js/</code> — <strong>прямо здесь, без подпапок</strong>.
-  </div>
-</div>
-
-<!-- STEP 4 -->
-<div class="step">
-  <div class="step-head">
-    <div class="step-num">4</div>
-    <div>
-      <div class="step-title">Откройте сайт и проверьте!</div>
-      <div class="step-sub">Готово — сайт должен работать</div>
-    </div>
-  </div>
-
-  <a href="https://pacificstar.ru" class="big-btn green" target="_blank">
-    🌐 Открыть pacificstar.ru →
+  <a href="http://pacificstar.ru/fix.php" class="big-btn" target="_blank" style="background:#dc2626;">
+    ▶️ Открыть pacificstar.ru/fix.php
   </a>
 
-  <div style="margin-top:16px;">
-    <p style="font-weight:600;margin-bottom:10px;">Что должны увидеть:</p>
-    <div class="check-row"><span class="ck">✅</span> Синяя шапка с логотипом «Pacific Star» и меню</div>
-    <div class="check-row"><span class="ck">✅</span> Текст «Ваш надёжный партнёр в мире логистики»</div>
-    <div class="check-row"><span class="ck">✅</span> Кнопки «Рассчитать маршрут» и «Получить коммерческое предложение»</div>
+  <p style="margin:14px 0 8px;font-weight:600;">Что должны увидеть — зелёный экран:</p>
+
+  <div style="background:#f0fdf4;border:2px solid #22c55e;border-radius:12px;padding:20px;text-align:center;margin-bottom:12px;">
+    <div style="font-size:36px;margin-bottom:6px;">🎉</div>
+    <div style="font-size:17px;font-weight:700;color:#15803d;margin-bottom:4px;">Готово! Сайт установлен</div>
+    <div style="font-size:12px;color:#166534;margin-bottom:12px;">Все файлы перемещены на нужное место</div>
+    <div style="background:#15803d;color:white;display:inline-block;padding:10px 24px;border-radius:8px;font-weight:700;font-size:14px;">
+      🌐 Открыть сайт →
+    </div>
+    <div style="font-size:11px;color:#16a34a;margin-top:8px;">
+      ↑ нажмите эту кнопку
+    </div>
   </div>
 
-  <p style="font-weight:600;margin:16px 0 8px;">Если что-то не то:</p>
-  <div class="check-row">
-    <span class="ck">🔄</span>
-    <div>Вижу старый сайт → нажмите <strong>Ctrl+F5</strong> (принудительное обновление)</div>
-  </div>
-  <div class="check-row">
-    <span class="ck">⬜</span>
-    <div>Пустая страница → index.html в подпапке. Зайдите внутрь подпапки, выделите всё, нажмите «Переместить в..» и выберите public_html</div>
-  </div>
-  <div class="check-row">
-    <span class="ck">❌</span>
-    <div>«Сайт недоступен» → напишите разработчику, разберёмся</div>
+  <div class="note">
+    После того как сайт откроется — вернитесь в Файловый менеджер и удалите
+    <code>fix.php</code> (правая кнопка → Удалить). Он больше не нужен.
   </div>
 </div>
 
 <!-- ALL DONE BOX -->
 <div class="ok-box">
-  <div style="font-size:40px;margin-bottom:8px;">🎉</div>
-  <h2 style="color:#15803d;margin-bottom:6px;">После успешного запуска</h2>
-  <p style="color:#166534;font-size:14px;margin-bottom:12px;">
-    Удалите <code>site-pacificstar.zip</code> из public_html (правая кнопка → Удалить) —
-    он больше не нужен.
+  <div style="font-size:40px;margin-bottom:8px;">✅</div>
+  <h2 style="color:#15803d;margin-bottom:6px;">Готово!</h2>
+  <p style="color:#166534;font-size:14px;margin-bottom:16px;">
+    Напишите разработчику: «Сайт работает» — и перейдём к следующим улучшениям.
   </p>
-  <p style="color:#166534;font-size:14px;">
-    Напишите разработчику: «Сайт работает» — и мы перейдём к следующим улучшениям!
+  <a href="https://pacificstar.ru" style="background:#0a3d6b;color:white;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:700;display:inline-block;">
+    🌐 Открыть pacificstar.ru
+  </a>
+</div>
+
+<!-- If error -->
+<div style="margin-top:16px;background:#fffbeb;border:1px solid #fed7aa;border-radius:12px;padding:16px;">
+  <p style="font-weight:700;color:#9a3412;margin-bottom:8px;">⚠️ Если fix.php написал «Не удалось найти файлы»</p>
+  <p style="font-size:14px;color:#92400e;">
+    Значит файловый менеджер сам уже переместил файлы, или структура другая.
+    Попробуйте открыть <strong>pacificstar.ru</strong> — возможно, сайт уже работает!<br>
+    Если нет — напишите разработчику что написано на экране fix.php.
   </p>
 </div>
 
