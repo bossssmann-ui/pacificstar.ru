@@ -13,6 +13,7 @@
 | **Pull Request (итог работы)** | https://github.com/bossssmann-ui/pacificstar.ru/pulls |
 | **Скриншоты страниц** | https://github.com/bossssmann-ui/pacificstar.ru/tree/copilot/refactor-site-description/previews |
 | **Инструкция по Tilda** | https://github.com/bossssmann-ui/pacificstar.ru/blob/copilot/refactor-site-description/TILDA_COPILOT_ACCESS.md |
+| **Инструкция по деплою на Timeweb** | https://github.com/bossssmann-ui/pacificstar.ru/blob/copilot/refactor-site-description/TIMEWEB_DEPLOY.md |
 | **Инструкция по хостингу** | https://github.com/bossssmann-ui/pacificstar.ru/blob/copilot/refactor-site-description/HOSTING_GUIDE.md |
 
 ---
@@ -78,9 +79,13 @@
 ### Ваши замечания по сайту
 - ⏳ **Вы сказали, что у вас много замечаний по внешнему виду** — готовы записать их когда удобно
 
-### Хостинг (новый вопрос)
-- ⏳ **Решение по хостингу** — рекомендую Beget Start (590 ₽/мес), инструкция в `HOSTING_GUIDE.md`
-- ⏳ После выбора хостинга — сообщите IP + логин + пароль SSH → автодеплой настрою за 10 минут
+### Хостинг — решение принято ✅
+- ✅ **Клиент уже на Timeweb** — домен и хостинг там
+- ✅ Timeweb подходит идеально: SSH на всех тарифах, серверы в России
+- ✅ Инструкция создана: `TIMEWEB_DEPLOY.md` — 3 шага, ~20 минут
+- ✅ GitHub Actions workflow обновлён: поддержка SSH + SFTP для Timeweb
+- ⏳ **Ожидаем от клиента**: IP-адрес + логин + пароль SSH + путь к public_html
+  → После получения: загружаю сайт автоматически, включаю HTTPS, проверяю все страницы
 
 
 - ⏳ **ШАГ 1** — Открыть https://github.com/bossssmann-ui/pacificstar.ru/settings/pages → включить Pages
