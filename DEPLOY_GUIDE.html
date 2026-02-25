@@ -3,232 +3,144 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Исправить пустую страницу — Pacific Star</title>
+<title>Исправить белый экран — Pacific Star</title>
 <style>
-* { box-sizing:border-box; margin:0; padding:0; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-  background:#f0f4f8; color:#1a2332;
-  padding:24px 16px;
-  max-width:680px; margin:0 auto; line-height:1.6;
-}
-h1 { text-align:center; font-size:24px; color:#0a3d6b; margin-bottom:4px; }
-.subtitle { text-align:center; color:#6b7280; font-size:14px; margin-bottom:28px; }
-
-.step {
-  background:white; border-radius:14px; border:1px solid #e2e8f0;
-  padding:24px; margin-bottom:16px;
-}
-.step-head {
-  display:flex; align-items:center; gap:14px; margin-bottom:16px;
-}
-.step-num {
-  background:#0a3d6b; color:white; width:36px; height:36px;
-  border-radius:50%; display:flex; align-items:center; justify-content:center;
-  font-size:18px; font-weight:800; flex-shrink:0;
-}
-.step-title { font-size:18px; font-weight:700; color:#0a3d6b; }
-.step-sub { font-size:13px; color:#6b7280; margin-top:2px; }
-
-.big-btn {
-  display:block; background:#0a3d6b; color:white; text-decoration:none;
-  padding:16px 24px; border-radius:10px; font-size:17px; font-weight:700;
-  text-align:center; margin:12px 0;
-}
-.big-btn:hover { background:#0d4f8a; }
-.big-btn.green { background:#16a34a; }
-.big-btn.green:hover { background:#15803d; }
-
-.note {
-  background:#eff6ff; border-radius:8px; padding:12px 16px;
-  font-size:13px; color:#1e40af; margin-top:10px;
-}
-.warn {
-  background:#fff7ed; border-radius:8px; padding:12px 16px;
-  font-size:13px; color:#9a3412; margin-top:10px; border:1px solid #fed7aa;
-}
-
-/* Visual: file manager mockup */
-.fm-box {
-  background:#1e293b; border-radius:10px; padding:16px; margin:14px 0;
-  font-family:monospace; font-size:13px; color:#94a3b8;
-}
-.fm-toolbar {
-  background:#334155; border-radius:6px; padding:8px 12px;
-  display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;
-}
-.fm-btn {
-  background:#475569; color:#e2e8f0; border:none; border-radius:4px;
-  padding:4px 10px; font-size:12px; cursor:default;
-}
-.fm-btn.active { background:#2563eb; color:white; }
-.fm-btn.red { background:#dc2626; color:white; }
-.fm-btn.green { background:#16a34a; color:white; }
-.fm-file { display:flex; align-items:center; gap:8px; padding:5px 4px; border-radius:4px; }
-.fm-file:hover { background:#334155; }
-.fm-file.hi { background:#1d4ed8; color:#bfdbfe; border-radius:4px; }
-.fm-sep { border-top:1px solid #334155; margin:8px 0; }
-
-.circle {
-  display:inline-block; background:#ef4444; color:white; border-radius:50%;
-  width:22px; height:22px; text-align:center; line-height:22px; font-size:12px;
-  font-weight:800; flex-shrink:0; animation:pulse 1.5s infinite;
-}
-@keyframes pulse {
-  0%,100%{ transform:scale(1); box-shadow:0 0 0 0 rgba(239,68,68,.4); }
-  50%{ transform:scale(1.15); box-shadow:0 0 0 6px rgba(239,68,68,0); }
-}
-
-.arrow { font-size:20px; color:#ef4444; margin-left:4px; }
-
-.check-row {
-  display:flex; align-items:flex-start; gap:10px; padding:8px 0;
-  border-bottom:1px solid #f1f5f9; font-size:15px;
-}
-.check-row:last-child { border-bottom:none; }
-.check-row .ck { width:22px; flex-shrink:0; font-size:18px; margin-top:1px; }
-
-/* status badge */
-.badge-done { background:#dcfce7; color:#166534; font-size:12px; padding:2px 8px; border-radius:20px; font-weight:600; }
-
-.ok-box {
-  background:#f0fdf4; border:2px solid #22c55e; border-radius:12px;
-  padding:20px; text-align:center; margin:14px 0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:#f0f4f8;color:#1a2332;padding:24px 16px;max-width:700px;margin:0 auto;line-height:1.6}
+h1{text-align:center;font-size:22px;color:#0a3d6b;margin-bottom:4px}
+.sub{text-align:center;color:#6b7280;font-size:14px;margin-bottom:28px}
+.card{background:white;border-radius:14px;border:1px solid #e2e8f0;padding:24px;margin-bottom:16px}
+.card.red{border-color:#ef4444;background:#fff8f8}
+.card.green{border-color:#16a34a;background:#f0fdf4}
+.card.blue{border-color:#3b82f6;background:#eff6ff}
+h2{font-size:16px;font-weight:700;margin-bottom:12px}
+ol,ul{padding-left:20px;margin-top:8px}
+li{margin-bottom:6px;font-size:15px}
+.btn{display:inline-block;background:#0a3d6b;color:white;padding:12px 24px;border-radius:8px;font-weight:700;text-decoration:none;font-size:15px;margin:8px 0}
+.btn.green{background:#16a34a}
+.btn.orange{background:#d97706}
+code{background:#f3f4f6;border:1px solid #d1d5db;border-radius:4px;padding:2px 6px;font-size:14px;font-family:monospace}
+.big{font-size:36px;margin-bottom:8px}
+.row{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+.col{flex:1;min-width:200px;background:#f9fafb;border-radius:8px;padding:12px;border:2px solid #e5e7eb;font-size:14px}
+.col.bad{border-color:#ef4444;background:#fef2f2}
+.col.good{border-color:#16a34a;background:#f0fdf4}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:12px}
+td,th{padding:8px 12px;border:1px solid #e2e8f0;text-align:left}
+th{background:#f3f4f6;font-weight:600}
 </style>
 </head>
 <body>
 
-<!-- ===== WHY BLANK PAGE ===== -->
-<div style="background:#fef2f2;border:2px solid #ef4444;border-radius:14px;padding:20px;margin-bottom:24px;">
-  <div style="font-size:32px;text-align:center;margin-bottom:8px;">⬜ Пустая страница?</div>
-  <p style="font-weight:700;font-size:16px;color:#991b1b;text-align:center;margin-bottom:12px;">
-    Понятно что случилось — и есть простое решение
-  </p>
-  <p style="font-size:14px;color:#7f1d1d;margin-bottom:12px;">
-    Когда вы распаковали ZIP, файловый менеджер Timeweb автоматически создал
-    папку <strong>«site-pacificstar»</strong> внутри <code>public_html</code>.
-    Получилось вот так:
-  </p>
-  <div style="background:#1e293b;border-radius:8px;padding:12px;font-family:monospace;font-size:13px;color:#94a3b8;margin-bottom:12px;">
-    <div>📁 public_html/</div>
-    <div style="padding-left:24px;">📁 site-pacificstar/ &nbsp;<span style="color:#f87171;font-size:11px;">← лишняя папка!</span></div>
-    <div style="padding-left:48px;">📄 index.html &nbsp;<span style="color:#f87171;font-size:11px;">← сайт спрятан здесь</span></div>
-  </div>
-  <p style="font-size:14px;color:#7f1d1d;">
-    Сервер ищет <code>index.html</code> прямо в <code>public_html</code>, но находит только пустую папку.
-    Отсюда пустая страница.<br><br>
-    <strong>Решение:</strong> загрузите скрипт <code>fix.php</code> — он сам переместит все файлы на нужное место за секунду.
-  </p>
+<h1>🔧 Исправляем белый экран</h1>
+<p class="sub">Pacific Star — пошаговая диагностика</p>
+
+<!-- ДИАГНОСТИКА -->
+<div class="card red">
+  <div class="big">🩺</div>
+  <h2>Шаг 1 — Сначала проверим: PHP работает?</h2>
+  <p>Откройте в браузере этот адрес (не главную страницу, а вот этот):</p>
+  <p style="margin-top:10px;font-size:18px;font-weight:700;color:#0a3d6b">http://pacificstar.ru/phptest.php</p>
+  <p style="margin-top:12px">Что видите?</p>
+  <table>
+    <tr><th>Вижу на экране</th><th>Что это значит</th><th>Что делать</th></tr>
+    <tr>
+      <td>✅ «PHP РАБОТАЕТ. Версия: 8.x»</td>
+      <td>PHP включён — отлично!</td>
+      <td>Перейти к Шагу 2</td>
+    </tr>
+    <tr>
+      <td>⚪ Белый экран или «404 Not Found»</td>
+      <td>phptest.php не загружен ИЛИ PHP выключен</td>
+      <td>Загрузить новый архив (Шаг 3)</td>
+    </tr>
+    <tr>
+      <td>📁 Список файлов или папок</td>
+      <td>index.html не на месте</td>
+      <td>Перейти к Шагу 2</td>
+    </tr>
+  </table>
 </div>
 
-<h1>🔧 Исправляем за 3 шага</h1>
-<p class="subtitle">Займёт около 2 минут</p>
+<!-- ШАГ 2 -->
+<div class="card blue">
+  <div class="big">🔍</div>
+  <h2>Шаг 2 — Откройте fix.php (перемещает файлы)</h2>
+  <p>Откройте в браузере:</p>
+  <p style="margin-top:10px;font-size:18px;font-weight:700;color:#0a3d6b">http://pacificstar.ru/fix.php</p>
 
-<!-- STEP 1 -->
-<div class="step">
-  <div class="step-head">
-    <div class="step-num">1</div>
-    <div>
-      <div class="step-title">Скачайте файл-помощник fix.php</div>
-      <div class="step-sub">Нажмите кнопку — файл сохранится в папку «Загрузки»</div>
-    </div>
-  </div>
-
-  <a href="https://github.com/bossssmann-ui/pacificstar.ru/raw/copilot/refactor-site-description/fix.php"
-     class="big-btn" download>
-    ⬇️ Скачать fix.php
-  </a>
-
-  <div class="note">
-    Это безопасный файл — он только перемещает файлы сайта на нужное место.
-    После работы его нужно удалить (напомним об этом).
-  </div>
+  <table style="margin-top:12px">
+    <tr><th>Вижу</th><th>Что делать</th></tr>
+    <tr><td>🎉 Зелёный экран «Готово!»</td><td>Нажать «Открыть сайт» → готово!</td></tr>
+    <tr><td>⚠️ Жёлтый: «Папка не найдена»</td><td>Файлы уже на месте → открыть <a href="http://pacificstar.ru/">pacificstar.ru</a></td></tr>
+    <tr><td>⚪ Белый экран</td><td>PHP не работает → загрузить новый архив (Шаг 3)</td></tr>
+    <tr><td>❌ Красный: «Не удалось переместить»</td><td>Написать разработчику (сделать скриншот)</td></tr>
+  </table>
 </div>
 
-<!-- STEP 2 -->
-<div class="step">
-  <div class="step-head">
-    <div class="step-num">2</div>
-    <div>
-      <div class="step-title">Загрузите fix.php на Timeweb</div>
-      <div class="step-sub">В ту же папку public_html</div>
-    </div>
-  </div>
+<!-- ШАГ 3 -->
+<div class="card">
+  <div class="big">📦</div>
+  <h2>Шаг 3 — Загрузить новый архив (если Шаги 1-2 не сработали)</h2>
 
-  <a href="https://timeweb.com/ru/my/hosting" class="big-btn" target="_blank">
-    🌐 Открыть Timeweb
-  </a>
-
-  <div class="check-row" style="margin-top:14px;"><span class="ck">1️⃣</span> Зайдите в <strong>Файловый менеджер</strong> → папка <strong>public_html</strong></div>
-  <div class="check-row"><span class="ck">2️⃣</span> Нажмите <strong>«Загрузить файл»</strong></div>
-  <div class="check-row"><span class="ck">3️⃣</span> Выберите <code>fix.php</code> из папки «Загрузки»</div>
-  <div class="check-row"><span class="ck">4️⃣</span> Дождитесь загрузки (маленький файл — секунда)</div>
-
-  <div style="background:#1e293b;border-radius:10px;padding:14px;margin-top:12px;font-family:monospace;font-size:13px;color:#94a3b8;">
-    <div>📁 public_html/ &nbsp;<span style="color:#64748b;font-size:11px;">← вы здесь</span></div>
-    <div style="padding-left:20px;">📁 site-pacificstar/ &nbsp;<span style="color:#94a3b8;font-size:11px;">← папка с сайтом</span></div>
-    <div style="padding-left:20px;background:#1d4ed8;color:#bfdbfe;border-radius:4px;padding:4px 8px;margin-top:4px;display:inline-block;">
-      🔧 fix.php
-      <span style="color:#93c5fd;font-size:11px;"> ← только что загрузили</span>
-    </div>
-  </div>
-</div>
-
-<!-- STEP 3 -->
-<div class="step">
-  <div class="step-head">
-    <div class="step-num">3</div>
-    <div>
-      <div class="step-title">Откройте fix.php в браузере</div>
-      <div class="step-sub">Он сам сделает всё за вас — за секунду</div>
-    </div>
-  </div>
-
-  <a href="http://pacificstar.ru/fix.php" class="big-btn" target="_blank" style="background:#dc2626;">
-    ▶️ Открыть pacificstar.ru/fix.php
-  </a>
-
-  <p style="margin:14px 0 8px;font-weight:600;">Что должны увидеть — зелёный экран:</p>
-
-  <div style="background:#f0fdf4;border:2px solid #22c55e;border-radius:12px;padding:20px;text-align:center;margin-bottom:12px;">
-    <div style="font-size:36px;margin-bottom:6px;">🎉</div>
-    <div style="font-size:17px;font-weight:700;color:#15803d;margin-bottom:4px;">Готово! Сайт установлен</div>
-    <div style="font-size:12px;color:#166534;margin-bottom:12px;">Все файлы перемещены на нужное место</div>
-    <div style="background:#15803d;color:white;display:inline-block;padding:10px 24px;border-radius:8px;font-weight:700;font-size:14px;">
-      🌐 Открыть сайт →
-    </div>
-    <div style="font-size:11px;color:#16a34a;margin-top:8px;">
-      ↑ нажмите эту кнопку
-    </div>
-  </div>
-
-  <div class="note">
-    После того как сайт откроется — вернитесь в Файловый менеджер и удалите
-    <code>fix.php</code> (правая кнопка → Удалить). Он больше не нужен.
-  </div>
-</div>
-
-<!-- ALL DONE BOX -->
-<div class="ok-box">
-  <div style="font-size:40px;margin-bottom:8px;">✅</div>
-  <h2 style="color:#15803d;margin-bottom:6px;">Готово!</h2>
-  <p style="color:#166534;font-size:14px;margin-bottom:16px;">
-    Напишите разработчику: «Сайт работает» — и перейдём к следующим улучшениям.
+  <p><strong>3.1 — Скачать новый архив</strong> (нажмите правой кнопкой → «Сохранить как»):</p>
+  <p style="margin-top:8px">
+    <a class="btn" href="https://github.com/bossssmann-ui/pacificstar.ru/raw/copilot/refactor-site-description/site-pacificstar.zip">
+      ⬇ Скачать site-pacificstar.zip
+    </a>
   </p>
-  <a href="https://pacificstar.ru" style="background:#0a3d6b;color:white;text-decoration:none;padding:12px 28px;border-radius:8px;font-weight:700;display:inline-block;">
-    🌐 Открыть pacificstar.ru
-  </a>
+
+  <p style="margin-top:16px"><strong>3.2 — Timeweb → Файловый менеджер → public_html</strong></p>
+  <ol>
+    <li>Зайдите в <a href="https://timeweb.com/ru/my/hosting" target="_blank">timeweb.com → Мои сайты → Файловый менеджер</a></li>
+    <li>Откройте папку <code>public_html</code></li>
+    <li><strong>Выделите все файлы</strong> (галочка в шапке таблицы) → нажмите <strong>«Удалить»</strong></li>
+    <li>Нажмите <strong>«Загрузить файл»</strong> → выберите <code>site-pacificstar.zip</code></li>
+    <li>После загрузки: правая кнопка мыши на ZIP → <strong>«Распаковать»</strong> или <strong>«Извлечь»</strong></li>
+  </ol>
+
+  <div class="row" style="margin-top:16px">
+    <div class="col bad">
+      <strong>❌ Неправильно</strong><br>
+      public_html/<br>
+      &nbsp;&nbsp;📁 site-pacificstar/<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;📄 index.html ← здесь<br>
+      <em>→ белый экран</em>
+    </div>
+    <div class="col good">
+      <strong>✅ Правильно</strong><br>
+      public_html/<br>
+      &nbsp;&nbsp;📄 index.html ← прямо здесь<br>
+      &nbsp;&nbsp;📁 css/<br>
+      &nbsp;&nbsp;📁 js/<br>
+      <em>→ сайт работает</em>
+    </div>
+  </div>
+
+  <p style="margin-top:16px"><strong>3.3 — Проверить:</strong> открыть <code>pacificstar.ru/test.html</code><br>
+  Синий экран с ✅ = файлы на месте → открываем <a href="http://pacificstar.ru/">pacificstar.ru</a></p>
 </div>
 
-<!-- If error -->
-<div style="margin-top:16px;background:#fffbeb;border:1px solid #fed7aa;border-radius:12px;padding:16px;">
-  <p style="font-weight:700;color:#9a3412;margin-bottom:8px;">⚠️ Если fix.php написал «Не удалось найти файлы»</p>
-  <p style="font-size:14px;color:#92400e;">
-    Значит файловый менеджер сам уже переместил файлы, или структура другая.
-    Попробуйте открыть <strong>pacificstar.ru</strong> — возможно, сайт уже работает!<br>
-    Если нет — напишите разработчику что написано на экране fix.php.
-  </p>
+<!-- АВТОДЕПЛОЙ -->
+<div class="card green">
+  <div class="big">🤖</div>
+  <h2>Шаг 4 — Автоматический деплой (один раз, и навсегда)</h2>
+  <p>Если сделать этот шаг, я буду загружать сайт на Timeweb <strong>автоматически</strong> каждый раз, когда делаю изменения. Вам не нужно будет ничего делать руками.</p>
+
+  <ol style="margin-top:12px">
+    <li>Откройте: <a href="https://github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions" target="_blank">github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions</a></li>
+    <li>Нажмите <strong>«New repository secret»</strong></li>
+    <li>В поле <strong>Name</strong> введите: <code>TIMEWEB_PASSWORD</code></li>
+    <li>В поле <strong>Secret</strong> введите ваш пароль от Timeweb</li>
+    <li>Нажмите <strong>«Add secret»</strong></li>
+  </ol>
+
+  <p style="margin-top:12px;color:#166534;font-weight:600">После этого — каждый мой коммит автоматически обновляет сайт. Больше ничего делать не нужно.</p>
+</div>
+
+<div class="card" style="text-align:center;padding:20px">
+  <p style="font-size:15px">Сделайте скриншот того что видите и напишите мне.<br>
+  Я скажу что именно нажать.</p>
 </div>
 
 </body>
