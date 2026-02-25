@@ -215,8 +215,8 @@
 
           <div class="gh-form-group">
             <label class="gh-label">Secret <span style="color:#cf222e;">*</span></label>
-            <textarea class="gh-input filled" rows="3" readonly style="resize:none; font-size:15px; color: #24292f;">PuW9#q#ZqdxR</textarea>
-            <div style="font-size:12px; color:#57606a; margin-top:4px;">Ваш пароль от хостинга Timeweb — тот, которым вы входите в панель управления</div>
+            <textarea class="gh-input filled" rows="3" readonly style="resize:none; font-size:15px; color: #8b949e; letter-spacing:3px;">●●●●●●●●●●●●</textarea>
+            <div style="font-size:12px; color:#57606a; margin-top:4px;">Сюда вводите ваш пароль от Timeweb (тот, которым входите в панель управления)</div>
           </div>
 
           <a class="gh-btn gh-btn-green highlight-btn" style="border-radius:6px; margin-top:8px;">
@@ -301,7 +301,25 @@
         </a>
       </div>
 
-      <p style="margin:14px 0 16px;font-weight:600;">Вы увидите такую страницу — нажмите кнопку «Run workflow»:</p>
+      <!-- ⚠️ ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ — ИМЕННО ЭТО ЗАПУТАЛО ПОЛЬЗОВАТЕЛЯ -->
+      <div style="background:#fff0f0; border:2px solid #cf222e; border-radius:10px; padding:16px 20px; margin:16px 0;">
+        <div style="font-size:16px; font-weight:700; color:#cf222e; margin-bottom:10px;">⚠️ ВНИМАНИЕ — ДВЕ РАЗНЫЕ КНОПКИ НА ОДНОЙ СТРАНИЦЕ!</div>
+        <p style="font-size:14px; margin-bottom:10px;">На этой странице есть <strong>строка-фильтр</strong> слева и <strong>кнопка запуска</strong> справа. Они похожи, но делают разное:</p>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <div style="flex:1; min-width:200px; background:#fff8f8; border:1.5px solid #cf222e; border-radius:8px; padding:12px;">
+            <div style="font-size:22px; margin-bottom:6px;">❌ НЕ ЭТА</div>
+            <div style="font-size:13px; font-weight:600; color:#cf222e; margin-bottom:4px;">Строка фильтра (слева)</div>
+            <div style="font-size:12px; color:#57606a;">Если нажать — откроется меню с пунктами:<br><strong>«actor», «branch», «event», «is»</strong><br><br>Это фильтр для поиска по истории запусков. Нам не нужен.</div>
+          </div>
+          <div style="flex:1; min-width:200px; background:#f0fff4; border:2px solid #2da44e; border-radius:8px; padding:12px;">
+            <div style="font-size:22px; margin-bottom:6px;">✅ ВОТ ЭТА</div>
+            <div style="font-size:13px; font-weight:600; color:#2da44e; margin-bottom:4px;">Кнопка «Run workflow» (справа)</div>
+            <div style="font-size:12px; color:#57606a;">Отдельная кнопка, она находится <strong>справа сверху</strong> над списком запусков.<br><br>Если нажать — появится маленькое меню с зелёной кнопкой внутри.</div>
+          </div>
+        </div>
+      </div>
+
+      <p style="margin:14px 0 16px;font-weight:600;">Вот как выглядит страница — нужная кнопка обведена зелёным:</p>
 
       <div class="gh-window">
         <div class="gh-topbar">
@@ -313,25 +331,40 @@
           <div style="padding:12px 0; border-bottom:2px solid #fd8c73; font-weight:600; color:#24292f;">Deploy — pacificstar.ru на Timeweb</div>
         </div>
         <div class="gh-content">
-          <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:16px; border-bottom:1px solid #d0d7de; margin-bottom:16px;">
-            <div>
-              <div style="font-size:16px; font-weight:600;">This workflow has a workflow_dispatch event trigger.</div>
-              <div style="font-size:13px; color:#57606a; margin-top:4px;">Run the workflow from a specific branch.</div>
+          <!-- Top bar with BOTH buttons clearly shown -->
+          <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:14px; border-bottom:1px solid #d0d7de; margin-bottom:14px; gap:12px; flex-wrap:wrap;">
+
+            <!-- LEFT: Filter bar (wrong one) -->
+            <div style="position:relative; flex:1; min-width:180px;">
+              <div style="border:2px solid #cf222e; border-radius:8px; overflow:hidden;">
+                <div style="background:#f6f8fa; border:1px solid #d0d7de; border-radius:6px; padding:7px 12px; font-size:13px; color:#8b949e; display:flex; align-items:center; gap:6px;">
+                  <span>🔍</span> Filter workflow runs
+                </div>
+              </div>
+              <div style="text-align:center; margin-top:6px; font-size:12px; font-weight:700; color:#cf222e;">❌ НЕ СЮДА<br>(это фильтр — открывает actor/branch/event/is)</div>
             </div>
-            <div class="run-dropdown">
-              <button class="run-main pulse-ring" style="cursor:default;">Run workflow</button>
-              <button class="run-arrow-btn" style="cursor:default;">▾</button>
+
+            <!-- RIGHT: Run workflow button (correct one) -->
+            <div style="position:relative;">
+              <div style="border:3px solid #2da44e; border-radius:10px; padding:3px; box-shadow: 0 0 0 4px rgba(45,164,78,0.2);">
+                <div class="run-dropdown">
+                  <button class="run-main highlight-btn" style="cursor:default;">Run workflow</button>
+                  <button class="run-arrow-btn" style="cursor:default;">▾</button>
+                </div>
+              </div>
+              <div style="text-align:center; margin-top:6px; font-size:12px; font-weight:700; color:#2da44e;">✅ НАЖАТЬ СЮДА!</div>
             </div>
+
           </div>
-          <div style="color:#57606a; font-size:14px; text-align:center; padding:20px;">
-            No workflow runs yet.
+          <div style="color:#57606a; font-size:13px; text-align:center; padding:16px;">
+            (список запусков пока пуст — это нормально)
           </div>
         </div>
       </div>
 
-      <div class="arrow-row">
-        <div class="arrow">👆</div>
-        <div class="arrow-text">Нажмите кнопку «Run workflow» (она светло-серая, справа)</div>
+      <div class="tip-box" style="margin-top:16px;">
+        <strong>Если кнопки «Run workflow» не видно:</strong><br>
+        Возможно страница показывает историю в виде таблицы — прокрутите немного вверх, кнопка должна быть в верхней правой части страницы над таблицей.
       </div>
 
     </div>
