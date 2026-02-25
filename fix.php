@@ -6,6 +6,11 @@
  * После успеха — удалите этот файл.
  */
 
+// Показывать все ошибки PHP — чтобы не было «белого экрана»
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
 header('Content-Type: text/html; charset=utf-8');
 
 $publicHtml = __DIR__;
@@ -28,7 +33,14 @@ foreach (glob($publicHtml . '/*', GLOB_ONLYDIR) as $dir) {
 }
 
 if (empty($candidates)) {
+    // Build a file listing for diagnosis
+    $listing = [];
+    foreach (glob($publicHtml . '/*') as $item) {
+        $name = basename($item);
+        $listing[] = (is_dir($item) ? '📁 ' : '📄 ') . $name;
+    }
     $error = 'Папка с index.html не найдена. Возможно, файлы уже на месте или ещё не загружены.';
+    $listing_html = implode('<br>', array_map('htmlspecialchars', $listing));
 } elseif (count($candidates) > 1) {
     $error = 'Найдено несколько папок с index.html: ' . implode(', ', array_map('basename', $candidates)) . '. Напишите разработчику.';
 } else {
@@ -170,8 +182,14 @@ h1 { font-size: 24px; margin-bottom: 10px; }
         <h1>Не удалось найти файлы</h1>
         <p style="margin-top:10px;"><?= htmlspecialchars($error) ?></p>
     </div>
-    <div class="note">
-        Напишите разработчику что написано выше — разберёмся вместе.
+    <?php if (!empty($listing_html)): ?>
+    <div class="note" style="margin-top:16px;">
+        <strong>Что сейчас в папке public_html:</strong><br>
+        <code style="font-size:13px;line-height:2"><?= $listing_html ?></code>
+    </div>
+    <?php endif ?>
+    <div class="note" style="margin-top:12px;">
+        Напишите разработчику что написано выше (сделайте скриншот) — разберёмся вместе.
     </div>
 
 <?php elseif ($moved): ?>
