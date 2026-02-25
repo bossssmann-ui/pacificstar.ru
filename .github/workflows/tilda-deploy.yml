@@ -1,12 +1,9 @@
 name: Deploy — pacificstar.ru на Timeweb
 
-# Запускается: автоматически при каждом сохранении кода,
-# либо вручную через кнопку "Run workflow" на странице Actions
+# Запускается: ТОЛЬКО вручную — кнопкой «Run workflow» на странице Actions.
+# Автоматический запуск отключён, чтобы не требовалось одобрение каждый раз.
+# Инструкция: https://github.com/bossssmann-ui/pacificstar.ru/blob/copilot/refactor-site-description/DEPLOY_GUIDE.html
 on:
-  push:
-    branches:
-      - main
-      - copilot/refactor-site-description
   workflow_dispatch:
 
 jobs:

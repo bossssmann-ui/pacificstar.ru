@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Запуск сайта на Timeweb — пошаговая инструкция</title>
+<title>Запуск сайта на Timeweb — инструкция</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; color: #24292f; line-height: 1.6; }
@@ -12,7 +12,15 @@
   .header h1 { font-size: 28px; margin-bottom: 8px; }
   .header p { color: #8b949e; font-size: 16px; }
 
-  .container { max-width: 860px; margin: 0 auto; padding: 32px 16px 64px; }
+  .container { max-width: 820px; margin: 0 auto; padding: 32px 16px 64px; }
+
+  .done-bar { background: #dafbe1; border: 1px solid #2da44e; border-radius: 10px; padding: 18px 24px; margin-bottom: 24px; font-size: 15px; }
+  .done-bar h3 { color: #1a7f37; font-size: 17px; margin-bottom: 10px; }
+  .done-bar ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .done-bar li::before { content: '✅ '; }
+
+  .now-bar { background: #ddf4ff; border: 2px solid #0969da; border-radius: 10px; padding: 18px 24px; margin-bottom: 28px; font-size: 15px; }
+  .now-bar h3 { color: #0969da; font-size: 18px; margin-bottom: 6px; }
 
   .step-block { background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.08); margin-bottom: 28px; overflow: hidden; }
   .step-header { display: flex; align-items: center; gap: 16px; padding: 20px 24px; background: #f6f8fa; border-bottom: 1px solid #d0d7de; }
@@ -20,7 +28,6 @@
   .step-header h2 { font-size: 18px; }
   .step-body { padding: 24px; }
 
-  /* GitHub UI mockups */
   .gh-window { border: 1px solid #d0d7de; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,.12); margin: 16px 0; }
   .gh-topbar { background: #161b22; padding: 10px 16px; display: flex; align-items: center; gap: 12px; }
   .gh-dots { display: flex; gap: 6px; }
@@ -30,389 +37,82 @@
   .gh-dot.green { background: #28c840; }
   .gh-url { background: #0d1117; color: #8b949e; font-size: 12px; padding: 4px 12px; border-radius: 4px; flex: 1; font-family: monospace; }
   .gh-content { background: #ffffff; padding: 20px; }
-  .gh-nav { background: #f6f8fa; border-bottom: 1px solid #d0d7de; padding: 0 20px; display: flex; gap: 0; }
-  .gh-nav-item { padding: 12px 16px; font-size: 14px; color: #57606a; cursor: default; border-bottom: 2px solid transparent; }
-  .gh-nav-item.active { color: #24292f; border-bottom-color: #fd8c73; font-weight: 600; }
 
-  .gh-section-title { font-size: 16px; font-weight: 600; padding: 16px 20px 12px; border-bottom: 1px solid #d0d7de; }
-  .gh-secret-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #d0d7de; font-size: 14px; }
-  .gh-secret-row:last-child { border-bottom: none; }
-  .secret-name { font-family: monospace; font-size: 13px; }
-  .secret-meta { color: #57606a; font-size: 12px; }
-
-  /* Highlighted button */
   .gh-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; border: 1px solid; text-decoration: none; }
   .gh-btn-green { background: #2da44e; color: #fff; border-color: rgba(27,31,36,.15); }
   .gh-btn-gray { background: #f6f8fa; color: #24292f; border-color: #d0d7de; }
 
-  .pulse-ring { animation: pulse 1.5s infinite; }
+  .pulse { animation: pulse 1.5s infinite; }
   @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(13,105,218,.4), 0 0 0 0 rgba(13,105,218,.2); }
-    50% { box-shadow: 0 0 0 8px rgba(13,105,218,.1), 0 0 0 16px rgba(13,105,218,.05); }
-  }
-  .highlight-btn { animation: highlight 1.5s infinite; }
-  @keyframes highlight {
     0%, 100% { box-shadow: 0 0 0 0 rgba(45,164,78,.5); }
     50% { box-shadow: 0 0 0 10px rgba(45,164,78,.1); }
   }
 
-  /* Arrow indicator */
-  .arrow-row { display: flex; align-items: center; gap: 12px; margin: 12px 0 4px; }
-  .arrow { font-size: 24px; color: #0969da; }
-  .arrow-text { font-size: 15px; font-weight: 600; color: #0969da; }
+  .run-dropdown { display: inline-flex; }
+  .run-main { background: #2da44e; color: #fff; padding: 6px 16px; border-radius: 6px 0 0 6px; font-size: 14px; font-weight: 500; border: none; }
+  .run-arrow-btn { background: #2da44e; color: #fff; padding: 6px 10px; border-radius: 0 6px 6px 0; font-size: 12px; border-left: 1px solid rgba(255,255,255,.2); border: none; border-left: 1px solid rgba(255,255,255,.25); }
 
-  /* Form mockup */
-  .gh-form-group { margin-bottom: 16px; }
-  .gh-label { font-size: 14px; font-weight: 600; display: block; margin-bottom: 6px; }
-  .gh-input { width: 100%; padding: 8px 12px; border: 1px solid #d0d7de; border-radius: 6px; font-size: 14px; font-family: monospace; background: #f6f8fa; }
-  .gh-input.filled { background: #fff; border-color: #0969da; }
-  .gh-input-value { color: #0969da; font-weight: 600; }
-  .gh-input-placeholder { color: #8b949e; }
+  .dropdown-panel { background: #fff; border: 1px solid #d0d7de; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.12); padding: 12px; max-width: 280px; }
+  .dropdown-label { font-size: 12px; color: #57606a; padding: 0 4px 8px; }
+  .dropdown-select { width: 100%; padding: 6px 8px; border: 1px solid #d0d7de; border-radius: 6px; font-size: 13px; margin-bottom: 10px; }
+  .dropdown-run { width: 100%; background: #2da44e; color: #fff; border: none; padding: 9px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; }
+
+  .workflow-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid #d0d7de; }
+  .workflow-name { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; }
 
   .tip-box { background: #ddf4ff; border: 1px solid #54aeff; border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 14px; }
-  .tip-box strong { color: #0969da; }
   .warn-box { background: #fff8c5; border: 1px solid #d4a72c; border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 14px; }
-
   .success-box { background: #dafbe1; border: 1px solid #82c91e; border-radius: 8px; padding: 20px; text-align: center; margin-top: 12px; }
-  .success-box .check { font-size: 48px; }
-  .success-box p { font-size: 16px; margin-top: 8px; }
+  .link-box { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 8px; padding: 14px 18px; margin: 12px 0; font-family: monospace; font-size: 14px; word-break: break-all; }
+  .link-box a { color: #0969da; }
 
-  .step-list { list-style: none; counter-reset: step-counter; }
-  .step-list li { counter-increment: step-counter; display: flex; gap: 14px; margin-bottom: 12px; font-size: 15px; align-items: flex-start; }
-  .step-list li::before { content: counter(step-counter); width: 26px; height: 26px; background: #0969da; color: #fff; border-radius: 50%; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .arrow-row { display: flex; align-items: center; gap: 12px; margin: 12px 0 4px; }
+  .arrow { font-size: 28px; color: #2da44e; }
+  .arrow-text { font-size: 15px; font-weight: 700; color: #2da44e; }
 
   .final-block { background: linear-gradient(135deg, #0d1117 0%, #161b22 100%); color: #fff; border-radius: 12px; padding: 32px; text-align: center; margin-top: 32px; }
   .final-block h2 { font-size: 22px; margin-bottom: 12px; }
   .final-block p { color: #8b949e; font-size: 15px; margin-bottom: 20px; }
   .final-url { display: inline-block; background: #238636; color: #fff; padding: 14px 28px; border-radius: 8px; font-size: 18px; font-weight: 700; text-decoration: none; }
 
-  .link-box { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 8px; padding: 14px 18px; margin: 12px 0; font-family: monospace; font-size: 14px; word-break: break-all; }
-  .link-box a { color: #0969da; }
-
-  .workflow-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-bottom: 1px solid #d0d7de; }
-  .workflow-name { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 500; }
-  .wf-icon { font-size: 20px; }
-  .run-dropdown { position: relative; display: inline-flex; }
-  .run-main { background: #2da44e; color: #fff; padding: 6px 16px; border-radius: 6px 0 0 6px; font-size: 14px; font-weight: 500; border: none; }
-  .run-arrow-btn { background: #2da44e; color: #fff; padding: 6px 10px; border-radius: 0 6px 6px 0; font-size: 12px; border-left: 1px solid rgba(255,255,255,.2); border-top: none; border-right: none; border-bottom: none; }
-
-  .dropdown-panel { position: absolute; top: calc(100% + 4px); right: 0; background: #fff; border: 1px solid #d0d7de; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,.12); padding: 8px; min-width: 200px; z-index: 10; }
-  .dropdown-label { font-size: 12px; color: #57606a; padding: 4px 8px 8px; }
-  .dropdown-select { width: 100%; padding: 6px 8px; border: 1px solid #d0d7de; border-radius: 6px; font-size: 13px; margin-bottom: 10px; }
-  .dropdown-run { width: 100%; background: #2da44e; color: #fff; border: none; padding: 8px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; }
-
-  @media (max-width: 600px) {
-    .gh-nav { flex-wrap: wrap; }
-    .workflow-row { flex-direction: column; gap: 12px; align-items: flex-start; }
-  }
+  .help-block { background: #fff; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.08); padding: 24px; margin-top: 28px; }
+  .help-block h3 { font-size: 16px; margin-bottom: 12px; }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <h1>🚀 Запуск сайта на Timeweb</h1>
-  <p>Пошаговая инструкция — картинка за картинкой</p>
+  <h1>🚀 Запустить сайт на Timeweb</h1>
+  <p>Осталось всего 2 клика</p>
 </div>
 
 <div class="container">
 
-  <!-- ШАГИ ВСТУПЛЕНИЕ -->
-  <div class="tip-box" style="margin-bottom: 24px;">
-    <strong>Что нужно сделать:</strong> Всего 3 части — один раз разрешить запуски, один раз добавить пароль, один раз нажать кнопку.
-    Займёт 7 минут. После этого сайт будет обновляться автоматически при любых изменениях.
+  <!-- СТАТУС: ЧТО УЖЕ СДЕЛАНО -->
+  <div class="done-bar">
+    <h3>Что вы уже сделали — всё ок:</h3>
+    <ul>
+      <li>Разрешили автоматические запуски в настройках</li>
+      <li>Одобрили ожидавший запуск</li>
+      <li>Добавили пароль TIMEWEB_PASSWORD</li>
+    </ul>
   </div>
 
-  <!-- ────────────────────────────────────────────────── -->
-  <!-- ШАГ 0: РАЗРЕШИТЬ АВТОЗАПУСКИ (ПЕРВЫМ ДЕЛОМ!)     -->
-  <!-- ────────────────────────────────────────────────── -->
-
-  <div class="step-block" style="border: 3px solid #cf222e;">
-    <div class="step-header" style="background:#fff0f0;">
-      <div class="step-num" style="background:#cf222e;">0</div>
-      <h2 style="color:#cf222e;">⚠️ ПЕРВЫМ ДЕЛОМ — Разрешить автоматические запуски</h2>
-    </div>
-    <div class="step-body">
-
-      <div style="background:#fff0f0; border:1px solid #f7d4d6; border-radius:8px; padding:16px; margin-bottom:20px; font-size:15px;">
-        <strong>Почему это нужно?</strong><br><br>
-        GitHub заметил что код в репозиторий добавляет не человек, а программа (Copilot). По умолчанию GitHub блокирует автоматические действия таких программ и ждёт, пока <em>вы лично</em> их не разрешите.<br><br>
-        Это нужно сделать <strong>один раз</strong>. После этого всё будет работать само.
-      </div>
-
-      <!-- ЧАСТЬ А: Исправить настройки -->
-      <p style="font-weight:700; font-size:16px; margin-bottom:12px;">Часть А — Изменить настройки (2 минуты)</p>
-
-      <p style="margin-bottom:10px;">Нажмите на эту ссылку:</p>
-      <div class="link-box">
-        <a href="https://github.com/bossssmann-ui/pacificstar.ru/settings/actions" target="_blank">
-          https://github.com/bossssmann-ui/pacificstar.ru/settings/actions
-        </a>
-      </div>
-
-      <p style="margin:14px 0 10px; font-weight:600;">Вы увидите страницу с настройками. Найдите раздел «Fork pull request workflows from outside collaborators»:</p>
-
-      <div class="gh-window">
-        <div class="gh-topbar">
-          <div class="gh-dots"><div class="gh-dot red"></div><div class="gh-dot yellow"></div><div class="gh-dot green"></div></div>
-          <div class="gh-url">github.com/bossssmann-ui/pacificstar.ru/settings/actions</div>
-        </div>
-        <div class="gh-content">
-          <div style="font-size:16px; font-weight:600; margin-bottom:16px;">Actions permissions</div>
-
-          <div style="border:2px solid #2da44e; border-radius:8px; padding:16px; background:#f0fff4;">
-            <div style="font-size:14px; font-weight:600; color:#24292f; margin-bottom:12px;">Fork pull request workflows from outside collaborators</div>
-            <div style="display:flex; flex-direction:column; gap:10px; font-size:14px;">
-              <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer;">
-                <input type="radio" style="margin-top:3px; width:16px; height:16px; accent-color:#2da44e;" checked>
-                <div>
-                  <div style="font-weight:600; color:#2da44e;">✅ Run workflows from all external collaborators</div>
-                  <div style="color:#57606a; font-size:13px; margin-top:2px;">Выберите это — разрешает запускать автоматически</div>
-                </div>
-              </label>
-              <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; opacity:0.5;">
-                <input type="radio" style="margin-top:3px; width:16px; height:16px;">
-                <div>
-                  <div>Require approval for first-time contributors who are new to GitHub</div>
-                </div>
-              </label>
-              <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; opacity:0.5;">
-                <input type="radio" style="margin-top:3px; width:16px; height:16px;">
-                <div>
-                  <div>Require approval for all outside collaborators</div>
-                  <div style="color:#57606a; font-size:13px; margin-top:2px;">Сейчас выбрано это — поэтому запуски блокируются</div>
-                </div>
-              </label>
-            </div>
-            <div style="margin-top:16px; display:flex; gap:10px; align-items:center;">
-              <a class="gh-btn gh-btn-green highlight-btn" style="border-radius:6px;">Save</a>
-              <span style="font-size:13px; color:#57606a;">← нажмите после выбора</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="arrow-row">
-        <div class="arrow">👆</div>
-        <div class="arrow-text">Выберите «Run workflows from all external collaborators» → нажмите «Save»</div>
-      </div>
-
-      <hr style="margin: 24px 0; border:none; border-top:1px solid #d0d7de;">
-
-      <!-- ЧАСТЬ Б: Одобрить уже ожидающий запуск -->
-      <p style="font-weight:700; font-size:16px; margin-bottom:12px;">Часть Б — Одобрить уже ожидающий запуск</p>
-
-      <p style="margin-bottom:10px;">После сохранения настроек — нажмите на эту ссылку (это уже запущенный процесс, который ждёт вашего одобрения):</p>
-
-      <div class="link-box">
-        <a href="https://github.com/bossssmann-ui/pacificstar.ru/actions/runs/22378931618" target="_blank">
-          https://github.com/bossssmann-ui/pacificstar.ru/actions/runs/22378931618
-        </a>
-      </div>
-
-      <p style="margin:14px 0 10px; font-weight:600;">На странице этого запуска будет жёлтый баннер — нажмите кнопку «Approve and run»:</p>
-
-      <div class="gh-window">
-        <div class="gh-topbar">
-          <div class="gh-dots"><div class="gh-dot red"></div><div class="gh-dot yellow"></div><div class="gh-dot green"></div></div>
-          <div class="gh-url">github.com/bossssmann-ui/pacificstar.ru/actions/runs/22378931618</div>
-        </div>
-        <div class="gh-content">
-          <!-- Yellow approval banner -->
-          <div style="background:#fff8c5; border:1px solid #d4a72c; border-radius:8px; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px;">
-            <div>
-              <div style="font-weight:600; font-size:14px; margin-bottom:4px;">⏳ Workflow awaiting approval</div>
-              <div style="font-size:13px; color:#57606a;">This workflow requires approval from an owner before it can run.</div>
-            </div>
-            <a class="gh-btn gh-btn-green highlight-btn" style="border-radius:6px; white-space:nowrap;">Approve and run</a>
-          </div>
-          <div style="color:#57606a; font-size:13px; text-align:center; padding:16px;">Deploy — pacificstar.ru на Timeweb · #12 · waiting for approval</div>
-        </div>
-      </div>
-
-      <div class="arrow-row">
-        <div class="arrow">👆</div>
-        <div class="arrow-text">Нажмите «Approve and run» — запуск начнётся сразу</div>
-      </div>
-
-      <div class="warn-box" style="margin-top:16px;">
-        <strong>Если жёлтого баннера нет</strong> — значит настройки в части А уже сохранены и запуск будет работать через кнопку «Run workflow» (шаг 4 ниже). Переходите к шагу 1.
-      </div>
-
-    </div>
+  <!-- ЧТО ОСТАЛОСЬ -->
+  <div class="now-bar">
+    <h3>Что осталось сделать:</h3>
+    <p style="font-size:16px; margin-top:4px;">Один раз нажать кнопку <strong>«Run workflow»</strong> — и сайт будет на Timeweb.</p>
   </div>
 
-  <!-- ────────────────────────────────────────────────── -->
-  <!-- ЧАСТЬ 1: ДОБАВИТЬ ПАРОЛЬ                         -->
-  <!-- ────────────────────────────────────────────────── -->
-
+  <!-- ────────── ШАГ 1 ────────── -->
   <div class="step-block">
     <div class="step-header">
       <div class="step-num">1</div>
-      <h2>Открыть страницу с секретами GitHub</h2>
-    </div>
-    <div class="step-body">
-
-      <p style="margin-bottom:12px;">Нажмите на ссылку ниже — откроется нужная страница в вашем браузере:</p>
-
-      <div class="link-box">
-        <a href="https://github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions" target="_blank">
-          https://github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions
-        </a>
-      </div>
-
-      <p style="margin:12px 0 16px;color:#57606a;font-size:14px;">Если попросит войти — войдите под своим аккаунтом GitHub (bossssmann-ui).</p>
-
-      <p style="font-weight:600; margin-bottom:8px;">Вы увидите примерно такую страницу:</p>
-
-      <div class="gh-window">
-        <div class="gh-topbar">
-          <div class="gh-dots"><div class="gh-dot red"></div><div class="gh-dot yellow"></div><div class="gh-dot green"></div></div>
-          <div class="gh-url">github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions</div>
-        </div>
-        <div class="gh-nav">
-          <div class="gh-nav-item">General</div>
-          <div class="gh-nav-item">Access</div>
-          <div class="gh-nav-item">Branches</div>
-          <div class="gh-nav-item active">Secrets and variables</div>
-          <div class="gh-nav-item">Pages</div>
-        </div>
-        <div class="gh-content">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-            <div>
-              <div style="font-size:16px; font-weight:600;">Actions secrets and variables</div>
-              <div style="font-size:13px; color:#57606a; margin-top:4px;">Secrets are encrypted. Anyone with write access can use secrets, but not view them.</div>
-            </div>
-            <a class="gh-btn gh-btn-green highlight-btn" style="border-radius:6px;">
-              + New repository secret
-            </a>
-          </div>
-          <div style="border:1px solid #d0d7de; border-radius:6px; overflow:hidden;">
-            <div style="background:#f6f8fa; padding:10px 16px; font-size:13px; font-weight:600; border-bottom:1px solid #d0d7de; color:#57606a;">
-              Repository secrets
-            </div>
-            <div style="padding:20px; text-align:center; color:#57606a; font-size:14px;">
-              There are no secrets yet.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="arrow-row">
-        <div class="arrow">👆</div>
-        <div class="arrow-text">Нажмите зелёную кнопку «+ New repository secret»</div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ────────────────────────────────────────────────── -->
-
-  <div class="step-block">
-    <div class="step-header">
-      <div class="step-num">2</div>
-      <h2>Заполнить форму (2 поля)</h2>
-    </div>
-    <div class="step-body">
-
-      <p style="margin-bottom:16px;">После клика на кнопку откроется форма. Заполните два поля:</p>
-
-      <div class="gh-window">
-        <div class="gh-topbar">
-          <div class="gh-dots"><div class="gh-dot red"></div><div class="gh-dot yellow"></div><div class="gh-dot green"></div></div>
-          <div class="gh-url">github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions/new</div>
-        </div>
-        <div class="gh-content">
-          <div style="font-size:20px; font-weight:600; margin-bottom:20px;">New secret</div>
-
-          <div class="gh-form-group">
-            <label class="gh-label">Name <span style="color:#cf222e;">*</span></label>
-            <div style="position:relative;">
-              <input class="gh-input filled" readonly value="TIMEWEB_PASSWORD" style="color:#0969da; font-weight:700; font-size:15px;">
-            </div>
-            <div style="font-size:12px; color:#57606a; margin-top:4px;">Напишите точно так, буква в букву, всё заглавными</div>
-          </div>
-
-          <div class="gh-form-group">
-            <label class="gh-label">Secret <span style="color:#cf222e;">*</span></label>
-            <textarea class="gh-input filled" rows="3" readonly style="resize:none; font-size:15px; color: #8b949e; letter-spacing:3px;">●●●●●●●●●●●●</textarea>
-            <div style="font-size:12px; color:#57606a; margin-top:4px;">Сюда вводите ваш пароль от Timeweb (тот, которым входите в панель управления)</div>
-          </div>
-
-          <a class="gh-btn gh-btn-green highlight-btn" style="border-radius:6px; margin-top:8px;">
-            Add secret
-          </a>
-        </div>
-      </div>
-
-      <div class="tip-box" style="margin-top:16px;">
-        <strong>Поле Name:</strong> введите ровно <code style="background:#e1f0ff;padding:1px 6px;border-radius:3px;">TIMEWEB_PASSWORD</code> — заглавными, без пробелов<br><br>
-        <strong>Поле Secret:</strong> введите ваш пароль от Timeweb<br><br>
-        Затем нажмите зелёную кнопку <strong>«Add secret»</strong>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ────────────────────────────────────────────────── -->
-
-  <div class="step-block">
-    <div class="step-header">
-      <div class="step-num">3</div>
-      <h2>Убедиться что пароль добавлен</h2>
-    </div>
-    <div class="step-body">
-
-      <p style="margin-bottom:16px;">После нажатия «Add secret» вернётесь на предыдущую страницу. Теперь она будет выглядеть так:</p>
-
-      <div class="gh-window">
-        <div class="gh-topbar">
-          <div class="gh-dots"><div class="gh-dot red"></div><div class="gh-dot yellow"></div><div class="gh-dot green"></div></div>
-          <div class="gh-url">github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions</div>
-        </div>
-        <div class="gh-content">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-            <div style="font-size:16px; font-weight:600;">Actions secrets and variables</div>
-            <a class="gh-btn gh-btn-green" style="border-radius:6px;">+ New repository secret</a>
-          </div>
-          <div style="border:1px solid #d0d7de; border-radius:6px; overflow:hidden;">
-            <div style="background:#f6f8fa; padding:10px 16px; font-size:13px; font-weight:600; border-bottom:1px solid #d0d7de; color:#57606a;">
-              Repository secrets (1)
-            </div>
-            <div class="gh-secret-row">
-              <div>
-                <div class="secret-name" style="font-size:15px; font-weight:600;">TIMEWEB_PASSWORD</div>
-                <div class="secret-meta" style="margin-top:2px;">Updated just now</div>
-              </div>
-              <div style="display:flex;gap:8px;">
-                <a class="gh-btn gh-btn-gray" style="font-size:12px; padding:4px 12px;">Update</a>
-                <a class="gh-btn" style="font-size:12px; padding:4px 12px; background:#fff1f0; color:#cf222e; border-color:#f7d4d6;">Remove</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="success-box">
-        <div class="check">✅</div>
-        <p><strong>Отлично! Пароль добавлен.</strong><br>Теперь переходим к запуску.</p>
-      </div>
-
-    </div>
-  </div>
-
-
-  <!-- ────────────────────────────────────────────────── -->
-  <!-- ЧАСТЬ 2: ЗАПУСТИТЬ ДЕПЛОЙ                        -->
-  <!-- ────────────────────────────────────────────────── -->
-
-  <div class="step-block">
-    <div class="step-header">
-      <div class="step-num">4</div>
       <h2>Открыть страницу запуска</h2>
     </div>
     <div class="step-body">
 
-      <p style="margin-bottom:12px;">Нажмите на ссылку:</p>
+      <p style="margin-bottom:12px;">Нажмите на эту ссылку (откроется в новой вкладке):</p>
 
       <div class="link-box">
         <a href="https://github.com/bossssmann-ui/pacificstar.ru/actions/workflows/tilda-deploy.yml" target="_blank">
@@ -420,25 +120,7 @@
         </a>
       </div>
 
-      <!-- ⚠️ ВАЖНОЕ ПРЕДУПРЕЖДЕНИЕ — ИМЕННО ЭТО ЗАПУТАЛО ПОЛЬЗОВАТЕЛЯ -->
-      <div style="background:#fff0f0; border:2px solid #cf222e; border-radius:10px; padding:16px 20px; margin:16px 0;">
-        <div style="font-size:16px; font-weight:700; color:#cf222e; margin-bottom:10px;">⚠️ ВНИМАНИЕ — ДВЕ РАЗНЫЕ КНОПКИ НА ОДНОЙ СТРАНИЦЕ!</div>
-        <p style="font-size:14px; margin-bottom:10px;">На этой странице есть <strong>строка-фильтр</strong> слева и <strong>кнопка запуска</strong> справа. Они похожи, но делают разное:</p>
-        <div style="display:flex; gap:12px; flex-wrap:wrap;">
-          <div style="flex:1; min-width:200px; background:#fff8f8; border:1.5px solid #cf222e; border-radius:8px; padding:12px;">
-            <div style="font-size:22px; margin-bottom:6px;">❌ НЕ ЭТА</div>
-            <div style="font-size:13px; font-weight:600; color:#cf222e; margin-bottom:4px;">Строка фильтра (слева)</div>
-            <div style="font-size:12px; color:#57606a;">Если нажать — откроется меню с пунктами:<br><strong>«actor», «branch», «event», «is»</strong><br><br>Это фильтр для поиска по истории запусков. Нам не нужен.</div>
-          </div>
-          <div style="flex:1; min-width:200px; background:#f0fff4; border:2px solid #2da44e; border-radius:8px; padding:12px;">
-            <div style="font-size:22px; margin-bottom:6px;">✅ ВОТ ЭТА</div>
-            <div style="font-size:13px; font-weight:600; color:#2da44e; margin-bottom:4px;">Кнопка «Run workflow» (справа)</div>
-            <div style="font-size:12px; color:#57606a;">Отдельная кнопка, она находится <strong>справа сверху</strong> над списком запусков.<br><br>Если нажать — появится маленькое меню с зелёной кнопкой внутри.</div>
-          </div>
-        </div>
-      </div>
-
-      <p style="margin:14px 0 16px;font-weight:600;">Вот как выглядит страница — нужная кнопка обведена зелёным:</p>
+      <p style="margin:14px 0 10px; font-weight:600;">Вы увидите такую страницу. Ищите кнопку <strong>«Run workflow»</strong> справа:</p>
 
       <div class="gh-window">
         <div class="gh-topbar">
@@ -450,176 +132,157 @@
           <div style="padding:12px 0; border-bottom:2px solid #fd8c73; font-weight:600; color:#24292f;">Deploy — pacificstar.ru на Timeweb</div>
         </div>
         <div class="gh-content">
-          <!-- Top bar with BOTH buttons clearly shown -->
           <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:14px; border-bottom:1px solid #d0d7de; margin-bottom:14px; gap:12px; flex-wrap:wrap;">
 
-            <!-- LEFT: Filter bar (wrong one) -->
-            <div style="position:relative; flex:1; min-width:180px;">
-              <div style="border:2px solid #cf222e; border-radius:8px; overflow:hidden;">
-                <div style="background:#f6f8fa; border:1px solid #d0d7de; border-radius:6px; padding:7px 12px; font-size:13px; color:#8b949e; display:flex; align-items:center; gap:6px;">
+            <!-- Фильтр слева — NOT this -->
+            <div style="flex:1; min-width:160px;">
+              <div style="border:2px solid #cf222e; border-radius:8px; padding:3px;">
+                <div style="background:#f6f8fa; border:1px solid #d0d7de; border-radius:5px; padding:7px 12px; font-size:13px; color:#8b949e; display:flex; align-items:center; gap:6px;">
                   <span>🔍</span> Filter workflow runs
                 </div>
               </div>
-              <div style="text-align:center; margin-top:6px; font-size:12px; font-weight:700; color:#cf222e;">❌ НЕ СЮДА<br>(это фильтр — открывает actor/branch/event/is)</div>
+              <div style="text-align:center; font-size:11px; font-weight:700; color:#cf222e; margin-top:4px;">❌ НЕ ЭТА — открывает actor/branch/event/is</div>
             </div>
 
-            <!-- RIGHT: Run workflow button (correct one) -->
-            <div style="position:relative;">
-              <div style="border:3px solid #2da44e; border-radius:10px; padding:3px; box-shadow: 0 0 0 4px rgba(45,164,78,0.2);">
+            <!-- Кнопка справа — THIS ONE -->
+            <div>
+              <div style="border:3px solid #2da44e; border-radius:10px; padding:4px; box-shadow: 0 0 0 6px rgba(45,164,78,.15);">
                 <div class="run-dropdown">
-                  <button class="run-main highlight-btn" style="cursor:default;">Run workflow</button>
+                  <button class="run-main pulse" style="cursor:default;">Run workflow</button>
                   <button class="run-arrow-btn" style="cursor:default;">▾</button>
                 </div>
               </div>
-              <div style="text-align:center; margin-top:6px; font-size:12px; font-weight:700; color:#2da44e;">✅ НАЖАТЬ СЮДА!</div>
+              <div style="text-align:center; font-size:12px; font-weight:700; color:#2da44e; margin-top:4px;">✅ НАЖАТЬ СЮДА!</div>
             </div>
 
           </div>
-          <div style="color:#57606a; font-size:13px; text-align:center; padding:16px;">
-            (список запусков пока пуст — это нормально)
+          <div style="color:#8b949e; font-size:13px; text-align:center; padding:16px;">
+            (список запусков будет здесь — пока пустой, это нормально)
           </div>
         </div>
       </div>
 
-      <div class="tip-box" style="margin-top:16px;">
-        <strong>Если кнопки «Run workflow» не видно:</strong><br>
-        Возможно страница показывает историю в виде таблицы — прокрутите немного вверх, кнопка должна быть в верхней правой части страницы над таблицей.
+      <div class="warn-box">
+        <strong>Не видите кнопку «Run workflow»?</strong><br>
+        Прокрутите страницу немного вверх — кнопка находится над списком запусков, в правой части экрана.
+        Если на экране мало места — она может быть чуть ниже строки поиска.
       </div>
 
     </div>
   </div>
 
-  <!-- ────────────────────────────────────────────────── -->
-
+  <!-- ────────── ШАГ 2 ────────── -->
   <div class="step-block">
     <div class="step-header">
-      <div class="step-num">5</div>
-      <h2>Подтвердить запуск в выпавшем меню</h2>
+      <div class="step-num">2</div>
+      <h2>Нажать кнопку внутри появившегося меню</h2>
     </div>
     <div class="step-body">
 
-      <p style="margin-bottom:16px;">После клика появится маленькое меню — нажмите зелёную кнопку внутри него:</p>
+      <p style="margin-bottom:16px;">После клика на «Run workflow» появится маленькое окошко. <strong>Ничего не меняйте</strong> — просто нажмите зелёную кнопку внутри:</p>
 
-      <div class="gh-window" style="max-width:320px;">
-        <div class="gh-content" style="padding:12px;">
-          <div class="dropdown-panel" style="position:relative; top:0; box-shadow:none; border:none; padding:0;">
-            <div class="dropdown-label">Use workflow from</div>
-            <select class="dropdown-select">
-              <option>Branch: copilot/refactor-site-description</option>
-            </select>
-            <button class="dropdown-run highlight-btn">Run workflow</button>
-          </div>
+      <div style="display:flex; justify-content:center; margin:16px 0;">
+        <div class="dropdown-panel">
+          <div class="dropdown-label">Use workflow from</div>
+          <select class="dropdown-select" disabled>
+            <option>Branch: copilot/refactor-site-description</option>
+          </select>
+          <button class="dropdown-run pulse" style="cursor:default;">Run workflow</button>
         </div>
       </div>
 
       <div class="arrow-row">
         <div class="arrow">👆</div>
-        <div class="arrow-text">Нажмите зелёную кнопку «Run workflow» внутри меню</div>
+        <div class="arrow-text">Нажмите зелёную кнопку «Run workflow»</div>
       </div>
 
-      <div class="tip-box" style="margin-top:16px;">
-        <strong>Ветку менять не нужно</strong> — оставьте как есть. Просто нажмите зелёную кнопку.
+      <div class="tip-box">
+        <strong>Ветку менять не нужно.</strong> Оставьте всё как есть — просто нажмите зелёную кнопку.
       </div>
 
     </div>
   </div>
 
-  <!-- ────────────────────────────────────────────────── -->
-
+  <!-- ────────── ШАГ 3 ────────── -->
   <div class="step-block">
     <div class="step-header">
-      <div class="step-num">6</div>
+      <div class="step-num">3</div>
       <h2>Подождать 1–2 минуты</h2>
     </div>
     <div class="step-body">
 
-      <p style="margin-bottom:16px;">После нажатия страница обновится. Появится строчка с жёлтым кружком — это значит «идёт загрузка»:</p>
+      <p style="margin-bottom:16px;">Страница обновится. Появится строчка с жёлтым кружком — это значит «идёт загрузка»:</p>
 
       <div class="gh-window">
-        <div class="gh-topbar">
-          <div class="gh-dots"><div class="gh-dot red"></div><div class="gh-dot yellow"></div><div class="gh-dot green"></div></div>
-          <div class="gh-url">github.com/bossssmann-ui/pacificstar.ru/actions/workflows/tilda-deploy.yml</div>
-        </div>
-        <div class="gh-content">
+        <div class="gh-content" style="padding:0;">
           <div class="workflow-row">
             <div class="workflow-name">
               <span style="font-size:20px;">🟡</span>
               <div>
-                <div style="font-size:14px; font-weight:500;">feat: configure Timeweb auto-deploy</div>
-                <div style="font-size:12px; color:#57606a; margin-top:2px;">Deploy — pacificstar.ru · Идёт загрузка...</div>
+                <div style="font-size:14px; font-weight:500;">Deploy — pacificstar.ru на Timeweb</div>
+                <div style="font-size:12px; color:#57606a; margin-top:2px;">🚀 Загрузить сайт на Timeweb · идёт загрузка...</div>
               </div>
             </div>
-            <div style="font-size:12px; color:#57606a;">запущен 1 минуту назад</div>
+            <div style="font-size:12px; color:#57606a;">1 минуту назад</div>
           </div>
         </div>
       </div>
 
-      <p style="margin: 16px 0; font-size:15px;">Подождите 1–2 минуты. Жёлтый кружок должен смениться на зелёную галочку ✅:</p>
+      <p style="margin:16px 0; font-size:15px;">Через 1–2 минуты жёлтый кружок сменится на зелёную галочку ✅:</p>
 
       <div class="gh-window">
-        <div class="gh-content">
+        <div class="gh-content" style="padding:0;">
           <div class="workflow-row">
             <div class="workflow-name">
               <span style="font-size:20px;">✅</span>
               <div>
-                <div style="font-size:14px; font-weight:500;">feat: configure Timeweb auto-deploy</div>
-                <div style="font-size:12px; color:#57606a; margin-top:2px;">Deploy — pacificstar.ru · Успешно</div>
+                <div style="font-size:14px; font-weight:500;">Deploy — pacificstar.ru на Timeweb</div>
+                <div style="font-size:12px; color:#1a7f37; margin-top:2px;">🚀 Загрузить сайт на Timeweb · успешно</div>
               </div>
             </div>
-            <div style="font-size:12px; color:#57606a;">1 минуту назад · 1m 23s</div>
+            <div style="font-size:12px; color:#57606a;">1 минуту назад · 1m 18s</div>
           </div>
         </div>
       </div>
 
+      <div class="success-box" style="margin-top:16px;">
+        <div style="font-size:48px;">🎉</div>
+        <p style="font-size:16px; margin-top:8px;"><strong>Зелёная галочка = сайт загружен на Timeweb!</strong></p>
+      </div>
+
       <div class="warn-box" style="margin-top:16px;">
-        <strong>⚠️ Если вместо ✅ появился красный крест ❌ или жёлтый значок ⏳</strong><br><br>
-        Два варианта:<br>
-        1. Нажмите на строку с крестом/значком — откроется страница запуска. Если увидите кнопку <strong>«Approve and run»</strong> — нажмите её.<br>
-        2. Сделайте скриншот и прикрепите его в сообщение к <a href="https://github.com/bossssmann-ui/pacificstar.ru/pulls" target="_blank">нашему PR</a> — я разберусь за 5 минут.
+        <strong>Появился красный крест ❌ или значок ⏳ «ожидает»?</strong><br><br>
+        Не переживайте — нажмите на эту строчку, откроется страница с деталями.
+        Сделайте скриншот и напишите мне в <a href="https://github.com/bossssmann-ui/pacificstar.ru/pulls" target="_blank">Pull Request</a> — разберусь за 5 минут.
       </div>
 
     </div>
   </div>
 
-  <!-- ────────────────────────────────────────────────── -->
-
+  <!-- ФИНАЛ -->
   <div class="final-block">
-    <h2>🎉 Готово!</h2>
-    <p>После зелёной галочки откройте ваш сайт:</p>
+    <h2>🌟 Сайт запущен!</h2>
+    <p>После зелёной галочки — откройте ваш сайт:</p>
     <a class="final-url" href="https://pacificstar.ru/" target="_blank">pacificstar.ru</a>
-    <p style="margin-top:20px; font-size:14px;">Теперь каждый раз когда я буду вносить правки — сайт обновится автоматически в течение 2 минут.<br>Ничего дополнительно нажимать не нужно.</p>
+    <p style="margin-top:24px; font-size:14px; color:#8b949e;">
+      Теперь когда мне нужно будет обновить сайт — я скажу вам нажать «Run workflow» ещё раз.<br>
+      Занимает 30 секунд и 2 клика.
+    </p>
   </div>
 
-  <!-- ────────────────────────────────────────────────── -->
-  <!-- КАК ПРИСЛАТЬ СКРИНШОТ                            -->
-  <!-- ────────────────────────────────────────────────── -->
-
-  <div class="step-block" style="margin-top:28px;">
-    <div class="step-header">
-      <div class="step-num" style="background:#8250df;">?</div>
-      <h2>Как прислать мне скриншот?</h2>
-    </div>
-    <div class="step-body">
-
-      <p style="margin-bottom:16px;">Если что-то пошло не так — пришлите скриншот вот так:</p>
-
-      <ul class="step-list">
-        <li>На клавиатуре нажмите <strong>Print Screen</strong> (или <strong>Win+Shift+S</strong> на Windows, <strong>Cmd+Shift+4</strong> на Mac) — выделите нужную область экрана</li>
-        <li>Откройте страницу нашего проекта: <a href="https://github.com/bossssmann-ui/pacificstar.ru/pulls" target="_blank">github.com/bossssmann-ui/pacificstar.ru/pulls</a></li>
-        <li>Нажмите на открытый Pull Request (Pull request №1)</li>
-        <li>Прокрутите вниз до поля «Leave a comment»</li>
-        <li>Вставьте скриншот в поле комментария <strong>Ctrl+V</strong> (или перетащите файл мышью)</li>
-        <li>Нажмите зелёную кнопку <strong>«Comment»</strong></li>
-      </ul>
-
-      <div class="tip-box" style="margin-top:16px;">
-        <strong>Проще:</strong> Просто опишите что вы видите — «красный крест», «кнопки нет», «страница пустая» — и я разберусь. Скриншот необязателен.
-      </div>
-
-    </div>
+  <!-- КАК ПРИСЛАТЬ СКРИНШОТ -->
+  <div class="help-block">
+    <h3>❓ Как прислать скриншот если что-то пошло не так?</h3>
+    <ol style="margin-left:20px; font-size:14px; display:flex; flex-direction:column; gap:10px; margin-top:10px;">
+      <li>Нажмите <kbd style="background:#f6f8fa; border:1px solid #d0d7de; padding:2px 6px; border-radius:3px;">Print Screen</kbd> или <kbd style="background:#f6f8fa; border:1px solid #d0d7de; padding:2px 6px; border-radius:3px;">Cmd+Shift+4</kbd> на Mac</li>
+      <li>Откройте страницу нашего проекта: <a href="https://github.com/bossssmann-ui/pacificstar.ru/pulls" target="_blank">github.com/bossssmann-ui/pacificstar.ru/pulls</a></li>
+      <li>Нажмите на Pull Request #1</li>
+      <li>Прокрутите вниз до поля «Leave a comment»</li>
+      <li>Нажмите в поле и нажмите <kbd style="background:#f6f8fa; border:1px solid #d0d7de; padding:2px 6px; border-radius:3px;">Ctrl+V</kbd> (или Cmd+V на Mac) — скриншот вставится</li>
+      <li>Нажмите зелёную кнопку «Comment» — я увижу</li>
+    </ol>
   </div>
 
 </div>
-
 </body>
 </html>
