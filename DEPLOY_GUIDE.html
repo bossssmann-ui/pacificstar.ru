@@ -565,38 +565,114 @@ hr { border: none; border-top: 2px solid #e2e8f0; margin: 32px 0; }
   </div>
 </div>
 
-<!-- STEP 6: MOVE FILES -->
+<!-- STEP 6: CHECK FILES ARE IN RIGHT PLACE -->
 <div class="step">
   <div class="step-header">
     <div class="step-num">6</div>
     <div>
-      <div class="step-title">Переместите файлы (если нужно)</div>
+      <div class="step-title">Проверьте — файлы лежат правильно?</div>
       <div class="step-time">⏱ 1 минута</div>
     </div>
   </div>
   <div class="step-body">
-    <p>После распаковки появится папка с длинным названием. Откройте её — внутри должны быть <strong>вот эти файлы</strong>:</p>
 
-    <div class="file-list">
-      <div><span class="html">index.html</span> — главная страница</div>
-      <div><span class="html">about.html</span> — о компании</div>
-      <div><span class="html">services.html</span> — услуги</div>
-      <div><span class="html">contacts.html</span> — контакты</div>
-      <div><span class="html">remote-regions.html</span> — северный завоз</div>
-      <div><span class="html">account.html</span> — личный кабинет</div>
-      <div><span class="html">integrations.html</span> — интеграции</div>
-      <div><span class="html">privacy.html</span> — политика</div>
-      <div><span class="folder">css/</span> — стили (папка)</div>
-      <div><span class="folder">js/</span> — скрипты (папка)</div>
-      <div><span class="folder">img/</span> — изображения (папка)</div>
+    <p>После распаковки ZIP-архива нужно убедиться, что файлы сайта лежат в правильном месте.<br><strong>Объясняю по-простому:</strong></p>
+
+    <p style="margin-top:12px;">Представьте, что <strong>public_html</strong> — это <strong>витрина магазина</strong>. Посетители сайта видят то, что лежит прямо на витрине. Если товар спрятан в коробку внутри коробки — никто его не увидит.</p>
+
+    <!-- WRONG vs RIGHT -->
+    <div style="display:flex;gap:14px;flex-wrap:wrap;margin:20px 0;">
+
+      <!-- WRONG -->
+      <div style="flex:1;min-width:220px;">
+        <div style="background:#fef2f2;border:2px solid #fca5a5;border-radius:10px;overflow:hidden;">
+          <div style="background:#ef4444;color:#fff;padding:10px 14px;font-weight:700;font-size:14px;">
+            ❌ НЕПРАВИЛЬНО — сайт не откроется
+          </div>
+          <div style="padding:14px;font-size:13px;font-family:monospace;line-height:2;">
+            <div style="color:#0a3d6b;font-weight:700;">📁 public_html/</div>
+            <div style="padding-left:20px;color:#ef4444;">
+              📁 pacificstar.ru-copilot-.../
+              <div style="padding-left:20px;color:#94a3b8;">
+                📄 index.html<br>
+                📄 about.html<br>
+                📁 css/<br>
+                📁 js/
+              </div>
+            </div>
+          </div>
+          <div style="background:#fee2e2;padding:10px 14px;font-size:12px;color:#b91c1c;">
+            ⚠ Файлы внутри <em>подпапки</em> — посетитель зайдёт на pacificstar.ru и увидит пустую страницу
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div style="flex:1;min-width:220px;">
+        <div style="background:#f0fdf4;border:2px solid #86efac;border-radius:10px;overflow:hidden;">
+          <div style="background:#16a34a;color:#fff;padding:10px 14px;font-weight:700;font-size:14px;">
+            ✅ ПРАВИЛЬНО — сайт откроется
+          </div>
+          <div style="padding:14px;font-size:13px;font-family:monospace;line-height:2;">
+            <div style="color:#0a3d6b;font-weight:700;">📁 public_html/</div>
+            <div style="padding-left:20px;">
+              <span style="color:#16a34a;font-weight:700;">📄 index.html</span> ← сразу здесь!<br>
+              <span style="color:#16a34a;">📄 about.html</span><br>
+              <span style="color:#16a34a;">📄 services.html</span><br>
+              <span style="color:#7c3aed;">📁 css/</span><br>
+              <span style="color:#7c3aed;">📁 js/</span>
+            </div>
+          </div>
+          <div style="background:#dcfce7;padding:10px 14px;font-size:12px;color:#166534;">
+            ✅ Файлы лежат <em>прямо</em> в public_html — посетитель видит сайт
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <p>Выделите <strong>все эти файлы и папки</strong> (Ctrl+A) и переместите их в <strong>корень public_html</strong> — не в подпапку, а прямо в public_html.</p>
+    <!-- HOW TO CHECK -->
+    <p style="font-weight:700;font-size:15px;margin-bottom:10px;">Как проверить — 3 секунды:</p>
 
-    <div class="tip">
-      <strong>Проверка:</strong> Если открыть public_html и сразу виден файл <code>index.html</code> — всё правильно!<br>
-      Если виден только файл ZIP или папка — нужно переместить файлы на уровень выше.
+    <div style="background:#f8fafc;border:2px solid #d0dae6;border-radius:10px;padding:16px;margin-bottom:16px;">
+      <p style="margin-bottom:12px;">Зайдите в <strong>Файловый менеджер → public_html</strong> и посмотрите что вы видите:</p>
+
+      <table style="width:100%;border-collapse:collapse;font-size:14px;">
+        <thead>
+          <tr style="background:#e8ecf0;">
+            <th style="padding:10px;text-align:left;border-radius:6px 0 0 0;">Что вижу в public_html</th>
+            <th style="padding:10px;text-align:left;border-radius:0 6px 0 0;">Что это значит</th>
+            <th style="padding:10px;text-align:left;">Что делать</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #e8ecf0;background:#f0fdf4;">
+            <td style="padding:10px;">📄 index.html, 📄 about.html, 📁 css, 📁 js</td>
+            <td style="padding:10px;color:#166534;font-weight:700;">✅ Всё правильно!</td>
+            <td style="padding:10px;color:#166534;">Переходите к Шагу 7</td>
+          </tr>
+          <tr style="border-bottom:1px solid #e8ecf0;background:#fef9f0;">
+            <td style="padding:10px;">📁 pacificstar.ru-copilot-... (одна папка)</td>
+            <td style="padding:10px;color:#92400e;font-weight:700;">⚠️ Файлы внутри папки</td>
+            <td style="padding:10px;color:#92400e;">Зайдите в эту папку, выделите всё (Ctrl+A), вырежьте (Ctrl+X), вернитесь в public_html, вставьте (Ctrl+V)</td>
+          </tr>
+          <tr style="background:#fef2f2;">
+            <td style="padding:10px;">📦 pacificstar.ru...zip (архив, не распакован)</td>
+            <td style="padding:10px;color:#b91c1c;font-weight:700;">❌ Не распаковали</td>
+            <td style="padding:10px;color:#b91c1c;">Вернитесь к Шагу 5 — нажмите правой кнопкой на ZIP → «Распаковать»</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+
+    <!-- SIMPLE TIP FOR "I don't understand" -->
+    <div style="background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:16px;font-size:14px;color:#1e3a5f;">
+      <strong>💡 Самый простой способ проверить:</strong><br><br>
+      Откройте новую вкладку в браузере и введите адрес <strong>pacificstar.ru</strong><br><br>
+      — Если открылся красивый сайт с синей шапкой и названием «Тихоокеанская звезда» → <strong style="color:#16a34a;">всё правильно! ✅</strong><br>
+      — Если страница пустая или пишет «Сайт не найден» → <strong style="color:#ef4444;">файлы лежат в подпапке</strong> (смотрите таблицу выше)
+    </div>
+
   </div>
 </div>
 
