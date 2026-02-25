@@ -1,4 +1,4 @@
-name: Deploy — Timeweb + GitHub Pages
+name: Deploy — Timeweb pacificstar.ru
 
 # Запускается автоматически при каждом обновлении кода
 on:
@@ -10,50 +10,28 @@ on:
 
 jobs:
   # ─────────────────────────────────────────────────────────────
-  # JOB 1: Автодеплой на Timeweb (SSH/rsync)
-  # Запускается когда добавлен секрет VPS_HOST
+  # JOB 1: Автодеплой на Timeweb (rsync + SSH с паролем)
+  # Сервер: 185.114.247.170  |  Логин: ct38770
+  # Пароль — в GitHub Secrets → TIMEWEB_PASSWORD (никогда в коде!)
   # Инструкция: TIMEWEB_DEPLOY.md
   # ─────────────────────────────────────────────────────────────
   deploy-timeweb:
     runs-on: ubuntu-latest
-    # Пропускается, пока не добавлены SSH-секреты
-    if: ${{ secrets.VPS_HOST != '' }}
+    # Пропускается, пока не добавлен секрет TIMEWEB_PASSWORD
+    if: ${{ secrets.TIMEWEB_PASSWORD != '' }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Скачать код сайта
+        uses: actions/checkout@v4
 
-      - name: Установить SSH-ключ
+      - name: Установить sshpass (нужен для пароля)
+        run: sudo apt-get install -y sshpass
+
+      - name: Принять SSH-ключ сервера (без ручного подтверждения)
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+          ssh-keyscan -p 22 -H 185.114.247.170 >> ~/.ssh/known_hosts 2>/dev/null || true
 
-      - name: Загрузить файлы сайта на Timeweb
-        run: |
-          rsync -avz --delete \
-            --exclude='.git/' \
-            --exclude='.github/' \
-            --exclude='node_modules/' \
-            --exclude='previews/' \
-            --exclude='*.md' \
-            --exclude='package*.json' \
-            --exclude='.htmlvalidate.json' \
-            --exclude='.gitignore' \
-            ./ \
-            "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}"
-
-  # ─────────────────────────────────────────────────────────────
-  # JOB 2: Автодеплой на Timeweb через SFTP (альтернативный)
-  # Используется если SSH-ключ недоступен, но есть логин/пароль
-  # Запускается когда добавлены секреты FTP_HOST + FTP_PASSWORD
-  # ─────────────────────────────────────────────────────────────
-  deploy-timeweb-sftp:
-    runs-on: ubuntu-latest
-    if: ${{ secrets.FTP_HOST != '' && secrets.VPS_HOST == '' }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Подготовить файлы для загрузки
+      - name: Подготовить папку с файлами сайта
         run: |
           mkdir -p /tmp/site
           rsync -a \
@@ -62,25 +40,38 @@ jobs:
             --exclude='node_modules/' \
             --exclude='previews/' \
             --exclude='*.md' \
+            --exclude='TILDA_*' \
+            --exclude='HOSTING_*' \
+            --exclude='TIMEWEB_*' \
+            --exclude='SESSION_*' \
             --exclude='package*.json' \
             --exclude='.htmlvalidate.json' \
             --exclude='.gitignore' \
             ./ /tmp/site/
 
-      - name: Загрузить на Timeweb через SFTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: /tmp/site/
-          server-dir: ${{ secrets.FTP_PATH }}
-          protocol: ftps
-          port: 21
+      - name: Загрузить файлы сайта на Timeweb
+        env:
+          SSHPASS: ${{ secrets.TIMEWEB_PASSWORD }}
+        run: |
+          sshpass -e rsync -avz --delete \
+            -e "ssh -p 22 -o StrictHostKeyChecking=no" \
+            /tmp/site/ \
+            ct38770@185.114.247.170:/home/ct38770/public_html/
+
+      - name: Проверить что сайт доступен
+        run: |
+          sleep 5
+          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 10 http://pacificstar.ru/ || echo "000")
+          echo "HTTP статус: $HTTP_CODE"
+          if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "301" ] || [ "$HTTP_CODE" = "302" ]; then
+            echo "✅ Сайт работает!"
+          else
+            echo "⚠️ Сайт ответил кодом $HTTP_CODE — проверьте вручную"
+          fi
 
   # ─────────────────────────────────────────────────────────────
-  # JOB 3: Публикация на GitHub Pages (резервная копия / CDN)
-  # Работает всегда, ключи не нужны
+  # JOB 2: Резервная публикация на GitHub Pages
+  # Работает всегда — служит резервом и CDN для статических файлов
   # ─────────────────────────────────────────────────────────────
   github-pages:
     runs-on: ubuntu-latest
@@ -94,41 +85,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup GitHub Pages
+      - name: Настроить GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload site artifact
+      - name: Загрузить файлы сайта
         uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
 
-      - name: Deploy to GitHub Pages
+      - name: Опубликовать на GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-  # ─────────────────────────────────────────────────────────────
-  # JOB 4: Синхронизация с Tilda (если используется)
-  # Запускается только когда задана переменная TILDA_ENABLED=true
-  # ─────────────────────────────────────────────────────────────
-  tilda-sync:
-    runs-on: ubuntu-latest
-    needs: github-pages
-    if: ${{ vars.TILDA_ENABLED == 'true' }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install dependencies
-        run: npm ci --ignore-scripts 2>/dev/null || true
-
-      - name: Push pages to Tilda
-        env:
-          TILDA_PUBLIC_KEY: ${{ secrets.TILDA_PUBLIC_KEY }}
-          TILDA_SECRET_KEY: ${{ secrets.TILDA_SECRET_KEY }}
-          TILDA_PROJECT_ID: ${{ secrets.TILDA_PROJECT_ID }}
-          CDN_BASE: https://cdn.jsdelivr.net/gh/${{ github.repository }}@${{ github.ref_name }}
-        run: node .github/scripts/tilda-push.js
