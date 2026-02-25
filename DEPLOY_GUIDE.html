@@ -3,158 +3,343 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ОДИН КЛИК — запустить сайт</title>
+<title>Куда нажимать — с картинками</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+       background: #f6f8fa; color: #1f2328; padding: 24px; }
 
-.card { background: #161b22; border: 1px solid #30363d; border-radius: 16px; max-width: 680px; width: 100%; overflow: hidden; }
+h1 { text-align: center; font-size: 26px; margin-bottom: 6px; color: #1f2328; }
+.intro { text-align: center; color: #636c76; font-size: 16px; margin-bottom: 32px; }
 
-.top-bar { background: linear-gradient(135deg, #1a7f37 0%, #2da44e 100%); padding: 28px 32px; text-align: center; }
-.top-bar .emoji { font-size: 48px; margin-bottom: 12px; }
-.top-bar h1 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 6px; }
-.top-bar p { color: rgba(255,255,255,.8); font-size: 16px; }
+/* STEP BLOCKS */
+.step { background: #fff; border: 2px solid #d0d7de; border-radius: 12px;
+        margin-bottom: 32px; overflow: hidden; }
+.step-header { background: #0969da; color: #fff; padding: 14px 20px;
+               font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+.step-num { background: #fff; color: #0969da; width: 32px; height: 32px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 16px; flex-shrink: 0; }
+.step-body { padding: 20px; }
+.step-body p { font-size: 15px; color: #1f2328; margin-bottom: 16px; line-height: 1.5; }
+.step-body strong { color: #0969da; }
 
-.done-section { padding: 24px 32px; border-bottom: 1px solid #30363d; }
-.done-section h3 { font-size: 14px; color: #8b949e; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 14px; }
-.done-list { display: flex; flex-direction: column; gap: 8px; }
-.done-item { display: flex; align-items: center; gap: 10px; font-size: 15px; color: #7ee787; }
-.done-item span { color: #e6edf3; }
+/* ---- GITHUB UI MOCKUP ---- */
+.gh-window { border: 2px solid #d0d7de; border-radius: 8px; overflow: hidden;
+             box-shadow: 0 4px 16px rgba(0,0,0,.12); position: relative; }
 
-.action-section { padding: 28px 32px; }
-.action-section h2 { font-size: 20px; font-weight: 700; color: #f0f6fc; margin-bottom: 8px; }
-.action-section .sub { color: #8b949e; font-size: 14px; margin-bottom: 24px; }
+/* Browser address bar */
+.gh-bar { background: #f6f8fa; border-bottom: 1px solid #d0d7de;
+          padding: 8px 12px; display: flex; align-items: center; gap: 8px; }
+.gh-dots { display: flex; gap: 6px; }
+.gh-dot { width: 12px; height: 12px; border-radius: 50%; }
+.gh-dot.r { background: #ff5f57; }
+.gh-dot.y { background: #ffbd2e; }
+.gh-dot.g { background: #28c840; }
+.gh-url { background: #fff; border: 1px solid #d0d7de; border-radius: 6px;
+          flex: 1; padding: 4px 10px; font-size: 12px; color: #636c76; white-space: nowrap;
+          overflow: hidden; text-overflow: ellipsis; }
 
-.big-link { display: block; background: #238636; color: #fff; text-decoration: none; border-radius: 10px; padding: 18px 24px; font-size: 17px; font-weight: 600; text-align: center; margin-bottom: 24px; transition: background .2s; border: 1px solid #2ea043; }
-.big-link:hover { background: #2ea043; }
-.big-link .link-sub { font-size: 13px; font-weight: 400; opacity: .8; margin-top: 4px; }
+/* GitHub top nav */
+.gh-topnav { background: #24292f; padding: 12px 20px; display: flex; align-items: center; gap: 12px; }
+.gh-logo { font-size: 22px; }
+.gh-nav-item { color: rgba(255,255,255,.8); font-size: 13px; font-weight: 500; padding: 4px 8px; }
+.gh-nav-item.active { color: #fff; }
+.gh-repo-title { color: #79c0ff; font-size: 13px; margin-left: auto; }
 
-.steps { display: flex; flex-direction: column; gap: 16px; }
-.step { display: flex; gap: 16px; align-items: flex-start; }
-.step-num { width: 32px; height: 32px; border-radius: 50%; background: #0969da; color: #fff; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
-.step-text { flex: 1; }
-.step-text strong { display: block; font-size: 16px; color: #f0f6fc; margin-bottom: 4px; }
-.step-text p { font-size: 14px; color: #8b949e; line-height: 1.5; }
+/* Page layout */
+.gh-layout { display: flex; min-height: 320px; }
 
-/* Макет кнопки GitHub */
-.gh-mock { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 16px; margin-top: 10px; font-size: 13px; }
-.gh-mock-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.gh-mock-left { color: #8b949e; font-size: 13px; }
-.gh-mock-btn { background: #21262d; border: 1px solid #363b42; border-radius: 6px; color: #c9d1d9; padding: 6px 14px; font-size: 13px; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-.gh-mock-btn .arrow { font-size: 10px; }
-.gh-mock-green { background: #238636; border: 1px solid #2ea043; color: #fff; border-radius: 6px; padding: 8px 18px; font-size: 14px; font-weight: 600; margin-top: 10px; display: inline-block; animation: pulse-green 2s infinite; }
-@keyframes pulse-green {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(46,164,67,.5); }
-  50% { box-shadow: 0 0 0 8px rgba(46,164,67,0); }
+/* Sidebar */
+.gh-sidebar { width: 220px; border-right: 1px solid #d0d7de; padding: 16px 0; flex-shrink: 0;
+              background: #fff; }
+.gh-sidebar-title { padding: 0 16px 8px; font-size: 11px; font-weight: 700;
+                    text-transform: uppercase; color: #636c76; letter-spacing: .08em; }
+.gh-wf-item { padding: 8px 16px; font-size: 13px; color: #1f2328; cursor: pointer;
+              white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gh-wf-item:hover { background: #f6f8fa; }
+.gh-wf-item.active { background: #ddf4ff; color: #0969da; font-weight: 600;
+                     border-left: 3px solid #0969da; }
+
+/* Main content */
+.gh-main { flex: 1; padding: 20px; background: #fff; }
+.gh-page-header { display: flex; align-items: center; justify-content: space-between;
+                   margin-bottom: 16px; }
+.gh-page-title { font-size: 18px; font-weight: 700; color: #1f2328; }
+
+/* RUN WORKFLOW BUTTON — the important one */
+.run-btn-wrap { position: relative; }
+.run-btn { background: #f6f8fa; border: 1px solid #d0d7de; color: #1f2328;
+           border-radius: 6px; padding: 6px 14px; font-size: 13px; font-weight: 500;
+           cursor: pointer; display: flex; align-items: center; gap: 6px; }
+.run-btn-arrow { font-size: 10px; color: #636c76; }
+
+/* Dropdown */
+.dropdown { position: absolute; right: 0; top: calc(100% + 4px);
+            background: #fff; border: 1px solid #d0d7de; border-radius: 8px;
+            padding: 12px; width: 260px; box-shadow: 0 8px 24px rgba(0,0,0,.12); z-index: 10; }
+.dropdown-label { font-size: 12px; color: #636c76; margin-bottom: 8px; }
+.dropdown-branch { background: #f6f8fa; border: 1px solid #d0d7de; border-radius: 6px;
+                   padding: 5px 10px; font-size: 12px; color: #1f2328; margin-bottom: 10px; }
+.run-btn-green { background: #1a7f37; color: #fff; border: none; border-radius: 6px;
+                 padding: 8px 14px; font-size: 13px; font-weight: 600; cursor: pointer;
+                 width: 100%; }
+
+/* Runs table */
+.gh-run-row { display: flex; align-items: center; gap: 12px; padding: 10px 0;
+              border-top: 1px solid #d0d7de; font-size: 13px; }
+.status-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+.status-dot.blocked { background: #d1242f; border: 2px solid #d1242f; }
+.status-dot.running { background: #bf8700; border: 2px solid #bf8700; animation: spin 2s linear infinite; }
+@keyframes spin { 0%{ box-shadow: 2px 0 0 #bf8700 } 50%{ box-shadow: 0 2px 0 #bf8700 } 100%{ box-shadow: 2px 0 0 #bf8700 } }
+.run-title { font-weight: 600; color: #1f2328; flex: 1; }
+.run-meta { color: #636c76; font-size: 12px; }
+.run-badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+.run-badge.blocked { background: #ffebe9; color: #d1242f; }
+
+/* ANNOTATION: red circle + arrow */
+.annotation { position: absolute; pointer-events: none; }
+
+/* Circle pulsing */
+.pulse-ring { border: 3px solid #d1242f; border-radius: 50%; animation: pulse 1.4s ease-out infinite; }
+@keyframes pulse {
+  0%   { transform: scale(1);   opacity: 1; }
+  70%  { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.6); opacity: 0; }
 }
 
-.dropdown-mock { background: #1c2128; border: 1px solid #30363d; border-radius: 6px; margin-top: 8px; padding: 12px; }
-.dropdown-mock .label { font-size: 12px; color: #8b949e; margin-bottom: 6px; }
-.dropdown-mock .branch { background: #0d1117; border: 1px solid #30363d; border-radius: 4px; padding: 6px 10px; font-size: 13px; color: #e6edf3; margin-bottom: 10px; }
-.dropdown-arrow { color: #8b949e; font-size: 11px; }
+.arrow-label { background: #d1242f; color: #fff; border-radius: 6px;
+               padding: 5px 10px; font-size: 14px; font-weight: 700;
+               white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
 
-.result-section { background: #0d1117; margin: 0 32px 28px; border-radius: 10px; padding: 20px; border: 1px solid #30363d; }
-.result-section h3 { font-size: 15px; color: #f0f6fc; margin-bottom: 12px; }
-.result-row { display: flex; align-items: center; gap: 10px; font-size: 14px; margin-bottom: 8px; }
-.status-circle { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
-.status-yellow { background: #d29922; animation: spin-yellow 1.5s linear infinite; }
-.status-green { background: #2da44e; }
-@keyframes spin-yellow { 0% { opacity: 1; } 50% { opacity: .4; } 100% { opacity: 1; } }
+/* ---- STEP SEPARATORS ---- */
+.divider { text-align: center; font-size: 28px; margin: -12px 0 20px; }
 
-.help { padding: 0 32px 28px; font-size: 14px; color: #8b949e; text-align: center; }
-.help a { color: #58a6ff; }
+/* SUCCESS BOX */
+.success-box { background: #d1fae5; border: 2px solid #059669; border-radius: 12px;
+               padding: 20px 24px; text-align: center; margin-bottom: 32px; }
+.success-box h2 { color: #065f46; font-size: 20px; margin-bottom: 8px; }
+.success-box p { color: #047857; font-size: 15px; }
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .gh-sidebar { display: none; }
+}
 </style>
 </head>
 <body>
-<div class="card">
 
-  <div class="top-bar">
-    <div class="emoji">��</div>
-    <h1>Осталось нажать одну кнопку</h1>
-    <p>Всё готово. Вы уже сделали самое сложное.</p>
-  </div>
+<h1>📍 Куда нажимать — показываю точно</h1>
+<p class="intro">Три картинки — три клика. Всё.</p>
 
-  <div class="done-section">
-    <h3>Уже сделано</h3>
-    <div class="done-list">
-      <div class="done-item">✅ <span>Разрешения в GitHub настроены</span></div>
-      <div class="done-item">✅ <span>Ожидающий запуск одобрен</span></div>
-      <div class="done-item">✅ <span>Пароль от Timeweb добавлен</span></div>
-    </div>
-  </div>
-
-  <div class="action-section">
-    <h2>Что осталось — 3 клика</h2>
-    <p class="sub">Всё делается на одной странице. Займёт 30 секунд.</p>
-
-    <a class="big-link" href="https://github.com/bossssmann-ui/pacificstar.ru/actions/workflows/tilda-deploy.yml" target="_blank">
-      👉 Нажмите сюда — открыть страницу запуска
-      <div class="link-sub">github.com → pacificstar.ru → Actions → Deploy</div>
-    </a>
-
-    <div class="steps">
-
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-text">
-          <strong>Найдите кнопку «Run workflow» справа</strong>
-          <p>На открывшейся странице справа есть серая кнопка. Нажмите её.</p>
-          <div class="gh-mock">
-            <div class="gh-mock-row">
-              <div class="gh-mock-left">Запуски рабочих процессов</div>
-              <div class="gh-mock-btn" style="border: 2px solid #f0f6fc; color: #f0f6fc;">
-                ▶ Run workflow <span class="arrow">▼</span>
-              </div>
-            </div>
-            <div style="font-size:12px; color:#58a6ff; margin-top:8px; text-align:right;">👆 Вот эта кнопка — справа</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-text">
-          <strong>Появится маленькое меню — ничего не менять</strong>
-          <p>Откроется меню. Ничего трогать не нужно. Просто нажмите зелёную кнопку внизу.</p>
-          <div class="gh-mock">
-            <div class="dropdown-mock">
-              <div class="label">Use workflow from</div>
-              <div class="branch">Branch: copilot/refactor-site-description <span class="dropdown-arrow">▼</span></div>
-              <div class="gh-mock-green">Run workflow</div>
-            </div>
-            <div style="font-size:12px; color:#58a6ff; margin-top:8px;">👆 Нажать зелёную кнопку «Run workflow»</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-text">
-          <strong>Подождать 1–2 минуты</strong>
-          <p>Появится строка с жёлтым кружком — это загружается. Потом станет зелёная галочка — сайт готов.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="result-section">
-    <h3>Что увидите на экране</h3>
-    <div class="result-row">
-      <div class="status-circle status-yellow"></div>
-      Идёт загрузка... (1–2 минуты, мигает жёлтый)
-    </div>
-    <div class="result-row">
-      <div class="status-circle status-green"></div>
-      <strong style="color:#7ee787">Готово! Сайт работает на pacificstar.ru</strong>
-    </div>
-  </div>
-
-  <div class="help">
-    Если что-то пошло не так — напишите в PR что видите на экране.<br>
-    Ссылка на PR: <a href="https://github.com/bossssmann-ui/pacificstar.ru/pull/1" target="_blank">github.com/bossssmann-ui/pacificstar.ru/pull/1</a>
-  </div>
-
+<!-- ═══════════════════════════════════════ ШАГИ СДЕЛАНЫ ═════════════════════════════ -->
+<div style="background:#d1fae5;border:2px solid #059669;border-radius:12px;padding:16px 24px;margin-bottom:24px;font-size:15px;color:#065f46;">
+  <strong>✅ Уже сделано вами:</strong><br>
+  ✅ Настройки Actions — разрешили запуски<br>
+  ✅ Одобрили старый заблокированный запуск<br>
+  ✅ Добавили пароль TIMEWEB_PASSWORD
 </div>
+
+<!-- ═══════════════════════════════════════ ШАГ 1 ═════════════════════════════════ -->
+<div class="step">
+  <div class="step-header">
+    <div class="step-num">1</div>
+    Откройте вот эту ссылку — просто кликните
+  </div>
+  <div class="step-body">
+    <p>Нажмите на синюю кнопку ниже — откроется нужная страница в GitHub:</p>
+    <a href="https://github.com/bossssmann-ui/pacificstar.ru/actions/workflows/tilda-deploy.yml"
+       target="_blank"
+       style="display:block;background:#0969da;color:#fff;text-decoration:none;border-radius:8px;
+              padding:16px;font-size:16px;font-weight:700;text-align:center;margin-bottom:12px;">
+      👉 НАЖМИТЕ ЗДЕСЬ — откроется нужная страница
+    </a>
+    <p style="font-size:13px;color:#636c76;">Она откроется в новой вкладке браузера. Вы увидите список запусков деплоя.</p>
+  </div>
+</div>
+
+<div class="divider">⬇️</div>
+
+<!-- ═══════════════════════════════════════ ШАГ 2 ═════════════════════════════════ -->
+<div class="step">
+  <div class="step-header">
+    <div class="step-num">2</div>
+    На открытой странице нажмите серую кнопку справа вверху
+  </div>
+  <div class="step-body">
+    <p>На открытой странице вы увидите примерно <strong>вот это</strong> (я воспроизвёл как выглядит GitHub).<br>
+       Красный кружок показывает куда нажимать:</p>
+
+    <!-- MOCKUP STEP 2: workflow page with Run workflow button highlighted -->
+    <div class="gh-window" style="margin-top:12px;">
+
+      <!-- browser bar -->
+      <div class="gh-bar">
+        <div class="gh-dots"><div class="gh-dot r"></div><div class="gh-dot y"></div><div class="gh-dot g"></div></div>
+        <div class="gh-url">github.com/bossssmann-ui/pacificstar.ru/actions/workflows/tilda-deploy.yml</div>
+      </div>
+
+      <!-- github nav -->
+      <div class="gh-topnav">
+        <span class="gh-logo">⬡</span>
+        <span class="gh-nav-item">bossssmann-ui</span>
+        <span class="gh-nav-item">/</span>
+        <span class="gh-nav-item active">pacificstar.ru</span>
+        <span class="gh-repo-title">Actions</span>
+      </div>
+
+      <div class="gh-layout">
+        <!-- sidebar -->
+        <div class="gh-sidebar">
+          <div class="gh-sidebar-title">Все рабочие процессы</div>
+          <div class="gh-wf-item">Running Copilot agent</div>
+          <div class="gh-wf-item active">Deploy — pacificstar.ru</div>
+        </div>
+
+        <!-- main -->
+        <div class="gh-main">
+          <div class="gh-page-header">
+            <div class="gh-page-title">Deploy — pacificstar.ru на Timeweb</div>
+
+            <!-- ★ THE BUTTON TO CLICK ★ -->
+            <div class="run-btn-wrap" id="runBtnWrap" style="position:relative;">
+              <div class="run-btn">
+                Запустить рабочий процесс
+                <span class="run-btn-arrow">▾</span>
+              </div>
+
+              <!-- Animated pulse rings on the button -->
+              <div style="position:absolute;top:-8px;right:-8px;width:calc(100% + 16px);
+                          height:calc(100% + 16px);border:3px solid #d1242f;border-radius:10px;
+                          animation:pulse 1.4s ease-out infinite;pointer-events:none;"></div>
+              <div style="position:absolute;top:-8px;right:-8px;width:calc(100% + 16px);
+                          height:calc(100% + 16px);border:3px solid #d1242f;border-radius:10px;
+                          animation:pulse 1.4s ease-out .4s infinite;pointer-events:none;"></div>
+
+              <!-- Arrow label -->
+              <div style="position:absolute;right:0;top:calc(100% + 18px);
+                          background:#d1242f;color:#fff;border-radius:6px;
+                          padding:6px 12px;font-size:14px;font-weight:700;
+                          white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.25);z-index:20;">
+                👆 НАЖАТЬ СЮДА
+              </div>
+
+            </div>
+          </div>
+
+          <!-- run rows -->
+          <div class="gh-run-row">
+            <div class="status-dot blocked"></div>
+            <div class="run-title">chore: trigger deploy to Timeweb</div>
+            <span class="run-badge blocked">Ожидание</span>
+          </div>
+          <div class="gh-run-row">
+            <div class="status-dot blocked"></div>
+            <div class="run-title">fix: workflow_dispatch-only</div>
+            <span class="run-badge blocked">Ожидание</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:16px;font-size:15px;color:#1f2328;">
+      <strong>Кнопка называется «Запустить рабочий процесс»</strong> — она серая, в правом верхнем углу списка запусков.
+      После нажатия — появится маленькое меню (Шаг 3).
+    </p>
+  </div>
+</div>
+
+<div class="divider">⬇️</div>
+
+<!-- ═══════════════════════════════════════ ШАГ 3 ═════════════════════════════════ -->
+<div class="step">
+  <div class="step-header">
+    <div class="step-num">3</div>
+    В появившемся меню нажмите зелёную кнопку
+  </div>
+  <div class="step-body">
+    <p>После клика по серой кнопке — выпадет маленькое меню. В нём одна зелёная кнопка:<br>
+       <strong>«Запустить рабочий процесс»</strong> (уже зелёная). Нажать её.</p>
+
+    <!-- MOCKUP STEP 3: dropdown -->
+    <div style="position:relative;max-width:340px;margin-top:16px;">
+      <div class="dropdown" style="position:relative;right:auto;top:auto;
+                                    box-shadow:0 4px 16px rgba(0,0,0,.15);">
+        <div class="dropdown-label">Использовать рабочий процесс из</div>
+        <div class="dropdown-branch">🌿 &nbsp; copilot/refactor-site-description</div>
+
+        <!-- Green button with animation -->
+        <div style="position:relative;">
+          <button class="run-btn-green">Запустить рабочий процесс</button>
+          <!-- pulse rings on green button -->
+          <div style="position:absolute;top:-6px;left:-6px;width:calc(100% + 12px);
+                      height:calc(100% + 12px);border:3px solid #d1242f;border-radius:10px;
+                      animation:pulse 1.4s ease-out infinite;pointer-events:none;"></div>
+          <!-- Arrow -->
+          <div style="position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 24px);
+                      background:#d1242f;color:#fff;border-radius:6px;
+                      padding:6px 12px;font-size:14px;font-weight:700;
+                      white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.25);">
+            👆 НАЖАТЬ ЭТУ
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <p style="margin-top:80px;font-size:15px;">После нажатия зелёной кнопки — меню закроется, в списке появится новая строка с жёлтым кружком 🟡</p>
+  </div>
+</div>
+
+<div class="divider">⬇️</div>
+
+<!-- ═══════════════════════════════════════ ОЖИДАНИЕ ═════════════════════════════════ -->
+<div class="step">
+  <div class="step-header" style="background:#bf8700;">
+    <div class="step-num" style="color:#bf8700;">4</div>
+    Ждите ~2 минуты — появится зелёная галочка ✅
+  </div>
+  <div class="step-body">
+    <p>После нажатия зелёной кнопки список запусков обновится. Вы увидите новую строку:</p>
+
+    <div class="gh-window" style="margin:12px 0;">
+      <div class="gh-bar">
+        <div class="gh-dots"><div class="gh-dot r"></div><div class="gh-dot y"></div><div class="gh-dot g"></div></div>
+        <div class="gh-url">github.com/bossssmann-ui/pacificstar.ru/actions/workflows/tilda-deploy.yml</div>
+      </div>
+      <div style="padding:16px 20px;background:#fff;">
+        <div class="gh-run-row" style="border-top:none;">
+          <div style="width:16px;height:16px;border-radius:50%;background:#fff;
+                      border:3px solid #bf8700;flex-shrink:0;animation:spin 1s linear infinite;"></div>
+          <div class="run-title">Запуск деплоя... <span style="color:#bf8700;">идёт загрузка</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p>Когда закончит — жёлтый кружок станет зелёной галочкой:</p>
+
+    <div class="gh-window" style="margin:12px 0;">
+      <div class="gh-bar">
+        <div class="gh-dots"><div class="gh-dot r"></div><div class="gh-dot y"></div><div class="gh-dot g"></div></div>
+        <div class="gh-url">github.com/bossssmann-ui/pacificstar.ru/actions/workflows/tilda-deploy.yml</div>
+      </div>
+      <div style="padding:16px 20px;background:#fff;">
+        <div class="gh-run-row" style="border-top:none;">
+          <div style="font-size:18px;flex-shrink:0;">✅</div>
+          <div class="run-title">Деплой выполнен! <span style="color:#1a7f37;">Успешно</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p><strong>После зелёной галочки:</strong> откройте <a href="http://pacificstar.ru" target="_blank" style="color:#0969da;font-weight:700;">pacificstar.ru</a> — сайт будет работать.</p>
+  </div>
+</div>
+
+<div class="success-box">
+  <h2>🏁 Если что-то не получается</h2>
+  <p>Сделайте скриншот и напишите в комментарии к Pull Request.<br>
+     Или опишите словами что видите на экране — я помогу сразу.</p>
+</div>
+
 </body>
 </html>
