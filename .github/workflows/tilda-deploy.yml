@@ -1,37 +1,62 @@
-name: Deploy — Timeweb pacificstar.ru
+name: Deploy — pacificstar.ru на Timeweb
 
-# Запускается автоматически при каждом обновлении кода
+# Запускается: автоматически при каждом сохранении кода,
+# либо вручную через кнопку "Run workflow" на странице Actions
 on:
   push:
     branches:
       - main
       - copilot/refactor-site-description
-  workflow_dispatch:   # ← ручной запуск через кнопку на GitHub
+  workflow_dispatch:
 
 jobs:
   # ─────────────────────────────────────────────────────────────
-  # JOB 1: Автодеплой на Timeweb (rsync + SSH с паролем)
+  # Деплой сайта на Timeweb
   # Сервер: 185.114.247.170  |  Логин: ct38770
-  # Пароль — в GitHub Secrets → TIMEWEB_PASSWORD (никогда в коде!)
-  # Инструкция: TIMEWEB_DEPLOY.md
+  # Пароль хранится в GitHub Secrets → TIMEWEB_PASSWORD
   # ─────────────────────────────────────────────────────────────
   deploy-timeweb:
+    name: 🚀 Загрузить сайт на Timeweb
     runs-on: ubuntu-latest
-    # Пропускается, пока не добавлен секрет TIMEWEB_PASSWORD
-    if: ${{ secrets.TIMEWEB_PASSWORD != '' }}
+    env:
+      TW_HOST: 185.114.247.170
+      TW_USER: ct38770
+      TW_PATH: /home/ct38770/public_html/
+      TW_PASS: ${{ secrets.TIMEWEB_PASSWORD }}
     steps:
       - name: Скачать код сайта
         uses: actions/checkout@v4
 
-      - name: Установить sshpass (нужен для пароля)
-        run: sudo apt-get install -y sshpass
+      - name: Проверить — добавлен ли пароль?
+        run: |
+          if [ -z "$TW_PASS" ]; then
+            echo ""
+            echo "═══════════════════════════════════════════════════════"
+            echo "  ⚠️  ПАРОЛЬ НЕ ДОБАВЛЕН"
+            echo ""
+            echo "  Нужно добавить секрет TIMEWEB_PASSWORD:"
+            echo "  https://github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions"
+            echo "═══════════════════════════════════════════════════════"
+            echo ""
+            echo "SKIP=true" >> "$GITHUB_ENV"
+          else
+            echo "✅ Пароль найден — начинаем загрузку на сервер"
+            echo "SKIP=false" >> "$GITHUB_ENV"
+          fi
 
-      - name: Принять SSH-ключ сервера (без ручного подтверждения)
+      - name: Установить sshpass
+        if: env.SKIP == 'false'
+        run: sudo apt-get install -y sshpass -q
+
+      - name: Добавить ключ сервера в доверенные
+        if: env.SKIP == 'false'
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan -p 22 -H 185.114.247.170 >> ~/.ssh/known_hosts 2>/dev/null || true
+          ssh-keyscan -p 22 "$TW_HOST" >> ~/.ssh/known_hosts 2>/dev/null || \
+          ssh-keyscan -p 22 -T 10 "$TW_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
 
-      - name: Подготовить папку с файлами сайта
+      - name: Подготовить файлы (без служебных папок)
+        if: env.SKIP == 'false'
         run: |
           mkdir -p /tmp/site
           rsync -a \
@@ -40,59 +65,41 @@ jobs:
             --exclude='node_modules/' \
             --exclude='previews/' \
             --exclude='*.md' \
-            --exclude='TILDA_*' \
-            --exclude='HOSTING_*' \
-            --exclude='TIMEWEB_*' \
-            --exclude='SESSION_*' \
+            --exclude='*.txt' \
             --exclude='package*.json' \
             --exclude='.htmlvalidate.json' \
             --exclude='.gitignore' \
             ./ /tmp/site/
+          echo "Файлы для загрузки:"
+          ls /tmp/site/
 
-      - name: Загрузить файлы сайта на Timeweb
+      - name: Загрузить файлы на Timeweb (SSH/rsync)
+        if: env.SKIP == 'false'
         env:
           SSHPASS: ${{ secrets.TIMEWEB_PASSWORD }}
         run: |
           sshpass -e rsync -avz --delete \
-            -e "ssh -p 22 -o StrictHostKeyChecking=no" \
+            -e "ssh -p 22 -o StrictHostKeyChecking=no -o ConnectTimeout=15" \
             /tmp/site/ \
-            ct38770@185.114.247.170:/home/ct38770/public_html/
+            "$TW_USER@$TW_HOST:$TW_PATH"
 
-      - name: Проверить что сайт доступен
+      - name: Проверить доступность сайта
+        if: env.SKIP == 'false'
         run: |
-          sleep 5
-          HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 10 http://pacificstar.ru/ || echo "000")
-          echo "HTTP статус: $HTTP_CODE"
-          if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "301" ] || [ "$HTTP_CODE" = "302" ]; then
-            echo "✅ Сайт работает!"
+          sleep 8
+          HTTP=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 15 https://pacificstar.ru/ 2>/dev/null \
+               || curl -s -o /dev/null -w "%{http_code}" --connect-timeout 15 http://pacificstar.ru/ 2>/dev/null \
+               || echo "000")
+          echo "Ответ сервера: HTTP $HTTP"
+          if [ "$HTTP" = "200" ] || [ "$HTTP" = "301" ] || [ "$HTTP" = "302" ]; then
+            echo "✅ Сайт онлайн! https://pacificstar.ru/"
           else
-            echo "⚠️ Сайт ответил кодом $HTTP_CODE — проверьте вручную"
+            echo "⚠️ Код $HTTP — проверьте https://pacificstar.ru/ вручную"
           fi
 
-  # ─────────────────────────────────────────────────────────────
-  # JOB 2: Резервная публикация на GitHub Pages
-  # Работает всегда — служит резервом и CDN для статических файлов
-  # ─────────────────────────────────────────────────────────────
-  github-pages:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Настроить GitHub Pages
-        uses: actions/configure-pages@v5
-
-      - name: Загрузить файлы сайта
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: '.'
-
-      - name: Опубликовать на GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Итог
+        if: env.SKIP == 'true'
+        run: |
+          echo ""
+          echo "Деплой пропущен — пароль не добавлен."
+          echo "Инструкция: TIMEWEB_DEPLOY.md в репозитории"
