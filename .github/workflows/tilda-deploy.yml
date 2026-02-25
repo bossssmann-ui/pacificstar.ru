@@ -1,12 +1,8 @@
 name: Deploy — pacificstar.ru на Timeweb
 
-# Запускается автоматически при каждом push в ветку copilot/refactor-site-description
-# (одобрение больше не требуется — настройки Actions изменены владельцем).
-# Также можно запустить вручную: Actions → Deploy → Run workflow.
+# Запускается ТОЛЬКО вручную: Actions → Deploy — pacificstar.ru на Timeweb → Run workflow
+# Автоматический push-триггер удалён: он требует одобрения и никогда не выполняется.
 on:
-  push:
-    branches:
-      - copilot/refactor-site-description
   workflow_dispatch:
 
 jobs:
