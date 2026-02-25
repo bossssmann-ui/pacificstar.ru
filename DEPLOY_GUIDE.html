@@ -395,7 +395,86 @@ hr { border: none; border-top: 2px solid #e2e8f0; margin: 32px 0; }
     <div class="arrow-label">👆 Нажмите на папку public_html</div>
 
     <div class="tip">
-      <strong>Что такое public_html?</strong> Это «витрина» вашего сайта. Всё что туда положите — увидят посетители на pacificstar.ru. Сейчас там может лежать старый сайт или пустая папка.
+      <strong>Что такое public_html?</strong> Это «витрина» вашего сайта. Всё что туда положите — увидят посетители на pacificstar.ru.
+    </div>
+  </div>
+</div>
+
+<!-- STEP 3b: CLEAR OLD SITE -->
+<div class="step" style="border-color:#ef4444;">
+  <div class="step-header" style="background:linear-gradient(135deg,#fef2f2,#fee2e2);">
+    <div class="step-num" style="background:#ef4444;">!</div>
+    <div>
+      <div class="step-title">Удалите старый сайт из папки public_html</div>
+      <div class="step-time">⏱ 2–3 минуты &nbsp;·&nbsp; 🔴 Обязательно перед загрузкой</div>
+    </div>
+  </div>
+  <div class="step-body">
+    <p><strong>Да — старые файлы нужно удалить.</strong> Если этого не сделать, старый и новый сайт перемешаются и что-то может работать неправильно.</p>
+
+    <p style="margin-top:12px;">Вы сейчас видите в public_html какие-то файлы. Вот что делать:</p>
+
+    <!-- TWO COLUMNS: KEEP vs DELETE -->
+    <div style="display:flex;gap:14px;flex-wrap:wrap;margin:16px 0;">
+
+      <div style="flex:1;min-width:200px;background:#fef2f2;border:2px solid #fca5a5;border-radius:10px;padding:14px;">
+        <div style="font-weight:700;color:#b91c1c;margin-bottom:8px;font-size:15px;">🗑 УДАЛИТЬ</div>
+        <div style="font-size:13px;color:#7f1d1d;line-height:1.8;">
+          index.html (старый)<br>
+          *.html — все HTML файлы<br>
+          *.php — если есть<br>
+          *.css, *.js — старые стили<br>
+          папки images/, assets/ — старые<br>
+          <strong>Всё что там сейчас лежит</strong>
+        </div>
+      </div>
+
+      <div style="flex:1;min-width:200px;background:#f0fdf4;border:2px solid #86efac;border-radius:10px;padding:14px;">
+        <div style="font-weight:700;color:#166534;margin-bottom:8px;font-size:15px;">✅ ОСТАВИТЬ</div>
+        <div style="font-size:13px;color:#14532d;line-height:1.8;">
+          <strong>.htaccess</strong> — если есть, НЕ ТРОГАЙТЕ<br>
+          <span style="color:#666;">(это скрытый файл настроек домена — его удалять не надо)</span>
+        </div>
+      </div>
+
+    </div>
+
+    <p style="font-weight:700;margin-bottom:10px;">Как удалить все файлы разом:</p>
+
+    <div class="browser">
+      <div class="browser-bar">
+        <div class="dot red"></div><div class="dot yel"></div><div class="dot grn"></div>
+        <div class="browser-url">Файловый менеджер / public_html</div>
+      </div>
+      <div class="browser-body">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+          <div style="background:#0a3d6b;color:#fff;border-radius:5px;padding:6px 12px;font-size:12px;font-weight:700;">☑ Выделить всё</div>
+          <div style="background:#e0e7ef;border-radius:5px;padding:6px 12px;font-size:12px;">⬆️ Загрузить</div>
+          <div class="click-target" style="display:inline-block;">
+            <div style="background:#ef4444;color:#fff;border-radius:5px;padding:6px 12px;font-size:12px;font-weight:700;">🗑 Удалить</div>
+            <div class="click-ring" style="border-color:#ef4444;"></div>
+          </div>
+        </div>
+        <div style="background:#f8fafc;border-radius:5px;padding:8px;font-size:12px;font-family:monospace;color:#334155;">
+          ☑ index.html &nbsp;·&nbsp; ☑ about.html &nbsp;·&nbsp; ☑ *.css &nbsp;·&nbsp; ☑ images/
+        </div>
+      </div>
+    </div>
+
+    <ol style="margin:14px 0 0 18px;font-size:14px;line-height:2;color:#334155;">
+      <li>Нажмите <strong>«Выделить всё»</strong> (или нажмите первый файл, потом <kbd>Ctrl</kbd>+<kbd>A</kbd>)</li>
+      <li>Снимите галочку с файла <strong>.htaccess</strong> — если он есть (может быть скрыт, см. ниже)</li>
+      <li>Нажмите кнопку <strong>«Удалить»</strong></li>
+      <li>Подтвердите удаление</li>
+    </ol>
+
+    <div class="tip" style="margin-top:14px;">
+      <strong>Не вижу файл .htaccess — где он?</strong><br>
+      Файлы начинающиеся с точки (.htaccess) обычно скрыты. В файловом менеджере Timeweb найдите кнопку или галочку <strong>«Показать скрытые файлы»</strong>. Если .htaccess нет совсем — не переживайте, просто удаляйте всё.
+    </div>
+
+    <div style="background:#d1fae5;border:2px solid #10b981;border-radius:10px;padding:14px;margin-top:14px;font-size:14px;color:#065f46;">
+      <strong>✅ После удаления</strong> папка public_html должна быть пустой (или содержать только .htaccess). Теперь можно загружать новый сайт.
     </div>
   </div>
 </div>
@@ -554,12 +633,14 @@ hr { border: none; border-top: 2px solid #e2e8f0; margin: 32px 0; }
 <div style="background:#fff;border-radius:14px;border:2px solid #d0dae6;padding:22px;margin-bottom:24px;">
   <h2 style="color:#0a3d6b;margin-bottom:16px;font-size:20px;">❓ Частые вопросы</h2>
 
-  <details style="margin-bottom:12px;">
-    <summary style="cursor:pointer;font-weight:700;color:#0a3d6b;font-size:15px;padding:8px 0;">
-      Что делать со старым сайтом на Timeweb?
+  <details style="margin-bottom:12px;" open>
+    <summary style="cursor:pointer;font-weight:700;color:#b91c1c;font-size:15px;padding:8px 0;">
+      🔴 Надо ли удалять старый сайт перед загрузкой?
     </summary>
     <p style="padding:10px 0 0 16px;font-size:14px;color:#334155;">
-      Если в public_html есть старые файлы — их можно удалить или переименовать папку в «old_site». Новые файлы заменят старый сайт автоматически, если у них одинаковые имена (например, index.html).
+      <strong>Да, обязательно.</strong> Смотрите Шаг 3б выше — там подробная инструкция.<br><br>
+      Если не удалить старый сайт, а просто загрузить новые файлы поверх — старые страницы останутся и будут путать посетителей и поисковики.<br><br>
+      <strong>Единственное исключение:</strong> файл <code>.htaccess</code> (если есть) — его удалять не нужно.
     </p>
   </details>
 
