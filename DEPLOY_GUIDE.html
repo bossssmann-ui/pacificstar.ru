@@ -3,376 +3,204 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Загрузка сайта на Timeweb — инструкция</title>
+<title>Установка сайта на Timeweb</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing:border-box; margin:0; padding:0; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-  background: #f0f4f8;
-  color: #1a2332;
-  padding: 24px 16px;
-  max-width: 720px;
-  margin: 0 auto;
-  line-height: 1.6;
+  background:#f0f4f8; color:#1a2332;
+  padding:24px 16px; max-width:700px; margin:0 auto; line-height:1.6;
 }
-h1 { text-align: center; font-size: 26px; color: #0a3d6b; margin-bottom: 6px; }
-.subtitle { text-align: center; color: #5a6a7a; margin-bottom: 28px; font-size: 15px; }
+h1 { text-align:center; font-size:26px; color:#0a3d6b; margin-bottom:6px; }
+.sub { text-align:center; color:#5a6a7a; margin-bottom:28px; font-size:15px; }
 
-/* ---- EMERGENCY BLOCK ---- */
-.emergency {
-  background: #fff3cd;
-  border: 3px solid #f59e0b;
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 28px;
-}
-.emergency .etitle {
-  font-size: 20px;
-  font-weight: 800;
-  color: #92400e;
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.emergency p { color: #78350f; margin-bottom: 14px; font-size: 15px; }
-.emergency .why-box {
-  background: white;
-  border-radius: 8px;
-  padding: 14px 16px;
-  margin: 14px 0;
-  border-left: 4px solid #f59e0b;
-}
-.emergency .why-box strong { display: block; margin-bottom: 6px; }
+.done-box { background:#f0fdf4; border:2px solid #22c55e; border-radius:10px; padding:16px 20px; margin-bottom:24px; }
+.done-box h3 { color:#15803d; margin-bottom:8px; font-size:15px; }
+.done-row { display:flex; align-items:center; gap:10px; margin-bottom:5px; font-size:14px; }
 
-/* ---- FOLDER DIAGRAMS ---- */
-.diagrams {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  margin: 16px 0;
+.phase {
+  background:white; border-radius:12px; border:1px solid #e2e8f0;
+  padding:24px; margin-bottom:20px;
 }
-@media(max-width:560px){ .diagrams { grid-template-columns: 1fr; } }
-.diag-card {
-  border-radius: 10px;
-  padding: 16px;
-  font-family: monospace;
-  font-size: 13px;
-  line-height: 1.8;
+.phase-title {
+  font-size:19px; font-weight:800; color:#0a3d6b;
+  margin-bottom:16px; display:flex; align-items:center; gap:10px;
 }
-.diag-bad {
-  background: #fef2f2;
-  border: 2px solid #ef4444;
-}
-.diag-good {
-  background: #f0fdf4;
-  border: 2px solid #22c55e;
-}
-.diag-label {
-  font-family: sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.diag-bad .diag-label { color: #dc2626; }
-.diag-good .diag-label { color: #16a34a; }
-.indent { padding-left: 16px; }
-
-/* ---- FIX STEPS ---- */
-.fix-steps { list-style: none; counter-reset: fix; }
-.fix-steps li {
-  counter-increment: fix;
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  margin-bottom: 14px;
-  background: white;
-  border-radius: 10px;
-  padding: 16px;
-  border: 1px solid #e2e8f0;
-}
-.fix-steps li::before {
-  content: counter(fix);
-  min-width: 32px;
-  height: 32px;
-  background: #0a3d6b;
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 15px;
-  flex-shrink: 0;
-}
-.fix-steps li .step-text strong { display: block; font-size: 15px; margin-bottom: 4px; }
-.fix-steps li .step-text span { color: #5a6a7a; font-size: 14px; }
-
-/* ---- SCREEN MOCK ---- */
-.screen-mock {
-  background: white;
-  border-radius: 10px;
-  border: 2px solid #e2e8f0;
-  overflow: hidden;
-  margin: 14px 0;
-  font-size: 13px;
-}
-.screen-topbar {
-  background: #1e3a5f;
-  color: #8ab4d4;
-  padding: 8px 14px;
-  font-size: 12px;
-  font-family: monospace;
-}
-.screen-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border-bottom: 1px solid #f0f4f8;
-  color: #2d4a6b;
-}
-.screen-row.highlight {
-  background: #fffbeb;
-  border-left: 4px solid #f59e0b;
-}
-.screen-row .icon { font-size: 18px; }
-.screen-row .fname { flex: 1; }
-.screen-row .badge {
-  background: #fef3c7;
-  color: #92400e;
-  border-radius: 4px;
-  padding: 2px 7px;
-  font-size: 11px;
-  font-weight: 700;
+.phase-title .num {
+  background:#0a3d6b; color:white; width:32px; height:32px;
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:16px; flex-shrink:0;
 }
 
-/* ---- BUTTON MOCK ---- */
-.btn-mock {
-  display: inline-block;
-  background: #2563eb;
-  color: white;
-  padding: 9px 18px;
-  border-radius: 7px;
-  font-weight: 700;
-  font-size: 14px;
-  margin: 6px 4px;
-  cursor: default;
+ol.steps { list-style:none; counter-reset:s; }
+ol.steps li {
+  counter-increment:s;
+  display:flex; align-items:flex-start; gap:12px;
+  margin-bottom:14px; padding:14px;
+  background:#f8fafc; border-radius:8px; border:1px solid #e2e8f0;
 }
-.btn-mock.red { background: #dc2626; }
-.btn-mock.green { background: #16a34a; }
-.btn-mock.gray { background: #6b7280; }
+ol.steps li::before {
+  content:counter(s);
+  min-width:28px; height:28px; background:#3b82f6; color:white;
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-weight:700; font-size:14px; flex-shrink:0;
+}
+ol.steps li .txt strong { display:block; font-size:15px; margin-bottom:3px; }
+ol.steps li .txt span { color:#5a6a7a; font-size:14px; }
 
-/* ---- NOTE ---- */
-.note {
-  background: #eff6ff;
-  border-radius: 8px;
-  padding: 12px 16px;
-  color: #1e40af;
-  font-size: 14px;
-  margin: 12px 0;
+.link-btn {
+  display:inline-block; background:#2563eb; color:white;
+  text-decoration:none; padding:12px 22px; border-radius:8px;
+  font-weight:700; font-size:15px; margin:8px 4px;
 }
-.note strong { display: block; margin-bottom: 4px; }
+.link-btn.green { background:#16a34a; }
+.link-btn.small { padding:8px 16px; font-size:13px; }
 
-/* ---- RESULT ---- */
-.result-block {
-  background: #f0fdf4;
-  border: 2px solid #22c55e;
-  border-radius: 12px;
-  padding: 20px;
-  margin-top: 24px;
-  text-align: center;
+.highlight {
+  background:#fffbeb; border:2px solid #f59e0b; border-radius:10px;
+  padding:16px 20px; margin:14px 0; color:#78350f;
 }
-.result-block .big { font-size: 40px; margin-bottom: 8px; }
-.result-block h3 { color: #15803d; font-size: 20px; margin-bottom: 8px; }
-.result-block a {
-  display: inline-block;
-  background: #15803d;
-  color: white;
-  text-decoration: none;
-  padding: 12px 28px;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 16px;
-  margin-top: 12px;
-}
+.highlight strong { display:block; margin-bottom:6px; font-size:16px; }
 
-/* ---- DIVIDER ---- */
-hr { border: none; border-top: 2px dashed #cbd5e1; margin: 28px 0; }
+.note { background:#eff6ff; border-radius:8px; padding:12px 16px; color:#1e40af; font-size:14px; margin:10px 0; }
+.note strong { display:block; margin-bottom:4px; }
 
-/* ---- ALREADY DONE ---- */
-.done-box {
-  background: #f0fdf4;
-  border: 2px solid #22c55e;
-  border-radius: 10px;
-  padding: 16px 20px;
-  margin-bottom: 24px;
+.screen {
+  background:#1a2332; border-radius:8px; padding:14px 16px;
+  margin:10px 0; font-family:monospace; font-size:13px; color:#94a3b8;
 }
-.done-box h3 { color: #15803d; margin-bottom: 10px; font-size: 15px; }
-.done-row { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 14px; }
-.done-row .check { color: #16a34a; font-size: 18px; }
+.screen .green-text { color:#4ade80; }
+.screen .gray-text { color:#94a3b8; }
+
+.result {
+  background:#f0fdf4; border:2px solid #22c55e; border-radius:12px;
+  padding:24px; text-align:center; margin-top:24px;
+}
+.result .big { font-size:48px; margin-bottom:10px; }
+.result h2 { color:#15803d; margin-bottom:8px; }
+.result p { color:#374151; margin-bottom:14px; }
 </style>
 </head>
 <body>
 
-<h1>📦 Загрузка сайта на Timeweb</h1>
-<p class="subtitle">Пошаговая инструкция для новичка</p>
+<h1>📦 Установка сайта на Timeweb</h1>
+<p class="sub">Пошаговая инструкция — без технических знаний</p>
 
-<!-- ALREADY DONE -->
 <div class="done-box">
-  <h3>✅ Вы уже сделали:</h3>
-  <div class="done-row"><span class="check">✅</span> Разрешения в GitHub настроены</div>
-  <div class="done-row"><span class="check">✅</span> Пароль добавлен</div>
-  <div class="done-row"><span class="check">✅</span> Файлы загружены на Timeweb</div>
-  <div class="done-row"><span class="check">🔧</span> <strong>Сейчас:</strong> исправляем подпапку → и сайт заработает</div>
+  <h3>✅ Уже сделано:</h3>
+  <div class="done-row"><span>✅</span> Файлы сайта загружены на Timeweb</div>
+  <div class="done-row"><span>✅</span> index.html находится в папке</div>
+  <div class="done-row"><span>🔧</span> <strong>Осталось:</strong> переместить файлы из подпапки в нужное место — 3 шага ниже</div>
 </div>
 
-<!-- EMERGENCY FIX -->
-<div class="emergency">
-  <div class="etitle">🔧 Пустая страница — вот почему и как исправить</div>
+<!-- PHASE 1: upload fix.php -->
+<div class="phase">
+  <div class="phase-title"><div class="num">1</div> Загрузите один маленький файл</div>
 
-  <p><strong>Почему пустая страница?</strong> Когда скачивается ZIP с GitHub, он автоматически кладёт все файлы в папку-обёртку с длинным названием. Получается как коробка внутри коробки — сайт не виден снаружи.</p>
-
-  <div class="diagrams">
-    <div class="diag-card diag-bad">
-      <div class="diag-label">❌ Сейчас (не работает)</div>
-      📁 public_html/<br>
-      <div class="indent">📁 pacificstar.ru-copilot-...<br>
-        <div class="indent">📄 index.html ← тут<br>
-        📄 about.html<br>
-        📁 css/<br>
-        📁 js/
-        </div>
-      </div>
-    </div>
-    <div class="diag-card diag-good">
-      <div class="diag-label">✅ Надо сделать (работает)</div>
-      📁 public_html/<br>
-      <div class="indent">📄 index.html ← тут!<br>
-      📄 about.html<br>
-      📁 css/<br>
-      📁 js/
-      </div>
-    </div>
+  <div class="highlight">
+    <strong>🔧 Почему пустая страница?</strong>
+    Файлы лежат в папке внутри папки. Нужно вытащить их «наружу».
+    Этот файл сделает всё сам — вам только загрузить его.
   </div>
 
-  <p><strong>Что нужно сделать:</strong> зайти в эту папку-обёртку, взять все файлы из неё и перенести на уровень выше (прямо в public_html). 5–7 кликов.</p>
-</div>
-
-<!-- FIX STEPS -->
-<h2 style="font-size:20px; color:#0a3d6b; margin-bottom:16px;">🔧 Как исправить — 6 шагов:</h2>
-
-<ol class="fix-steps">
-  <li>
-    <div class="step-text">
-      <strong>Откройте Файловый менеджер Timeweb</strong>
-      <span>Войдите на timeweb.com → «Панель управления» → «Файловый менеджер»</span>
-    </div>
-  </li>
-  <li>
-    <div class="step-text">
-      <strong>Зайдите в папку public_html</strong>
-      <span>Там должна быть одна папка с длинным названием, похожим на «pacificstar.ru-copilot-refactor-site-description»</span>
-      <div class="screen-mock" style="margin-top:10px;">
-        <div class="screen-topbar">📁 public_html/</div>
-        <div class="screen-row highlight">
-          <span class="icon">📁</span>
-          <span class="fname">pacificstar.ru-copilot-refactor-site-description</span>
-          <span class="badge">← ВОТ ОНА</span>
-        </div>
-        <div class="screen-row" style="color:#aaa; font-style:italic; font-size:12px;">
-          <span class="icon">📄</span>
-          <span class="fname">(здесь пусто, нет index.html)</span>
+  <ol class="steps">
+    <li>
+      <div class="txt">
+        <strong>Скачайте файл-установщик</strong>
+        <span>Нажмите кнопку ниже — скачается маленький файл <code>fix.php</code></span>
+        <br><br>
+        <a class="link-btn" href="https://github.com/bossssmann-ui/pacificstar.ru/raw/copilot/refactor-site-description/fix.php" download>
+          ⬇️ Скачать fix.php
+        </a>
+        <div class="note" style="margin-top:10px;">
+          <strong>Файл сохранится в папку «Загрузки»</strong> на вашем компьютере. Файл маленький — 7 KB.
         </div>
       </div>
-    </div>
-  </li>
-  <li>
-    <div class="step-text">
-      <strong>Нажмите на эту папку — зайдите внутрь</strong>
-      <span>Вы увидите файлы: index.html, about.html, папки css, js и другие</span>
-      <div class="screen-mock" style="margin-top:10px;">
-        <div class="screen-topbar">📁 public_html / pacificstar.ru-copilot-refactor-site-description /</div>
-        <div class="screen-row"><span class="icon">📄</span><span class="fname">index.html</span></div>
-        <div class="screen-row"><span class="icon">📄</span><span class="fname">about.html</span></div>
-        <div class="screen-row"><span class="icon">📄</span><span class="fname">services.html</span></div>
-        <div class="screen-row"><span class="icon">📁</span><span class="fname">css</span></div>
-        <div class="screen-row"><span class="icon">📁</span><span class="fname">js</span></div>
-        <div class="screen-row"><span class="icon">📁</span><span class="fname">img</span></div>
+    </li>
+    <li>
+      <div class="txt">
+        <strong>Зайдите в Файловый менеджер Timeweb</strong>
+        <span>timeweb.com → Панель управления → Файловый менеджер → папка <code>public_html</code></span>
       </div>
-    </div>
-  </li>
-  <li>
-    <div class="step-text">
-      <strong>Выделите ВСЕ файлы внутри этой папки</strong>
-      <span>Найдите кнопку «Выделить всё» или нажмите галочку/чекбокс в самом верху списка файлов</span>
-      <div class="note">
-        <strong>💡 Подсказка:</strong>
-        В Timeweb есть квадратик-галочка слева от «Имя» в шапке таблицы — нажмите его. Все файлы отметятся сразу.
+    </li>
+    <li>
+      <div class="txt">
+        <strong>Загрузите файл fix.php прямо в папку public_html</strong>
+        <span>Нажмите «Загрузить файл» (или перетащите) → выберите скачанный <code>fix.php</code></span>
+        <div class="note" style="margin-top:8px;">
+          <strong>Важно:</strong> загружаете именно в <code>public_html</code>, не открывая никакие подпапки.
+          fix.php должен лежать рядом с папкой «pacificstar.ru-copilot-...», а не внутри неё.
+        </div>
       </div>
-    </div>
-  </li>
-  <li>
-    <div class="step-text">
-      <strong>Найдите кнопку «Переместить» (или «Вырезать»)</strong>
-      <span>После выделения сверху появится панель с кнопками действий. Нажмите «Переместить» или «Вырезать»</span>
-      <div style="margin-top:8px;">
-        <span class="btn-mock gray">✂️ Вырезать</span>
-        <span style="color:#6b7280; font-size:14px;"> или </span>
-        <span class="btn-mock">📦 Переместить</span>
-      </div>
-      <div class="note" style="margin-top:10px;">
-        <strong>Если нет такой кнопки:</strong> попробуйте правую кнопку мыши на выделенных файлах — в меню будет «Переместить» / «Копировать»
-      </div>
-    </div>
-  </li>
-  <li>
-    <div class="step-text">
-      <strong>Перейдите в папку public_html и вставьте</strong>
-      <span>Нажмите «Назад» / перейдите в public_html (на уровень выше). Затем нажмите «Вставить» или укажите путь <code>/public_html/</code></span>
-      <div class="screen-mock" style="margin-top:10px;">
-        <div class="screen-topbar">📁 public_html/ — теперь файлы здесь</div>
-        <div class="screen-row"><span class="icon">📄</span><span class="fname">index.html</span></div>
-        <div class="screen-row"><span class="icon">📄</span><span class="fname">about.html</span></div>
-        <div class="screen-row"><span class="icon">📁</span><span class="fname">css</span></div>
-        <div class="screen-row"><span class="icon">📁</span><span class="fname">js</span></div>
-        <div class="screen-row" style="color:#aaa; font-size:12px; font-style:italic;"><span class="icon">📁</span><span class="fname">pacificstar.ru-copilot-... (пустая — можно удалить)</span></div>
-      </div>
-      <div class="note" style="margin-top:10px;">
-        <strong>Пустую папку-обёртку можно удалить</strong> — она уже не нужна.
-      </div>
-    </div>
-  </li>
-</ol>
-
-<!-- ALTERNATIVE -->
-<hr>
-<div style="background:white; border-radius:12px; padding:20px; border:1px solid #e2e8f0; margin-bottom:24px;">
-  <h3 style="font-size:17px; color:#0a3d6b; margin-bottom:12px;">🔄 Или — более простой способ (если перемещение сложно)</h3>
-  <p style="color:#5a6a7a; margin-bottom:12px; font-size:14px;">Если перемещение файлов кажется сложным — просто удалите всё и загрузите заново, но уже правильно:</p>
-  <ol style="padding-left:20px; color:#374151; font-size:14px; line-height:2;">
-    <li>Удалите всё из public_html (включая папку-обёртку)</li>
-    <li>Скачайте ZIP повторно: <a href="https://github.com/bossssmann-ui/pacificstar.ru/archive/refs/heads/copilot/refactor-site-description.zip" style="color:#2563eb;">нажмите здесь</a></li>
-    <li>Распакуйте ZIP <strong>на компьютере</strong> (двойной клик по файлу)</li>
-    <li>Откройте распакованную папку — внутри будет ещё одна папка «pacificstar.ru-copilot-...»</li>
-    <li>Войдите в неё — там файлы: index.html, css/, js/ и т.д.</li>
-    <li>Выделите <strong>все эти файлы</strong> (Ctrl+A) и загрузите их на Timeweb в public_html</li>
+    </li>
   </ol>
-  <div class="note" style="margin-top:12px;">
-    <strong>Суть:</strong> распаковать на компьютере → войти внутрь папки → загружать уже готовые файлы, а не ZIP
-  </div>
+</div>
+
+<!-- PHASE 2: run fix -->
+<div class="phase">
+  <div class="phase-title"><div class="num">2</div> Запустите установщик в браузере</div>
+  <ol class="steps">
+    <li>
+      <div class="txt">
+        <strong>Откройте браузер (Chrome, Safari — любой)</strong>
+        <span>Введите в адресной строке и нажмите Enter:</span>
+        <div class="screen">
+          <span class="green-text">https://pacificstar.ru/fix.php</span>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="txt">
+        <strong>Дождитесь зелёного экрана «Готово!»</strong>
+        <span>Установщик сам переместит все файлы. Занимает 2–3 секунды.</span>
+        <div class="screen" style="margin-top:8px;">
+          <span class="green-text">🎉 Готово! Сайт установлен</span><br>
+          <span class="gray-text">✅ index.html</span><br>
+          <span class="gray-text">✅ about.html</span><br>
+          <span class="gray-text">✅ css/</span><br>
+          <span class="gray-text">✅ js/</span><br>
+          <span class="green-text">[Открыть сайт →]</span>
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="txt">
+        <strong>Нажмите «Открыть сайт →» на зелёном экране</strong>
+        <span>Должен открыться сайт Pacific Star с синей шапкой.</span>
+      </div>
+    </li>
+  </ol>
+</div>
+
+<!-- PHASE 3: cleanup -->
+<div class="phase">
+  <div class="phase-title"><div class="num">3</div> Удалите установщик (важно!)</div>
+  <ol class="steps">
+    <li>
+      <div class="txt">
+        <strong>Вернитесь в Файловый менеджер → public_html</strong>
+        <span>Найдите файл <code>fix.php</code></span>
+      </div>
+    </li>
+    <li>
+      <div class="txt">
+        <strong>Удалите fix.php</strong>
+        <span>Правая кнопка мыши → «Удалить». Этот файл больше не нужен, и оставлять его небезопасно.</span>
+      </div>
+    </li>
+  </ol>
 </div>
 
 <!-- RESULT -->
-<div class="result-block">
-  <div class="big">🎉</div>
-  <h3>После переноса — откройте сайт!</h3>
-  <p style="color:#374151;">Если index.html лежит прямо в public_html — сайт откроется</p>
-  <a href="https://pacificstar.ru" target="_blank">Открыть pacificstar.ru →</a>
-  <p style="margin-top:14px; color:#6b7280; font-size:13px;">
-    Если сайт не открылся — напишите мне что видите, разберёмся вместе.
+<div class="result">
+  <div class="big">🌐</div>
+  <h2>Сайт работает!</h2>
+  <p>Откройте в браузере и проверьте</p>
+  <a href="https://pacificstar.ru" target="_blank" class="link-btn green" style="font-size:17px; padding:14px 32px;">
+    Открыть pacificstar.ru →
+  </a>
+  <p style="margin-top:16px; color:#6b7280; font-size:13px;">
+    Что-то пошло не так? Напишите мне что видите на экране — разберёмся.
   </p>
 </div>
 
