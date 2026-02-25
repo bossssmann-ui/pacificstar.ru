@@ -118,8 +118,127 @@
 
   <!-- ШАГИ ВСТУПЛЕНИЕ -->
   <div class="tip-box" style="margin-bottom: 24px;">
-    <strong>Что нужно сделать:</strong> Всего 2 части — один раз добавить пароль, один раз нажать кнопку.
-    Займёт 5 минут. После этого сайт будет обновляться автоматически при любых изменениях.
+    <strong>Что нужно сделать:</strong> Всего 3 части — один раз разрешить запуски, один раз добавить пароль, один раз нажать кнопку.
+    Займёт 7 минут. После этого сайт будет обновляться автоматически при любых изменениях.
+  </div>
+
+  <!-- ────────────────────────────────────────────────── -->
+  <!-- ШАГ 0: РАЗРЕШИТЬ АВТОЗАПУСКИ (ПЕРВЫМ ДЕЛОМ!)     -->
+  <!-- ────────────────────────────────────────────────── -->
+
+  <div class="step-block" style="border: 3px solid #cf222e;">
+    <div class="step-header" style="background:#fff0f0;">
+      <div class="step-num" style="background:#cf222e;">0</div>
+      <h2 style="color:#cf222e;">⚠️ ПЕРВЫМ ДЕЛОМ — Разрешить автоматические запуски</h2>
+    </div>
+    <div class="step-body">
+
+      <div style="background:#fff0f0; border:1px solid #f7d4d6; border-radius:8px; padding:16px; margin-bottom:20px; font-size:15px;">
+        <strong>Почему это нужно?</strong><br><br>
+        GitHub заметил что код в репозиторий добавляет не человек, а программа (Copilot). По умолчанию GitHub блокирует автоматические действия таких программ и ждёт, пока <em>вы лично</em> их не разрешите.<br><br>
+        Это нужно сделать <strong>один раз</strong>. После этого всё будет работать само.
+      </div>
+
+      <!-- ЧАСТЬ А: Исправить настройки -->
+      <p style="font-weight:700; font-size:16px; margin-bottom:12px;">Часть А — Изменить настройки (2 минуты)</p>
+
+      <p style="margin-bottom:10px;">Нажмите на эту ссылку:</p>
+      <div class="link-box">
+        <a href="https://github.com/bossssmann-ui/pacificstar.ru/settings/actions" target="_blank">
+          https://github.com/bossssmann-ui/pacificstar.ru/settings/actions
+        </a>
+      </div>
+
+      <p style="margin:14px 0 10px; font-weight:600;">Вы увидите страницу с настройками. Найдите раздел «Fork pull request workflows from outside collaborators»:</p>
+
+      <div class="gh-window">
+        <div class="gh-topbar">
+          <div class="gh-dots"><div class="gh-dot red"></div><div class="gh-dot yellow"></div><div class="gh-dot green"></div></div>
+          <div class="gh-url">github.com/bossssmann-ui/pacificstar.ru/settings/actions</div>
+        </div>
+        <div class="gh-content">
+          <div style="font-size:16px; font-weight:600; margin-bottom:16px;">Actions permissions</div>
+
+          <div style="border:2px solid #2da44e; border-radius:8px; padding:16px; background:#f0fff4;">
+            <div style="font-size:14px; font-weight:600; color:#24292f; margin-bottom:12px;">Fork pull request workflows from outside collaborators</div>
+            <div style="display:flex; flex-direction:column; gap:10px; font-size:14px;">
+              <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer;">
+                <input type="radio" style="margin-top:3px; width:16px; height:16px; accent-color:#2da44e;" checked>
+                <div>
+                  <div style="font-weight:600; color:#2da44e;">✅ Run workflows from all external collaborators</div>
+                  <div style="color:#57606a; font-size:13px; margin-top:2px;">Выберите это — разрешает запускать автоматически</div>
+                </div>
+              </label>
+              <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; opacity:0.5;">
+                <input type="radio" style="margin-top:3px; width:16px; height:16px;">
+                <div>
+                  <div>Require approval for first-time contributors who are new to GitHub</div>
+                </div>
+              </label>
+              <label style="display:flex; align-items:flex-start; gap:10px; cursor:pointer; opacity:0.5;">
+                <input type="radio" style="margin-top:3px; width:16px; height:16px;">
+                <div>
+                  <div>Require approval for all outside collaborators</div>
+                  <div style="color:#57606a; font-size:13px; margin-top:2px;">Сейчас выбрано это — поэтому запуски блокируются</div>
+                </div>
+              </label>
+            </div>
+            <div style="margin-top:16px; display:flex; gap:10px; align-items:center;">
+              <a class="gh-btn gh-btn-green highlight-btn" style="border-radius:6px;">Save</a>
+              <span style="font-size:13px; color:#57606a;">← нажмите после выбора</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arrow-row">
+        <div class="arrow">👆</div>
+        <div class="arrow-text">Выберите «Run workflows from all external collaborators» → нажмите «Save»</div>
+      </div>
+
+      <hr style="margin: 24px 0; border:none; border-top:1px solid #d0d7de;">
+
+      <!-- ЧАСТЬ Б: Одобрить уже ожидающий запуск -->
+      <p style="font-weight:700; font-size:16px; margin-bottom:12px;">Часть Б — Одобрить уже ожидающий запуск</p>
+
+      <p style="margin-bottom:10px;">После сохранения настроек — нажмите на эту ссылку (это уже запущенный процесс, который ждёт вашего одобрения):</p>
+
+      <div class="link-box">
+        <a href="https://github.com/bossssmann-ui/pacificstar.ru/actions/runs/22378426678" target="_blank">
+          https://github.com/bossssmann-ui/pacificstar.ru/actions/runs/22378426678
+        </a>
+      </div>
+
+      <p style="margin:14px 0 10px; font-weight:600;">На странице этого запуска будет жёлтый баннер — нажмите кнопку «Approve and run»:</p>
+
+      <div class="gh-window">
+        <div class="gh-topbar">
+          <div class="gh-dots"><div class="gh-dot red"></div><div class="gh-dot yellow"></div><div class="gh-dot green"></div></div>
+          <div class="gh-url">github.com/bossssmann-ui/pacificstar.ru/actions/runs/22378426678</div>
+        </div>
+        <div class="gh-content">
+          <!-- Yellow approval banner -->
+          <div style="background:#fff8c5; border:1px solid #d4a72c; border-radius:8px; padding:16px 20px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px;">
+            <div>
+              <div style="font-weight:600; font-size:14px; margin-bottom:4px;">⏳ Workflow awaiting approval</div>
+              <div style="font-size:13px; color:#57606a;">This workflow requires approval from an owner before it can run.</div>
+            </div>
+            <a class="gh-btn gh-btn-green highlight-btn" style="border-radius:6px; white-space:nowrap;">Approve and run</a>
+          </div>
+          <div style="color:#57606a; font-size:13px; text-align:center; padding:16px;">Deploy — pacificstar.ru на Timeweb · #12 · waiting for approval</div>
+        </div>
+      </div>
+
+      <div class="arrow-row">
+        <div class="arrow">👆</div>
+        <div class="arrow-text">Нажмите «Approve and run» — запуск начнётся сразу</div>
+      </div>
+
+      <div class="warn-box" style="margin-top:16px;">
+        <strong>Если жёлтого баннера нет</strong> — значит настройки в части А уже сохранены и запуск будет работать через кнопку «Run workflow» (шаг 4 ниже). Переходите к шагу 1.
+      </div>
+
+    </div>
   </div>
 
   <!-- ────────────────────────────────────────────────── -->
@@ -453,8 +572,10 @@
       </div>
 
       <div class="warn-box" style="margin-top:16px;">
-        <strong>⚠️ Если вместо ✅ появился красный крест ❌</strong><br>
-        Сделайте скриншот и прикрепите его в сообщение к <a href="https://github.com/bossssmann-ui/pacificstar.ru/pulls" target="_blank">этому PR</a> — я разберусь.
+        <strong>⚠️ Если вместо ✅ появился красный крест ❌ или жёлтый значок ⏳</strong><br><br>
+        Два варианта:<br>
+        1. Нажмите на строку с крестом/значком — откроется страница запуска. Если увидите кнопку <strong>«Approve and run»</strong> — нажмите её.<br>
+        2. Сделайте скриншот и прикрепите его в сообщение к <a href="https://github.com/bossssmann-ui/pacificstar.ru/pulls" target="_blank">нашему PR</a> — я разберусь за 5 минут.
       </div>
 
     </div>
