@@ -2,11 +2,12 @@
 /**
  * Pacific Star — Автоматический исправитель структуры файлов
  * Загрузите этот файл в корень public_html и откройте в браузере.
- * Скрипт сам переместит файлы сайта на нужное место.
+ * Скрипт:
+ *  1. Перезапишет .htaccess чистым файлом (убирает редиректы Tilda → исправляет ошибку 429)
+ *  2. Переместит файлы сайта из подпапки в корень
  * После успеха — удалите этот файл.
  */
 
-// Показывать все ошибки PHP — чтобы не было «белого экрана»
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
@@ -18,15 +19,32 @@ $moved      = false;
 $log        = [];
 $error      = null;
 
-// Найти папку с файлами сайта
+// ── Шаг 1: ВСЕГДА перезаписываем .htaccess чистым файлом ────────────────
+// Это убирает старые редиректы Tilda, которые вызывали ошибку 429.
+$cleanHtaccess = "Options -Indexes\nDirectoryIndex index.html index.php\n\n" .
+    "<IfModule mod_headers.c>\n" .
+    "    Header set X-Content-Type-Options \"nosniff\"\n" .
+    "    Header set X-Frame-Options \"SAMEORIGIN\"\n" .
+    "</IfModule>\n\n" .
+    "<IfModule mod_rewrite.c>\n" .
+    "    RewriteEngine On\n" .
+    "    RewriteBase /\n" .
+    "</IfModule>\n";
+
+$htaccessPath = $publicHtml . '/.htaccess';
+if (file_put_contents($htaccessPath, $cleanHtaccess) !== false) {
+    $log[] = ['ok', '.htaccess', 'заменён (редиректы Tilda удалены ✅)'];
+} else {
+    $log[] = ['fail', '.htaccess', 'не удалось записать — нет прав'];
+}
+
+// ── Шаг 2: найти подпапку с файлами сайта ──────────────────────────────
 $candidates = [];
 foreach (glob($publicHtml . '/*', GLOB_ONLYDIR) as $dir) {
     $name = basename($dir);
-    // Пропустить служебные папки
     if (in_array($name, ['.well-known', 'cgi-bin', 'logs', 'tmp', 'mail'], true)) {
         continue;
     }
-    // Есть ли там index.html?
     if (file_exists($dir . '/index.html')) {
         $candidates[] = $dir;
     }
@@ -56,9 +74,9 @@ if (empty($candidates)) {
         $src  = $sourceDir . '/' . $item;
         $dest = $publicHtml . '/' . $item;
 
-        // Не перезаписываем .htaccess если он уже есть в корне
-        if ($item === '.htaccess' && file_exists($dest)) {
-            $log[] = ['skip', $item, 'уже есть в корне — пропущен'];
+        // .htaccess уже перезаписан на Шаге 1, пропускаем его здесь
+        if ($item === '.htaccess') {
+            $log[] = ['skip', $item, 'уже обновлён на Шаге 1'];
             continue;
         }
 
