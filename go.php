@@ -76,7 +76,7 @@ a{display:inline-block;margin-top:20px;padding:12px 24px;background:#1a3d5c;colo
 <p>Возможно, сервер не может подключиться к GitHub. Скажите службе поддержки Timeweb:<br>
 <em>«Включите allow_url_fopen и curl для домена pacificstar.ru»</em></p>
 <pre style="background:#fff;padding:12px;border:1px solid #ddd">
-<?php foreach ($log as $l) echo (str_starts_with($l,'OK') ? '<span class="ok">' : '<span class="err">') . htmlspecialchars($l) . "</span>\n"; ?>
+<?php foreach ($log as $l) echo (substr($l,0,2)==='OK' ? '<span class="ok">' : '<span class="err">') . htmlspecialchars($l) . "</span>\n"; ?>
 </pre>
 <p>Успешно: <?= $ok ?> / <?= count($files) ?></p>
 <a href="https://pacificstar.ru">Попробовать открыть сайт</a>
