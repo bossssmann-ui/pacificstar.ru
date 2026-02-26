@@ -1,97 +1,133 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<title>Запуск сайта Pacific Star</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pacific Star — Запуск сайта на Timeweb</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;padding:24px}
-.wrap{max-width:700px;margin:0 auto}
-h1{font-size:26px;color:#fff;margin-bottom:6px}
-.sub{color:#8b949e;margin-bottom:32px;font-size:15px}
-.card{background:#1c2128;border:1px solid #30363d;border-radius:10px;padding:24px;margin-bottom:20px}
-.card.red{border-color:#f85149}
-.card.blue{border-color:#58a6ff}
-.card.green{border-color:#3fb950}
-h2{font-size:17px;margin-bottom:12px}
-.num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;background:#238636;color:#fff;border-radius:50%;font-weight:700;font-size:15px;margin-right:10px;flex-shrink:0}
-.step{display:flex;align-items:flex-start;margin-bottom:14px}
-.step-body{flex:1}
-.step-body p{color:#c9d1d9;font-size:15px;margin:4px 0 0}
-a.btn{display:inline-block;background:#238636;color:#fff;border-radius:6px;padding:12px 22px;font-size:16px;font-weight:600;text-decoration:none;margin-top:8px}
-a.btn.red{background:#da3633}
-a.btn.red:hover{background:#f85149}
-a.btn:hover{background:#2ea043}
-.why{background:#161b22;border:1px solid #30363d;border-left:4px solid #d29922;border-radius:8px;padding:18px;margin-bottom:24px}
-.why h3{color:#d29922;font-size:14px;margin-bottom:8px}
-.why p{font-size:14px;color:#c9d1d9;line-height:1.7}
-code{background:#0d1117;border:1px solid #30363d;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:13px;color:#79c0ff}
-.tag{font-size:11px;font-weight:700;background:#388bfd;color:#fff;padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:middle}
+body{font-family:Arial,sans-serif;background:#f0f4f8;color:#1a1a1a;padding:20px}
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.1);max-width:700px;margin:0 auto;padding:32px}
+h1{font-size:24px;color:#1a3d5c;margin-bottom:8px}
+.subtitle{color:#666;font-size:15px;margin-bottom:32px}
+.step{display:flex;gap:16px;align-items:flex-start;margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid #eee}
+.step:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.num{background:#1a3d5c;color:#fff;font-size:20px;font-weight:bold;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-content h2{font-size:17px;color:#1a3d5c;margin-bottom:6px}
+.step-content p{font-size:14px;color:#555;line-height:1.6;margin-bottom:8px}
+.btn{display:inline-block;padding:12px 24px;background:#1a3d5c;color:#fff;border-radius:8px;text-decoration:none;font-size:15px;font-weight:bold;margin-top:8px}
+.btn:hover{background:#0f2a42}
+.btn-green{background:#22863a}
+.btn-green:hover{background:#1a6b2e}
+.note{background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:12px 16px;font-size:13px;color:#856404;margin-top:12px}
+.ok-box{background:#d4edda;border:1px solid #28a745;border-radius:8px;padding:12px 16px;font-size:13px;color:#155724;margin-top:12px}
+.err-box{background:#f8d7da;border:1px solid #dc3545;border-radius:8px;padding:12px 16px;font-size:13px;color:#721c24;margin-top:12px}
+.diagram{background:#f8f9fa;border:1px solid #dee2e6;border-radius:8px;padding:16px;font-size:13px;margin-top:12px;font-family:monospace;line-height:1.8}
+.diagram .bad{color:#dc3545}
+.diagram .good{color:#28a745}
+.section-title{background:#1a3d5c;color:#fff;border-radius:8px 8px 0 0;padding:10px 16px;font-size:13px;font-weight:bold}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+td,th{padding:8px 12px;text-align:left;border:1px solid #dee2e6}
+th{background:#f8f9fa;font-weight:bold}
+.tag-red{background:#dc3545;color:#fff;border-radius:4px;padding:2px 8px;font-size:11px}
+.tag-green{background:#28a745;color:#fff;border-radius:4px;padding:2px 8px;font-size:11px}
+h3{font-size:15px;margin:20px 0 8px;color:#1a3d5c}
 </style>
 </head>
 <body>
-<div class="wrap">
-
-<h1>🚀 Запуск сайта Pacific Star</h1>
-<p class="sub">Три шага — сайт будет онлайн</p>
-
-<div class="why">
-  <h3>🔍 Почему белый экран с логотипом Tilda?</h3>
-  <p>В папке <code>public_html</code> на сервере Timeweb есть <strong>старый файл <code>index.html</code> от Tilda</strong>. Когда вы заходите на pacificstar.ru — сервер открывает именно его. Наш новый <code>index.html</code> туда не попал, потому что Timeweb при распаковке ZIP <strong>не перезаписывает</strong> уже существующие файлы.</p>
-</div>
-
-<!-- STEP 1 -->
-<div class="card blue">
-  <div class="step">
-    <span class="num">1</span>
-    <div class="step-body">
-      <strong>Скачайте файл check.php на компьютер</strong>
-      <p>Нажмите правой кнопкой → «Сохранить ссылку как»</p>
-    </div>
-  </div>
-  <a class="btn" href="https://github.com/bossssmann-ui/pacificstar.ru/raw/copilot/refactor-site-description/check.php" download>⬇ Скачать check.php</a>
-</div>
-
-<!-- STEP 2 -->
 <div class="card">
+  <h1>🚢 Pacific Star — Запуск сайта</h1>
+  <p class="subtitle">Инструкция по замене старого сайта Tilda на новый сайт Pacific Star</p>
+
+  <!-- ── Объяснение проблемы ─────────────────────────────────────────── -->
+  <div class="err-box" style="margin-bottom:28px">
+    <strong>⚠️ Почему показывается белый экран и логотип Tilda?</strong><br><br>
+    Timeweb при распаковке ZIP <strong>не перезаписывает</strong> файлы, которые уже существуют.
+    Старый <code>index.html</code> от Tilda остался в <code>public_html/</code> —
+    именно его и открывает браузер.<br><br>
+    Наш <code>index.html</code> из ZIP был <em>проигнорирован</em>.
+  </div>
+
+  <!-- ── СПОСОБ 1: go.php ───────────────────────────────────────────── -->
+  <h3>✅ Способ 1 — go.php (рекомендуется, 3 шага)</h3>
+
   <div class="step">
-    <span class="num">2</span>
-    <div class="step-body">
-      <strong>Загрузите check.php на Timeweb</strong>
-      <p>Точно так же как загружали <code>hello.html</code> — в папку <code>public_html</code></p>
+    <div class="num">1</div>
+    <div class="step-content">
+      <h2>Скачайте go.php на компьютер</h2>
+      <a class="btn" href="https://github.com/bossssmann-ui/pacificstar.ru/raw/copilot/refactor-site-description/go.php" download>⬇ Скачать go.php</a>
+      <p class="note" style="margin-top:12px">
+        💡 Если вы уже распаковывали <code>site-pacificstar.zip</code> на Timeweb —
+        <code>go.php</code> уже в папке <code>public_html</code>.<br>
+        Пропустите шаги 1 и 2, сразу перейдите к шагу 3.
+      </p>
     </div>
   </div>
-  <div style="margin-top:14px;background:#161b22;border:1px solid #30363d;border-radius:6px;padding:14px;font-size:14px;color:#c9d1d9;line-height:1.9">
-    1. Войдите на <strong>timeweb.com</strong> → Панель управления<br>
-    2. Нажмите <strong>«Файловый менеджер»</strong><br>
-    3. Откройте папку <strong>public_html</strong><br>
-    4. Нажмите <strong>«Загрузить файл»</strong> (или «Upload»)<br>
-    5. Выберите <strong>check.php</strong> из папки Загрузки
-  </div>
-</div>
 
-<!-- STEP 3 -->
-<div class="card green">
   <div class="step">
-    <span class="num">3</span>
-    <div class="step-body">
-      <strong>Откройте check.php в браузере и нажмите кнопку</strong>
-      <p>Скрипт сам перезапишет старый Tilda <code>index.html</code> нашим</p>
+    <div class="num">2</div>
+    <div class="step-content">
+      <h2>Загрузите go.php на Timeweb</h2>
+      <p>Точно так же, как вы загружали <code>hello.html</code>:</p>
+      <div class="diagram">
+        <div class="section-title">Файловый менеджер Timeweb</div>
+        <div style="padding:12px">
+          📁 public_html  <span style="color:#888">← вы здесь</span><br>
+          &nbsp;&nbsp;📄 index.html &nbsp;<span class="bad">← старый Tilda (не трогайте)</span><br>
+          &nbsp;&nbsp;📄 hello.html &nbsp;<span class="good">← этот работает</span><br>
+          &nbsp;&nbsp;📄 about.html<br>
+          &nbsp;&nbsp;📁 css/<br>
+          &nbsp;&nbsp;📁 js/<br>
+          &nbsp;&nbsp;<strong class="good">📄 go.php &nbsp;&larr; загрузите сюда</strong>
+        </div>
+      </div>
     </div>
   </div>
-  <a class="btn" href="http://pacificstar.ru/check.php" target="_blank" style="background:#1f6feb;margin-top:8px">🌐 Открыть check.php</a>
-  <p style="color:#8b949e;font-size:13px;margin-top:10px">На странице нажмите жёлтую кнопку <strong>«🔧 Перезаписать index.html и .htaccess»</strong></p>
-  <p style="color:#8b949e;font-size:13px;margin-top:6px">→ Появится зелёный блок «✅ index.html перезаписан» → нажмите «Открыть pacificstar.ru»</p>
-</div>
 
-<!-- Done -->
-<div class="card" style="border-color:#3fb950;background:#0f2a1a;text-align:center;padding:28px">
-  <div style="font-size:40px;margin-bottom:12px">🎉</div>
-  <div style="font-size:20px;color:#3fb950;font-weight:700;margin-bottom:8px">Сайт работает!</div>
-  <div style="color:#c9d1d9;font-size:15px;margin-bottom:18px">Если сайт всё ещё показывает Tilda — нажмите <strong>Ctrl+Shift+N</strong> (режим инкогнито) и откройте pacificstar.ru там.</div>
-  <a class="btn" href="https://pacificstar.ru" target="_blank">🌐 pacificstar.ru</a>
-</div>
+  <div class="step">
+    <div class="num">3</div>
+    <div class="step-content">
+      <h2>Откройте go.php в браузере</h2>
+      <a class="btn btn-green" href="http://pacificstar.ru/go.php" target="_blank">▶ Открыть pacificstar.ru/go.php</a>
+      <p style="margin-top:12px">Через 20–30 секунд браузер автоматически откроет <strong>pacificstar.ru</strong> с синей шапкой. 
+      go.php самоудалится — убирать вручную не нужно.</p>
+      <div class="ok-box" style="margin-top:12px">
+        <strong>Если открылась синяя шапка = сайт работает! ✅</strong>
+      </div>
+      <div class="err-box" style="margin-top:12px">
+        <strong>Если белый экран / ошибки:</strong> прислать скриншот в PR на GitHub
+      </div>
+    </div>
+  </div>
 
+  <hr style="margin:28px 0">
+
+  <!-- ── СПОСОБ 2: файловый менеджер ───────────────────────────────── -->
+  <h3>🔧 Способ 2 — вручную в файловом менеджере (если go.php не работает)</h3>
+
+  <table>
+    <tr><th>Шаг</th><th>Действие</th></tr>
+    <tr><td>1</td><td>Timeweb → Файловый менеджер → <code>public_html</code></td></tr>
+    <tr><td>2</td><td>Найти старый <code>index.html</code> (от Tilda) → удалить его</td></tr>
+    <tr><td>3</td><td>Найти наш <code>index.html</code> из <code>site-pacificstar/</code> → переместить в корень</td></tr>
+    <tr><td>4</td><td>То же с <code>.htaccess</code> — удалить старый Tilda, оставить наш</td></tr>
+    <tr><td>5</td><td>Открыть pacificstar.ru — синяя шапка ✅</td></tr>
+  </table>
+
+  <hr style="margin:28px 0">
+
+  <!-- ── Авто-деплой ────────────────────────────────────────────────── -->
+  <h3>🚀 Авто-деплой (после первого запуска сайта)</h3>
+  <p style="font-size:14px;color:#555;margin-bottom:12px">
+    Чтобы Copilot автоматически обновлял сайт при каждом изменении — 
+    добавьте пароль в GitHub один раз:
+  </p>
+  <table>
+    <tr><th>Шаг</th><th>Действие</th></tr>
+    <tr><td>1</td><td>Открыть: <a href="https://github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions" target="_blank">GitHub Secrets</a></td></tr>
+    <tr><td>2</td><td>«New repository secret» → Name: <code>TIMEWEB_PASSWORD</code> → вставить пароль → Save</td></tr>
+    <tr><td>3</td><td>Запуск деплоя: <a href="https://github.com/bossssmann-ui/pacificstar.ru/actions/workflows/tilda-deploy.yml" target="_blank">Actions → Run workflow</a></td></tr>
+  </table>
 </div>
 </body>
 </html>
