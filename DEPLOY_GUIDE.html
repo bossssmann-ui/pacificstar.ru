@@ -2,231 +2,100 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Инструкция по установке — Pacific Star</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Как запустить сайт</title>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-       background: #f0f4f8; color: #1f2937; line-height: 1.6; padding: 24px; }
-.container { max-width: 780px; margin: 0 auto; }
-h1 { font-size: 28px; font-weight: 800; color: #0a3d6b; margin: 32px 0 8px; }
-h2 { font-size: 20px; font-weight: 700; margin: 0 0 16px; }
-.card { background: white; border-radius: 16px; padding: 32px;
-        box-shadow: 0 2px 16px rgba(0,0,0,.08); margin-bottom: 24px; }
-.red-banner { background: #fef2f2; border: 2px solid #ef4444;
-              border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; }
-.red-banner h2 { color: #dc2626; font-size: 18px; margin-bottom: 8px; }
-.green-banner { background: #f0fdf4; border: 2px solid #22c55e;
-                border-radius: 12px; padding: 16px 20px; margin: 20px 0; }
-.step-num { display: inline-flex; align-items: center; justify-content: center;
-            width: 36px; height: 36px; border-radius: 50%; background: #0a3d6b;
-            color: white; font-weight: 700; font-size: 16px; flex-shrink: 0; }
-.step { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 20px; }
-.step-body { flex: 1; }
-.step-body strong { display: block; font-size: 17px; margin-bottom: 6px; }
-.btn { display: inline-block; padding: 14px 28px; border-radius: 10px;
-       font-weight: 700; font-size: 16px; text-decoration: none; color: white;
-       background: #0a3d6b; margin-top: 8px; }
-.btn.red { background: #dc2626; }
-.btn.green { background: #16a34a; }
-.url { background: #f3f4f6; border-radius: 6px; padding: 8px 14px;
-       font-family: monospace; font-size: 14px; margin: 8px 0; word-break: break-all; }
-.badge { display: inline-block; padding: 3px 10px; border-radius: 100px;
-         font-size: 12px; font-weight: 700; }
-.badge.green { background: #dcfce7; color: #166534; }
-.badge.red   { background: #fee2e2; color: #991b1b; }
-.divider { border: none; border-top: 2px solid #e5e7eb; margin: 28px 0; }
-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
-td, th { padding: 10px 14px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 14px; }
-th { background: #f9fafb; font-weight: 600; color: #374151; }
-code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
-.note { background: #eff6ff; border-radius: 8px; padding: 14px 18px;
-        color: #1e40af; font-size: 14px; margin-top: 16px; }
-.status { display: flex; gap: 20px; flex-wrap: wrap; margin: 16px 0; }
-.status-item { background: white; border-radius: 10px; padding: 12px 16px;
-               flex: 1; min-width: 160px; box-shadow: 0 1px 6px rgba(0,0,0,.07); }
-.status-item .label { font-size: 12px; color: #6b7280; }
-.status-item .value { font-size: 15px; font-weight: 700; margin-top: 2px; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+  background:#f0f4f8;color:#1a2a3a;padding:20px;line-height:1.6}
+.wrap{max-width:700px;margin:0 auto}
+h1{font-size:26px;font-weight:800;color:#0f2d4a;margin-bottom:6px}
+.sub{color:#4a6a8a;font-size:15px;margin-bottom:30px}
+.step{background:#fff;border-radius:14px;padding:24px 28px;margin-bottom:16px;
+  box-shadow:0 2px 12px rgba(0,0,0,.07);display:flex;gap:20px;align-items:flex-start}
+.num{background:#0f2d4a;color:#fff;font-size:20px;font-weight:800;
+  width:44px;height:44px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0}
+.step-body h2{font-size:16px;font-weight:700;color:#0f2d4a;margin-bottom:6px}
+.step-body p{font-size:14px;color:#4a6a8a;margin-bottom:10px}
+.btn{display:inline-block;background:#f59e0b;color:#000;font-weight:800;
+  font-size:15px;padding:12px 24px;border-radius:8px;text-decoration:none}
+.btn.blue{background:#0f2d4a;color:#fff}
+.note{background:#fff3cd;border-left:4px solid #f59e0b;border-radius:4px;
+  padding:12px 16px;font-size:13px;color:#7a4a00;margin-top:10px}
+.same{background:#e8f5e9;border-left:4px solid #2e7d32;border-radius:4px;
+  padding:12px 16px;font-size:13px;color:#1b4d20;margin-top:10px;font-weight:600}
+.why{background:#fff;border-radius:14px;padding:20px 24px;margin-top:24px;
+  box-shadow:0 2px 12px rgba(0,0,0,.07)}
+.why h3{font-size:14px;font-weight:700;color:#0f2d4a;margin-bottom:10px}
+.why p{font-size:13px;color:#4a6a8a}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+td,th{padding:8px 12px;text-align:left;border-bottom:1px solid #e5e7eb}
+th{background:#f0f4f8;font-weight:700;color:#0f2d4a}
 </style>
 </head>
 <body>
-<div class="container">
+<div class="wrap">
 
-<h1>🚀 Установка сайта Pacific Star на Timeweb</h1>
+<h1>Запуск сайта Pacific Star</h1>
+<p class="sub">Три шага. Всего 5 минут.</p>
 
-<!-- ТЕКУЩИЙ СТАТУС -->
-<div class="status">
-  <div class="status-item">
-    <div class="label">hello.html</div>
-    <div class="value" style="color:#16a34a">✅ Работает</div>
-  </div>
-  <div class="status-item">
-    <div class="label">Сайт pacificstar.ru</div>
-    <div class="value" style="color:#dc2626">❌ Белый экран</div>
-  </div>
-  <div class="status-item">
-    <div class="label">Причина</div>
-    <div class="value" style="color:#dc2626">Tilda .htaccess</div>
+<!-- ШАГ 1 -->
+<div class="step">
+  <div class="num">1</div>
+  <div class="step-body">
+    <h2>Скачайте файл deploy.php на компьютер</h2>
+    <p>Нажмите кнопку — файл сохранится в папку «Загрузки»</p>
+    <a class="btn" href="https://github.com/bossssmann-ui/pacificstar.ru/raw/copilot/refactor-site-description/deploy.php">
+      ⬇ Скачать deploy.php
+    </a>
+    <div class="note">Если браузер открыл файл как текст — нажмите правую кнопку мыши на ссылке → «Сохранить ссылку как»</div>
   </div>
 </div>
 
-<!-- ПРИЧИНА -->
-<div class="red-banner">
-  <h2>⚠️ Почему белый экран — найдена точная причина</h2>
-  <p>На сервере Timeweb лежит <strong>старый файл <code>.htaccess</code> от Tilda</strong>.
-  Он перехватывает все обращения к сайту и перенаправляет их на серверы Tilda.
-  Tilda отвечает ошибкой <strong>«429 — слишком много запросов»</strong> и белым экраном.</p>
-  <p style="margin-top:10px">Сам код сайта написан полностью с нуля, без Tilda — там нет ни одной ссылки на Tilda.
-  Нужно просто заменить один файл на сервере.</p>
-</div>
-
-<hr class="divider">
-
-<!-- СПОСОБ 1 — ГЛАВНЫЙ -->
-<div class="card">
-  <h2>✅ Способ 1 — Загрузить htaccess-only.php (рекомендуется, 3 минуты)</h2>
-  <p style="color:#6b7280;margin-bottom:20px">Этот файл <strong>заменит старый .htaccess</strong> и исправит белый экран. Загружается точно так же, как вы загружали <code>hello.html</code>.</p>
-
-  <div class="step">
-    <div class="step-num">1</div>
-    <div class="step-body">
-      <strong>Скачайте файл htaccess-only.php</strong>
-      <a class="btn" href="https://github.com/bossssmann-ui/pacificstar.ru/raw/copilot/refactor-site-description/htaccess-only.php" download>
-        ⬇ Скачать htaccess-only.php
-      </a>
-      <p style="font-size:13px;color:#6b7280;margin-top:6px">Файл сохранится в папку «Загрузки»</p>
-    </div>
-  </div>
-
-  <div class="step">
-    <div class="step-num">2</div>
-    <div class="step-body">
-      <strong>Загрузите на Timeweb в public_html</strong>
-      <p style="color:#374151">Войдите в Timeweb → «Файловый менеджер» → папка <code>public_html</code><br>
-      Нажмите «Загрузить файл» → выберите <code>htaccess-only.php</code></p>
-    </div>
-  </div>
-
-  <div class="step">
-    <div class="step-num">3</div>
-    <div class="step-body">
-      <strong>Откройте в браузере</strong>
-      <div class="url">http://pacificstar.ru/htaccess-only.php</div>
-      <p>Должен появиться <strong style="color:#16a34a">зелёный экран</strong> «✅ .htaccess заменён!»</p>
-    </div>
-  </div>
-
-  <div class="step">
-    <div class="step-num">4</div>
-    <div class="step-body">
-      <strong>Теперь загрузите fix.php чтобы переместить файлы сайта</strong>
-      <a class="btn" href="https://github.com/bossssmann-ui/pacificstar.ru/raw/copilot/refactor-site-description/fix.php" download style="margin-right:8px">
-        ⬇ Скачать fix.php
-      </a>
-      <p style="font-size:13px;color:#6b7280;margin-top:6px">Загрузите в public_html, откройте <code>pacificstar.ru/fix.php</code>, нажмите кнопку</p>
-    </div>
-  </div>
-
-  <div class="step">
-    <div class="step-num">5</div>
-    <div class="step-body">
-      <strong>Откройте сайт</strong>
-      <div class="url">https://pacificstar.ru</div>
-      <p>Должна открыться <strong>синяя шапка</strong> с логотипом «Pacific Star» ✅</p>
-    </div>
-  </div>
-
-  <div class="step">
-    <div class="step-num">6</div>
-    <div class="step-body">
-      <strong>Удалите технические файлы</strong>
-      <p>В файловом менеджере Timeweb → <code>public_html</code> → удалите: <code>htaccess-only.php</code>, <code>fix.php</code>, <code>hello.html</code>, <code>test.html</code>, <code>phptest.php</code>, <code>info.php</code></p>
-    </div>
+<!-- ШАГ 2 -->
+<div class="step">
+  <div class="num">2</div>
+  <div class="step-body">
+    <h2>Загрузите deploy.php на Timeweb</h2>
+    <p>
+      Откройте <a href="https://timeweb.com/ru/my/hosting" target="_blank"><b>timeweb.com → «Хостинг»</b></a><br>
+      → Файловый менеджер → папка <b>public_html</b><br>
+      → Нажмите «Загрузить» → выберите <b>deploy.php</b> из папки «Загрузки»
+    </p>
+    <div class="same">✅ Точно так же, как вы загружали hello.html — вы уже это умеете!</div>
   </div>
 </div>
 
-<!-- СПОСОБ 2 — ВРУЧНУЮ -->
-<div class="card">
-  <h2>🔧 Способ 2 — Отредактировать .htaccess вручную</h2>
-  <p style="color:#6b7280;margin-bottom:20px">Если PHP-скрипты не работают — замените .htaccess напрямую через редактор файлового менеджера.</p>
-
-  <div class="step">
-    <div class="step-num">1</div>
-    <div class="step-body">
-      <strong>Включите показ скрытых файлов</strong>
-      <p>В Файловом менеджере Timeweb найдите кнопку <strong>«Показать скрытые файлы»</strong> или значок глаза 👁</p>
-      <p style="font-size:13px;color:#6b7280">Файлы начинающиеся с точки (например <code>.htaccess</code>) по умолчанию скрыты</p>
-    </div>
-  </div>
-
-  <div class="step">
-    <div class="step-num">2</div>
-    <div class="step-body">
-      <strong>Найдите <code>.htaccess</code> в папке <code>public_html</code></strong>
-      <p>Нажмите правой кнопкой мыши → «Редактировать» / «Изменить»</p>
-    </div>
-  </div>
-
-  <div class="step">
-    <div class="step-num">3</div>
-    <div class="step-body">
-      <strong>Удалите всё содержимое и вставьте это:</strong>
-      <div class="url" style="white-space:pre;font-size:12px;line-height:1.8">Options -Indexes
-DirectoryIndex index.html index.php
-
-&lt;IfModule mod_rewrite.c&gt;
-    RewriteEngine On
-    RewriteBase /
-&lt;/IfModule&gt;</div>
-      <p style="font-size:13px;color:#6b7280;margin-top:6px">Нажмите «Сохранить»</p>
-    </div>
-  </div>
-
-  <div class="step">
-    <div class="step-num">4</div>
-    <div class="step-body">
-      <strong>Проверьте: откройте pacificstar.ru</strong>
-      <p>Ошибка 429 должна исчезнуть. Если теперь белый экран (но не 429) — напишите мне, нужно переместить файлы сайта.</p>
-    </div>
+<!-- ШАГ 3 -->
+<div class="step">
+  <div class="num">3</div>
+  <div class="step-body">
+    <h2>Откройте deploy.php в браузере и нажмите кнопку</h2>
+    <p>Введите в адресную строку браузера:</p>
+    <a class="btn blue" href="http://pacificstar.ru/deploy.php" target="_blank">
+      🌐 pacificstar.ru/deploy.php
+    </a>
+    <p style="margin-top:12px">На экране появится синяя страница с кнопкой <b>«▶ Установить сайт»</b></p>
+    <p>Нажмите её → подождите 30 секунд → зелёный экран «🎉 Готово!»</p>
+    <p>Нажмите «Открыть pacificstar.ru» — сайт работает ✅</p>
   </div>
 </div>
 
-<!-- ТАБЛИЦА ДИАГНОСТИКИ -->
-<div class="card">
-  <h2>🔍 Таблица диагностики — что видите → что делать</h2>
+<!-- ПОЧЕМУ -->
+<div class="why">
+  <h3>Почему показывался белый экран с логотипом Tilda?</h3>
+  <p>На сервере лежало два сайта одновременно:</p>
   <table>
-    <tr><th>Что видите на экране</th><th>Причина</th><th>Что делать</th></tr>
-    <tr><td>«429 — слишком много запросов» / email team@tilda.cc</td>
-        <td>Старый Tilda .htaccess</td>
-        <td><strong>Способ 1 выше</strong> — загрузить htaccess-only.php</td></tr>
-    <tr><td>Белый экран, нет ошибки</td>
-        <td>index.html в подпапке</td>
-        <td>Загрузить fix.php → открыть pacificstar.ru/fix.php</td></tr>
-    <tr><td>«404 Not Found»</td>
-        <td>index.html не загружен</td>
-        <td>Загрузить site-pacificstar.zip заново</td></tr>
-    <tr><td>Открывается старый сайт (другой дизайн)</td>
-        <td>Браузер кэш</td>
-        <td>Нажать Ctrl+F5 (или Cmd+Shift+R на Mac)</td></tr>
-    <tr><td>✅ Синяя шапка, меню, карта</td>
-        <td>—</td>
-        <td>Сайт работает! Удалить технические файлы</td></tr>
+    <tr><th>Файл</th><th>Где лежал</th><th>Что видел посетитель</th></tr>
+    <tr><td>index.html (Tilda)</td><td>public_html/</td><td>❌ Белый экран + логотип Tilda</td></tr>
+    <tr><td>index.html (наш)</td><td>public_html/site-pacificstar/</td><td>❌ Никто не видел</td></tr>
+    <tr><td>hello.html (наш)</td><td>public_html/</td><td>✅ Работал</td></tr>
   </table>
+  <p style="margin-top:10px">
+    deploy.php заменяет Tilda-файлы нашими и исправляет настройки сервера.
+  </p>
 </div>
-
-<!-- СКАЧАТЬ ВСЁ -->
-<div class="card">
-  <h2>📦 Скачать все файлы</h2>
-  <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px">
-    <a class="btn" href="https://github.com/bossssmann-ui/pacificstar.ru/raw/copilot/refactor-site-description/htaccess-only.php" download>⬇ htaccess-only.php</a>
-    <a class="btn" style="background:#374151" href="https://github.com/bossssmann-ui/pacificstar.ru/raw/copilot/refactor-site-description/fix.php" download>⬇ fix.php</a>
-    <a class="btn" style="background:#374151" href="https://github.com/bossssmann-ui/pacificstar.ru/raw/copilot/refactor-site-description/site-pacificstar.zip" download>⬇ site-pacificstar.zip</a>
-  </div>
-</div>
-
-<p style="text-align:center;color:#9ca3af;font-size:14px;margin:24px 0">
-  Напишите мне скриншот если что-то пошло не так — разберёмся быстро.
-</p>
 
 </div>
 </body>
