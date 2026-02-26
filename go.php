@@ -1,83 +1,961 @@
 <?php
-// go.php — Pacific Star auto-installer
-// Upload this ONE file to public_html (like hello.html), then open pacificstar.ru/go.php
-// It automatically fixes everything and redirects to the real site.
-
-ini_set('display_errors', '1');
-error_reporting(E_ALL);
-
-$root = __DIR__;
-$base = 'https://raw.githubusercontent.com/bossssmann-ui/pacificstar.ru/copilot/refactor-site-description/';
-
+// go.php — встроенный установщик Pacific Star
+// Не требует сети — файлы встроены напрямую в этот скрипт
+$dir = __DIR__;
+$ok = true;
 $log = [];
 
-function fetch($url) {
-    if (function_exists('curl_init')) {
-        $ch = curl_init($url);
-        curl_setopt_array($ch, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT        => 20,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_USERAGENT      => 'Mozilla/5.0',
-        ]);
-        $r = curl_exec($ch);
-        curl_close($ch);
-        if ($r) return $r;
-    }
-    return @file_get_contents($url) ?: false;
+$htaccess = <<<'HTEOF'
+# Pacific Star — базовые настройки
+Options -Indexes
+DirectoryIndex index.html index.php
+
+# Отключить кэш для разработки
+<IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+</IfModule>
+HTEOF;
+
+$index_html = <<<'IDXEOF'
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+  <meta name="robots" content="index, follow" >
+  <meta name="description" content="Pacific Star — транспортно-логистическая компания. Грузоперевозки, проектные перевозки негабаритных грузов, морские перевозки на Сахалин, Магадан, Камчатку, Чукотку. Северный завоз по 411-ФЗ. Собственный парк: контейнеровозы, тралы, платформы. Звоните: +7&nbsp;(800)&nbsp;555&#8209;35&#8209;35." >
+  <meta name="keywords" content="грузоперевозки, проектные перевозки, негабаритные грузы, логистика, экспедирование, морские перевозки Дальний Восток, Северный завоз, перевозки Сахалин, доставка Магадан, Камчатка, Чукотка, складские услуги, Pacific Star" >
+  <meta property="og:title" content="Pacific Star — Грузоперевозки, Северный завоз, Дальний Восток" >
+  <meta property="og:description" content="Надёжные грузоперевозки по России и АТР. Морской Северный завоз на Сахалин, Магадан, Камчатку, Чукотку по Федеральному закону № 411-ФЗ." >
+  <meta property="og:type" content="website" >
+  <meta property="og:url" content="https://pacificstar.ru/" >
+  <link rel="canonical" href="https://pacificstar.ru/" >
+  <title>Pacific Star — Грузоперевозки, Северный завоз, Дальний Восток и АТР</title>
+  <noscript><style>.fade-in{opacity:1!important;transform:none!important;animation:none!important}</style></noscript>
+  <link rel="preconnect" href="https://fonts.googleapis.com" >
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&display=swap" rel="stylesheet" >
+  <link rel="stylesheet" href="css/style.css" >
+
+  <!-- JSON-LD: Organization + LocalBusiness -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "FreightForwarder",
+        "@id": "https://pacificstar.ru/#organization",
+        "name": "Pacific Star",
+        "legalName": "ООО «Pacific Star»",
+        "url": "https://pacificstar.ru",
+        "logo": "https://pacificstar.ru/img/logo.png",
+        "description": "Транспортно-логистическая компания. Грузоперевозки по России, странам АТР и СНГ, морские перевозки на Дальний Восток и в Арктику, Северный завоз по ФЗ № 411-ФЗ.",
+        "foundingDate": "2012",
+        "telephone": "+78005553535",
+        "email": "info@pacificstar.ru",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "ул. Логистическая, д. 1, офис 100",
+          "addressLocality": "Москва",
+          "addressCountry": "RU"
+        },
+        "areaServed": [
+          "Россия", "СНГ", "Китай", "Япония", "Республика Корея",
+          "Сахалинская область", "Магаданская область", "Камчатский край",
+          "Чукотский автономный округ"
+        ],
+        "knowsAbout": [
+          "Грузоперевозки", "Морские перевозки", "Северный завоз",
+          "Арктическая логистика", "Каботажные перевозки", "Экспедирование",
+          "Перевозки на Сахалин", "Доставка в Магадан", "Перевозки на Камчатку",
+          "Северный завоз Чукотка", "Федеральный закон 411-ФЗ"
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Транспортно-логистические услуги",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Автомобильные грузоперевозки по России и СНГ" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Железнодорожные перевозки контейнеров и вагонов" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Морские перевозки на Сахалин, Магадан, Камчатку, Чукотку" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Северный завоз по 411-ФЗ — Анадырь, Певек, Эгвекинот" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Складские услуги и ответственное хранение" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Международные перевозки АТР — Китай, Япония, Корея" } }
+          ]
+        },
+        "sameAs": []
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://pacificstar.ru/#website",
+        "url": "https://pacificstar.ru",
+        "name": "Pacific Star — Логистика",
+        "publisher": { "@id": "https://pacificstar.ru/#organization" },
+        "inLanguage": "ru-RU"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+
+        <a href="index.html" class="logo" aria-label="Pacific Star — главная страница">
+          <div class="logo-icon" aria-hidden="true">🌟</div>
+          <div class="logo-text">
+            <strong>Pacific Star</strong>
+            <span>Логистика</span>
+          </div>
+        </a>
+
+        <nav class="nav-menu" aria-label="Основное меню">
+          <a href="index.html" class="nav-link">Главная</a>
+          <a href="about.html" class="nav-link">О нас</a>
+          <a href="services.html" class="nav-link">Услуги</a>
+          <a href="remote-regions.html" class="nav-link">Северный завоз</a>
+          <a href="contacts.html" class="nav-link">Контакты</a>
+        </nav>
+
+        <div class="header-cta">
+          <a href="tel:+78005553535" class="header-phone" aria-label="Позвонить нам">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07
+                       A19.5 19.5 0 013.07 11.2 19.79 19.79 0 010 2.57 2 2 0 012 .38h3a2 2 0
+                       012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.26a16 16 0 006.29
+                       6.29l1.25-1.25a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+            +7&nbsp;(800)&nbsp;555&#8209;35&#8209;35
+          </a>
+          <!-- Language Switcher -->
+          <div class="lang-switcher" id="langSwitcher">
+            <button type="button" class="lang-btn" id="langBtn"
+                    aria-haspopup="listbox" aria-expanded="false" aria-label="Выбрать язык">
+              <span class="lang-flag" id="langFlag">🇷🇺</span>
+              <span class="lang-code" id="langCode">RU</span>
+              <svg class="lang-chevron" width="10" height="10" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <ul class="lang-dropdown" role="listbox" id="langDropdown">
+              <li role="option"><button type="button" data-lang="ru" data-active="true">🇷🇺 Русский</button></li>
+              <li role="option"><button type="button" data-lang="en">🇬🇧 English</button></li>
+              <li role="option"><button type="button" data-lang="zh">🇨🇳 中文</button></li>
+              <li role="option"><button type="button" data-lang="ja">🇯🇵 日本語</button></li>
+              <li role="option"><button type="button" data-lang="ko">🇰🇷 한국어</button></li>
+            </ul>
+          </div>
+          <a href="contacts.html" class="btn btn-outline header-btn" style="padding:8px 14px;">Оставить заявку</a>
+          <a href="account.html" class="btn btn-primary header-btn">Кабинет</a>
+        </div>
+
+        <button class="burger" aria-label="Открыть меню" aria-expanded="false" type="button">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== MOBILE NAV ========== -->
+  <nav class="mobile-nav" aria-label="Мобильное меню">
+    <a href="index.html" class="nav-link">Главная</a>
+    <a href="about.html" class="nav-link">О нас</a>
+    <a href="services.html" class="nav-link">Услуги</a>
+    <a href="remote-regions.html" class="nav-link">Северный завоз</a>
+    <a href="contacts.html" class="nav-link">Контакты</a>
+    <a href="tel:+78005553535" class="header-phone">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.2
+                 19.79 19.79 0 010 2.57 2 2 0 012 .38h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2
+                 2 0 01-.45 2.11L6.09 8.26a16 16 0 006.29 6.29l1.25-1.25a2 2 0 012.11-.45c.907.339
+                 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+      +7&nbsp;(800)&nbsp;555&#8209;35&#8209;35
+    </a>
+    <a href="contacts.html" class="btn btn-primary header-btn">Оставить заявку</a>
+    <a href="account.html" class="btn btn-outline header-btn">Кабинет</a>
+  </nav>
+
+  <main>
+
+    <!-- ========== HERO ========== -->
+    <section class="hero" aria-label="Главный баннер">
+      <div class="container">
+        <div class="hero-inner">
+          <div class="hero-content">
+            <span class="hero-label">🚚 Доставляем по всей России и за рубежом</span>
+            <h1 class="hero-title">
+              Ваш надёжный партнёр<br><span class="accent">в мире логистики</span>
+            </h1>
+            <p class="hero-desc">
+              Pacific Star — транспортно-логистическая компания с многолетним опытом.
+              Обеспечиваем безопасную доставку грузов любого объёма точно в срок.
+            </p>
+            <div class="hero-actions">
+              <a href="contacts.html" class="btn btn-primary">Оставить заявку</a>
+              <a href="services.html" class="btn btn-secondary">Наши услуги</a>
+            </div>
+            <div class="hero-stats">
+              <div class="hero-stat">
+                <span class="hero-stat-num" data-counter="12" data-suffix="+">12+</span>
+                <span class="hero-stat-label">Лет опыта</span>
+              </div>
+              <div class="hero-stat">
+                <span class="hero-stat-num" data-counter="15000" data-suffix="+">15 000+</span>
+                <span class="hero-stat-label">Рейсов</span>
+              </div>
+              <div class="hero-stat">
+                <span class="hero-stat-num" data-counter="98" data-suffix="%">98%</span>
+                <span class="hero-stat-label">Довольных клиентов</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual" aria-hidden="true">
+            <div class="hero-card">
+              <div class="hero-card-icon">🚛</div>
+              <div>
+                <p class="hero-card-title">Грузоперевозки</p>
+                <p class="hero-card-desc">Автомобильные, железнодорожные и авиаперевозки по всей стране</p>
+              </div>
+            </div>
+            <div class="hero-card">
+              <div class="hero-card-icon">🏭</div>
+              <div>
+                <p class="hero-card-title">Складские услуги</p>
+                <p class="hero-card-desc">Ответственное хранение и обработка грузов на современных складах</p>
+              </div>
+            </div>
+            <div class="hero-card">
+              <div class="hero-card-icon">📋</div>
+              <div>
+                <p class="hero-card-title">Экспедирование</p>
+                <p class="hero-card-desc">Полное сопровождение груза: документы, таможня, страхование</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== ADVANTAGES ========== -->
+    <section class="section advantages" id="advantages" aria-labelledby="adv-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Почему выбирают нас</span>
+          <h2 class="section-title" id="adv-title">Наши преимущества</h2>
+          <p class="section-desc">Мы работаем с заботой о каждом клиенте и каждом грузе</p>
+          <div class="divider" aria-hidden="true"></div>
+        </div>
+        <div class="advantages-grid">
+          <div class="advantage-card fade-in">
+            <div class="advantage-icon" aria-hidden="true">💰</div>
+            <h3 class="advantage-title">Доступные тарифы</h3>
+            <p class="advantage-desc">
+              Прозрачное ценообразование без скрытых платежей. Гибкие тарифные планы
+              для частных клиентов и бизнеса любого масштаба. Бесплатный расчёт стоимости
+              за 15 минут.
+            </p>
+          </div>
+          <div class="advantage-card fade-in">
+            <div class="advantage-icon" aria-hidden="true">🔒</div>
+            <h3 class="advantage-title">Надёжность и безопасность</h3>
+            <p class="advantage-desc">
+              Гарантируем полную сохранность ваших грузов. Страхование каждого отправления,
+              профессиональная упаковка и использование GPS-мониторинга
+              на всём пути следования.
+            </p>
+          </div>
+          <div class="advantage-card fade-in">
+            <div class="advantage-icon" aria-hidden="true">📞</div>
+            <h3 class="advantage-title">Поддержка 24/7</h3>
+            <p class="advantage-desc">
+              Наша команда всегда на связи — в любой день и в любое время суток.
+              Персональный менеджер, горячая линия и онлайн-чат для оперативного
+              решения любых вопросов.
+            </p>
+          </div>
+          <div class="advantage-card fade-in">
+            <div class="advantage-icon" aria-hidden="true">🚛</div>
+            <h3 class="advantage-title">Собственный парк техники</h3>
+            <p class="advantage-desc">
+              Работаем своими контейнеровозами, платформами и тралами —
+              без посредников. Аккредитованы во всех портах Приморского края:
+              доставим груз прямо с борта судна на ваш склад.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SERVICES PREVIEW ========== -->
+    <section class="section" id="services-preview" aria-labelledby="serv-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Что мы предлагаем</span>
+          <h2 class="section-title" id="serv-title">Наши услуги</h2>
+          <p class="section-desc">Полный спектр логистических решений для вашего бизнеса</p>
+          <div class="divider" aria-hidden="true"></div>
+        </div>
+        <div class="services-grid">
+          <article class="service-card fade-in">
+            <div class="service-card-img" aria-hidden="true">🚛</div>
+            <div class="service-card-body">
+              <h3 class="service-card-title">Грузоперевозки</h3>
+              <p class="service-card-desc">
+                Автомобильные, железнодорожные, авиационные и мультимодальные перевозки
+                по России и СНГ. Любой тип груза, любой объём — от малотоннажных
+                отправлений до проектных перевозок.
+              </p>
+              <a href="services.html" class="service-card-link">
+                Подробнее
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+            </div>
+          </article>
+          <article class="service-card fade-in">
+            <div class="service-card-img" aria-hidden="true">🏭</div>
+            <div class="service-card-body">
+              <h3 class="service-card-title">Складские услуги</h3>
+              <p class="service-card-desc">
+                Современные складские комплексы класса «A» площадью более 10 000 м².
+                Ответственное хранение, комплектация заказов, кросс-докинг и
+                полная обработка товаров.
+              </p>
+              <a href="services.html" class="service-card-link">
+                Подробнее
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+            </div>
+          </article>
+          <article class="service-card fade-in">
+            <div class="service-card-img" aria-hidden="true">📋</div>
+            <div class="service-card-body">
+              <h3 class="service-card-title">Экспедирование</h3>
+              <p class="service-card-desc">
+                Организуем перевозку «под ключ»: подбор оптимального маршрута и перевозчика,
+                подготовка документов, таможенное оформление, страхование груза
+                и контроль доставки.
+              </p>
+              <a href="services.html" class="service-card-link">
+                Подробнее
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+            </div>
+          </article>
+          <article class="service-card fade-in">
+            <div class="service-card-img" aria-hidden="true">🏗️</div>
+            <div class="service-card-body">
+              <h3 class="service-card-title">Проектные перевозки</h3>
+              <p class="service-card-desc">
+                Негабаритные и тяжеловесные грузы: промышленное оборудование,
+                краны, буровые установки, трансформаторы. Тралы до 100 т,
+                согласование маршрута, сопровождение — весь цикл «под ключ».
+              </p>
+              <a href="services.html#project" class="service-card-link">
+                Подробнее
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                     fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+            </div>
+          </article>
+        </div>
+        <div class="services-footer">
+          <a href="services.html" class="btn btn-outline">Все услуги и тарифы</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== STATS ========== -->
+    <section class="stats" aria-label="Статистика компании">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item fade-in">
+            <span class="stat-num" data-counter="12" data-suffix="+">12+</span>
+            <span class="stat-label">Лет на рынке</span>
+          </div>
+          <div class="stat-item fade-in">
+            <span class="stat-num" data-counter="15000" data-suffix="+">15 000+</span>
+            <span class="stat-label">Выполненных рейсов</span>
+          </div>
+          <div class="stat-item fade-in">
+            <span class="stat-num" data-counter="850" data-suffix="+">850+</span>
+            <span class="stat-label">Постоянных клиентов</span>
+          </div>
+          <div class="stat-item fade-in">
+            <span class="stat-num" data-counter="45" data-suffix="+">45+</span>
+            <span class="stat-label">Городов присутствия</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PROCESS ========== -->
+    <section class="section process" aria-labelledby="proc-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Как мы работаем</span>
+          <h2 class="section-title" id="proc-title">4 шага до доставки</h2>
+          <p class="section-desc">Простой и прозрачный процесс — от заявки до получения груза</p>
+          <div class="divider" aria-hidden="true"></div>
+        </div>
+        <div class="process-steps">
+          <div class="step fade-in">
+            <div class="step-num" aria-hidden="true">📝</div>
+            <h3 class="step-title">Оставьте заявку</h3>
+            <p class="step-desc">Заполните форму на сайте, позвоните или напишите нам — удобным способом</p>
+          </div>
+          <div class="step fade-in">
+            <div class="step-num" aria-hidden="true">💬</div>
+            <h3 class="step-title">Расчёт и договор</h3>
+            <p class="step-desc">Менеджер рассчитает стоимость и подберёт оптимальное решение за 15 минут</p>
+          </div>
+          <div class="step fade-in">
+            <div class="step-num" aria-hidden="true">🚛</div>
+            <h3 class="step-title">Отправка груза</h3>
+            <p class="step-desc">Забираем груз, упаковываем и отправляем по согласованному маршруту</p>
+          </div>
+          <div class="step fade-in">
+            <div class="step-num" aria-hidden="true">✅</div>
+            <h3 class="step-title">Доставка</h3>
+            <p class="step-desc">Вы получаете груз точно в срок и подписываете акт приёма-передачи</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS ========== -->
+    <section class="section testimonials" id="reviews" aria-labelledby="rev-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Отзывы клиентов</span>
+          <h2 class="section-title" id="rev-title">Что говорят наши клиенты</h2>
+          <p class="section-desc">Мы гордимся доверием более 850 постоянных партнёров</p>
+          <div class="divider" aria-hidden="true"></div>
+        </div>
+        <div class="reviews-grid">
+          <article class="review-card fade-in">
+            <span class="review-stars">★★★★★</span>
+            <span class="review-quote" aria-hidden="true">"</span>
+            <p class="review-text">
+              Отличный сервис! Надёжные партнёры. Работаем с Pacific Star уже три года —
+              ни одного сбоя в сроках. Груз всегда доходит в целости и сохранности.
+              Рекомендую всем, кто ценит качество.
+            </p>
+            <div class="review-author">
+              <div class="review-avatar" aria-hidden="true">ИИ</div>
+              <div>
+                <p class="review-name">Иван Иванов</p>
+                <p class="review-role">Директор по логистике, ООО «ТехПром»</p>
+              </div>
+            </div>
+          </article>
+          <article class="review-card fade-in">
+            <span class="review-stars">★★★★★</span>
+            <span class="review-quote" aria-hidden="true">"</span>
+            <p class="review-text">
+              Быстрая доставка и отличный контроль на каждом этапе. Менеджер всегда
+              на связи, оперативно решает все вопросы. Особенно ценю онлайн-отслеживание
+              груза в реальном времени.
+            </p>
+            <div class="review-author">
+              <div class="review-avatar" aria-hidden="true">МП</div>
+              <div>
+                <p class="review-name">Мария Петрова</p>
+                <p class="review-role">Руководитель отдела закупок, «АгроГрупп»</p>
+              </div>
+            </div>
+          </article>
+          <article class="review-card fade-in">
+            <span class="review-stars">★★★★★</span>
+            <span class="review-quote" aria-hidden="true">"</span>
+            <p class="review-text">
+              Перевозили крупногабаритное оборудование из Москвы во Владивосток.
+              Компания предложила оптимальный маршрут и обеспечила полное сопровождение.
+              Всё прошло без нареканий. Очень доволен сотрудничеством!
+            </p>
+            <div class="review-author">
+              <div class="review-avatar" aria-hidden="true">АС</div>
+              <div>
+                <p class="review-name">Александр Смирнов</p>
+                <p class="review-role">Индивидуальный предприниматель</p>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== ARCTIC PROMO ========== -->
+    <section class="section" style="background:var(--color-light);" aria-labelledby="arctic-promo-title">
+      <div class="container">
+        <div class="arctic-promo">
+          <div>
+            <span class="arctic-promo-label">Специализация</span>
+            <h2 id="arctic-promo-title">Доставка в труднодоступные<br>районы России</h2>
+            <p>
+              Морские перевозки на Сахалин, в Магадан, Петропавловск-Камчатский
+              и в арктические порты Чукотки. Работаем в рамках Федерального закона
+              № 411-ФЗ «О северном завозе».
+            </p>
+            <div class="arctic-promo-destinations">
+              <span class="arctic-promo-dest">🏝️ Сахалин</span>
+              <span class="arctic-promo-dest">⚓ Магадан</span>
+              <span class="arctic-promo-dest">🌋 Камчатка</span>
+              <span class="arctic-promo-dest">🧊 Анадырь</span>
+              <span class="arctic-promo-dest">❄️ Певек</span>
+              <span class="arctic-promo-dest">🌊 Эгвекинот</span>
+            </div>
+          </div>
+          <div class="arctic-promo-actions">
+            <a href="remote-regions.html" class="btn btn-primary">Подробнее об услуге</a>
+            <a href="contacts.html" class="btn btn-secondary">Запросить тариф</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PARTNERS ========== -->
+    <!--
+      РАЗДЕЛ «НАШИ ПАРТНЁРЫ»
+      ─────────────────────────────────────────────────────────────────
+      Чтобы добавить логотип партнёра:
+        1. Поместите файл логотипа в папку  img/partners/
+           (рекомендуемый формат: SVG или PNG с прозрачным фоном,
+            размер: ~200×80 px, не более 60 КБ)
+        2. Скопируйте один блок <div class="partner-card"> и замените:
+             src="img/partners/FILENAME.svg"  — путь к файлу
+             alt="НАЗВАНИЕ"                  — название компании
+        3. Дублируйте тот же блок внутри .partners-track--clone
+           (это копия нужна для бесшовной прокрутки).
+      ─────────────────────────────────────────────────────────────────
+    -->
+    <section class="section partners-section" id="partners" aria-labelledby="partners-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Экосистема доверия</span>
+          <h2 class="section-title" id="partners-title">Наши партнёры</h2>
+          <p class="section-desc">Работаем с надёжными партнёрами — перевозчиками, портовыми операторами и страховыми компаниями</p>
+          <div class="divider" aria-hidden="true"></div>
+        </div>
+      </div>
+
+      <!-- Full-width scrolling strip (outside .container for edge-to-edge) -->
+      <div class="partners-strip" role="region" aria-label="Логотипы партнёров">
+        <div class="partners-track">
+
+          <!-- ── ПАРТНЁР 1 ── замените src и alt ─────────────────── -->
+          <div class="partner-card">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-1.svg" alt="Название партнёра 1" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 1</span>
+            </div>
+          </div>
+
+          <!-- ── ПАРТНЁР 2 ─────────────────────────────────────────── -->
+          <div class="partner-card">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-2.svg" alt="Название партнёра 2" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 2</span>
+            </div>
+          </div>
+
+          <!-- ── ПАРТНЁР 3 ─────────────────────────────────────────── -->
+          <div class="partner-card">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-3.svg" alt="Название партнёра 3" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 3</span>
+            </div>
+          </div>
+
+          <!-- ── ПАРТНЁР 4 ─────────────────────────────────────────── -->
+          <div class="partner-card">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-4.svg" alt="Название партнёра 4" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 4</span>
+            </div>
+          </div>
+
+          <!-- ── ПАРТНЁР 5 ─────────────────────────────────────────── -->
+          <div class="partner-card">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-5.svg" alt="Название партнёра 5" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 5</span>
+            </div>
+          </div>
+
+          <!-- ── ПАРТНЁР 6 ─────────────────────────────────────────── -->
+          <div class="partner-card">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-6.svg" alt="Название партнёра 6" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 6</span>
+            </div>
+          </div>
+
+          <!-- ── ПАРТНЁР 7 ─────────────────────────────────────────── -->
+          <div class="partner-card">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-7.svg" alt="Название партнёра 7" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 7</span>
+            </div>
+          </div>
+
+          <!-- ── ПАРТНЁР 8 ─────────────────────────────────────────── -->
+          <div class="partner-card">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-8.svg" alt="Название партнёра 8" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 8</span>
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════════
+               Дублирование для бесшовной анимации — aria-hidden="true"
+               Эти карточки идентичны оригинальным выше.
+               Для декоративных дублей alt="" оставляется пустым намеренно.
+               ═══════════════════════════════════════════════════════ -->
+          <div class="partner-card" aria-hidden="true">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-1.svg" alt="" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 1</span>
+            </div>
+          </div>
+          <div class="partner-card" aria-hidden="true">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-2.svg" alt="" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 2</span>
+            </div>
+          </div>
+          <div class="partner-card" aria-hidden="true">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-3.svg" alt="" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 3</span>
+            </div>
+          </div>
+          <div class="partner-card" aria-hidden="true">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-4.svg" alt="" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 4</span>
+            </div>
+          </div>
+          <div class="partner-card" aria-hidden="true">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-5.svg" alt="" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 5</span>
+            </div>
+          </div>
+          <div class="partner-card" aria-hidden="true">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-6.svg" alt="" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 6</span>
+            </div>
+          </div>
+          <div class="partner-card" aria-hidden="true">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-7.svg" alt="" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 7</span>
+            </div>
+          </div>
+          <div class="partner-card" aria-hidden="true">
+            <div class="partner-logo-wrap">
+              <!-- <img src="img/partners/partner-8.svg" alt="" loading="lazy"> -->
+              <span class="partner-placeholder">Партнёр 8</span>
+            </div>
+          </div>
+
+        </div><!-- /.partners-track -->
+      </div><!-- /.partners-strip -->
+    </section>
+
+
+    <!-- ========== INTERACTIVE ROUTE MAP ========== -->
+    <section class="section map-section-full" id="routeMap" aria-labelledby="map-title" style="background:var(--color-primary);padding:60px 0;">
+      <div class="container">
+        <div class="section-header" style="color:#fff;">
+          <span class="section-label" style="background:rgba(255,255,255,0.15);color:#fff;">Наша география</span>
+          <h2 class="section-title" id="map-title" style="color:#fff;">Маршрутная карта</h2>
+          <p class="section-desc" style="color:rgba(255,255,255,0.75);">Ключевые города, морские порты и торговые маршруты Pacific Star</p>
+          <div class="divider" style="background:rgba(255,255,255,0.2);" aria-hidden="true"></div>
+        </div>
+        <div id="routeMapContainer" class="route-map-container" role="img" aria-label="Интерактивная карта маршрутов"></div>
+        <div class="map-legend-note">
+          <span>🖱 Наводите на точки для подробностей</span>
+          <a href="remote-regions.html" class="btn btn-outline btn-map-more" style="color:#fff;border-color:rgba(255,255,255,0.4);">Северный завоз →</a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========== CURRENCY CALCULATOR ========== -->
+    <section class="section" id="currency" aria-labelledby="currency-title" style="background:var(--color-light);">
+      <div class="container">
+        <div id="currencyWidget" class="currency-widget"></div>
+      </div>
+    </section>
+
+    <!-- ========== CTA ========== -->
+    <section class="cta-section" aria-labelledby="cta-title">
+      <div class="container">
+        <div class="cta-inner">
+          <h2 class="cta-title" id="cta-title">Готовы отправить груз?</h2>
+          <p class="cta-desc">
+            Оставьте заявку прямо сейчас — менеджер свяжется с вами в течение 15 минут
+            и рассчитает стоимость доставки бесплатно.
+          </p>
+          <div class="cta-actions">
+            <a href="contacts.html" class="btn btn-primary">Оставить заявку</a>
+            <a href="tel:+78005553535" class="btn btn-secondary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5
+                         19.5 0 013.07 11.2 19.79 19.79 0 010 2.57 2 2 0 012 .38h3a2 2 0 012
+                         1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.26a16 16 0 006.29
+                         6.29l1.25-1.25a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+              </svg>
+              +7&nbsp;(800)&nbsp;555&#8209;35&#8209;35
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" aria-label="Pacific Star — главная">
+            <div class="logo-icon" aria-hidden="true">🌟</div>
+            <div class="logo-text">
+              <strong>Pacific Star</strong>
+              <span>Логистика</span>
+            </div>
+          </a>
+          <p>
+            Транспортно-логистическая компания, оказывающая полный спектр услуг по перевозке,
+            хранению и экспедированию грузов по России и за рубежом с 2012 года.
+          </p>
+          <nav class="social-links" aria-label="Мы в социальных сетях">
+            <a href="#" class="social-link" aria-label="ВКонтакте">ВК</a>
+            <a href="#" class="social-link" aria-label="Telegram">TG</a>
+            <a href="#" class="social-link" aria-label="WhatsApp">WA</a>
+          </nav>
+        </div>
+
+        <div>
+          <p class="footer-col-title">Навигация</p>
+          <nav class="footer-nav" aria-label="Навигация в подвале">
+            <a href="index.html">Главная</a>
+            <a href="about.html">О компании</a>
+            <a href="services.html">Услуги</a>
+            <a href="remote-regions.html">Северный завоз</a>
+            <a href="contacts.html">Контакты</a>
+            <a href="integrations.html">Интеграции</a>
+          </nav>
+        </div>
+
+        <div>
+          <p class="footer-col-title">Услуги</p>
+          <nav class="footer-nav" aria-label="Услуги">
+            <a href="services.html">Грузоперевозки</a>
+            <a href="services.html">Складские услуги</a>
+            <a href="services.html">Экспедирование</a>
+            <a href="remote-regions.html">Северный завоз</a>
+            <a href="services.html">Тарифы</a>
+          </nav>
+        </div>
+
+        <div>
+          <p class="footer-col-title">Контакты</p>
+          <div class="footer-contacts">
+            <div class="footer-contact-item">
+              <span aria-hidden="true">📍</span>
+              <span>г. Москва, ул. Логистическая, д. 1, офис 100</span>
+            </div>
+            <div class="footer-contact-item">
+              <span aria-hidden="true">📞</span>
+              <span><a href="tel:+78005553535">+7&nbsp;(800)&nbsp;555&#8209;35&#8209;35</a> (бесплатно)</span>
+            </div>
+            <div class="footer-contact-item">
+              <span aria-hidden="true">✉️</span>
+              <span><a href="mailto:info@pacificstar.ru">info@pacificstar.ru</a></span>
+            </div>
+            <div class="footer-contact-item">
+              <span aria-hidden="true">🕐</span>
+              <span>Пн–Пт: 9:00–18:00<br>Сб–Вс: по договорённости</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-bottom-text">© 2012–2026 ООО «Pacific Star». Все права защищены.</p>
+        <div class="footer-bottom-links">
+          <a href="privacy.html">Политика конфиденциальности</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ========== FLOATING CONTACTS ========== -->
+  <div class="floating-contacts" id="floatingContacts">
+    <div class="floating-menu" id="floatingMenu" role="menu" aria-label="Способы связи">
+      <a href="https://wa.me/78005553535?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D1%8E%D1%81%D1%8C%20%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B7%D0%BA%D0%BE%D0%B9."
+         class="floating-item floating-wa" target="_blank" rel="noopener noreferrer"
+         role="menuitem" aria-label="WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.135.559 4.14 1.535 5.878L0 24l6.273-1.508A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.896 0-3.678-.513-5.2-1.408l-.368-.224-3.85.924.999-3.77-.248-.386A9.955 9.955 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
+        </svg>
+        <span>WhatsApp</span>
+      </a>
+      <a href="https://t.me/pacificstar_bot" class="floating-item floating-tg"
+         target="_blank" rel="noopener noreferrer" role="menuitem" aria-label="Telegram">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="currentColor" aria-hidden="true">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.26 13.593l-2.95-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.537-.194 1.006.131.883.964z"/>
+        </svg>
+        <span>Telegram</span>
+      </a>
+      <button type="button" class="floating-item floating-cb" id="openCallback" role="menuitem">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.2 19.79 19.79 0 010 2.57 2 2 0 012 .38h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.26a16 16 0 006.29 6.29l1.25-1.25a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+        <span>Перезвоним</span>
+      </button>
+    </div>
+    <button type="button" class="floating-toggle" id="floatingToggle"
+            aria-label="Связаться с нами" aria-expanded="false" aria-controls="floatingMenu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.2 19.79 19.79 0 010 2.57 2 2 0 012 .38h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.26a16 16 0 006.29 6.29l1.25-1.25a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ========== CALLBACK PANEL ========== -->
+  <div class="callback-overlay" id="callbackOverlay"></div>
+  <div class="callback-panel" id="callbackPanel" role="dialog" aria-modal="true"
+       aria-labelledby="callback-title" aria-hidden="true">
+    <button type="button" class="callback-close" id="callbackClose" aria-label="Закрыть панель">✕</button>
+    <div class="callback-icon" aria-hidden="true">📞</div>
+    <h3 id="callback-title">Перезвоним вам</h3>
+    <p class="callback-desc">Менеджер свяжется с вами в течение 5&nbsp;минут в рабочее время</p>
+    <form id="callbackForm" novalidate>
+      <div class="form-group">
+        <label for="cbName" class="form-label">Ваше имя</label>
+        <input type="text" id="cbName" name="name" class="form-control" placeholder="Иван" autocomplete="given-name" >
+      </div>
+      <div class="form-group">
+        <label for="cbPhone" class="form-label">Телефон <span class="form-required">(обязательно)</span></label>
+        <input type="tel" id="cbPhone" name="phone" class="form-control" placeholder="+7 (___) ___-__-__" required autocomplete="tel" >
+      </div>
+      <div class="form-group">
+        <label for="cbTime" class="form-label">Удобное время</label>
+        <select id="cbTime" name="time" class="form-control">
+          <option value="any">Любое рабочее время (9:00–18:00)</option>
+          <option value="morning">Утром (9:00–12:00)</option>
+          <option value="afternoon">Днём (12:00–15:00)</option>
+          <option value="evening">Вечером (15:00–18:00)</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px;">Перезвоните мне</button>
+    </form>
+    <div class="callback-success" id="callbackSuccess" style="display:none;" aria-live="polite">
+      <div class="cb-ok-icon" aria-hidden="true">✅</div>
+      <h4>Заявка принята!</h4>
+      <p>Перезвоним в ближайшее время</p>
+    </div>
+    <p class="callback-notice">Нажимая кнопку, вы соглашаетесь на <a href="privacy.html">обработку персональных данных</a></p>
+  </div>
+
+
+  <button class="scroll-top" aria-label="Наверх" title="Вернуться наверх" type="button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+         fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/currency.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+IDXEOF;
+
+if (file_put_contents($dir . '/.htaccess', $htaccess) !== false) {
+    $log[] = ['ok', '.htaccess обновлён (перенаправления Tilda удалены)'];
+} else {
+    $log[] = ['err', '.htaccess — ошибка записи'];
+    $ok = false;
 }
 
-function put($path, $content) {
-    return file_put_contents($path, $content) !== false;
+if (file_put_contents($dir . '/index.html', $index_html) !== false) {
+    $log[] = ['ok', 'index.html заменён (старый Tilda → наш сайт)'];
+} else {
+    $log[] = ['err', 'index.html — ошибка записи'];
+    $ok = false;
 }
 
-// ── Step 1: Fix .htaccess ────────────────────────────────────────────────────
-$ht = "# Pacific Star — no Tilda redirects\nOptions -Indexes\nDirectoryIndex index.html index.php\n";
-$log[] = put($root.'/.htaccess', $ht) ? 'OK .htaccess' : 'ERR .htaccess';
+@unlink(__FILE__);
 
-// ── Step 2: Download and overwrite all site files ───────────────────────────
-$files = [
-    'index.html', 'about.html', 'services.html', 'contacts.html',
-    'remote-regions.html', 'account.html', 'integrations.html', 'privacy.html',
-    'css/style.css',
-    'js/main.js', 'js/map.js', 'js/currency.js', 'js/calculator.js', 'js/i18n.js',
-];
-
-foreach (['css','js','img/partners'] as $dir) {
-    if (!is_dir($root.'/'.$dir)) mkdir($root.'/'.$dir, 0755, true);
-}
-
-$ok = 0; $fail = 0;
-foreach ($files as $f) {
-    $content = fetch($base . $f);
-    if ($content && put($root.'/'.$f, $content)) { $ok++; $log[] = "OK $f"; }
-    else { $fail++; $log[] = "ERR $f"; }
-}
-
-// ── Step 3: Self-delete ──────────────────────────────────────────────────────
-register_shutdown_function(function() { @unlink(__FILE__); });
-
-// ── Step 4: Redirect if all OK, else show log ────────────────────────────────
-if ($fail === 0) {
-    header('Location: https://pacificstar.ru?installed=1');
+if ($ok) {
+    header('Location: /');
     exit;
 }
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="ru">
-<head><meta charset="utf-8"><title>Pacific Star — установка</title>
+<head><meta charset="UTF-8"><title>Установка Pacific Star</title>
 <style>
-body{font:16px sans-serif;max-width:600px;margin:40px auto;padding:20px;background:#f5f5f5}
-h2{color:#c00}.ok{color:green}.err{color:red}
-a{display:inline-block;margin-top:20px;padding:12px 24px;background:#1a3d5c;color:#fff;border-radius:6px;text-decoration:none}
-</style></head>
+  body{font-family:sans-serif;background:#1a1a2e;color:#e0e0ff;display:flex;
+    align-items:center;justify-content:center;min-height:100vh;margin:0}
+  .box{background:#0f2944;border-radius:12px;padding:40px;max-width:500px;width:90%}
+  h2{color:#e8b94f;margin-top:0}
+  .ok{color:#4caf50}.err{color:#f44336}
+</style>
+</head>
 <body>
-<h2>⚠️ Часть файлов не загрузилась</h2>
-<p>Возможно, сервер не может подключиться к GitHub. Скажите службе поддержки Timeweb:<br>
-<em>«Включите allow_url_fopen и curl для домена pacificstar.ru»</em></p>
-<pre style="background:#fff;padding:12px;border:1px solid #ddd">
-<?php foreach ($log as $l) echo (substr($l,0,2)==='OK' ? '<span class="ok">' : '<span class="err">') . htmlspecialchars($l) . "</span>\n"; ?>
-</pre>
-<p>Успешно: <?= $ok ?> / <?= count($files) ?></p>
-<a href="https://pacificstar.ru">Попробовать открыть сайт</a>
-</body></html>
+<div class="box">
+<h2>Установка Pacific Star</h2>
+<?php foreach($log as [$st,$msg]): ?>
+<p class="<?= $st ?>">
+<?= $st==='ok' ? '✅' : '❌' ?> <?= htmlspecialchars($msg) ?>
+</p>
+<?php endforeach; ?>
+<?php if(!$ok): ?>
+<p class="err">Ошибка записи файла.<br>
+Напишите поддержке Timeweb: <em>«Нужны права на запись файлов в public_html»</em></p>
+<?php endif; ?>
+</div>
+</body>
+</html>
