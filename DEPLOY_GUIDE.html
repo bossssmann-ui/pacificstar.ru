@@ -6,87 +6,95 @@
 <title>Pacific Star — Запустить сайт</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#0d1b2a;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+body{font-family:Arial,sans-serif;background:#0d1b2a;color:#fff;
+     min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
 .wrap{max-width:600px;width:100%;text-align:center}
-.logo{font-size:36px;font-weight:900;color:#4ea8f0;letter-spacing:2px;margin-bottom:8px}
-.sub{color:#8ab4c9;font-size:15px;margin-bottom:48px}
-.main-card{background:#1a3d5c;border-radius:16px;padding:40px 36px;margin-bottom:24px}
-.main-card h2{font-size:18px;color:#8ab4c9;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px}
-.url-box{background:#0d1b2a;border-radius:10px;padding:20px 24px;margin:20px 0;border:2px solid #4ea8f0}
-.url-box a{color:#4ea8f0;font-size:22px;font-weight:bold;text-decoration:none;word-break:break-all}
-.url-box a:hover{color:#7ec8f0;text-decoration:underline}
-.desc{color:#b0cfe4;font-size:15px;line-height:1.7;margin-top:20px}
-.arrow{font-size:40px;display:block;margin:16px 0;animation:bounce .8s infinite alternate}
-@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-8px)}}
-.btn{display:inline-block;background:#4ea8f0;color:#0d1b2a;padding:16px 40px;border-radius:10px;font-size:18px;font-weight:900;text-decoration:none;margin-top:8px}
-.btn:hover{background:#7ec8f0}
-.what-box{background:#112233;border-radius:12px;padding:24px 28px;text-align:left;margin-bottom:24px}
-.what-box h3{color:#4ea8f0;font-size:16px;margin-bottom:14px}
-.what-box p{color:#8ab4c9;font-size:14px;line-height:1.7;margin-bottom:10px}
-.what-box p:last-child{margin-bottom:0}
-.if-box{background:#112233;border-radius:12px;padding:24px 28px;text-align:left}
-.if-box h3{color:#f0a44e;font-size:16px;margin-bottom:14px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-td,th{padding:8px 12px;border:1px solid #1a3d5c;vertical-align:top}
-th{background:#1a3d5c;color:#4ea8f0}
-td:first-child{color:#f0a44e}
-td:last-child{color:#8ab4c9}
+h1{font-size:32px;font-weight:900;color:#4ea8f0;margin-bottom:8px}
+.sub{color:#8ab4c9;font-size:14px;margin-bottom:40px}
+.card{background:#1a3d5c;border-radius:16px;padding:32px 28px;margin-bottom:20px;text-align:left}
+.card-title{color:#8ab4c9;font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
+.step{display:flex;gap:16px;align-items:flex-start;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.step:last-child{border-bottom:none}
+.num{background:#1565c0;color:#fff;border-radius:50%;width:28px;height:28px;min-width:28px;
+     display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:13px}
+.step-text{font-size:15px;color:#d0e8f5;line-height:1.6}
+.step-text strong{color:#fff}
+.url-highlight{background:#0d1b2a;border:2px solid #4ea8f0;border-radius:10px;
+               padding:18px 20px;margin:16px 0;text-align:center}
+.url-highlight a{color:#4ea8f0;font-size:20px;font-weight:bold;text-decoration:none;word-break:break-all}
+.url-highlight a:hover{text-decoration:underline}
+.why{background:rgba(255,152,0,.08);border:1px solid rgba(255,152,0,.3);border-radius:10px;
+     padding:16px 20px;font-size:13px;color:#ffd180;line-height:1.7;margin-top:16px}
+.ctrl{background:#0d3b1e;border:1px solid #4caf50;border-radius:10px;padding:14px 20px;
+      font-size:14px;color:#69f0ae;text-align:center;margin-top:16px}
+.ctrl kbd{background:#1b5e20;padding:2px 8px;border-radius:4px;font-family:monospace;font-size:14px}
 </style>
 </head>
 <body>
 <div class="wrap">
+  <h1>Pacific Star</h1>
+  <p class="sub">Инструкция по запуску сайта на Timeweb</p>
 
-  <div class="logo">★ PACIFIC STAR</div>
-  <div class="sub">Запуск сайта на сервере Timeweb</div>
+  <!-- ПОЧЕМУ БЕЛЫЙ ЭКРАН -->
+  <div class="card">
+    <div class="card-title">⚠️ Почему белый экран с Tilda?</div>
+    <p style="font-size:14px;color:#b0cfe4;line-height:1.7">
+      При распаковке ZIP-архива Timeweb <strong>не заменяет</strong> старые файлы.
+      Старый <code style="color:#ff8a65">index.html</code> от Tilda остался в папке.
+      Сервер открывает его — отсюда белый экран и логотип Tilda.
+      <br><br>
+      Файл <strong>r.php</strong> уже лежит в вашей папке (загрузился из ZIP, конфликта не было).
+      Он заменит старый Tilda на наш сайт.
+    </p>
+  </div>
 
-  <div class="main-card">
-    <h2>👇 Просто откройте эту ссылку в браузере</h2>
-    <div class="url-box">
-      <a href="http://pacificstar.ru/go.php" target="_blank">pacificstar.ru/go.php</a>
+  <!-- ОСНОВНОЙ БЛОК -->
+  <div class="card">
+    <div class="card-title">🚀 Что нужно сделать — 2 действия</div>
+
+    <div class="step">
+      <div class="num">1</div>
+      <div class="step-text">
+        Откройте в браузере этот адрес:<br>
+        <div class="url-highlight">
+          <a href="http://pacificstar.ru/r.php" target="_blank">pacificstar.ru/r.php</a>
+        </div>
+        Вы увидите <strong>тёмную страницу</strong> с двумя зелёными галочками ✅ ✅
+        и синей кнопкой «Открыть pacificstar.ru».
+      </div>
     </div>
-    <span class="arrow">👆</span>
-    <p style="color:#b0cfe4;font-size:14px">Нажмите на ссылку выше ← вот сюда</p>
-    <a href="http://pacificstar.ru/go.php" target="_blank" class="btn">Открыть go.php →</a>
-    <div class="desc">
-      Через 20–30 секунд браузер автоматически откроет<br>
-      <strong style="color:#4ea8f0">pacificstar.ru</strong> с синей шапкой — сайт готов ✅
+
+    <div class="step">
+      <div class="num">2</div>
+      <div class="step-text">
+        Нажмите синюю кнопку <strong>«🌐 Открыть pacificstar.ru»</strong>.<br>
+        Сайт откроется — но браузер может показать старую кэшированную версию.<br>
+        Поэтому сразу нажмите:<br>
+        <div class="ctrl">
+          Windows: <kbd>Ctrl</kbd> + <kbd>F5</kbd> &nbsp;&nbsp;|&nbsp;&nbsp;
+          Mac: <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd>
+        </div>
+        Это очистит кэш и покажет новый сайт с синей шапкой Pacific Star.
+      </div>
     </div>
   </div>
 
-  <div class="what-box">
-    <h3>❓ Что такое go.php — простыми словами</h3>
-    <p><strong style="color:#fff">Это маленький помощник, который уже лежит на вашем сервере.</strong></p>
-    <p>Когда вы его открываете в браузере, он за 20 секунд делает одно: заменяет старые файлы Tilda нашим новым сайтом Pacific Star.</p>
-    <p>После этого он удаляет себя — и на сайте остаётся только Pacific Star.</p>
-    <p>Ничего скачивать и загружать не нужно — <strong style="color:#4ea8f0">go.php уже на сервере</strong> (загрузился вместе с ZIP-архивом).</p>
-  </div>
-
-  <div class="if-box">
-    <h3>⚠️ Если что-то пошло не так</h3>
-    <table>
-      <tr><th>Что вижу</th><th>Что сделать</th></tr>
-      <tr>
-        <td>Белый экран на go.php</td>
-        <td>Скачать go.php заново и загрузить в public_html напрямую (как hello.html). Ссылка для скачивания:<br>
-          <a href="https://github.com/bossssmann-ui/pacificstar.ru/raw/copilot/refactor-site-description/go.php" 
-             style="color:#4ea8f0;word-break:break-all">
-            github.com/.../go.php
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td>«Часть файлов не загрузилась» (красный список)</td>
-        <td>Написать в поддержку Timeweb: «Включите allow_url_fopen и curl для домена pacificstar.ru»</td>
-      </tr>
-      <tr>
-        <td>go.php не найден (404)</td>
-        <td>Скачать и загрузить go.php напрямую в public_html (см. выше)</td>
-      </tr>
-      <tr>
-        <td>После успеха сайт всё равно старый</td>
-        <td>Нажмите Ctrl+F5 (жёсткое обновление браузера)</td>
-      </tr>
-    </table>
+  <!-- ЕСЛИ НЕ РАБОТАЕТ -->
+  <div class="card">
+    <div class="card-title">❓ Если r.php показал белый экран</div>
+    <p style="font-size:14px;color:#b0cfe4;line-height:1.8">
+      Значит PHP на сервере отключён или заблокирован.<br>
+      Тогда — только ручной способ:<br><br>
+      <strong>1.</strong> Timeweb → Файловый менеджер → public_html<br>
+      <strong>2.</strong> Найдите файл <code style="color:#ff8a65">index.html</code> → правая кнопка → <strong>Редактировать</strong><br>
+      <strong>3.</strong> Выделите весь текст (Ctrl+A) → удалите<br>
+      <strong>4.</strong> Вставьте новый index.html из GitHub (ссылка ниже) → Сохранить
+      <br><br>
+      <a href="https://github.com/bossssmann-ui/pacificstar.ru/raw/copilot/refactor-site-description/index.html"
+         style="color:#4ea8f0" target="_blank">
+        Скачать новый index.html с GitHub →
+      </a>
+    </p>
   </div>
 
 </div>
