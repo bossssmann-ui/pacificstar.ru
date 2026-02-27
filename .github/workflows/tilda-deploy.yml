@@ -8,15 +8,14 @@ on:
 jobs:
   # ─────────────────────────────────────────────────────────────
   # Деплой сайта на Timeweb через FTP (надёжнее SSH для shared hosting)
-  # Сервер: 185.114.247.170  |  Логин: ct38770
-  # Пароль хранится в GitHub Secrets → TIMEWEB_PASSWORD
+  # Хост, логин и пароль хранятся в GitHub Secrets
   # ─────────────────────────────────────────────────────────────
   deploy-timeweb:
     name: 🚀 Загрузить сайт на Timeweb
     runs-on: ubuntu-latest
     env:
-      TW_HOST: 185.114.247.170
-      TW_USER: ct38770
+      TW_HOST: ${{ secrets.TIMEWEB_HOST }}
+      TW_USER: ${{ secrets.TIMEWEB_USER }}
       TW_PATH: /public_html/
       TW_PASS: ${{ secrets.TIMEWEB_PASSWORD }}
 
@@ -44,15 +43,19 @@ jobs:
             --exclude='.github/' \
             --exclude='node_modules/' \
             --exclude='previews/' \
+            --exclude='*.php' \
+            --exclude='test.html' \
+            --exclude='DEPLOY_GUIDE.html' \
+            --exclude='*.zip' \
             --exclude='SESSION_STATE.md' \
             --exclude='HOSTING_GUIDE.md' \
             --exclude='TIMEWEB_DEPLOY.md' \
+            --exclude='README.md' \
             --exclude='TILDA_COPILOT_ACCESS.md' \
             --exclude='TILDA_SETUP.md' \
             --exclude='package*.json' \
             --exclude='.htmlvalidate.json' \
             --exclude='.gitignore' \
-            --exclude='site-pacificstar.zip' \
             ./ /tmp/site/
           echo "📦 Файлы для загрузки:"
           ls /tmp/site/
@@ -71,13 +74,17 @@ jobs:
             set ftp:ssl-allow no
             set net:timeout 30
             set net:max-retries 3
+            lcd /tmp/site
             mirror --reverse --delete --verbose \
               --exclude-glob .git* \
               --exclude-glob *.md \
+              --exclude-glob *.php \
+              --exclude-glob test.html \
+              --exclude-glob DEPLOY_GUIDE.html \
               --exclude-glob previews/ \
               --exclude-glob node_modules/ \
-              --exclude-glob site-pacificstar.zip \
-              /tmp/site/ /public_html/
+              --exclude-glob *.zip \
+              . /public_html/
             bye
           LFTP_CMDS
           echo "✅ FTP загрузка завершена"
@@ -95,7 +102,7 @@ jobs:
           sshpass -e rsync -avz \
             -e "ssh -p 22 -o StrictHostKeyChecking=no -o ConnectTimeout=10" \
             /tmp/site/ \
-            "$TW_USER@$TW_HOST:/home/$TW_USER/public_html/" \
+            "$TW_USER@$TW_HOST:${{ secrets.TIMEWEB_PATH }}" \
             2>&1 | tail -5 || echo "SSH недоступен — FTP был основным методом"
 
       - name: Проверить доступность сайта
