@@ -58,7 +58,7 @@ jobs:
         run: |
           if [ -z "$TW_HOST" ] || [ -z "$TW_USER" ] || [ -z "$TW_PASS" ]; then
             echo "⚠️  ДОБАВЬТЕ СЕКРЕТЫ TIMEWEB_HOST, TIMEWEB_USER, TIMEWEB_PASSWORD:"
-            echo "  https://github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions"
+            echo "  ${{ github.server_url }}/${{ github.repository }}/settings/secrets/actions"
             echo "SKIP=true" >> "$GITHUB_ENV"
           else
             echo "✅ Секреты найдены — начинаем загрузку"
@@ -74,7 +74,9 @@ jobs:
         env:
           LFTP_PASSWORD: ${{ secrets.TIMEWEB_PASSWORD }}
         run: |
-          lftp -u "$TW_USER,$LFTP_PASSWORD" "ftps://$TW_HOST" <<'LFTP_CMDS'
+          printf "machine %s\n  login %s\n  password %s\n" "$TW_HOST" "$TW_USER" "$LFTP_PASSWORD" > ~/.netrc
+          chmod 600 ~/.netrc
+          lftp "ftps://$TW_HOST" <<'LFTP_CMDS'
             set ftp:ssl-force true
             set ftp:ssl-protect-data true
             set net:timeout 30
