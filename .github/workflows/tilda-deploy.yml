@@ -80,7 +80,7 @@ jobs:
         run: |
           printf "machine %s\n  login %s\n  password %s\n" "$TW_HOST" "$TW_USER" "$LFTP_PASSWORD" > ~/.netrc
           chmod 600 ~/.netrc
-          lftp "ftps://$TW_HOST" <<'LFTP_CMDS'
+          lftp "ftps://$TW_HOST" <<LFTP_CMDS
             set ftp:ssl-force true
             set ftp:ssl-protect-data true
             set net:timeout 30
