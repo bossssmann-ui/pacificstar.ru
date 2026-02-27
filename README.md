@@ -47,5 +47,6 @@
 `.github/workflows/tilda-deploy.yml`.
 
 Перед запуском:
-1. Добавьте секрет `TIMEWEB_PASSWORD` в репозитории (Settings → Secrets and variables → Actions).
-2. Запустите workflow вручную: **Actions → Deploy — pacificstar.ru на Timeweb → Run workflow**.
+1. Добавьте переменные `TIMEWEB_HOST`, `TIMEWEB_USER`, `TIMEWEB_PATH` в репозиторий (Settings → Secrets and variables → Actions).
+2. Добавьте секрет `TIMEWEB_PASSWORD` в репозиторий (Settings → Secrets and variables → Actions).
+3. Запустите workflow вручную: **Actions → Deploy — pacificstar.ru на Timeweb → Run workflow**.
