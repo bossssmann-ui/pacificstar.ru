@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pacific Star — Запуск сайта</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #0d1f2d;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.card {
+  background: #1a3d5c;
+  border-radius: 16px;
+  padding: 48px 40px;
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.logo { font-size: 48px; margin-bottom: 20px; }
+h1 { font-size: 26px; margin-bottom: 12px; color: #fff; }
+.sub { color: #8ab4cc; font-size: 16px; margin-bottom: 36px; line-height: 1.6; }
+.btn {
+  display: block;
+  width: 100%;
+  padding: 20px;
+  background: #f59e0b;
+  color: #1a1a1a;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 12px;
+  text-decoration: none;
+  margin-bottom: 16px;
+  transition: background 0.2s;
+}
+.btn:hover { background: #fbbf24; }
+.note {
+  font-size: 13px;
+  color: #5a8aaa;
+  margin-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 20px;
+}
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+  margin-bottom: 12px;
+}
+.num {
+  background: #f59e0b;
+  color: #1a1a1a;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step-text { color: #cde; font-size: 15px; line-height: 1.5; }
+.divider { height: 1px; background: rgba(255,255,255,0.1); margin: 28px 0; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">🚀</div>
+  <h1>Запуск сайта Pacific Star</h1>
+  <p class="sub">Нажмите кнопку ниже — это запустит установку.<br>Страница сама обновится на готовый сайт.</p>
+
+  <a class="btn" href="http://pacificstar.ru/go.php">
+    ▶ Запустить установку
+  </a>
+
+  <div class="divider"></div>
+
+  <div style="text-align:left">
+    <div class="step">
+      <div class="num">1</div>
+      <div class="step-text">Нажмите кнопку выше</div>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <div class="step-text">Подождите 20–30 секунд — страница сама обновится</div>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <div class="step-text">Вы увидите сайт Pacific Star с синей шапкой ✅</div>
+    </div>
+  </div>
+
+  <div class="note">
+    Если кнопка не сработала — откройте в браузере вручную:<br>
+    <strong>http://pacificstar.ru/go.php</strong>
+  </div>
+</div>
+</body>
+</html>

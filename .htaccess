@@ -1,0 +1,8 @@
+# Pacific Star — базовые настройки
+Options -Indexes
+DirectoryIndex index.html index.php
+
+# Отключить кэш для разработки
+<IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+</IfModule>

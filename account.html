@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+  <meta name="description" content="Личный кабинет Pacific Star — отслеживайте грузы, управляйте заявками и получайте статусы доставки в режиме реального времени." >
+  <meta property="og:title" content="Личный кабинет — Pacific Star" >
+  <meta property="og:type" content="website" >
+  <title>Личный кабинет — Pacific Star</title>
+  <noscript><style>.fade-in{opacity:1!important;transform:none!important;animation:none!important}</style></noscript>
+  <link rel="preconnect" href="https://fonts.googleapis.com" >
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&display=swap" rel="stylesheet" >
+  <link rel="stylesheet" href="css/style.css" >
+</head>
+<body>
+
+  <!-- ========== HEADER ========== -->
+  <header class="site-header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="logo" aria-label="Pacific Star — главная страница">
+          <div class="logo-icon" aria-hidden="true">🌟</div>
+          <div class="logo-text">
+            <strong>Pacific Star</strong>
+            <span>Логистика</span>
+          </div>
+        </a>
+        <nav class="nav-menu" aria-label="Основное меню">
+          <a href="index.html" class="nav-link">Главная</a>
+          <a href="about.html" class="nav-link">О нас</a>
+          <a href="services.html" class="nav-link">Услуги</a>
+          <a href="remote-regions.html" class="nav-link">Северный завоз</a>
+          <a href="contacts.html" class="nav-link">Контакты</a>
+        </nav>
+        <div class="header-cta">
+          <a href="tel:+78005553535" class="header-phone" aria-label="Позвонить нам">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07
+                       11.2 19.79 19.79 0 010 2.57 2 2 0 012 .38h3a2 2 0 012 1.72c.127.96.361
+                       1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.26a16 16 0 006.29 6.29l1.25-1.25a2
+                       2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+            </svg>
+            +7&nbsp;(800)&nbsp;555&#8209;35&#8209;35
+          </a>
+          <!-- Language Switcher -->
+          <div class="lang-switcher" id="langSwitcher">
+            <button type="button" class="lang-btn" id="langBtn"
+                    aria-haspopup="listbox" aria-expanded="false" aria-label="Выбрать язык">
+              <span class="lang-flag" id="langFlag">🇷🇺</span>
+              <span class="lang-code" id="langCode">RU</span>
+              <svg class="lang-chevron" width="10" height="10" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </button>
+            <ul class="lang-dropdown" role="listbox" id="langDropdown">
+              <li role="option"><button type="button" data-lang="ru" data-active="true">🇷🇺 Русский</button></li>
+              <li role="option"><button type="button" data-lang="en">🇬🇧 English</button></li>
+              <li role="option"><button type="button" data-lang="zh">🇨🇳 中文</button></li>
+              <li role="option"><button type="button" data-lang="ja">🇯🇵 日本語</button></li>
+              <li role="option"><button type="button" data-lang="ko">🇰🇷 한국어</button></li>
+            </ul>
+          </div>
+          <a href="account.html" class="btn btn-primary header-btn">Личный кабинет</a>
+        </div>
+        <button class="burger" aria-label="Открыть меню" aria-expanded="false" type="button">
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+          <span class="burger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile nav -->
+  <nav class="mobile-nav" aria-label="Мобильное меню">
+    <a href="index.html" class="nav-link">Главная</a>
+    <a href="about.html" class="nav-link">О нас</a>
+    <a href="services.html" class="nav-link">Услуги</a>
+    <a href="remote-regions.html" class="nav-link">Северный завоз</a>
+    <a href="contacts.html" class="nav-link">Контакты</a>
+    <a href="tel:+78005553535" class="header-phone">+7&nbsp;(800)&nbsp;555&#8209;35&#8209;35</a>
+    <a href="account.html" class="btn btn-primary header-btn">Личный кабинет</a>
+  </nav>
+
+  <main>
+    <!-- ========== PAGE HERO ========== -->
+    <section class="page-hero" aria-label="Личный кабинет">
+      <div class="container" style="position:relative;z-index:1;">
+        <span class="page-hero-label">👤 Клиентский портал</span>
+        <h1>Личный кабинет</h1>
+        <p>Управляйте заявками, отслеживайте грузы и получайте документы онлайн</p>
+        <nav class="breadcrumb" aria-label="Хлебные крошки">
+          <a href="index.html">Главная</a>
+          <span class="breadcrumb-sep" aria-hidden="true">›</span>
+          <span aria-current="page">Личный кабинет</span>
+        </nav>
+      </div>
+    </section>
+
+    <!-- ========== ACCOUNT MAIN ========== -->
+    <section class="section" aria-labelledby="account-title">
+      <div class="container">
+
+        <!-- Tab navigation -->
+        <div class="account-tabs" role="tablist" aria-label="Разделы кабинета">
+          <button type="button" role="tab" class="account-tab active" data-tab="signin" aria-selected="true" id="tab-signin">
+            🔑 Войти
+          </button>
+          <button type="button" role="tab" class="account-tab" data-tab="register" aria-selected="false" id="tab-register">
+            ✍️ Регистрация
+          </button>
+          <button type="button" role="tab" class="account-tab" data-tab="track" aria-selected="false" id="tab-track">
+            📦 Отследить груз
+          </button>
+          <button type="button" role="tab" class="account-tab" data-tab="orders" aria-selected="false" id="tab-orders">
+            📋 Мои заявки
+          </button>
+          <button type="button" role="tab" class="account-tab" data-tab="neworder" aria-selected="false" id="tab-neworder">
+            ➕ Создать заявку
+          </button>
+        </div>
+
+        <!-- ── Sign In ── -->
+        <div class="account-panel" id="panel-signin" role="tabpanel" aria-labelledby="tab-signin">
+          <div class="account-form-wrap fade-in">
+            <div class="account-form-icon" aria-hidden="true">🔐</div>
+            <h2 id="account-title">Войти в аккаунт</h2>
+            <p class="account-form-desc">Введите данные для входа в личный кабинет</p>
+            <form id="signinForm" class="account-form" novalidate>
+              <div class="form-group">
+                <label for="signinEmail" class="form-label">Электронная почта / Логин</label>
+                <input type="email" id="signinEmail" name="email" class="form-control"
+                       placeholder="ivan@example.com" required autocomplete="email" >
+              </div>
+              <div class="form-group">
+                <label for="signinPassword" class="form-label">Пароль</label>
+                <div class="password-wrap">
+                  <input type="password" id="signinPassword" name="password" class="form-control"
+                         placeholder="••••••••" required autocomplete="current-password" >
+                  <button type="button" class="password-toggle" aria-label="Показать пароль" id="toggleSigninPwd">👁</button>
+                </div>
+              </div>
+              <div class="form-row" style="justify-content:space-between;align-items:center;">
+                <div class="form-check">
+                  <input type="checkbox" id="rememberMe" name="remember" >
+                  <label for="rememberMe">Запомнить меня</label>
+                </div>
+                <a href="#" class="account-link" id="forgotLink">Забыли пароль?</a>
+              </div>
+              <button type="submit" class="btn btn-primary account-submit">Войти</button>
+              <p class="account-switch">Нет аккаунта? <a href="#" class="account-link" data-switch="register">Зарегистрироваться</a></p>
+            </form>
+            <!-- CRM notice -->
+            <div class="account-crm-notice">
+              <span aria-hidden="true">🔗</span>
+              <span>Синхронизируется с CRM. Скоро будет доступна полная интеграция с AmoCRM.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Register ── -->
+        <div class="account-panel hidden" id="panel-register" role="tabpanel" aria-labelledby="tab-register">
+          <div class="account-form-wrap fade-in">
+            <div class="account-form-icon" aria-hidden="true">📝</div>
+            <h2>Создать аккаунт</h2>
+            <p class="account-form-desc">Получите доступ к личному кабинету бесплатно</p>
+            <form id="registerForm" class="account-form" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="regName" class="form-label">Имя <span class="form-required">(обязательно)</span></label>
+                  <input type="text" id="regName" name="firstName" class="form-control"
+                         placeholder="Иван" required autocomplete="given-name" >
+                </div>
+                <div class="form-group">
+                  <label for="regLastName" class="form-label">Фамилия</label>
+                  <input type="text" id="regLastName" name="lastName" class="form-control"
+                         placeholder="Иванов" autocomplete="family-name" >
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="regEmail" class="form-label">E-mail <span class="form-required">(обязательно)</span></label>
+                <input type="email" id="regEmail" name="email" class="form-control"
+                       placeholder="ivan@example.com" required autocomplete="email" >
+              </div>
+              <div class="form-group">
+                <label for="regPhone" class="form-label">Телефон</label>
+                <input type="tel" id="regPhone" name="phone" class="form-control"
+                       placeholder="+7 (___) ___-__-__" autocomplete="tel" >
+              </div>
+              <div class="form-group">
+                <label for="regCompany" class="form-label">Компания</label>
+                <input type="text" id="regCompany" name="company" class="form-control"
+                       placeholder="ООО «Название»" autocomplete="organization" >
+              </div>
+              <div class="form-group">
+                <label for="regPassword" class="form-label">Пароль <span class="form-required">(обязательно)</span></label>
+                <div class="password-wrap">
+                  <input type="password" id="regPassword" name="password" class="form-control"
+                         placeholder="Не менее 8 символов" required autocomplete="new-password" >
+                  <button type="button" class="password-toggle" aria-label="Показать пароль" id="toggleRegPwd">👁</button>
+                </div>
+                <div class="password-strength" id="pwdStrength" aria-live="polite"></div>
+              </div>
+              <div class="form-group">
+                <label for="regConfirm" class="form-label">Подтверждение пароля <span class="form-required">(обязательно)</span></label>
+                <input type="password" id="regConfirm" name="confirm" class="form-control"
+                       placeholder="Повторите пароль" required autocomplete="new-password" >
+              </div>
+              <div class="form-check">
+                <input type="checkbox" id="regPrivacy" name="privacy" required >
+                <label for="regPrivacy">
+                  Я согласен(на) на
+                  <a href="privacy.html" target="_blank" rel="noopener noreferrer">обработку персональных данных</a>
+                  в соответствии с Политикой конфиденциальности
+                </label>
+              </div>
+              <button type="submit" class="btn btn-primary account-submit">Зарегистрироваться</button>
+              <p class="account-switch">Уже есть аккаунт? <a href="#" class="account-link" data-switch="signin">Войти</a></p>
+            </form>
+          </div>
+        </div>
+
+        <!-- ── Track ── -->
+        <div class="account-panel hidden" id="panel-track" role="tabpanel" aria-labelledby="tab-track">
+          <div class="account-form-wrap fade-in">
+            <div class="account-form-icon" aria-hidden="true">🔍</div>
+            <h2>Отследить груз</h2>
+            <p class="account-form-desc">Введите трек-номер заявки для получения статуса</p>
+            <form id="trackForm" class="account-form" novalidate>
+              <div class="form-group">
+                <label for="trackNumber" class="form-label">Трек-номер <span class="form-required">(обязательно)</span></label>
+                <div class="track-input-wrap">
+                  <input type="text" id="trackNumber" name="track" class="form-control track-input"
+                         placeholder="PS-2025-XXXXXX" required
+                         pattern="[Pp][Ss]-\d{4}-[A-Za-z0-9]+" >
+                  <button type="submit" class="btn btn-primary">Найти</button>
+                </div>
+                <span class="form-hint">Трек-номер указан в подтверждении заявки (например: PS-2025-001234)</span>
+              </div>
+            </form>
+
+            <!-- Demo tracking result (hidden by default) -->
+            <div class="track-result" id="trackResult" style="display:none;" aria-live="polite">
+              <div class="track-status-header">
+                <div class="track-status-badge" id="trackBadge">В пути</div>
+                <div class="track-status-route" id="trackRoute">Москва → Владивосток</div>
+              </div>
+              <div class="track-timeline" id="trackTimeline"></div>
+              <div class="track-result-cta">
+                <p>Нужна помощь? <a href="contacts.html">Свяжитесь с менеджером</a></p>
+              </div>
+            </div>
+
+            <!-- Demo data note -->
+            <div class="account-crm-notice">
+              <span aria-hidden="true">ℹ️</span>
+              <span>Для демонстрации введите: <strong>PS-2025-001234</strong> или <strong>PS-2025-005678</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── My Orders ── -->
+        <div class="account-panel hidden" id="panel-orders" role="tabpanel" aria-labelledby="tab-orders">
+          <div class="account-form-wrap fade-in" style="max-width:700px;">
+            <div class="account-form-icon" aria-hidden="true">📋</div>
+            <h2>Мои заявки</h2>
+            <p class="account-form-desc">История всех ваших отправлений (демонстрационные данные)</p>
+
+            <div class="orders-list" role="list" aria-label="Список заявок">
+
+              <div class="order-row">
+                <div class="order-num">PS-2025-001234</div>
+                <div class="order-info">
+                  <div class="order-route">Шанхай → Владивосток → Москва</div>
+                  <div class="order-meta">40' контейнер · 18 500 кг · Отправлено: 02.01.2025</div>
+                </div>
+                <span class="order-status st-delivered">✅ Доставлен</span>
+              </div>
+
+              <div class="order-row">
+                <div class="order-num">PS-2025-005678</div>
+                <div class="order-info">
+                  <div class="order-route">Москва → Магадан (море + авто)</div>
+                  <div class="order-meta">Сборный груз · 3 200 кг · Отправлено: 10.02.2025</div>
+                </div>
+                <span class="order-status st-transit">🚢 В пути</span>
+              </div>
+
+              <div class="order-row">
+                <div class="order-num">PS-2025-007890</div>
+                <div class="order-info">
+                  <div class="order-route">Токио → Владивосток → Якутск</div>
+                  <div class="order-meta">20' контейнер · 12 000 кг · Отправлено: 18.02.2025</div>
+                </div>
+                <span class="order-status st-customs">🛃 На таможне</span>
+              </div>
+
+              <div class="order-row">
+                <div class="order-num">PS-2025-009102</div>
+                <div class="order-info">
+                  <div class="order-route">Москва → Анадырь (Северный завоз)</div>
+                  <div class="order-meta">Генеральный груз · 7 800 кг · Принято: 21.02.2025</div>
+                </div>
+                <span class="order-status st-processing">⏳ Обрабатывается</span>
+              </div>
+
+            </div>
+
+            <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
+              <button type="button" class="btn btn-primary account-submit"
+                      onclick="document.querySelector('[data-tab=neworder]').click()">
+                + Создать новую заявку
+              </button>
+              <a href="contacts.html" class="btn btn-outline">Связаться с менеджером</a>
+            </div>
+
+            <div class="account-crm-notice" style="margin-top:20px;">
+              <span aria-hidden="true">🔗</span>
+              <span>После подключения AmoCRM здесь будут отображаться ваши реальные заявки в режиме реального времени.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── New Order ── -->
+        <div class="account-panel hidden" id="panel-neworder" role="tabpanel" aria-labelledby="tab-neworder">
+          <div class="account-form-wrap fade-in" style="max-width:620px;">
+            <div class="account-form-icon" aria-hidden="true">📝</div>
+            <h2>Создать заявку</h2>
+            <p class="account-form-desc">Заполните форму — менеджер свяжется с вами в течение 30 минут</p>
+
+            <form id="newOrderForm" class="account-form" novalidate>
+
+              <p style="font-weight:700;margin-bottom:12px;color:var(--color-primary);">Маршрут</p>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="orderFrom" class="form-label">Откуда <span class="form-required">(обязательно)</span></label>
+                  <input type="text" id="orderFrom" name="origin" class="form-control"
+                         placeholder="Шанхай, Китай" required >
+                </div>
+                <div class="form-group">
+                  <label for="orderTo" class="form-label">Куда <span class="form-required">(обязательно)</span></label>
+                  <input type="text" id="orderTo" name="destination" class="form-control"
+                         placeholder="Магадан, Россия" required >
+                </div>
+              </div>
+
+              <p style="font-weight:700;margin:16px 0 12px;color:var(--color-primary);">Груз</p>
+              <div class="form-group">
+                <label for="orderCargo" class="form-label">Тип груза <span class="form-required">(обязательно)</span></label>
+                <select id="orderCargo" name="cargoType" class="form-control" required>
+                  <option value="">— выберите тип —</option>
+                  <option value="container_20">Контейнер 20'</option>
+                  <option value="container_40">Контейнер 40'</option>
+                  <option value="groupage">Сборный груз (LCL)</option>
+                  <option value="project">Проектный / негабаритный груз</option>
+                  <option value="general">Генеральный груз</option>
+                  <option value="reefer">Рефрижераторный груз</option>
+                  <option value="auto">Автомобиль / спецтехника</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="orderWeight" class="form-label">Вес (кг)</label>
+                  <input type="number" id="orderWeight" name="weight" class="form-control"
+                         placeholder="5000" min="1" >
+                </div>
+                <div class="form-group">
+                  <label for="orderVolume" class="form-label">Объём (м³)</label>
+                  <input type="number" id="orderVolume" name="volume" class="form-control"
+                         placeholder="12" min="0.01" step="0.01" >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="orderDesc" class="form-label">Описание груза</label>
+                <input type="text" id="orderDesc" name="description" class="form-control"
+                       placeholder="Промышленное оборудование, запчасти…" >
+              </div>
+
+              <div class="form-group">
+                <label for="orderDate" class="form-label">Дата готовности груза</label>
+                <input type="date" id="orderDate" name="readyDate" class="form-control" >
+              </div>
+
+              <p style="font-weight:700;margin:16px 0 10px;color:var(--color-primary);">Особые условия</p>
+              <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
+                <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;cursor:pointer;">
+                  <input type="checkbox" name="special_fragile" > Хрупкий груз
+                </label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;cursor:pointer;">
+                  <input type="checkbox" name="special_temp" > Температурный режим
+                </label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;cursor:pointer;">
+                  <input type="checkbox" name="special_oversized" > Негабаритный
+                </label>
+                <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;cursor:pointer;">
+                  <input type="checkbox" name="special_insurance" > Страхование груза
+                </label>
+              </div>
+
+              <p style="font-weight:700;margin-bottom:12px;color:var(--color-primary);">Контактные данные</p>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="orderName" class="form-label">Имя <span class="form-required">(обязательно)</span></label>
+                  <input type="text" id="orderName" name="contactName" class="form-control"
+                         placeholder="Иван Иванов" required autocomplete="name" >
+                </div>
+                <div class="form-group">
+                  <label for="orderPhone" class="form-label">Телефон <span class="form-required">(обязательно)</span></label>
+                  <input type="tel" id="orderPhone" name="contactPhone" class="form-control"
+                         placeholder="+7 (___) ___-__-__" required autocomplete="tel" >
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="orderEmail" class="form-label">E-mail</label>
+                <input type="email" id="orderEmail" name="contactEmail" class="form-control"
+                       placeholder="ivan@company.ru" autocomplete="email" >
+              </div>
+
+              <div class="form-group">
+                <label for="orderCompany" class="form-label">Компания</label>
+                <input type="text" id="orderCompany" name="company" class="form-control"
+                       placeholder="ООО «Название»" autocomplete="organization" >
+              </div>
+
+              <div class="form-group">
+                <label for="orderComment" class="form-label">Комментарий</label>
+                <textarea id="orderComment" name="comment" class="form-control"
+                          rows="3" placeholder="Дополнительные требования, вопросы…"
+                          style="resize:vertical;font-family:inherit;"></textarea>
+              </div>
+
+              <div class="form-check" style="margin-bottom:16px;">
+                <input type="checkbox" id="orderPrivacy" name="privacy" required >
+                <label for="orderPrivacy">
+                  Согласен(на) на
+                  <a href="privacy.html" target="_blank" rel="noopener noreferrer">обработку персональных данных</a>
+                </label>
+              </div>
+
+              <button type="submit" class="btn btn-primary account-submit">Отправить заявку</button>
+            </form>
+
+            <div id="newOrderSuccess" style="display:none;text-align:center;padding:20px 0;" aria-live="polite">
+              <div style="font-size:2.5rem;margin-bottom:12px;">✅</div>
+              <h3 style="margin-bottom:8px;">Заявка отправлена!</h3>
+              <p style="color:var(--color-muted);">Менеджер свяжется с вами в течение 30 минут в рабочее время.</p>
+            </div>
+
+            <div class="account-crm-notice" style="margin-top:20px;">
+              <span aria-hidden="true">🔗</span>
+              <span>После подключения AmoCRM заявка автоматически создаст сделку в вашей воронке продаж.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========== FEATURES PREVIEW ========== -->
+    <section class="section" style="background:var(--color-light);" aria-labelledby="account-features-title">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Возможности кабинета</span>
+          <h2 class="section-title" id="account-features-title">Всё под контролем</h2>
+          <p class="section-desc">Управляйте логистикой без звонков и ожидания</p>
+          <div class="divider" aria-hidden="true"></div>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">📦</div>
+            <h3>Отслеживание грузов</h3>
+            <p>Видите статус каждой заявки в режиме реального времени: принята, в пути, на таможне, доставлена.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">📋</div>
+            <h3>История заявок</h3>
+            <p>Вся история отправлений за любой период. Фильтрация по маршруту, дате, статусу.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">📑</div>
+            <h3>Документы онлайн</h3>
+            <p>Скачивайте накладные, счета, акты и сертификаты прямо из кабинета без запросов менеджеру.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">💬</div>
+            <h3>Чат с менеджером</h3>
+            <p>Задавайте вопросы прямо в кабинете. История переписки сохраняется автоматически.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🔔</div>
+            <h3>Уведомления</h3>
+            <p>SMS и e-mail уведомления о каждом изменении статуса груза. Настройте под себя.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🗺️</div>
+            <h3>Конструктор маршрута</h3>
+            <p>Создайте маршрут в несколько кликов: выберите города, тип транспорта и получите предварительный расчёт.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CTA ========== -->
+    <section class="cta-section" aria-labelledby="account-cta-title">
+      <div class="container">
+        <div class="cta-inner">
+          <h2 class="cta-title" id="account-cta-title">Вопросы по работе кабинета?</h2>
+          <p class="cta-desc">Наши менеджеры помогут с регистрацией и настройкой — бесплатно.</p>
+          <div class="cta-actions">
+            <a href="contacts.html" class="btn btn-primary">Связаться с нами</a>
+            <a href="tel:+78005553535" class="btn btn-secondary">+7&nbsp;(800)&nbsp;555&#8209;35&#8209;35</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" aria-label="Pacific Star — главная">
+            <div class="logo-icon" aria-hidden="true">🌟</div>
+            <div class="logo-text">
+              <strong>Pacific Star</strong>
+              <span>Логистика</span>
+            </div>
+          </a>
+          <p>Транспортно-логистическая компания, оказывающая полный спектр услуг по перевозке, хранению и экспедированию грузов с 2012 года.</p>
+          <nav class="social-links" aria-label="Мы в социальных сетях">
+            <a href="#" class="social-link" aria-label="ВКонтакте">ВК</a>
+            <a href="#" class="social-link" aria-label="Telegram">TG</a>
+            <a href="#" class="social-link" aria-label="WhatsApp">WA</a>
+          </nav>
+        </div>
+        <div>
+          <p class="footer-col-title">Навигация</p>
+          <nav class="footer-nav" aria-label="Навигация в подвале">
+            <a href="index.html">Главная</a>
+            <a href="about.html">О компании</a>
+            <a href="services.html">Услуги</a>
+            <a href="remote-regions.html">Северный завоз</a>
+            <a href="contacts.html">Контакты</a>
+            <a href="integrations.html">Интеграции</a>
+          </nav>
+        </div>
+        <div>
+          <p class="footer-col-title">Услуги</p>
+          <nav class="footer-nav" aria-label="Услуги">
+            <a href="services.html">Грузоперевозки</a>
+            <a href="services.html">Складские услуги</a>
+            <a href="services.html">Экспедирование</a>
+            <a href="remote-regions.html">Северный завоз</a>
+            <a href="services.html">Тарифы</a>
+          </nav>
+        </div>
+        <div>
+          <p class="footer-col-title">Контакты</p>
+          <div class="footer-contacts">
+            <div class="footer-contact-item">
+              <span aria-hidden="true">📍</span>
+              <span>г. Москва, ул. Логистическая, д. 1, офис 100</span>
+            </div>
+            <div class="footer-contact-item">
+              <span aria-hidden="true">📞</span>
+              <span><a href="tel:+78005553535">+7&nbsp;(800)&nbsp;555&#8209;35&#8209;35</a> (бесплатно)</span>
+            </div>
+            <div class="footer-contact-item">
+              <span aria-hidden="true">✉️</span>
+              <span><a href="mailto:info@pacificstar.ru">info@pacificstar.ru</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-bottom-text">© 2012–2026 ООО «Pacific Star». Все права защищены.</p>
+        <div class="footer-bottom-links">
+          <a href="privacy.html">Политика конфиденциальности</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== FLOATING CONTACTS ========== -->
+  <div class="floating-contacts" id="floatingContacts">
+    <div class="floating-menu" id="floatingMenu" role="menu" aria-label="Способы связи">
+      <a href="https://wa.me/78005553535?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%B5%D1%81%D1%83%D1%8E%D1%81%D1%8C%20%D0%B3%D1%80%D1%83%D0%B7%D0%BE%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B7%D0%BA%D0%BE%D0%B9."
+         class="floating-item floating-wa" target="_blank" rel="noopener noreferrer"
+         role="menuitem" aria-label="WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.373 0 0 5.373 0 12c0 2.135.559 4.14 1.535 5.878L0 24l6.273-1.508A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.896 0-3.678-.513-5.2-1.408l-.368-.224-3.85.924.999-3.77-.248-.386A9.955 9.955 0 012 12C2 6.486 6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
+        </svg>
+        <span>WhatsApp</span>
+      </a>
+      <a href="https://t.me/pacificstar_bot" class="floating-item floating-tg"
+         target="_blank" rel="noopener noreferrer" role="menuitem" aria-label="Telegram">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="currentColor" aria-hidden="true">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.26 13.593l-2.95-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.537-.194 1.006.131.883.964z"/>
+        </svg>
+        <span>Telegram</span>
+      </a>
+      <button type="button" class="floating-item floating-cb" id="openCallback" role="menuitem">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.2 19.79 19.79 0 010 2.57 2 2 0 012 .38h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.26a16 16 0 006.29 6.29l1.25-1.25a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+        </svg>
+        <span>Перезвоним</span>
+      </button>
+    </div>
+    <button type="button" class="floating-toggle" id="floatingToggle"
+            aria-label="Связаться с нами" aria-expanded="false" aria-controls="floatingMenu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.2 19.79 19.79 0 010 2.57 2 2 0 012 .38h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.26a16 16 0 006.29 6.29l1.25-1.25a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ========== CALLBACK PANEL ========== -->
+  <div class="callback-overlay" id="callbackOverlay"></div>
+  <div class="callback-panel" id="callbackPanel" role="dialog" aria-modal="true"
+       aria-labelledby="callback-title" aria-hidden="true">
+    <button type="button" class="callback-close" id="callbackClose" aria-label="Закрыть панель">✕</button>
+    <div class="callback-icon" aria-hidden="true">📞</div>
+    <h3 id="callback-title">Перезвоним вам</h3>
+    <p class="callback-desc">Менеджер свяжется с вами в течение 5&nbsp;минут в рабочее время</p>
+    <form id="callbackForm" novalidate>
+      <div class="form-group">
+        <label for="cbName" class="form-label">Ваше имя</label>
+        <input type="text" id="cbName" name="name" class="form-control" placeholder="Иван" autocomplete="given-name" >
+      </div>
+      <div class="form-group">
+        <label for="cbPhone" class="form-label">Телефон <span class="form-required">(обязательно)</span></label>
+        <input type="tel" id="cbPhone" name="phone" class="form-control" placeholder="+7 (___) ___-__-__" required autocomplete="tel" >
+      </div>
+      <div class="form-group">
+        <label for="cbTime" class="form-label">Удобное время</label>
+        <select id="cbTime" name="time" class="form-control">
+          <option value="any">Любое рабочее время (9:00–18:00)</option>
+          <option value="morning">Утром (9:00–12:00)</option>
+          <option value="afternoon">Днём (12:00–15:00)</option>
+          <option value="evening">Вечером (15:00–18:00)</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px;">Перезвоните мне</button>
+    </form>
+    <div class="callback-success" id="callbackSuccess" style="display:none;" aria-live="polite">
+      <div class="cb-ok-icon" aria-hidden="true">✅</div>
+      <h4>Заявка принята!</h4>
+      <p>Перезвоним в ближайшее время</p>
+    </div>
+    <p class="callback-notice">Нажимая кнопку, вы соглашаетесь на <a href="privacy.html">обработку персональных данных</a></p>
+  </div>
+
+  <button class="scroll-top" aria-label="Наверх" title="Вернуться наверх" type="button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+         fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  /* ── Account page JS ─────────────────────────────────────────────────── */
+  (function () {
+    'use strict';
+
+    /* Tab switching */
+    var tabs   = document.querySelectorAll('.account-tab');
+    var panels = document.querySelectorAll('.account-panel');
+
+    function switchTab(id) {
+      tabs.forEach(function (t) {
+        var active = t.dataset.tab === id;
+        t.classList.toggle('active', active);
+        t.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      panels.forEach(function (p) {
+        p.classList.toggle('hidden', p.id !== 'panel-' + id);
+      });
+    }
+
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () { switchTab(t.dataset.tab); });
+    });
+
+    /* "Switch" links inside forms */
+    document.querySelectorAll('[data-switch]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        switchTab(link.dataset.switch);
+        window.scrollTo({ top: document.querySelector('.account-tabs').offsetTop - 80, behavior: 'smooth' });
+      });
+    });
+
+    /* Password toggle */
+    function togglePwd(inputId, btnId) {
+      var btn = document.getElementById(btnId);
+      var inp = document.getElementById(inputId);
+      if (!btn || !inp) return;
+      btn.addEventListener('click', function () {
+        inp.type = inp.type === 'password' ? 'text' : 'password';
+        btn.textContent = inp.type === 'password' ? '👁' : '🙈';
+      });
+    }
+    togglePwd('signinPassword', 'toggleSigninPwd');
+    togglePwd('regPassword',    'toggleRegPwd');
+
+    /* Password strength indicator */
+    var pwdInput    = document.getElementById('regPassword');
+    var pwdStrength = document.getElementById('pwdStrength');
+    if (pwdInput && pwdStrength) {
+      pwdInput.addEventListener('input', function () {
+        var v = pwdInput.value;
+        var score = 0;
+        if (v.length >= 8)  score++;
+        if (v.length >= 12) score++;
+        if (/[A-Z]/.test(v)) score++;
+        if (/[0-9]/.test(v)) score++;
+        if (/[^A-Za-z0-9]/.test(v)) score++;
+        var labels = ['', 'Слабый', 'Слабый', 'Средний', 'Хороший', 'Надёжный'];
+        var classes = ['', 'pwd-weak', 'pwd-weak', 'pwd-medium', 'pwd-good', 'pwd-strong'];
+        pwdStrength.textContent  = v.length ? labels[score] || 'Надёжный' : '';
+        pwdStrength.className = 'password-strength ' + (classes[score] || 'pwd-strong');
+      });
+    }
+
+    /* Sign in form */
+    var signinForm = document.getElementById('signinForm');
+    if (signinForm) {
+      signinForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var btn = signinForm.querySelector('[type="submit"]');
+        btn.disabled = true;
+        btn.textContent = 'Входим…';
+        setTimeout(function () {
+          btn.disabled = false;
+          btn.textContent = 'Войти';
+          /* Show stub dashboard notice */
+          var notice = document.createElement('div');
+          notice.className = 'form-success show';
+          notice.innerHTML = '✅ Демо-вход выполнен. Полный функционал будет доступен после подключения AmoCRM.';
+          signinForm.appendChild(notice);
+          setTimeout(function () { notice.remove(); }, 6000);
+        }, 1200);
+      });
+    }
+
+    /* Register form */
+    var registerForm = document.getElementById('registerForm');
+    if (registerForm) {
+      registerForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var btn = registerForm.querySelector('[type="submit"]');
+        var pwd = document.getElementById('regPassword');
+        var cnf = document.getElementById('regConfirm');
+        if (pwd && cnf && pwd.value !== cnf.value) {
+          cnf.style.borderColor = '#e74c3c';
+          cnf.focus();
+          return;
+        }
+        btn.disabled = true;
+        btn.textContent = 'Регистрируем…';
+        setTimeout(function () {
+          btn.disabled = false;
+          btn.textContent = 'Зарегистрироваться';
+          var notice = document.createElement('div');
+          notice.className = 'form-success show';
+          notice.innerHTML = '✅ Аккаунт создан! На вашу почту отправлено письмо с подтверждением.';
+          registerForm.appendChild(notice);
+          setTimeout(function () { notice.remove(); }, 6000);
+        }, 1500);
+      });
+    }
+
+    /* Track form — demo data */
+    var DEMO_TRACKS = {
+      'PS-2025-001234': {
+        status: 'В пути',
+        route: 'Москва → Владивосток',
+        events: [
+          { date: '15.02.2025 09:00', place: 'Москва, склад Pacific Star',        text: '📦 Груз принят на склад, упакован и взвешен' },
+          { date: '15.02.2025 18:30', place: 'Москва, ст. Москва-Товарная',       text: '🚂 Отправлен ж/д рейсом № 2803' },
+          { date: '18.02.2025 11:00', place: 'Новосибирск',                       text: '🔄 Перегрузка в Новосибирске' },
+          { date: '21.02.2025 07:00', place: 'Хабаровск',                         text: '🔄 Прибыл в Хабаровск' },
+          { date: '23.02.2025 14:00', place: 'Владивосток — ожидается',            text: '📍 Расчётное время прибытия: 25.02.2025', current: true }
+        ]
+      },
+      'PS-2025-005678': {
+        status: 'Доставлен',
+        route: 'Владивосток → Петропавловск‑Камчатский',
+        events: [
+          { date: '10.01.2025 08:00', place: 'Владивосток, порт',                 text: '⚓ Груз принят в порту Владивосток' },
+          { date: '10.01.2025 22:00', place: 'Владивосток, ТС «Сапфир»',          text: '🚢 Погружен на судно, отход в 22:00' },
+          { date: '14.01.2025 10:30', place: 'Петропавловск‑Камчатский, порт',    text: '⚓ Судно прибыло в порт ПКЧ' },
+          { date: '14.01.2025 16:00', place: 'Петропавловск‑Камчатский',          text: '✅ Груз выдан получателю, ТН подписана' }
+        ]
+      }
+    };
+
+    var trackForm   = document.getElementById('trackForm');
+    var trackResult = document.getElementById('trackResult');
+    if (trackForm) {
+      trackForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var num = (document.getElementById('trackNumber').value || '').trim().toUpperCase();
+        /* Normalize: allow lowercase input */
+        var key = num.replace(/^PS-/i, 'PS-');
+        var data = DEMO_TRACKS[key];
+        if (!data) {
+          trackResult.innerHTML = '<p class="calc-error">Заявка с трек-номером <strong>' + num + '</strong> не найдена. Проверьте номер или <a href="contacts.html">свяжитесь с нами</a>.</p>';
+          trackResult.style.display = 'block';
+          return;
+        }
+        document.getElementById('trackBadge').textContent = data.status;
+        document.getElementById('trackBadge').className = 'track-status-badge ' + (data.status === 'Доставлен' ? 'delivered' : 'in-transit');
+        document.getElementById('trackRoute').textContent = data.route;
+
+        var tl = document.getElementById('trackTimeline');
+        tl.innerHTML = data.events.map(function (ev) {
+          return '<div class="track-event' + (ev.current ? ' track-event--current' : '') + '">' +
+            '<div class="track-event-dot"></div>' +
+            '<div class="track-event-body">' +
+            '<div class="track-event-text">' + ev.text + '</div>' +
+            '<div class="track-event-meta">' + ev.date + ' · ' + ev.place + '</div>' +
+            '</div>' +
+            '</div>';
+        }).join('');
+        trackResult.style.display = 'block';
+        trackResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    }
+
+    /* New Order form */
+    var newOrderForm = document.getElementById('newOrderForm');
+    if (newOrderForm) {
+      newOrderForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var btn = newOrderForm.querySelector('[type="submit"]');
+        btn.disabled = true;
+        btn.textContent = 'Отправляем…';
+        /*
+         * TODO: replace with AmoCRM webhook after API key is configured.
+         * fetch('/api/order', { method:'POST', body: new FormData(newOrderForm) });
+         */
+        setTimeout(function () {
+          newOrderForm.style.display = 'none';
+          var ok = document.getElementById('newOrderSuccess');
+          if (ok) ok.style.display = 'block';
+        }, 1000);
+      });
+    }
+  })();
+  </script>
+</body>
+</html>
