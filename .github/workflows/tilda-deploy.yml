@@ -3,6 +3,9 @@ name: Deploy — pacificstar.ru на Timeweb
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -18,23 +21,37 @@ jobs:
 
       - name: Validate configuration
         run: |
-          if [ -z "$TW_PASS" ] || [ -z "$TW_HOST" ] || [ -z "$TW_USER" ] || [ -z "$TW_PATH" ]; then
-            echo "TIMEWEB_PASSWORD secret or TIMEWEB_HOST/TIMEWEB_USER/TIMEWEB_PATH variables are not set"
+          missing=0
+          [ -z "$TW_HOST" ] && echo "Missing variable: TIMEWEB_HOST" && missing=1
+          [ -z "$TW_USER" ] && echo "Missing variable: TIMEWEB_USER" && missing=1
+          [ -z "$TW_PATH" ] && echo "Missing variable: TIMEWEB_PATH" && missing=1
+          [ -z "$TW_PASS" ] && echo "Missing secret: TIMEWEB_PASSWORD" && missing=1
+          if [ "$missing" -eq 1 ]; then
             exit 1
           fi
 
       - name: Install lftp
         run: sudo apt-get update && sudo apt-get install -y lftp
 
+      - name: Normalize deploy path
+        run: |
+          case "$TW_PATH" in
+            */) echo "TW_PATH_NORM=$TW_PATH" >> "$GITHUB_ENV" ;;
+            *) echo "TW_PATH_NORM=$TW_PATH/" >> "$GITHUB_ENV" ;;
+          esac
+
       - name: Upload site files via FTP
         run: |
-          lftp -u "$TW_USER,$TW_PASS" "ftp://$TW_HOST" <<'EOF'
-            set ftp:ssl-allow no
+          lftp <<EOF
+            set ftp:ssl-force yes
+            set ftp:ssl-protect-data yes
+            set ssl:verify-certificate yes
             set net:max-retries 3
             set net:timeout 30
-            mirror --reverse --delete --verbose \
+            open -u "$TW_USER","$TW_PASS" "ftp://$TW_HOST"
+            mirror --reverse --verbose \
               --exclude-glob .git* \
               --exclude-glob .github/ \
-              "$GITHUB_WORKSPACE/" "$TW_PATH"
+              "$GITHUB_WORKSPACE/" "$TW_PATH_NORM"
             bye
           EOF

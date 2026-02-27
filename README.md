@@ -43,10 +43,10 @@
 
 ## Деплой сайта на хостинг
 
-Для корректной заливки кода на сайт добавлен workflow:
+Для корректного развёртывания кода на сайт добавлен workflow:
 `.github/workflows/tilda-deploy.yml`.
 
 Перед запуском:
-1. Добавьте переменные `TIMEWEB_HOST`, `TIMEWEB_USER`, `TIMEWEB_PATH` в репозиторий (Settings → Secrets and variables → Actions).
-2. Добавьте секрет `TIMEWEB_PASSWORD` в репозиторий (Settings → Secrets and variables → Actions).
+1. Добавьте переменные `TIMEWEB_HOST`, `TIMEWEB_USER`, `TIMEWEB_PATH` в репозиторий (Settings → Secrets and variables → Actions → **Variables**). Для `TIMEWEB_PATH` используйте абсолютный путь, например `/public_html/`.
+2. Добавьте секрет `TIMEWEB_PASSWORD` в репозиторий (Settings → Secrets and variables → Actions → **Secrets**).
 3. Запустите workflow вручную: **Actions → Deploy — pacificstar.ru на Timeweb → Run workflow**.
