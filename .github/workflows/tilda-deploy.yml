@@ -10,6 +10,8 @@ jobs:
   build:
     name: 🧱 Сборка
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Скачать код сайта
         uses: actions/checkout@v4
@@ -42,6 +44,8 @@ jobs:
     name: 🚀 Деплой
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      contents: read
     env:
       TW_HOST: ${{ secrets.TIMEWEB_HOST }}
       TW_USER: ${{ secrets.TIMEWEB_USER }}
