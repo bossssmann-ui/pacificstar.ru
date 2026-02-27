@@ -50,3 +50,10 @@
 1. Добавьте переменные `TIMEWEB_HOST`, `TIMEWEB_USER`, `TIMEWEB_PATH` в репозиторий (Settings → Secrets and variables → Actions → **Variables**). Для `TIMEWEB_PATH` используйте абсолютный путь, например `/public_html/`.
 2. Добавьте секрет `TIMEWEB_PASSWORD` в репозиторий (Settings → Secrets and variables → Actions → **Secrets**).
 3. Запустите workflow вручную: **Actions → Deploy — pacificstar.ru на Timeweb → Run workflow**.
+
+### Что делать дальше
+
+1. Сделайте любое небольшое изменение в файлах сайта и закоммитите его.
+2. Запустите деплой вручную через GitHub Actions.
+3. Проверьте сайт: https://pacificstar.ru/ (обновите страницу без кеша: `Ctrl+F5`).
+4. Если деплой не прошёл, откройте лог workflow и проверьте значения `TIMEWEB_HOST`, `TIMEWEB_USER`, `TIMEWEB_PATH`, `TIMEWEB_PASSWORD`.
