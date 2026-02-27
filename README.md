@@ -2,24 +2,23 @@
 
 ## Как залить код на хост (Timeweb) — пошагово
 
-Деплой настроен через GitHub Actions: `.github/workflows/tilda-deploy.yml`.
+Ниже инструкция без сложных терминов.
 
-1. Откройте репозиторий на GitHub → **Settings** → **Secrets and variables** → **Actions**.
-2. Добавьте 3 секрета:
-   - `TIMEWEB_HOST` — FTP/FTPS хост Timeweb
-   - `TIMEWEB_USER` — логин FTP
-   - `TIMEWEB_PASSWORD` — пароль FTP
-3. Проверьте, что сайт должен выкладываться в папку `/public_html/` (это уже задано в workflow).
-4. Заливка запускается автоматически при пуше в ветку `main`.
-   - Локально: `git add . && git commit -m "deploy" && git push origin main`
-5. Либо запустите вручную: **Actions** → `Deploy — pacificstar.ru на Timeweb` → **Run workflow**.
-6. Дождитесь статуса ✅ у шагов **Сборка** и **Деплой**.
-7. Откройте сайт и обновите страницу с очисткой кэша (Ctrl+F5 / Cmd+Shift+R).
+1. Зайдите в ваш репозиторий на GitHub.
+2. Откройте: **Settings** → **Secrets and variables** → **Actions**.
+3. Добавьте 3 значения (если их ещё нет):
+   - `TIMEWEB_HOST` — адрес хостинга Timeweb
+   - `TIMEWEB_USER` — ваш логин
+   - `TIMEWEB_PASSWORD` — ваш пароль
+4. Теперь загрузите изменения в ветку `main` (обычный `git push` в main).
+5. После этого GitHub сам начнёт загрузку сайта на хост.
+6. Проверить можно так: вкладка **Actions** → процесс `Deploy — pacificstar.ru на Timeweb`.
+7. Если у процесса зелёная галочка ✅, значит сайт залился успешно.
+8. Откройте сайт и обновите страницу с очисткой кэша (Ctrl+F5 или Cmd+Shift+R).
 
-Если снова появляется белый экран с логотипом Tilda:
-- проверьте, что workflow прошёл без ошибок;
-- проверьте правильность `TIMEWEB_HOST/USER/PASSWORD`;
-- убедитесь, что загрузка идёт именно в `/public_html/`.
+Если видите белый экран с логотипом Tilda:
+- проверьте, что процесс в **Actions** завершился с зелёной галочкой;
+- проверьте, что `TIMEWEB_HOST`, `TIMEWEB_USER`, `TIMEWEB_PASSWORD` заполнены правильно.
 
 ## Главная страница
 
