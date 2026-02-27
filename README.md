@@ -1,5 +1,26 @@
 # Добро пожаловать в "Pacific Star"
 
+## Как залить код на хост (Timeweb) — пошагово
+
+Деплой настроен через GitHub Actions: `.github/workflows/tilda-deploy.yml`.
+
+1. Откройте репозиторий на GitHub → **Settings** → **Secrets and variables** → **Actions**.
+2. Добавьте 3 секрета:
+   - `TIMEWEB_HOST` — FTP/FTPS хост Timeweb
+   - `TIMEWEB_USER` — логин FTP
+   - `TIMEWEB_PASSWORD` — пароль FTP
+3. Проверьте, что сайт должен выкладываться в папку `/public_html/` (это уже задано в workflow).
+4. Заливка запускается автоматически при пуше в ветку `main`.
+   - Локально: `git add . && git commit -m "deploy" && git push origin main`
+5. Либо запустите вручную: **Actions** → `Deploy — pacificstar.ru на Timeweb` → **Run workflow**.
+6. Дождитесь статуса ✅ у шагов **Сборка** и **Деплой**.
+7. Откройте сайт и обновите страницу с очисткой кэша (Ctrl+F5 / Cmd+Shift+R).
+
+Если снова появляется белый экран с логотипом Tilda:
+- проверьте, что workflow прошёл без ошибок;
+- проверьте правильность `TIMEWEB_HOST/USER/PASSWORD`;
+- убедитесь, что загрузка идёт именно в `/public_html/`.
+
 ## Главная страница
 
 ### 1. Заголовок
