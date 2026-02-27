@@ -1,0 +1,90 @@
+name: Deploy — pacificstar.ru на Timeweb
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: 🧱 Сборка
+    runs-on: ubuntu-latest
+    steps:
+      - name: Скачать код сайта
+        uses: actions/checkout@v4
+
+      - name: Подготовить файлы сайта (без служебных файлов)
+        run: |
+          mkdir -p /tmp/site
+          rsync -a \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='node_modules/' \
+            --exclude='previews/' \
+            --exclude='SESSION_STATE.md' \
+            --exclude='HOSTING_GUIDE.md' \
+            --exclude='TIMEWEB_DEPLOY.md' \
+            --exclude='TILDA_SETUP.md' \
+            --exclude='package*.json' \
+            --exclude='.htmlvalidate.json' \
+            --exclude='.gitignore' \
+            --exclude='site-pacificstar.zip' \
+            ./ /tmp/site/
+
+      - name: Сохранить артефакт сборки
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-build
+          path: /tmp/site
+
+  deploy:
+    name: 🚀 Деплой
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      TW_HOST: 185.114.247.170
+      TW_USER: ct38770
+      TW_PATH: /public_html/
+      TW_PASS: ${{ secrets.TIMEWEB_PASSWORD }}
+    steps:
+      - name: Получить артефакт сборки
+        uses: actions/download-artifact@v4
+        with:
+          name: site-build
+          path: /tmp/site
+
+      - name: Проверить — добавлен ли пароль?
+        run: |
+          if [ -z "$TW_PASS" ]; then
+            echo "⚠️  ПАРОЛЬ НЕ ДОБАВЛЕН — добавьте секрет TIMEWEB_PASSWORD:"
+            echo "  https://github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions"
+            echo "SKIP=true" >> "$GITHUB_ENV"
+          else
+            echo "✅ Пароль найден — начинаем загрузку"
+            echo "SKIP=false" >> "$GITHUB_ENV"
+          fi
+
+      - name: Установить lftp
+        if: env.SKIP == 'false'
+        run: sudo apt-get install -y lftp -q
+
+      - name: Загрузить файлы через FTP
+        if: env.SKIP == 'false'
+        env:
+          LFTP_PASSWORD: ${{ secrets.TIMEWEB_PASSWORD }}
+        run: |
+          lftp -u "$TW_USER,$LFTP_PASSWORD" "ftp://$TW_HOST" <<'LFTP_CMDS'
+            set ftp:ssl-allow no
+            set net:timeout 30
+            set net:max-retries 3
+            mirror --reverse --delete --verbose \
+              --exclude-glob .git* \
+              --exclude-glob *.md \
+              --exclude-glob previews/ \
+              --exclude-glob node_modules/ \
+              --exclude-glob site-pacificstar.zip \
+              /tmp/site/ "$TW_PATH"
+            bye
+          LFTP_CMDS
+          echo "✅ FTP загрузка завершена"
