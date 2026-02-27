@@ -1,0 +1,40 @@
+name: Deploy — pacificstar.ru на Timeweb
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      TW_HOST: 185.114.247.170
+      TW_USER: ct38770
+      TW_PASS: ${{ secrets.TIMEWEB_PASSWORD }}
+      TW_PATH: /public_html/
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate secret
+        run: |
+          if [ -z "$TW_PASS" ]; then
+            echo "TIMEWEB_PASSWORD secret is not set"
+            exit 1
+          fi
+
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Upload site files via FTP
+        run: |
+          lftp -u "$TW_USER,$TW_PASS" "ftp://$TW_HOST" <<'EOF'
+            set ftp:ssl-allow no
+            set net:max-retries 3
+            set net:timeout 30
+            mirror --reverse --delete --verbose \
+              --exclude-glob .git* \
+              --exclude-glob .github/ \
+              /github/workspace/ "$TW_PATH"
+            bye
+          EOF
