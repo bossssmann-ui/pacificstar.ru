@@ -43,8 +43,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     env:
-      TW_HOST: 185.114.247.170
-      TW_USER: ct38770
+      TW_HOST: ${{ secrets.TIMEWEB_HOST }}
+      TW_USER: ${{ secrets.TIMEWEB_USER }}
       TW_PATH: /public_html/
       TW_PASS: ${{ secrets.TIMEWEB_PASSWORD }}
     steps:
@@ -56,12 +56,12 @@ jobs:
 
       - name: Проверить — добавлен ли пароль?
         run: |
-          if [ -z "$TW_PASS" ]; then
-            echo "⚠️  ПАРОЛЬ НЕ ДОБАВЛЕН — добавьте секрет TIMEWEB_PASSWORD:"
+          if [ -z "$TW_HOST" ] || [ -z "$TW_USER" ] || [ -z "$TW_PASS" ]; then
+            echo "⚠️  ДОБАВЬТЕ СЕКРЕТЫ TIMEWEB_HOST, TIMEWEB_USER, TIMEWEB_PASSWORD:"
             echo "  https://github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions"
             echo "SKIP=true" >> "$GITHUB_ENV"
           else
-            echo "✅ Пароль найден — начинаем загрузку"
+            echo "✅ Секреты найдены — начинаем загрузку"
             echo "SKIP=false" >> "$GITHUB_ENV"
           fi
 
@@ -75,7 +75,8 @@ jobs:
           LFTP_PASSWORD: ${{ secrets.TIMEWEB_PASSWORD }}
         run: |
           lftp -u "$TW_USER,$LFTP_PASSWORD" "ftp://$TW_HOST" <<'LFTP_CMDS'
-            set ftp:ssl-allow no
+            set ftp:ssl-force true
+            set ftp:ssl-protect-data true
             set net:timeout 30
             set net:max-retries 3
             mirror --reverse --delete --verbose \
