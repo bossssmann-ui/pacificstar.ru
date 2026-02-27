@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Pacific Star — транспортно-логистическая компания. Грузоперевозки, складские услуги, экспедирование.">
+  <title>Pacific Star — Транспортно-логистическая компания</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Заголовок -->
+  <header class="header" id="top">
+    <div class="container header__inner">
+      <a href="#top" class="logo">
+        <span class="logo__star">★</span>
+        <span class="logo__text">Pacific Star</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Открыть меню" aria-expanded="false">&#9776;</button>
+      <nav class="nav" id="mainNav">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="#top">Главная</a></li>
+          <li><a class="nav__link" href="#about">О нас</a></li>
+          <li><a class="nav__link" href="#services">Услуги</a></li>
+          <li><a class="nav__link" href="#contacts">Контакты</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Герой -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <h1 class="hero__title">Надёжная доставка грузов по всей России</h1>
+      <p class="hero__subtitle">Профессиональная логистика, складские решения и экспедирование для вашего бизнеса</p>
+      <a href="#contacts" class="btn btn--primary">Связаться с нами</a>
+    </div>
+  </section>
+
+  <!-- Преимущества -->
+  <section class="advantages" id="about">
+    <div class="container">
+      <h2 class="section-title">Наши преимущества</h2>
+      <div class="advantages__grid">
+        <div class="advantage-card">
+          <div class="advantage-card__icon">💰</div>
+          <h3 class="advantage-card__title">Доступные тарифы</h3>
+          <p class="advantage-card__text">Подробная информация о тарифах для различных услуг. Индивидуальный подход к каждому клиенту.</p>
+        </div>
+        <div class="advantage-card">
+          <div class="advantage-card__icon">🛡️</div>
+          <h3 class="advantage-card__title">Надёжность и безопасность</h3>
+          <p class="advantage-card__text">Мы гарантируем сохранность ваших грузов на всех этапах перевозки.</p>
+        </div>
+        <div class="advantage-card">
+          <div class="advantage-card__icon">🕐</div>
+          <h3 class="advantage-card__title">Круглосуточная поддержка</h3>
+          <p class="advantage-card__text">Наша команда всегда на связи 24/7. Мы готовы ответить на любые ваши вопросы.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Услуги -->
+  <section class="services" id="services">
+    <div class="container">
+      <h2 class="section-title">Услуги</h2>
+      <div class="services__grid">
+        <div class="service-card">
+          <div class="service-card__icon">🚚</div>
+          <h3 class="service-card__title">Грузоперевозки</h3>
+          <p class="service-card__text">Обзор всех видов грузоперевозок: автомобильные, железнодорожные, морские и авиаперевозки.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-card__icon">🏭</div>
+          <h3 class="service-card__title">Складские услуги</h3>
+          <p class="service-card__text">Информация о наших складских помещениях и условиях хранения. Ответственное хранение.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-card__icon">📦</div>
+          <h3 class="service-card__title">Экспедирование</h3>
+          <p class="service-card__text">Как мы помогаем в организации перевозки: оформление документов, таможенное оформление.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Отзывы -->
+  <section class="reviews">
+    <div class="container">
+      <h2 class="section-title">Отзывы клиентов</h2>
+      <div class="reviews__grid">
+        <blockquote class="review-card">
+          <p class="review-card__text">«Отличный сервис! Надёжные партнёры. Груз был доставлен точно в срок и в полной сохранности.»</p>
+          <footer class="review-card__author">— Иван Иванов, Клиент</footer>
+        </blockquote>
+        <blockquote class="review-card">
+          <p class="review-card__text">«Быстрая доставка и отличный контроль на каждом этапе. Рекомендую Pacific Star всем партнёрам.»</p>
+          <footer class="review-card__author">— Мария Петрова, Клиент</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Контакты -->
+  <section class="contacts" id="contacts">
+    <div class="container">
+      <h2 class="section-title">Контакты</h2>
+      <div class="contacts__grid">
+        <div class="contacts__info">
+          <p><strong>Телефон:</strong> <a href="tel:+78001234567">8 (800) 123-45-67</a></p>
+          <p><strong>Email:</strong> <a href="mailto:info@pacificstar.ru">info@pacificstar.ru</a></p>
+          <p><strong>Адрес:</strong> г. Владивосток, ул. Светланская, 1</p>
+          <p><strong>Режим работы:</strong> Пн–Вс, 24/7</p>
+        </div>
+        <form class="contacts__form" id="contactForm">
+          <h3>Напишите нам</h3>
+          <label for="name">Имя</label>
+          <input type="text" id="name" name="name" placeholder="Ваше имя" autocomplete="name" required>
+          <label for="phone">Телефон</label>
+          <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" autocomplete="tel">
+          <label for="message">Сообщение</label>
+          <textarea id="message" name="message" rows="4" placeholder="Ваш вопрос или заявка" required></textarea>
+          <button type="submit" class="btn btn--primary">Отправить</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Подвал -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__copy">&copy; 2025 Pacific Star. Все права защищены.</p>
+      <ul class="footer__links">
+        <li><a href="#">Политика конфиденциальности</a></li>
+        <li><a href="#top">Наверх</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
