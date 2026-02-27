@@ -67,14 +67,14 @@ jobs:
 
       - name: Установить lftp
         if: env.SKIP == 'false'
-        run: sudo apt-get install -y lftp -q
+        run: sudo apt-get install -qq -y lftp
 
       - name: Загрузить файлы через FTP
         if: env.SKIP == 'false'
         env:
           LFTP_PASSWORD: ${{ secrets.TIMEWEB_PASSWORD }}
         run: |
-          lftp -u "$TW_USER,$LFTP_PASSWORD" "ftp://$TW_HOST" <<'LFTP_CMDS'
+          lftp -u "$TW_USER,$LFTP_PASSWORD" "ftps://$TW_HOST" <<'LFTP_CMDS'
             set ftp:ssl-force true
             set ftp:ssl-protect-data true
             set net:timeout 30
