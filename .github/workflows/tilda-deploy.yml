@@ -91,3 +91,7 @@ jobs:
             bye
           LFTP_CMDS
           echo "✅ FTP загрузка завершена"
+
+      - name: Очистить временные FTP-учётные данные
+        if: always()
+        run: rm -f ~/.netrc
