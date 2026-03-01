@@ -369,7 +369,7 @@ p { margin-bottom: 1rem; }
    ========================================= */
 .hero {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  background: url('../img/hero-port.jpg') center 40% / cover no-repeat fixed;
   display: flex;
   align-items: center;
   padding-top: 72px;
@@ -377,13 +377,9 @@ p { margin-bottom: 1rem; }
   overflow: hidden;
 }
 
-/* ── Hero Background ── */
+/* ── Hero Background (unused — image is on .hero with fixed attachment) ── */
 .hero-bg {
-  position: absolute;
-  inset: 0;
-  background: url('../img/hero-port.jpg') center 40% / cover no-repeat;
-  opacity: 0.35;
-  z-index: 0;
+  display: none;
 }
 
 .hero-bg-overlay {
