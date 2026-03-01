@@ -18,6 +18,7 @@ jobs:
   deploy-timeweb:
     name: 🚀 Загрузить сайт на Timeweb
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     env:
       TW_HOST: ${{ secrets.TIMEWEB_HOST }}
       TW_USER: ${{ secrets.TIMEWEB_USER }}
@@ -73,16 +74,18 @@ jobs:
 
       - name: Загрузить файлы через FTP
         if: env.SKIP == 'false'
+        timeout-minutes: 5
         env:
           LFTP_PASSWORD: ${{ secrets.TIMEWEB_PASSWORD }}
         run: |
           lftp -u "$TW_USER,$LFTP_PASSWORD" "ftp://$TW_HOST" <<'LFTP_CMDS'
             set ftp:ssl-allow no
             set ftp:passive-mode yes
-            set net:timeout 120
-            set net:max-retries 15
-            set net:reconnect-interval-base 10
+            set net:timeout 30
+            set net:max-retries 3
+            set net:reconnect-interval-base 5
             set net:reconnect-interval-multiplier 2
+            set net:reconnect-interval-max 30
             set cmd:fail-exit yes
             set cmd:verify-path yes
             echo "── Проверяем FTP-подключение ──"
@@ -126,7 +129,7 @@ jobs:
       - name: Проверить доступность сайта
         if: env.SKIP == 'false'
         run: |
-          sleep 10
+          sleep 3
           HTTP=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 15 https://pacificstar.ru/ 2>/dev/null) || HTTP="000"
           echo "Ответ сервера: HTTP $HTTP"
           if [ "$HTTP" = "200" ] || [ "$HTTP" = "301" ] || [ "$HTTP" = "302" ]; then
