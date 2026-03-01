@@ -377,23 +377,13 @@ p { margin-bottom: 1rem; }
   overflow: hidden;
 }
 
-/* ── Hero Background ── */
+/* ── Hero Background (unused — image is on .hero with fixed attachment) ── */
 .hero-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+  display: none;
 }
 
 .hero-bg-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(10, 36, 99, 0.85) 0%,
-    rgba(10, 36, 99, 0.7) 40%,
-    rgba(10, 36, 99, 0.5) 100%
-  );
-  z-index: 1;
+  display: none;
 }
 
 .hero .container {
