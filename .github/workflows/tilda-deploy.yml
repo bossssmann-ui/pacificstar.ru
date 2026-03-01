@@ -1,8 +1,9 @@
 name: Deploy — pacificstar.ru на Timeweb
 
-# Запускается ТОЛЬКО вручную: Actions → Deploy — pacificstar.ru на Timeweb → Run workflow
-# Автоматический push-триггер удалён: он требует одобрения и никогда не выполняется.
+# Автоматически при push в main + можно запустить вручную
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
