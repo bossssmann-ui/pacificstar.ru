@@ -250,7 +250,7 @@
               </div>
               <div class="track-timeline" id="trackTimeline"></div>
               <div class="track-result-cta">
-                <p>Нужна помощь? <a href="contacts.html">Свяжитесь с менеджером</a></p>
+                <p>Нужна помощь? <a href="contacts.html#contactForm">Свяжитесь с менеджером</a></p>
               </div>
             </div>
 
@@ -314,7 +314,7 @@
                       onclick="document.querySelector('[data-tab=neworder]').click()">
                 + Создать новую заявку
               </button>
-              <a href="contacts.html" class="btn btn-outline">Связаться с менеджером</a>
+              <a href="contacts.html#contactForm" class="btn btn-outline">Связаться с менеджером</a>
             </div>
 
             <div class="account-crm-notice" style="margin-top:20px;">
@@ -513,7 +513,7 @@
           <h2 class="cta-title" id="account-cta-title">Вопросы по работе кабинета?</h2>
           <p class="cta-desc">Наши менеджеры помогут с регистрацией и настройкой — бесплатно.</p>
           <div class="cta-actions">
-            <a href="contacts.html" class="btn btn-primary">Связаться с нами</a>
+            <a href="contacts.html#contactForm" class="btn btn-primary">Связаться с нами</a>
             <a href="tel:+78005553535" class="btn btn-secondary">+7&nbsp;(800)&nbsp;555&#8209;35&#8209;35</a>
           </div>
         </div>
@@ -819,7 +819,7 @@
         var key = num.replace(/^PS-/i, 'PS-');
         var data = DEMO_TRACKS[key];
         if (!data) {
-          trackResult.innerHTML = '<p class="calc-error">Заявка с трек-номером <strong>' + num + '</strong> не найдена. Проверьте номер или <a href="contacts.html">свяжитесь с нами</a>.</p>';
+          trackResult.innerHTML = '<p class="calc-error">Заявка с трек-номером <strong>' + num + '</strong> не найдена. Проверьте номер или <a href="contacts.html#contactForm">свяжитесь с нами</a>.</p>';
           trackResult.style.display = 'block';
           return;
         }
