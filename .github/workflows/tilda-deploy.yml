@@ -74,12 +74,13 @@ jobs:
         run: |
           lftp -u "$TW_USER,$LFTP_PASSWORD" "ftp://$TW_HOST" <<'LFTP_CMDS'
             set ftp:ssl-allow no
-            set net:timeout 60
-            set net:max-retries 7
-            set net:reconnect-interval-base 5
+            set ftp:passive-mode yes
+            set net:timeout 120
+            set net:max-retries 15
+            set net:reconnect-interval-base 10
             set net:reconnect-interval-multiplier 2
             lcd /tmp/site
-            mirror --reverse --delete --verbose --parallel=2 \
+            mirror --reverse --delete --verbose --parallel=1 \
               --exclude-glob .git* \
               --exclude-glob *.md \
               --exclude-glob *.php \
