@@ -527,15 +527,18 @@
     <!--
       РАЗДЕЛ «НАШИ ПАРТНЁРЫ»
       ─────────────────────────────────────────────────────────────────
-      Чтобы добавить логотип партнёра:
-        1. Поместите файл логотипа в папку  img/partners/
-           (рекомендуемый формат: SVG или PNG с прозрачным фоном,
-            размер: ~200×80 px, не более 60 КБ)
-        2. Скопируйте один блок <div class="partner-card"> и замените:
-             src="img/partners/FILENAME.svg"  — путь к файлу
-             alt="НАЗВАНИЕ"                  — название компании
-        3. Дублируйте тот же блок внутри .partners-track--clone
-           (это копия нужна для бесшовной прокрутки).
+      Список партнёров:
+        1. ВМТП   — Владивостокский морской торговый порт  (vmtp.ru)
+        2. FESCO  — Транспортная группа FESCO              (fesco.ru)
+        3. ВМКТ   — Владивостокский морской контейнерный терминал
+        4. ВСК    — Восточная Стивидорная Компания, Терминал Врангель (vscport.ru)
+        5. Сухой порт Находка                              (dpnakhodka.ru)
+        6. НМРП   — Находкинский морской рыбный порт       (nmrp.ru)
+        7. Восточные ворота — Приморский завод              (vvport-pz.ru)
+      ─────────────────────────────────────────────────────────────────
+      Чтобы добавить логотип: поместите файл в img/partners/ и раскомментируйте
+      соответствующий тег <img>, удалив <span class="partner-placeholder">.
+      Дублируйте изменение в блоке aria-hidden="true" ниже (alt="" для дублей).
       ─────────────────────────────────────────────────────────────────
     -->
     <section class="section partners-section" id="partners" aria-labelledby="partners-title">
@@ -552,67 +555,59 @@
       <div class="partners-strip" role="region" aria-label="Логотипы партнёров">
         <div class="partners-track">
 
-          <!-- ── ПАРТНЁР 1 ── замените src и alt ─────────────────── -->
+          <!-- ── ПАРТНЁР 1: ВМТП ──────────────────────────────────── -->
           <div class="partner-card">
             <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-1.svg" alt="Название партнёра 1" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 1</span>
+              <!-- <img src="img/partners/vmtp.png" alt="ВМТП — Владивостокский морской торговый порт" loading="lazy"> -->
+              <span class="partner-placeholder">ВМТП</span>
             </div>
           </div>
 
-          <!-- ── ПАРТНЁР 2 ─────────────────────────────────────────── -->
+          <!-- ── ПАРТНЁР 2: FESCO ─────────────────────────────────── -->
           <div class="partner-card">
             <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-2.svg" alt="Название партнёра 2" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 2</span>
+              <!-- <img src="img/partners/fesco.png" alt="FESCO — Транспортная группа" loading="lazy"> -->
+              <span class="partner-placeholder">FESCO</span>
             </div>
           </div>
 
-          <!-- ── ПАРТНЁР 3 ─────────────────────────────────────────── -->
+          <!-- ── ПАРТНЁР 3: ВМКТ ──────────────────────────────────── -->
           <div class="partner-card">
             <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-3.svg" alt="Название партнёра 3" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 3</span>
+              <!-- <img src="img/partners/vmkt.png" alt="ВМКТ — Владивостокский морской контейнерный терминал" loading="lazy"> -->
+              <span class="partner-placeholder">ВМКТ</span>
             </div>
           </div>
 
-          <!-- ── ПАРТНЁР 4 ─────────────────────────────────────────── -->
+          <!-- ── ПАРТНЁР 4: ВСК (Терминал Врангель) ─────────────── -->
           <div class="partner-card">
             <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-4.svg" alt="Название партнёра 4" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 4</span>
+              <!-- <img src="img/partners/vsc.png" alt="ВСК — Восточная Стивидорная Компания, Терминал Врангель" loading="lazy"> -->
+              <span class="partner-placeholder">Терминал Врангель</span>
             </div>
           </div>
 
-          <!-- ── ПАРТНЁР 5 ─────────────────────────────────────────── -->
+          <!-- ── ПАРТНЁР 5: Сухой порт Находка ──────────────────── -->
           <div class="partner-card">
             <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-5.svg" alt="Название партнёра 5" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 5</span>
+              <!-- <img src="img/partners/dryport.png" alt="Сухой порт Находка" loading="lazy"> -->
+              <span class="partner-placeholder">Сухой порт Находка</span>
             </div>
           </div>
 
-          <!-- ── ПАРТНЁР 6 ─────────────────────────────────────────── -->
+          <!-- ── ПАРТНЁР 6: НМРП ──────────────────────────────────── -->
           <div class="partner-card">
             <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-6.svg" alt="Название партнёра 6" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 6</span>
+              <!-- <img src="img/partners/nmrp.png" alt="НМРП — Находкинский морской рыбный порт" loading="lazy"> -->
+              <span class="partner-placeholder">НМРП</span>
             </div>
           </div>
 
-          <!-- ── ПАРТНЁР 7 ─────────────────────────────────────────── -->
+          <!-- ── ПАРТНЁР 7: Восточные ворота ─────────────────────── -->
           <div class="partner-card">
             <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-7.svg" alt="Название партнёра 7" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 7</span>
-            </div>
-          </div>
-
-          <!-- ── ПАРТНЁР 8 ─────────────────────────────────────────── -->
-          <div class="partner-card">
-            <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-8.svg" alt="Название партнёра 8" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 8</span>
+              <!-- <img src="img/partners/vvport.png" alt="Восточные ворота — Приморский завод" loading="lazy"> -->
+              <span class="partner-placeholder">Восточные ворота</span>
             </div>
           </div>
 
@@ -623,50 +618,44 @@
                ═══════════════════════════════════════════════════════ -->
           <div class="partner-card" aria-hidden="true">
             <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-1.svg" alt="" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 1</span>
+              <!-- <img src="img/partners/vmtp.png" alt="" loading="lazy"> -->
+              <span class="partner-placeholder">ВМТП</span>
             </div>
           </div>
           <div class="partner-card" aria-hidden="true">
             <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-2.svg" alt="" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 2</span>
+              <!-- <img src="img/partners/fesco.png" alt="" loading="lazy"> -->
+              <span class="partner-placeholder">FESCO</span>
             </div>
           </div>
           <div class="partner-card" aria-hidden="true">
             <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-3.svg" alt="" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 3</span>
+              <!-- <img src="img/partners/vmkt.png" alt="" loading="lazy"> -->
+              <span class="partner-placeholder">ВМКТ</span>
             </div>
           </div>
           <div class="partner-card" aria-hidden="true">
             <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-4.svg" alt="" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 4</span>
+              <!-- <img src="img/partners/vsc.png" alt="" loading="lazy"> -->
+              <span class="partner-placeholder">Терминал Врангель</span>
             </div>
           </div>
           <div class="partner-card" aria-hidden="true">
             <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-5.svg" alt="" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 5</span>
+              <!-- <img src="img/partners/dryport.png" alt="" loading="lazy"> -->
+              <span class="partner-placeholder">Сухой порт Находка</span>
             </div>
           </div>
           <div class="partner-card" aria-hidden="true">
             <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-6.svg" alt="" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 6</span>
+              <!-- <img src="img/partners/nmrp.png" alt="" loading="lazy"> -->
+              <span class="partner-placeholder">НМРП</span>
             </div>
           </div>
           <div class="partner-card" aria-hidden="true">
             <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-7.svg" alt="" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 7</span>
-            </div>
-          </div>
-          <div class="partner-card" aria-hidden="true">
-            <div class="partner-logo-wrap">
-              <!-- <img src="img/partners/partner-8.svg" alt="" loading="lazy"> -->
-              <span class="partner-placeholder">Партнёр 8</span>
+              <!-- <img src="img/partners/vvport.png" alt="" loading="lazy"> -->
+              <span class="partner-placeholder">Восточные ворота</span>
             </div>
           </div>
 
