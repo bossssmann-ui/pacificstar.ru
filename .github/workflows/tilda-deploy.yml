@@ -58,7 +58,8 @@ jobs:
             --exclude='.gitignore' \
             ./ /tmp/site/
           echo "📦 Файлы для загрузки:"
-          ls /tmp/site/
+          ls -la /tmp/site/
+          echo "📊 Всего файлов: $(find /tmp/site -type f | wc -l)"
 
       # ── Метод 1: FTP через lftp (надёжнее для shared hosting) ──────────
       - name: Установить lftp
@@ -72,10 +73,12 @@ jobs:
         run: |
           lftp -u "$TW_USER,$LFTP_PASSWORD" "ftp://$TW_HOST" <<'LFTP_CMDS'
             set ftp:ssl-allow no
-            set net:timeout 30
-            set net:max-retries 3
+            set net:timeout 60
+            set net:max-retries 7
+            set net:reconnect-interval-base 5
+            set net:reconnect-interval-multiplier 2
             lcd /tmp/site
-            mirror --reverse --delete --verbose \
+            mirror --reverse --delete --verbose --parallel=2 \
               --exclude-glob .git* \
               --exclude-glob *.md \
               --exclude-glob *.php \
@@ -102,13 +105,13 @@ jobs:
           sshpass -e rsync -avz \
             -e "ssh -p 22 -o StrictHostKeyChecking=no -o ConnectTimeout=10" \
             /tmp/site/ \
-            "$TW_USER@$TW_HOST:${{ secrets.TIMEWEB_PATH }}" \
+            "$TW_USER@$TW_HOST:$TW_PATH" \
             2>&1 | tail -5 || echo "SSH недоступен — FTP был основным методом"
 
       - name: Проверить доступность сайта
         if: env.SKIP == 'false'
         run: |
-          sleep 5
+          sleep 10
           HTTP=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 15 https://pacificstar.ru/ 2>/dev/null || echo "000")
           echo "Ответ сервера: HTTP $HTTP"
           if [ "$HTTP" = "200" ] || [ "$HTTP" = "301" ] || [ "$HTTP" = "302" ]; then
