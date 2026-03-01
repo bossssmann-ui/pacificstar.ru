@@ -1,17 +1,13 @@
 /**
- * Pacific Star — Interactive Route Map v4
+ * Pacific Star — Interactive Route Map v5
  * =========================================
- * v4 additions over v3:
- *  - Map extended south to 1°N so Singapore is visible
- *  - SE Asia background (Indochina + Malay Peninsula)
- *  - Taiwan island
- *  - Chinese port cities: Beijing, Shanghai, Tianjin, Dalian, Qingdao,
- *    Ningbo, Guangzhou, Shenzhen, Hong Kong
- *  - Japanese port cities: Tokyo, Yokohama, Osaka, Kobe, Nagoya, Fukuoka
- *  - Singapore
- *  - New sea routes: VVO→Shanghai, VVO→Tokyo, Shanghai→Singapore
- *  - Yellow Sea, East China Sea, South China Sea labels
- *  - Updated 6-category legend
+ * v5 additions over v4:
+ *  - Federal highway layer (М-10/М-11, М-4, М-7, М-5, М-12, Р-254, Р-255, Р-297, А-370)
+ *  - Railway layer (Транссиб + branches) as static blue dashed lines
+ *  - Sea routes updated (solid orange, no animation)
+ *  - All CSS animations removed (ps-dash, ps-pulse, ps-sea-route, ps-land-route, ps-ring)
+ *  - New city: Пусан (South Korea), type 'kr'
+ *  - Legend updated: 3 route types + Korean city dot
  *
  * Projection: equirectangular  LON 22°–198°  LAT 1°–78°
  * SVG canvas: 1200 × 526  (correct 176°/77° aspect ratio)
@@ -288,32 +284,88 @@
     /* Fukuoka — W Japan, label left */
     {id:'fuk',  name:'Фукуока',           lat:33.59, lon:130.40, type:'jp', lp:'l'},
     /* ─ Singapore ─ */
-    {id:'sgp',  name:'Сингапур',          lat:1.35,  lon:103.82, type:'sg', lp:'r'}
+    {id:'sgp',  name:'Сингапур',          lat:1.35,  lon:103.82, type:'sg', lp:'r'},
+    /* ─ Korean port ─ */
+    {id:'pus',  name:'Пусан',             lat:35.18, lon:129.08, type:'kr', lp:'r'}
   ];
 
   /* ═══════════════════════════════════════════════════════════════════
-     TRADE ROUTES
+     FEDERAL HIGHWAYS — type 'highway', thin white semi-transparent lines
      ═══════════════════════════════════════════════════════════════════ */
-  var ROUTES = [
-    /* Russian land routes */
-    {from:'msc',  to:'nsk',  t:'land'},
-    {from:'nsk',  to:'vvo',  t:'land'},
-    {from:'nsk',  to:'ykt',  t:'land'},
-    {from:'ykt',  to:'mgd',  t:'land'},
-    {from:'vvo',  to:'blg',  t:'land'},
-    {from:'blg',  to:'khv',  t:'land'},
-    {from:'khv',  to:'ykt',  t:'land'},
-    /* Russian Arctic sea routes */
-    {from:'vvo',  to:'krs',  t:'sea'},
-    {from:'vvo',  to:'pkc',  t:'sea'},
-    {from:'vvo',  to:'mgd',  t:'sea'},
-    {from:'mgd',  to:'pvk',  t:'sea'},
-    {from:'pvk',  to:'dyr',  t:'sea'},
-    /* International sea routes */
-    {from:'vvo',  to:'sha',  t:'sea'},
-    {from:'vvo',  to:'tky',  t:'sea'},
-    {from:'sha',  to:'sgp',  t:'sea'},
-    {from:'hkg',  to:'sgp',  t:'sea'}
+  var HIGHWAYS = [
+    /* М-10/М-11 «Россия»/«Нева»: Москва → Санкт-Петербург */
+    {from:'msc',  to:'spb'},
+    /* М-4 «Дон»: Москва → Воронеж → Ростов-на-Дону */
+    {from:'msc',  to:'vrn'},
+    {from:'vrn',  to:'rnd'},
+    /* М-7 «Волга»: Москва → Н.Новгород → Казань → Уфа */
+    {from:'msc',  to:'nnov'},
+    {from:'nnov', to:'kzn'},
+    {from:'kzn',  to:'ufa'},
+    /* М-5 «Урал»: Москва → Самара → Уфа → Челябинск */
+    {from:'msc',  to:'sam'},
+    {from:'sam',  to:'ufa'},
+    {from:'ufa',  to:'chel'},
+    /* М-12 «Восток»: Москва → Казань → Екатеринбург */
+    {from:'kzn',  to:'ekb'},
+    /* Р-254 «Иртыш»: Челябинск → Омск → Новосибирск */
+    {from:'chel', to:'omsk'},
+    {from:'omsk', to:'nsk'},
+    /* Р-255 «Сибирь»: Новосибирск → Красноярск */
+    {from:'nsk',  to:'krsk'},
+    /* Р-297 «Амур»: Забайкальск → Благовещенск → Хабаровск */
+    {from:'zbk',  to:'blg'},
+    {from:'blg',  to:'khv'},
+    /* А-370 «Уссури»: Хабаровск → Владивосток */
+    {from:'khv',  to:'vvo'}
+  ];
+
+  /* ═══════════════════════════════════════════════════════════════════
+     RAILWAYS — type 'rail', blue static dashed lines
+     Note: some segments (e.g. Москва–СПб, Москва–Казань) overlap with
+     HIGHWAYS because railway and road corridors run in parallel — this
+     is geographically correct and intentional.
+     ═══════════════════════════════════════════════════════════════════ */
+  var RAIL = [
+    /* Транссиб: Москва → Н.Новгород → Пермь → Екатеринбург → Омск → Новосибирск → Красноярск → Хабаровск → Владивосток */
+    {from:'msc',  to:'nnov'},
+    {from:'nnov', to:'prm'},
+    {from:'prm',  to:'ekb'},
+    {from:'ekb',  to:'omsk'},
+    {from:'omsk', to:'nsk'},
+    {from:'nsk',  to:'krsk'},
+    {from:'krsk', to:'khv'},
+    {from:'khv',  to:'vvo'},
+    /* Москва → Казань (ветка) */
+    {from:'msc',  to:'kzn'},
+    /* Южная: Москва → Воронеж → Ростов-на-Дону */
+    {from:'msc',  to:'vrn'},
+    {from:'vrn',  to:'rnd'},
+    /* Москва → Санкт-Петербург */
+    {from:'msc',  to:'spb'},
+    /* БАМ/ответвление: Красноярск (ближайший к Тайшету) → Благовещенск → Якутск */
+    {from:'krsk', to:'blg'},
+    {from:'blg',  to:'ykt'}
+  ];
+
+  /* ═══════════════════════════════════════════════════════════════════
+     SEA ROUTES — orange solid lines
+     ═══════════════════════════════════════════════════════════════════ */
+  var SEA = [
+    /* Российские арктические / каботажные */
+    {from:'vvo',  to:'krs'},
+    {from:'vvo',  to:'pkc'},
+    {from:'vvo',  to:'mgd'},
+    {from:'mgd',  to:'pvk'},
+    {from:'pvk',  to:'dyr'},
+    /* Международные */
+    {from:'vvo',  to:'pus'},
+    {from:'vvo',  to:'tky'},
+    {from:'vvo',  to:'sha'},
+    {from:'pus',  to:'sha'},
+    {from:'sha',  to:'hkg'},
+    {from:'hkg',  to:'sgp'},
+    {from:'sha',  to:'sgp'}
   ];
 
   /* ═══════════════════════════════════════════════════════════════════
@@ -371,9 +423,10 @@
     special: '#50e8c4',
     cn:      '#ff7070',
     jp:      '#ffd060',
-    sg:      '#00ffcc'
+    sg:      '#00ffcc',
+    kr:      '#ff90c8'
   };
-  var TYPE_RADIUS = { mega:3.5, port:4.5, special:5, cn:4, jp:4, sg:5.5 };
+  var TYPE_RADIUS = { mega:3.5, port:4.5, special:5, cn:4, jp:4, sg:5.5, kr:4.5 };
 
   function buildMap(container) {
     CITIES.forEach(function (c) {
@@ -433,22 +486,6 @@
       'flood-color':'#000', 'flood-opacity':'0.95'}));
     defs.appendChild(ds);
 
-    /* Animations */
-    var style = document.createElementNS(NS, 'style');
-    style.textContent = [
-      '@keyframes ps-dash{to{stroke-dashoffset:0}}',
-      '@keyframes ps-pulse{0%,100%{r:7;opacity:.7}55%{r:11;opacity:.2}}',
-      '.ps-sea-route{stroke-dasharray:14 7;stroke-dashoffset:1000;',
-        'animation:ps-dash 9s linear infinite;}',
-      '.ps-land-route{stroke-dasharray:16 8;stroke-dashoffset:1000;',
-        'animation:ps-dash 14s linear infinite;}',
-      '.ps-ring{animation:ps-pulse 3.2s ease-in-out infinite;',
-        'transform-box:fill-box;transform-origin:center;}',
-      '@media (prefers-reduced-motion:reduce){',
-        '.ps-sea-route,.ps-land-route{animation:none;stroke-dashoffset:0}',
-        '.ps-ring{animation:none}}'
-    ].join('');
-    defs.appendChild(style);
     svg.appendChild(defs);
 
     /* ── Ocean ── */
@@ -528,36 +565,46 @@
       }));
     });
 
-    /* ── Trade routes ── */
-    ROUTES.forEach(function (r) {
+    /* ── Highway routes (white semi-transparent solid) ── */
+    HIGHWAYS.forEach(function (r) {
       var a = byId[r.from], b = byId[r.to];
       if (!a || !b) { return; }
-      var isSea = (r.t === 'sea');
-      var ln = el('line', {
+      svg.appendChild(el('line', {
         x1:a.x, y1:a.y, x2:b.x, y2:b.y,
-        stroke: isSea ? '#f5a623' : '#90d0f8',
-        'stroke-width': isSea ? '1.8' : '1.4',
-        'stroke-opacity': isSea ? '0.72' : '0.50'
-      });
-      ln.classList.add(isSea ? 'ps-sea-route' : 'ps-land-route');
-      svg.appendChild(ln);
+        stroke: 'rgba(255,255,255,0.25)',
+        'stroke-width': '1'
+      }));
+    });
+
+    /* ── Rail routes (blue static dashed) ── */
+    RAIL.forEach(function (r) {
+      var a = byId[r.from], b = byId[r.to];
+      if (!a || !b) { return; }
+      svg.appendChild(el('line', {
+        x1:a.x, y1:a.y, x2:b.x, y2:b.y,
+        stroke: '#90d0f8',
+        'stroke-width': '1.2',
+        'stroke-dasharray': '4 3',
+        'stroke-opacity': '0.7'
+      }));
+    });
+
+    /* ── Sea routes (orange solid) ── */
+    SEA.forEach(function (r) {
+      var a = byId[r.from], b = byId[r.to];
+      if (!a || !b) { return; }
+      svg.appendChild(el('line', {
+        x1:a.x, y1:a.y, x2:b.x, y2:b.y,
+        stroke: '#f5a623',
+        'stroke-width': '1.5',
+        'stroke-opacity': '0.6'
+      }));
     });
 
     /* ── City markers + labels ── */
     CITIES.forEach(function (c) {
       var col = TYPE_COLOR[c.type] || '#ffffff';
       var r   = TYPE_RADIUS[c.type] || 4;
-
-      /* Animated ring (non-mega cities) */
-      if (c.type !== 'mega') {
-        var ring = el('circle', {
-          cx:c.x, cy:c.y, r:'8',
-          fill:'none', stroke:col,
-          'stroke-width':'1.5', 'stroke-opacity':'0.38'
-        });
-        ring.classList.add('ps-ring');
-        svg.appendChild(ring);
-      }
 
       /* Dark halo */
       svg.appendChild(el('circle', {
@@ -609,9 +656,9 @@
     });
 
     /* ── Legend ─────────────────────────────────────────────────────── */
-    var LX = 12, LY = H - 152;
+    var LX = 12, LY = H - 186;
     svg.appendChild(el('rect', {
-      x:LX - 10, y:LY - 20, width:'218', height:'168',
+      x:LX - 10, y:LY - 14, width:'224', height:'178',
       rx:'10', fill:'rgba(4,14,26,0.90)',
       stroke:'rgba(255,255,255,0.15)', 'stroke-width':'1'
     }));
@@ -622,10 +669,11 @@
       {col: TYPE_COLOR.special, lbl:'Якутск — северный узел'},
       {col: TYPE_COLOR.cn,      lbl:'Китайские порты и города'},
       {col: TYPE_COLOR.jp,      lbl:'Японские порты и города'},
+      {col: TYPE_COLOR.kr,      lbl:'Корейские порты'},
       {col: TYPE_COLOR.sg,      lbl:'Сингапур'}
     ];
     legendDots.forEach(function (ld, i) {
-      var cy = LY + i * 20;
+      var cy = LY + i * 14;
       svg.appendChild(el('circle', {cx:LX+5, cy:cy, r:'4.5',
         fill:ld.col, stroke:'rgba(255,255,255,0.45)', 'stroke-width':'1'}));
       svg.appendChild(txt(ld.lbl, LX + 17, cy + 4, {
@@ -636,22 +684,32 @@
     });
 
     /* Route legend lines */
-    var ry = LY + 125;
+    var ry = LY + 6 * 14 + 22;
     svg.appendChild(el('line', {
       x1:LX, y1:ry, x2:LX+26, y2:ry,
-      stroke:'#f5a623', 'stroke-width':'1.8', 'stroke-dasharray':'10 5'
+      stroke:'#f5a623', 'stroke-width':'1.5'
     }));
     svg.appendChild(txt('Морские маршруты', LX + 32, ry + 4, {
       fill:'rgba(255,255,255,0.82)',
       'font-size':'9', 'font-family':'Roboto,sans-serif'
     }));
 
-    var ry2 = ry + 17;
+    var ry2 = ry + 16;
     svg.appendChild(el('line', {
       x1:LX, y1:ry2, x2:LX+26, y2:ry2,
-      stroke:'#90d0f8', 'stroke-width':'1.4', 'stroke-dasharray':'12 6'
+      stroke:'#90d0f8', 'stroke-width':'1.2', 'stroke-dasharray':'4 3'
     }));
-    svg.appendChild(txt('Ж/д и автомаршруты', LX + 32, ry2 + 4, {
+    svg.appendChild(txt('Ж/д магистрали', LX + 32, ry2 + 4, {
+      fill:'rgba(255,255,255,0.82)',
+      'font-size':'9', 'font-family':'Roboto,sans-serif'
+    }));
+
+    var ry3 = ry2 + 16;
+    svg.appendChild(el('line', {
+      x1:LX, y1:ry3, x2:LX+26, y2:ry3,
+      stroke:'rgba(255,255,255,0.25)', 'stroke-width':'1'
+    }));
+    svg.appendChild(txt('Автодороги', LX + 32, ry3 + 4, {
       fill:'rgba(255,255,255,0.82)',
       'font-size':'9', 'font-family':'Roboto,sans-serif'
     }));
