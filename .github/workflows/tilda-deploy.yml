@@ -6,6 +6,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: deploy-timeweb
+  cancel-in-progress: false
+
 jobs:
   # ─────────────────────────────────────────────────────────────
   # Деплой сайта на Timeweb через FTP (надёжнее SSH для shared hosting)
@@ -79,6 +83,13 @@ jobs:
             set net:max-retries 15
             set net:reconnect-interval-base 10
             set net:reconnect-interval-multiplier 2
+            set cmd:fail-exit yes
+            set cmd:verify-path yes
+            echo "── Проверяем FTP-подключение ──"
+            pwd
+            ls
+            echo "── Проверяем целевую папку ──"
+            ls /public_html/
             lcd /tmp/site
             mirror --reverse --delete --verbose --parallel=1 \
               --exclude-glob .git* \
@@ -90,6 +101,8 @@ jobs:
               --exclude-glob node_modules/ \
               --exclude-glob *.zip \
               . /public_html/
+            echo "── Проверяем файлы после загрузки ──"
+            ls /public_html/
             bye
           LFTP_CMDS
           echo "✅ FTP загрузка завершена"
@@ -107,14 +120,14 @@ jobs:
           sshpass -e rsync -avz \
             -e "ssh -p 22 -o StrictHostKeyChecking=no -o ConnectTimeout=10" \
             /tmp/site/ \
-            "$TW_USER@$TW_HOST:$TW_PATH" \
+            "$TW_USER@$TW_HOST:~/public_html/" \
             2>&1 | tail -5 || echo "SSH недоступен — FTP был основным методом"
 
       - name: Проверить доступность сайта
         if: env.SKIP == 'false'
         run: |
           sleep 10
-          HTTP=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 15 https://pacificstar.ru/ 2>/dev/null || echo "000")
+          HTTP=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 15 https://pacificstar.ru/ 2>/dev/null) || HTTP="000"
           echo "Ответ сервера: HTTP $HTTP"
           if [ "$HTTP" = "200" ] || [ "$HTTP" = "301" ] || [ "$HTTP" = "302" ]; then
             echo "🎉 САЙТ ОНЛАЙН: https://pacificstar.ru/"
