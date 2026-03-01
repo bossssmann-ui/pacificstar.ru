@@ -79,20 +79,22 @@ jobs:
           LFTP_PASSWORD: ${{ secrets.TIMEWEB_PASSWORD }}
         run: |
           lftp -u "$TW_USER,$LFTP_PASSWORD" "ftp://$TW_HOST" <<'LFTP_CMDS'
-            set ftp:ssl-allow no
+            # Timeweb shared hosting: allow TLS but skip cert check (shared/wildcard certs)
+            set ssl:verify-certificate no
+            set ftp:ssl-allow yes
+            set ftp:ssl-force no
+            set ftp:ssl-protect-data no
             set ftp:passive-mode yes
             set net:timeout 30
-            set net:max-retries 3
+            set net:max-retries 5
             set net:reconnect-interval-base 5
             set net:reconnect-interval-multiplier 2
-            set net:reconnect-interval-max 30
+            set net:reconnect-interval-max 60
             set cmd:fail-exit yes
             set cmd:verify-path yes
             echo "── Проверяем FTP-подключение ──"
             pwd
-            ls
-            echo "── Проверяем целевую папку ──"
-            ls /public_html/
+            echo "── Загружаем файлы ──"
             lcd /tmp/site
             mirror --reverse --delete --verbose --parallel=1 \
               --exclude-glob .git* \
