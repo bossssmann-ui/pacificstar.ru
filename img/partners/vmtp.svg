@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="200" height="80">
+  <defs>
+    <linearGradient id="vmtp-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a3a5c"/>
+      <stop offset="100%" style="stop-color:#2a5a8c"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="14" width="52" height="52" rx="6" fill="url(#vmtp-grad)"/>
+  <path d="M18 48 L28 26 L34 40 L40 26 L50 48" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="72" y="36" font-family="Arial,Helvetica,sans-serif" font-size="22" font-weight="700" fill="#1a3a5c" letter-spacing="1">ВМТП</text>
+  <text x="72" y="54" font-family="Arial,Helvetica,sans-serif" font-size="9" fill="#5a7a9c" letter-spacing="0.5">ТОРГОВЫЙ ПОРТ</text>
+</svg>
