@@ -390,9 +390,14 @@
     });
   }
 
-  /* =======================================
-     PARALLAX BACKGROUND
-     ======================================= */
+}());
+
+/* =========================================================
+   PARALLAX BACKGROUND
+   ========================================================= */
+(function () {
+  'use strict';
+
   function initParallax() {
     var heroEl = document.querySelector('.hero');
     var pageHeroEl = document.querySelector('.page-hero');
