@@ -7,21 +7,28 @@
  *  - Подписи стран и водоёмов
  *  - Без маршрутов, городов и анимаций
  *
- * Проекция: equirectangular  ДОЛ 20° – 198°  ШИР 1° – 78°
- * SVG canvas: 1200 × 526
+ * Проекция: Mercator  ДОЛ 20° – 198°  ШИР 1° – 78°
+ * SVG canvas: 1200 × 720
  */
 (function () {
   'use strict';
 
-  var W = 1200, H = 526;
+  var W = 1200, H = 720;
   var LON_MIN = 20, LON_MAX = 198;   /* 20° to include Kaliningrad exclave */
   var LAT_MAX = 78, LAT_MIN = 1;
 
+  function mercatorY(lat) {
+    var latRad = lat * Math.PI / 180;
+    return Math.log(Math.tan(Math.PI / 4 + latRad / 2));
+  }
+
+  var yMin = mercatorY(LAT_MIN);
+  var yMax = mercatorY(LAT_MAX);
+
   function px(lon, lat) {
-    return [
-      (lon - LON_MIN) / (LON_MAX - LON_MIN) * W,
-      (LAT_MAX - lat) / (LAT_MAX - LAT_MIN) * H
-    ];
+    var x = (lon - LON_MIN) / (LON_MAX - LON_MIN) * W;
+    var y = (yMax - mercatorY(lat)) / (yMax - yMin) * H;
+    return [x, y];
   }
 
   function polyStr(coords) {
