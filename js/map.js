@@ -499,6 +499,7 @@
     /* ── Root SVG ── */
     var svg = el('svg', {
       viewBox: '0 0 ' + W + ' ' + H,
+      preserveAspectRatio: 'xMidYMid meet',
       role: 'img',
       'aria-label': 'Карта маршрутов Pacific Star: Россия, Дальний Восток, АТР, Китай, Япония, Корея, Сингапур'
     });
