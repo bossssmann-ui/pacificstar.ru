@@ -382,12 +382,15 @@ p { margin-bottom: 1rem; }
 .hero::after {
   content: '';
   position: absolute;
-  inset: 0;
+  left: 0; right: 0;
+  top: -15%;
+  height: 130%;
   background: url('../img/port-de-barcelona-night.jpg') center 40% / cover no-repeat;
-  background-attachment: fixed;
   /* Небольшая прозрачность, чтобы синий фон просвечивал снизу */
   opacity: 0.45;
   z-index: 0;
+  will-change: transform;
+  transform: translateY(0);
 }
 
 /* ── Декоративный SVG-паттерн поверх фото, под текстом ── */
@@ -1056,11 +1059,39 @@ p { margin-bottom: 1rem; }
 .page-hero::after {
   content: '';
   position: absolute;
-  inset: 0;
+  left: 0; right: 0;
+  top: -15%;
+  height: 130%;
   background: url('../img/port-de-barcelona-night.jpg') center 40% / cover no-repeat;
-  background-attachment: fixed;
   opacity: 0.45;
   z-index: 0;
+  will-change: transform;
+  transform: translateY(0);
+}
+
+/* Реальный элемент параллакса (заменяет ::after когда JS активен).
+   Немного больше запас (top: -20%, height: 140%), т.к. этот элемент
+   действительно смещается при скролле — нужно больше места. */
+.parallax-bg {
+  position: absolute;
+  left: 0; right: 0;
+  top: -20%;
+  height: 140%;
+  background: url('../img/port-de-barcelona-night.jpg') center 40% / cover no-repeat;
+  opacity: 0.45;
+  z-index: 0;
+  will-change: transform;
+  pointer-events: none;
+}
+
+/* Когда JS добавил реальный элемент — скрываем ::after */
+.hero.has-parallax-bg::after,
+.page-hero.has-parallax-bg::after {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parallax-bg { will-change: auto; }
 }
 
 .page-hero::before {
