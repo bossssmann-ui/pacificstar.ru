@@ -1,23 +1,29 @@
 /**
  * Pacific Star — Currency Calculator
  * Fetches live rates from https://www.cbr-xml-daily.ru/daily_json.js (CORS-enabled)
- * Displays: USD, EUR, CNY, JPY, KRW → RUB
+ * Displays: USD, EUR, CNY, JPY, KRW, SGD → RUB with SVG sparkline chart
  */
 (function () {
   'use strict';
 
-  var CBR_URL = 'https://www.cbr-xml-daily.ru/daily_json.js';
+  var CBR_URL     = 'https://www.cbr-xml-daily.ru/daily_json.js';
+  var CBR_ARCHIVE = 'https://www.cbr-xml-daily.ru/archive/';
   var CURRENCIES = [
-    { code: 'USD', symbol: '$',  flag: '🇺🇸', name: 'Доллар США',      nominal: 1 },
-    { code: 'EUR', symbol: '€',  flag: '🇪🇺', name: 'Евро',             nominal: 1 },
-    { code: 'CNY', symbol: '¥',  flag: '🇨🇳', name: 'Китайский юань',   nominal: 1 },
-    { code: 'JPY', symbol: '¥',  flag: '🇯🇵', name: 'Японская иена',    nominal: 100 },
-    { code: 'KRW', symbol: '₩',  flag: '🇰🇷', name: 'Корейская вона',   nominal: 1000 }
+    { code: 'USD', symbol: '$',  flag: '🇺🇸', name: 'Доллар США',         nominal: 1    },
+    { code: 'EUR', symbol: '€',  flag: '🇪🇺', name: 'Евро',                nominal: 1    },
+    { code: 'CNY', symbol: '¥',  flag: '🇨🇳', name: 'Китайский юань',      nominal: 1    },
+    { code: 'JPY', symbol: '¥',  flag: '🇯🇵', name: 'Японская иена',       nominal: 100  },
+    { code: 'KRW', symbol: '₩',  flag: '🇰🇷', name: 'Корейская вона',      nominal: 1000 },
+    { code: 'SGD', symbol: 'S$', flag: '🇸🇬', name: 'Сингапурский доллар', nominal: 1    }
   ];
+  var SYMBOLS = { USD: '$', EUR: '€', CNY: '¥', JPY: '¥', KRW: '₩', SGD: 'S$', RUB: '₽' };
 
-  var rates = {};
-  var lastUpdate = null;
-  var isLoading = false;
+  var rates       = {};
+  var prevRates   = {};
+  var lastUpdate  = null;
+  var isLoading   = false;
+  var selectedCode = 'USD';
+  var chartCache   = {};   /* code → [{date, value}] */
 
   /* ── Fetch rates from CBR ── */
   function fetchRates(onDone) {
@@ -41,8 +47,8 @@
           CURRENCIES.forEach(function (c) {
             var entry = data.Valute && data.Valute[c.code];
             if (entry) {
-              /* Normalize to rate per 1 unit */
-              rates[c.code] = entry.Value / entry.Nominal;
+              rates[c.code]     = entry.Value    / entry.Nominal;
+              prevRates[c.code] = entry.Previous / entry.Nominal;
             }
           });
           lastUpdate = new Date(data.Date);
@@ -64,7 +70,7 @@
 
   function showError() {
     /* On API failure: use hardcoded reference rates so widget stays useful */
-    var FALLBACK = { USD: 90.50, EUR: 98.20, CNY: 12.50, JPY: 0.615, KRW: 0.068 };
+    var FALLBACK = { USD: 90.50, EUR: 98.20, CNY: 12.50, JPY: 0.615, KRW: 0.068, SGD: 66.20 };
     var hasFallback = false;
     CURRENCIES.forEach(function (c) {
       if (!rates[c.code] && FALLBACK[c.code]) {
@@ -89,48 +95,48 @@
       var card = document.getElementById('rate-' + c.code);
       if (!card) return;
       var rateVal = card.querySelector('.currency-rate-value');
-      var change  = card.querySelector('.currency-change');
+      var changeEl = card.querySelector('.currency-change');
       if (!rates[c.code]) return;
 
-      /* Display rate per nominal */
       var displayRate = rates[c.code] * c.nominal;
       if (rateVal) rateVal.textContent = displayRate.toFixed(2) + ' ₽';
 
-      /* Simulated change indicator (real prev-day diff requires extra field) */
-      if (change && change.dataset.prev) {
-        var prev = parseFloat(change.dataset.prev);
-        var diff = displayRate - prev;
-        change.textContent = (diff >= 0 ? '+' : '') + diff.toFixed(2);
-        change.className = 'currency-change ' + (diff >= 0 ? 'up' : 'down');
+      if (changeEl) {
+        if (prevRates[c.code]) {
+          var prevRate = prevRates[c.code] * c.nominal;
+          var diff = displayRate - prevRate;
+          var arrow = diff >= 0 ? '▲' : '▼';
+          changeEl.textContent = arrow + ' ' + Math.abs(diff).toFixed(2);
+          changeEl.className = 'currency-change ' + (diff >= 0 ? 'up' : 'down');
+        } else {
+          changeEl.textContent = '';
+        }
       }
     });
 
-    /* Timestamp */
     var ts = document.getElementById('currencyTimestamp');
     if (ts && lastUpdate) {
-      var fmt = lastUpdate.toLocaleDateString('ru-RU', {
+      ts.textContent = 'Курсы ЦБ РФ на ' + lastUpdate.toLocaleDateString('ru-RU', {
         day: '2-digit', month: 'long', year: 'numeric'
       });
-      ts.textContent = 'Курсы ЦБ РФ на ' + fmt;
     }
 
-    /* Run converter if filled */
     convert();
   }
 
   /* ── Converter ── */
   function convert() {
-    var fromCode  = document.getElementById('convFrom');
-    var toCode    = document.getElementById('convTo');
-    var amountEl  = document.getElementById('convAmount');
-    var resultEl  = document.getElementById('convResult');
-    if (!fromCode || !toCode || !amountEl || !resultEl) return;
+    var fromEl   = document.getElementById('convFrom');
+    var toEl     = document.getElementById('convTo');
+    var amountEl = document.getElementById('convAmount');
+    var resultEl = document.getElementById('convResult');
+    if (!fromEl || !toEl || !amountEl || !resultEl) return;
 
     var amount = parseFloat(amountEl.value);
-    if (isNaN(amount) || amount <= 0) { resultEl.textContent = '—'; return; }
+    if (isNaN(amount) || amount <= 0) { resultEl.value = '—'; return; }
 
-    var from = fromCode.value;
-    var to   = toCode.value;
+    var from = fromEl.value;
+    var to   = toEl.value;
 
     var rubAmount;
     if (from === 'RUB') {
@@ -138,7 +144,7 @@
     } else if (rates[from]) {
       rubAmount = amount * rates[from];
     } else {
-      resultEl.textContent = '— (нет курса)';
+      resultEl.value = '— (нет курса)';
       return;
     }
 
@@ -148,25 +154,295 @@
     } else if (rates[to]) {
       result = rubAmount / rates[to];
     } else {
-      resultEl.textContent = '— (нет курса)';
+      resultEl.value = '— (нет курса)';
       return;
     }
 
-    /* Format nicely */
     var formatted = result >= 100
       ? result.toLocaleString('ru-RU', { maximumFractionDigits: 2 })
       : result.toFixed(4);
-    var symbols = { USD:'$', EUR:'€', CNY:'¥', JPY:'¥', KRW:'₩', RUB:'₽' };
-    resultEl.textContent = formatted + ' ' + (symbols[to] || to);
+    resultEl.value = formatted + ' ' + (SYMBOLS[to] || to);
+  }
+
+  /* ── Chart: fetch archive data for last N work days ── */
+  function getArchiveDates(count) {
+    var dates = [];
+    var d = new Date();
+    d.setHours(0, 0, 0, 0);
+    /* CBR publishes next business day's rate, so start from yesterday */
+    d.setDate(d.getDate() - 1);
+    while (dates.length < count) {
+      var dow = d.getDay();
+      if (dow !== 0 && dow !== 6) {
+        dates.unshift(formatDate(d));
+      }
+      d.setDate(d.getDate() - 1);
+    }
+    return dates;
+  }
+
+  function pad2(n) { return n < 10 ? '0' + n : String(n); }
+
+  function formatDate(d) {
+    return d.getFullYear() + '/' + pad2(d.getMonth() + 1) + '/' + pad2(d.getDate());
+  }
+
+  function fetchArchiveDay(dateStr, code, nominal, onDone) {
+    var url = CBR_ARCHIVE + dateStr + '/daily_json.js';
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.timeout = 6000;
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        try {
+          var data = JSON.parse(xhr.responseText);
+          var entry = data.Valute && data.Valute[code];
+          if (entry) {
+            onDone(null, entry.Value / entry.Nominal * nominal);
+            return;
+          }
+        } catch (e) { /* fall through */ }
+      }
+      onDone(new Error('no data'));
+    };
+    xhr.onerror = xhr.ontimeout = function () { onDone(new Error('error')); };
+    xhr.send();
+  }
+
+  function loadChartData(code, onDone) {
+    if (chartCache[code]) { onDone(chartCache[code]); return; }
+
+    var cur    = CURRENCIES.filter(function (c) { return c.code === code; })[0];
+    var nominal = cur ? cur.nominal : 1;
+    var dates  = getArchiveDates(30);
+    var results = new Array(dates.length);
+    var pending = dates.length;
+    var BATCH   = 5;   /* parallel requests per batch */
+    var idx     = 0;
+
+    function fetchNext() {
+      var batchEnd = Math.min(idx + BATCH, dates.length);
+      var batchSize = batchEnd - idx;
+      if (batchSize <= 0) return;
+      var done = 0;
+      for (var i = idx; i < batchEnd; i++) {
+        (function (pos) {
+          fetchArchiveDay(dates[pos], code, nominal, function (err, val) {
+            if (!err) { results[pos] = { date: dates[pos], value: val }; }
+            done++;
+            pending--;
+            if (done === batchSize) {
+              if (pending > 0) {
+                setTimeout(fetchNext, 200);
+              } else {
+                var series = results.filter(Boolean);
+                if (series.length >= 2) {
+                  chartCache[code] = series;
+                  onDone(series);
+                } else {
+                  onDone(null);
+                }
+              }
+            }
+          });
+        })(i);
+      }
+      idx = batchEnd;
+    }
+
+    fetchNext();
+  }
+
+  /* ── SVG Sparkline ── */
+  function renderChart(code, series) {
+    var container = document.getElementById('chartSvgWrap');
+    var titleEl   = document.getElementById('chartTitle');
+    if (!container) return;
+
+    if (titleEl) titleEl.textContent = code + ' / RUB за 30 дней';
+
+    if (!series || series.length < 2) {
+      container.innerHTML = '<p class="chart-no-data">Нет данных для графика</p>';
+      return;
+    }
+
+    var W = container.clientWidth  || 600;
+    var H = 140;
+    var PAD = { top: 16, right: 12, bottom: 28, left: 52 };
+    var innerW = W - PAD.left - PAD.right;
+    var innerH = H - PAD.top  - PAD.bottom;
+
+    var vals  = series.map(function (p) { return p.value; });
+    var minV  = Math.min.apply(null, vals);
+    var maxV  = Math.max.apply(null, vals);
+    var range = maxV - minV || 1;
+
+    var trend = vals[vals.length - 1] >= vals[0];
+    var color = trend ? '#27ae60' : '#e74c3c';
+    var fillId = 'chartFill' + code;
+
+    var NS = 'http://www.w3.org/2000/svg';
+
+    function px(i) { return PAD.left + (i / (series.length - 1)) * innerW; }
+    function py(v) { return PAD.top  + innerH - ((v - minV) / range) * innerH; }
+
+    /* Build polyline points */
+    var pts = series.map(function (p, i) { return px(i) + ',' + py(p.value); }).join(' ');
+
+    /* Build closed fill path */
+    var fillPath = 'M' + px(0) + ',' + py(series[0].value) + ' ';
+    series.forEach(function (p, i) {
+      fillPath += 'L' + px(i) + ',' + py(p.value) + ' ';
+    });
+    fillPath += 'L' + px(series.length - 1) + ',' + (PAD.top + innerH) + ' ';
+    fillPath += 'L' + px(0)                 + ',' + (PAD.top + innerH) + ' Z';
+
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('width',  '100%');
+    svg.setAttribute('height', H);
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svg.setAttribute('preserveAspectRatio', 'none');
+
+    /* Gradient def */
+    var defs = document.createElementNS(NS, 'defs');
+    var grad = document.createElementNS(NS, 'linearGradient');
+    grad.setAttribute('id', fillId);
+    grad.setAttribute('x1', '0'); grad.setAttribute('y1', '0');
+    grad.setAttribute('x2', '0'); grad.setAttribute('y2', '1');
+    var s0 = document.createElementNS(NS, 'stop');
+    s0.setAttribute('offset', '0%');
+    s0.setAttribute('stop-color', color);
+    s0.setAttribute('stop-opacity', '0.25');
+    var s1 = document.createElementNS(NS, 'stop');
+    s1.setAttribute('offset', '100%');
+    s1.setAttribute('stop-color', color);
+    s1.setAttribute('stop-opacity', '0.02');
+    grad.appendChild(s0); grad.appendChild(s1);
+    defs.appendChild(grad);
+    svg.appendChild(defs);
+
+    /* Fill area */
+    var area = document.createElementNS(NS, 'path');
+    area.setAttribute('d', fillPath);
+    area.setAttribute('fill', 'url(#' + fillId + ')');
+    svg.appendChild(area);
+
+    /* Line */
+    var line = document.createElementNS(NS, 'polyline');
+    line.setAttribute('points', pts);
+    line.setAttribute('fill', 'none');
+    line.setAttribute('stroke', color);
+    line.setAttribute('stroke-width', '2');
+    line.setAttribute('stroke-linejoin', 'round');
+    line.setAttribute('stroke-linecap', 'round');
+    svg.appendChild(line);
+
+    /* Y-axis labels */
+    function addLabel(text, x, y, anchor) {
+      var t = document.createElementNS(NS, 'text');
+      t.setAttribute('x', x); t.setAttribute('y', y);
+      t.setAttribute('text-anchor', anchor || 'start');
+      t.setAttribute('font-size', '10');
+      t.setAttribute('fill', '#888');
+      t.textContent = text;
+      svg.appendChild(t);
+    }
+    addLabel(minV.toFixed(2), PAD.left - 4, PAD.top + innerH, 'end');
+    addLabel(maxV.toFixed(2), PAD.left - 4, PAD.top + 10, 'end');
+
+    /* X-axis date labels */
+    var labelIndices = [0, Math.floor((series.length - 1) / 2), series.length - 1];
+    labelIndices.forEach(function (i) {
+      var rawDate = series[i].date; /* "YYYY/MM/DD" */
+      var parts   = rawDate.split('/');
+      var display = parts[2] + '.' + parts[1];
+      var anchor  = i === 0 ? 'start' : (i === series.length - 1 ? 'end' : 'middle');
+      addLabel(display, px(i), H - 6, anchor);
+    });
+
+    /* Tooltip dots — interactive */
+    series.forEach(function (p, i) {
+      var circle = document.createElementNS(NS, 'circle');
+      circle.setAttribute('cx', px(i));
+      circle.setAttribute('cy', py(p.value));
+      circle.setAttribute('r', '3');
+      circle.setAttribute('fill', color);
+      circle.setAttribute('opacity', '0');
+      circle.setAttribute('class', 'chart-dot');
+      circle.setAttribute('data-date', p.date);
+      circle.setAttribute('data-value', p.value.toFixed(2));
+      svg.appendChild(circle);
+    });
+
+    container.innerHTML = '';
+    container.appendChild(svg);
+
+    /* Tooltip logic */
+    var tooltip = document.getElementById('chartTooltip');
+    svg.addEventListener('mousemove', function (e) {
+      var rect = svg.getBoundingClientRect();
+      var mx   = e.clientX - rect.left;
+      var best = null, bestDist = Infinity;
+      series.forEach(function (p, i) {
+        var dist = Math.abs(mx - px(i) * (rect.width / W));
+        if (dist < bestDist) { bestDist = dist; best = { i: i, p: p }; }
+      });
+      if (!best || !tooltip) return;
+      /* Show dots near hover */
+      var dots = svg.querySelectorAll('.chart-dot');
+      for (var d = 0; d < dots.length; d++) {
+        dots[d].setAttribute('opacity', d === best.i ? '1' : '0');
+      }
+      var dateParts = best.p.date.split('/');
+      tooltip.textContent = dateParts[2] + '.' + dateParts[1] + '.' + dateParts[0] + ' — ' + best.p.value.toFixed(2) + ' ₽';
+      tooltip.style.display = 'block';
+      tooltip.style.left = (e.clientX - rect.left + 12) + 'px';
+      tooltip.style.top  = (e.clientY - rect.top  - 28) + 'px';
+    });
+    svg.addEventListener('mouseleave', function () {
+      if (tooltip) tooltip.style.display = 'none';
+      var dots = svg.querySelectorAll('.chart-dot');
+      for (var d = 0; d < dots.length; d++) {
+        dots[d].setAttribute('opacity', '0');
+      }
+    });
+  }
+
+  function showChartLoading(code) {
+    var container = document.getElementById('chartSvgWrap');
+    var titleEl   = document.getElementById('chartTitle');
+    if (titleEl) titleEl.textContent = code + ' / RUB за 30 дней';
+    if (container) container.innerHTML = '<p class="chart-loading-msg">Загрузка данных графика…</p>';
+  }
+
+  function selectCard(code) {
+    selectedCode = code;
+    var cards = document.querySelectorAll('.currency-card');
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].classList.remove('active');
+    }
+    var active = document.getElementById('rate-' + code);
+    if (active) active.classList.add('active');
+
+    showChartLoading(code);
+    loadChartData(code, function (series) {
+      renderChart(code, series);
+    });
   }
 
   /* ── Build HTML ── */
   function buildWidget(container) {
+    var allOptions = CURRENCIES.map(function (c) {
+      return '<option value="' + c.code + '">' + c.flag + ' ' + c.code + ' — ' + c.name + '</option>';
+    });
+    var rubOption = '<option value="RUB">🇷🇺 RUB — Рубль</option>';
+
     container.innerHTML = [
+      /* Header */
       '<div class="currency-header">',
       '  <div>',
       '    <span class="section-label">Актуальные котировки</span>',
-      '    <h2 class="section-title" id="currency-title">Курсы валют</h2>',
+      '    <h2 class="section-title">Курсы валют ЦБ РФ</h2>',
       '    <p class="section-desc" id="currencyTimestamp">Загрузка курсов ЦБ РФ…</p>',
       '  </div>',
       '  <button type="button" class="btn btn-outline currency-refresh" id="currencyRefresh">',
@@ -179,7 +455,7 @@
       '  </button>',
       '</div>',
 
-      /* Loading / error states */
+      /* Loading / error */
       '<div class="currency-loading" id="currencyLoading" style="display:flex;">',
       '  <div class="spinner" aria-label="Загрузка"></div>',
       '  <span>Загружаем курсы ЦБ РФ…</span>',
@@ -193,74 +469,64 @@
       '<div class="currency-grid" id="currencyGrid">',
       CURRENCIES.map(function (c) {
         return [
-          '<div class="currency-card fade-in" id="rate-' + c.code + '">',
+          '<button type="button" class="currency-card" id="rate-' + c.code + '" aria-label="Показать график для ' + c.name + '">',
           '  <div class="currency-card-header">',
           '    <span class="currency-flag" aria-hidden="true">' + c.flag + '</span>',
-          '    <div>',
-          '      <div class="currency-code">' + c.code + '</div>',
-          '      <div class="currency-name">' + c.name + '</div>',
-          '    </div>',
+          '    <span class="currency-code">' + c.code + '</span>',
           '  </div>',
-          '  <div class="currency-rate">',
-          '    <span class="currency-rate-label">' + (c.nominal > 1 ? c.nominal + ' ' + c.code : '1 ' + c.code) + ' =</span>',
-          '    <strong class="currency-rate-value">—</strong>',
-          '  </div>',
-          '</div>'
+          '  <strong class="currency-rate-value">—</strong>',
+          '  <span class="currency-change"></span>',
+          '</button>'
         ].join('');
       }).join(''),
       '</div>',
 
+      /* Chart area */
+      '<div class="currency-chart">',
+      '  <div class="chart-header">',
+      '    <span class="chart-title" id="chartTitle">USD / RUB за 30 дней</span>',
+      '  </div>',
+      '  <div class="chart-svg-wrap" id="chartSvgWrap">',
+      '    <p class="chart-loading-msg">Выберите валюту для просмотра графика</p>',
+      '  </div>',
+      '  <div class="chart-tooltip" id="chartTooltip" style="display:none;"></div>',
+      '</div>',
+
       /* Converter */
       '<div class="currency-converter">',
-      '  <h3 class="currency-converter-title">Конвертер валют</h3>',
-      '  <div class="converter-row">',
-      '    <div class="converter-group">',
-      '      <label class="form-label" for="convAmount">Сумма</label>',
-      '      <input type="number" id="convAmount" class="form-control" min="0" step="any" value="1000" placeholder="Введите сумму">',
-      '    </div>',
-      '    <div class="converter-group">',
-      '      <label class="form-label" for="convFrom">Из</label>',
-      '      <select id="convFrom" class="form-control">',
-      '        <option value="USD">🇺🇸 USD — Доллар</option>',
-      '        <option value="EUR">🇪🇺 EUR — Евро</option>',
-      '        <option value="CNY">🇨🇳 CNY — Юань</option>',
-      '        <option value="JPY">🇯🇵 JPY — Иена</option>',
-      '        <option value="KRW">🇰🇷 KRW — Вона</option>',
-      '        <option value="RUB">🇷🇺 RUB — Рубль</option>',
-      '      </select>',
-      '    </div>',
-      '    <div class="converter-swap">',
-      '      <button type="button" id="convSwap" class="btn btn-outline btn-sm" aria-label="Поменять местами">⇆</button>',
-      '    </div>',
-      '    <div class="converter-group">',
-      '      <label class="form-label" for="convTo">В</label>',
-      '      <select id="convTo" class="form-control">',
-      '        <option value="RUB">🇷🇺 RUB — Рубль</option>',
-      '        <option value="USD">🇺🇸 USD — Доллар</option>',
-      '        <option value="EUR">🇪🇺 EUR — Евро</option>',
-      '        <option value="CNY">🇨🇳 CNY — Юань</option>',
-      '        <option value="JPY">🇯🇵 JPY — Иена</option>',
-      '        <option value="KRW">🇰🇷 KRW — Вона</option>',
-      '      </select>',
-      '    </div>',
-      '  </div>',
-      '  <div class="converter-result">',
-      '    <span class="converter-result-label">Результат:</span>',
-      '    <span class="converter-result-value" id="convResult">—</span>',
+      '  <div class="converter-inline">',
+      '    <input type="number" id="convAmount" class="conv-input" min="0" step="any" value="1000" placeholder="Сумма">',
+      '    <select id="convFrom" class="conv-select">',
+      '      ' + allOptions.join('') + rubOption,
+      '    </select>',
+      '    <button type="button" id="convSwap" class="conv-swap" aria-label="Поменять местами">⇆</button>',
+      '    <input type="text" id="convResult" class="conv-result" readonly placeholder="Результат">',
+      '    <select id="convTo" class="conv-select">',
+      '      ' + rubOption + allOptions.join(''),
+      '    </select>',
       '  </div>',
       '  <p class="currency-disclaimer">* Курсы ЦБ РФ. Для расчёта стоимости грузоперевозки ',
       '    <a href="contacts.html">оставьте заявку</a>.</p>',
       '</div>'
     ].join('');
 
-    /* Events */
-    document.getElementById('currencyRefresh').addEventListener('click', function () {
-      fetchRates(updateCards);
+    /* Card click */
+    CURRENCIES.forEach(function (c) {
+      var card = document.getElementById('rate-' + c.code);
+      if (card) card.addEventListener('click', function () { selectCard(c.code); });
     });
-    var retryBtn = document.getElementById('currencyRetry');
-    if (retryBtn) retryBtn.addEventListener('click', function () { fetchRates(updateCards); });
 
-    ['convAmount','convFrom','convTo'].forEach(function (id) {
+    /* Refresh */
+    document.getElementById('currencyRefresh').addEventListener('click', function () {
+      fetchRates(function () { updateCards(); });
+    });
+
+    /* Retry */
+    var retryBtn = document.getElementById('currencyRetry');
+    if (retryBtn) retryBtn.addEventListener('click', function () { fetchRates(function () { updateCards(); }); });
+
+    /* Converter events */
+    ['convAmount', 'convFrom', 'convTo'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', convert);
     });
@@ -285,8 +551,8 @@
     buildWidget(container);
     fetchRates(function () {
       updateCards();
-      /* Auto-refresh every 10 minutes */
-      setInterval(function () { fetchRates(updateCards); }, 10 * 60 * 1000);
+      selectCard(selectedCode);
+      setInterval(function () { fetchRates(function () { updateCards(); }); }, 10 * 60 * 1000);
     });
   }
 
