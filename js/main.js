@@ -389,4 +389,48 @@
       setTimeout(closeCallback, 3200);
     });
   }
+
+  /* =======================================
+     PARALLAX BACKGROUND
+     ======================================= */
+  function initParallax() {
+    var heroEl = document.querySelector('.hero');
+    var pageHeroEl = document.querySelector('.page-hero');
+    var parallaxTarget = heroEl || pageHeroEl;
+
+    if (!parallaxTarget) return;
+
+    // Respect reduced-motion preference — no scroll listener, keep ::after as static background
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var bg = document.createElement('div');
+    bg.className = 'parallax-bg';
+    parallaxTarget.insertBefore(bg, parallaxTarget.firstChild);
+    parallaxTarget.classList.add('has-parallax-bg');
+
+    var PARALLAX_SPEED = 0.4; // коэффициент параллакса (0 = нет, 1 = фиксированный)
+    var ticking = false;
+
+    function updateParallax() {
+      var scrollY = window.scrollY || window.pageYOffset;
+      var rect = parallaxTarget.getBoundingClientRect();
+
+      if (rect.bottom > 0 && rect.top < window.innerHeight) {
+        var offset = scrollY * PARALLAX_SPEED;
+        bg.style.transform = 'translateY(' + offset + 'px) translateZ(0)';
+      }
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    updateParallax();
+  }
+
+  initParallax();
 }());
