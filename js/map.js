@@ -488,6 +488,7 @@
     /* ── Корневой SVG ── */
     var svg = el('svg', {
       viewBox: '0 0 ' + W + ' ' + H,
+      preserveAspectRatio: 'xMidYMid meet',
       role: 'img',
       'aria-label': 'Контурная карта: Россия и Азиатско-Тихоокеанский регион'
     });
