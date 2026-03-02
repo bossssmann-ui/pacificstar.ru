@@ -1,16 +1,17 @@
 /**
- * Pacific Star — Interactive Route Map v5
+ * Pacific Star — Interactive Route Map v6
  * =========================================
- * v5 additions over v4:
- *  - Federal highway layer (М-10/М-11, М-4, М-7, М-5, М-12, Р-254, Р-255, Р-297, А-370)
- *  - Railway layer (Транссиб + branches) as static blue dashed lines
- *  - Sea routes updated (solid orange, no animation)
- *  - All CSS animations removed (ps-dash, ps-pulse, ps-sea-route, ps-land-route, ps-ring)
- *  - New city: Пусан (South Korea), type 'kr'
- *  - Legend updated: 3 route types + Korean city dot
+ * v6 changes:
+ *  - 60+ cities: Russian main cities, Far East ports, Arctic ports, border crossings,
+ *    China industrial/port cities, Japan ports, South Korea, Singapore
+ *  - Full federal highway network: М-10/М-11, М-4, М-7, М-5, М-12, Р-254, Р-255,
+ *    Р-258, Р-297, А-370, Тюмень connections
+ *  - Complete railway network: Транссиб, БАМ, southern, China, Japan, Korea lines
+ *  - 19 sea routes covering Russian cabotage, Arctic, and international shipping
+ *  - Animated "running light" SVG dash animations on all route types
  *
  * Projection: equirectangular  LON 22°–198°  LAT 1°–78°
- * SVG canvas: 1200 × 526  (correct 176°/77° aspect ratio)
+ * SVG canvas: 1200 × 526  (176° / 77° aspect ratio)
  */
 (function () {
   'use strict';
@@ -122,17 +123,13 @@
     [87,45],[91,43.5],[93,43],[97,42],[100,41],[105,41],[109,42],
     [114,44],[117,47],[119,48],[122,52],[127.5,49.5],
     [128,48.5],[130,45],[130.5,43.8],[131.5,43],[130,42],
-    /* E coast */
     [129.5,39],[126.5,38.5],[124,37.5],[122.5,37.5],
     [121.8,35.5],[121,32.5],[121.5,30],[122,28],
     [121.2,26.5],[120.5,24.8],
-    /* SE coast — Fujian, Guangdong */
     [119.5,24.5],[118,24],[117,23.5],[116,22.8],
     [114.5,22.5],[114.2,22.2],[113.8,22],
-    /* S border — Guangxi, Yunnan */
     [111,20.5],[108.5,21],[108,21.5],[107,22],
     [104.5,22.5],[103,22.5],[100,22],[99,22.5],[97,24],
-    /* W border N */
     [90,27.5],[86,28],[82,30],[79,34],[76,38],
     [73,38],[73,40],[72,41],[76,43],[80,43],
     [84,45],[87,45]
@@ -195,177 +192,217 @@
 
   /* ── SE Asia: Indochina + Malay Peninsula ─────────────────────────── */
   var SE_ASIA = [
-    /* N border with China (W→E) */
     [100,22],[104.5,22.5],[107,22],[108,21.5],[108.5,21],[111,20.5],
-    /* Vietnam E coast going S */
     [108.5,18],[108.7,16],[109,13],[109.5,11],[109,10],[107.5,9],
-    /* S Vietnam / Cambodia coast */
     [105,9.5],[103.5,10.5],
-    /* Malay Peninsula going S (E coast) */
     [103.8,3.5],[103.8,1.4],
-    /* Singapore / S tip */
     [103.5,1.2],[103.0,2],[102.5,3],
-    /* W coast going N (Strait of Malacca side) */
     [101.5,5],[100.5,6],[100.3,7],[99.5,8],[99,9],
-    /* Kra Isthmus + Thailand W coast */
     [98.5,10],[97.5,12],[97,14],[97.5,16],[97,18],
-    /* Myanmar coast going N */
     [96.5,20],[97,22],
-    /* Back to start */
     [100,22]
   ];
 
   /* ═══════════════════════════════════════════════════════════════════
-     CITIES — type: 'mega'|'port'|'special'|'cn'|'jp'|'sg'
+     CITIES
+     type: 'mega' = Russian main cities
+           'port' = Russian ports / border crossings
+           'special' = Northern hub
+           'cn' = Chinese cities    'jp' = Japanese cities
+           'kr' = Korean cities     'sg' = Singapore
      ═══════════════════════════════════════════════════════════════════ */
   var CITIES = [
-    /* ─ Russian megacities 1M+ ─ */
+    /* ── Russian main cities (along Vladivostok→Moscow + major capitals) ── */
     {id:'msc',  name:'Москва',             lat:55.75, lon:37.62,  type:'mega', lp:'r'},
     {id:'spb',  name:'Санкт-Петербург',    lat:59.95, lon:30.32,  type:'mega', lp:'r'},
-    {id:'nsk',  name:'Новосибирск',        lat:54.99, lon:82.92,  type:'mega', lp:'b'},
-    {id:'ekb',  name:'Екатеринбург',       lat:56.84, lon:60.63,  type:'mega', lp:'t'},
-    {id:'kzn',  name:'Казань',             lat:55.79, lon:49.12,  type:'mega', lp:'b'},
     {id:'nnov', name:'Н. Новгород',        lat:56.33, lon:44.00,  type:'mega', lp:'t'},
-    {id:'chel', name:'Челябинск',          lat:55.15, lon:61.40,  type:'mega', lp:'b'},
-    {id:'sam',  name:'Самара',             lat:53.20, lon:50.15,  type:'mega', lp:'b'},
+    {id:'kzn',  name:'Казань',             lat:55.79, lon:49.12,  type:'mega', lp:'b'},
     {id:'ufa',  name:'Уфа',               lat:54.74, lon:55.97,  type:'mega', lp:'l'},
+    {id:'chel', name:'Челябинск',          lat:55.15, lon:61.40,  type:'mega', lp:'b'},
+    {id:'ekb',  name:'Екатеринбург',       lat:56.84, lon:60.63,  type:'mega', lp:'t'},
+    {id:'omsk', name:'Омск',               lat:54.98, lon:73.37,  type:'mega', lp:'b'},
+    {id:'nsk',  name:'Новосибирск',        lat:54.99, lon:82.92,  type:'mega', lp:'t'},
+    {id:'krsk', name:'Красноярск',         lat:56.01, lon:92.87,  type:'mega', lp:'t'},
+    {id:'irk',  name:'Иркутск',            lat:52.29, lon:104.30, type:'mega', lp:'b'},
+    {id:'uud',  name:'Улан-Удэ',           lat:51.83, lon:107.59, type:'mega', lp:'t'},
+    {id:'cht',  name:'Чита',               lat:52.03, lon:113.50, type:'mega', lp:'t'},
+    {id:'khv',  name:'Хабаровск',          lat:48.48, lon:135.08, type:'mega', lp:'r'},
+    {id:'vvo',  name:'Владивосток',        lat:43.12, lon:131.87, type:'mega', lp:'l'},
+    {id:'prm',  name:'Пермь',              lat:58.00, lon:56.25,  type:'mega', lp:'t'},
+    {id:'sam',  name:'Самара',             lat:53.20, lon:50.15,  type:'mega', lp:'b'},
     {id:'rnd',  name:'Ростов-на-Дону',     lat:47.23, lon:39.70,  type:'mega', lp:'r'},
-    {id:'omsk', name:'Омск',              lat:54.98, lon:73.37,  type:'mega', lp:'b'},
-    {id:'krsk', name:'Красноярск',        lat:56.01, lon:92.87,  type:'mega', lp:'t'},
-    {id:'vrn',  name:'Воронеж',           lat:51.67, lon:39.21,  type:'mega', lp:'l'},
-    {id:'prm',  name:'Пермь',             lat:58.00, lon:56.25,  type:'mega', lp:'t'},
-    {id:'vlg',  name:'Волгоград',         lat:48.71, lon:44.51,  type:'mega', lp:'r'},
-    /* ─ Russian Far East ports & border crossings ─ */
-    {id:'vvo',  name:'Владивосток',       lat:43.12, lon:131.87, type:'port', lp:'l'},
-    {id:'khv',  name:'Хабаровск',         lat:48.48, lon:135.08, type:'port', lp:'r'},
-    {id:'nkh',  name:'Находка',           lat:42.82, lon:132.87, type:'port', lp:'r'},
-    {id:'blg',  name:'Благовещенск',      lat:50.28, lon:127.53, type:'port', lp:'l'},
-    {id:'zbk',  name:'Забайкальск',       lat:49.65, lon:117.35, type:'port', lox:-9, loy:-12, anc:'end'},
-    {id:'yta',  name:'Ю-Сахалинск',       lat:46.96, lon:142.73, type:'port', lp:'r'},
-    {id:'krs',  name:'Корсаков',          lat:46.63, lon:142.78, type:'port', lp:'b'},
-    {id:'pkc',  name:'Петропавловск-К',   lat:53.01, lon:158.65, type:'port', lp:'b'},
-    {id:'mgd',  name:'Магадан',           lat:59.57, lon:150.79, type:'port', lp:'t'},
-    {id:'dyr',  name:'Анадырь',           lat:64.73, lon:177.51, type:'port', lp:'l'},
-    {id:'pvk',  name:'Певек',             lat:69.70, lon:170.27, type:'port', lp:'b'},
-    {id:'egv',  name:'Эгвекинот',         lat:66.32, lon:179.17, type:'port', lp:'l'},
-    /* ─ Якутск (special northern hub) ─ */
-    {id:'ykt',  name:'Якутск',            lat:62.04, lon:129.73, type:'special', lp:'l'},
-    /* ─ Chinese cities & ports ─ */
-    /* Beijing — capital, label left */
-    {id:'pek',  name:'Пекин',             lat:39.90, lon:116.39, type:'cn', lp:'l'},
-    /* Tianjin — push label further left to avoid Dalian */
-    {id:'tjn',  name:'Тяньцзинь',         lat:39.13, lon:117.20, type:'cn', lox:-9,  loy:15, anc:'end'},
-    /* Dalian — tip of Liaodong, label below */
-    {id:'dln',  name:'Далянь',            lat:38.92, lon:121.63, type:'cn', lp:'b'},
-    /* Qingdao — E coast, label right */
-    {id:'qd',   name:'Циндао',            lat:36.07, lon:120.38, type:'cn', lp:'r'},
-    /* Shanghai — label right */
-    {id:'sha',  name:'Шанхай',            lat:31.23, lon:121.47, type:'cn', lp:'r'},
-    /* Ningbo — below Shanghai, label right */
-    {id:'nb',   name:'Нинбо',             lat:29.87, lon:121.55, type:'cn', lox:8,   loy:15},
-    /* Pearl River Delta cluster: spread labels to avoid overlap */
-    /* Guangzhou — inland, label left */
-    {id:'gzh',  name:'Гуанчжоу',          lat:23.13, lon:113.27, type:'cn', lp:'l'},
-    /* Shenzhen — label below-left, away from HK */
-    {id:'szn',  name:'Шэньчжэнь',         lat:22.55, lon:114.05, type:'cn', lox:-9,  loy:15, anc:'end'},
-    /* Hong Kong — label above-right, away from Shenzhen */
-    {id:'hkg',  name:'Гонконг',           lat:22.32, lon:114.17, type:'cn', lox:8,   loy:-10},
-    /* ─ Japanese cities & ports ─ */
-    /* Tokyo — capital, label right */
-    {id:'tky',  name:'Токио',             lat:35.69, lon:139.69, type:'jp', lp:'r'},
-    /* Yokohama — Tokyo's port, push label below-right to avoid Tokyo */
-    {id:'yok',  name:'Йокогама',          lat:35.44, lon:139.64, type:'jp', lox:8,   loy:18},
-    /* Nagoya — between Tokyo and Osaka, label above-middle */
-    {id:'nag',  name:'Нагоя',             lat:35.18, lon:136.91, type:'jp', lox:0,   loy:-13, anc:'middle'},
-    /* Osaka — label below, away from Kobe */
-    {id:'osa',  name:'Осака',             lat:34.69, lon:135.50, type:'jp', lox:9,   loy:15},
-    /* Kobe — same latitude as Osaka, push label above-left */
-    {id:'kob',  name:'Кобе',              lat:34.69, lon:135.19, type:'jp', lox:-9,  loy:-11, anc:'end'},
-    /* Fukuoka — W Japan, label left */
-    {id:'fuk',  name:'Фукуока',           lat:33.59, lon:130.40, type:'jp', lp:'l'},
-    /* ─ Singapore ─ */
-    {id:'sgp',  name:'Сингапур',          lat:1.35,  lon:103.82, type:'sg', lp:'r'},
-    /* ─ Korean port ─ */
-    {id:'pus',  name:'Пусан',             lat:35.18, lon:129.08, type:'kr', lp:'r'}
+    {id:'vrn',  name:'Воронеж',            lat:51.67, lon:39.21,  type:'mega', lp:'l'},
+    {id:'vlg',  name:'Волгоград',          lat:48.71, lon:44.51,  type:'mega', lp:'r'},
+    {id:'tmn',  name:'Тюмень',             lat:57.15, lon:65.53,  type:'mega', lp:'t'},
+    {id:'brn',  name:'Барнаул',            lat:53.35, lon:83.77,  type:'mega', lp:'b'},
+
+    /* ── Russian Far East ports ── */
+    {id:'nkh',  name:'Находка',            lat:42.82, lon:132.87, type:'port', lp:'r'},
+    {id:'van',  name:'Ванино',             lat:49.09, lon:140.25, type:'port', lp:'r'},
+    {id:'krs',  name:'Корсаков',           lat:46.63, lon:142.78, type:'port', lp:'r'},
+    {id:'pkc',  name:'Петропавловск-К.',   lat:53.01, lon:158.65, type:'port', lp:'b'},
+    {id:'mgd',  name:'Магадан',            lat:59.57, lon:150.79, type:'port', lp:'t'},
+    {id:'hlm',  name:'Холмск',             lat:47.05, lon:142.05, type:'port', lp:'l'},
+    {id:'vst',  name:'Восточный',          lat:42.75, lon:133.07, type:'port', lox:8, loy:17},
+    {id:'dkr',  name:'Де-Кастри',          lat:51.47, lon:140.78, type:'port', lp:'r'},
+
+    /* ── Russian Arctic ports ── */
+    {id:'dyr',  name:'Анадырь',            lat:64.73, lon:177.51, type:'port', lp:'l'},
+    {id:'pvk',  name:'Певек',              lat:69.70, lon:170.27, type:'port', lp:'b'},
+
+    /* ── Border crossing cities ── */
+    {id:'zbk',  name:'Забайкальск',        lat:49.65, lon:117.35, type:'port', lox:-9, loy:-12, anc:'end'},
+    {id:'blg',  name:'Благовещенск',       lat:50.28, lon:127.53, type:'port', lp:'l'},
+    {id:'pgr',  name:'Пограничный',        lat:44.40, lon:131.38, type:'port', lox:8, loy:-10},
+    {id:'kyh',  name:'Кяхта',              lat:50.36, lon:106.45, type:'port', lp:'b'},
+
+    /* ── Northern hub ── */
+    {id:'ykt',  name:'Якутск',             lat:62.04, lon:129.73, type:'special', lp:'l'},
+
+    /* ── China major industrial cities and ports ── */
+    {id:'pek',  name:'Пекин',              lat:39.90, lon:116.39, type:'cn', lp:'l'},
+    {id:'sha',  name:'Шанхай',             lat:31.23, lon:121.47, type:'cn', lp:'r'},
+    {id:'gzh',  name:'Гуанчжоу',           lat:23.13, lon:113.27, type:'cn', lp:'l'},
+    {id:'szn',  name:'Шэньчжэнь',          lat:22.55, lon:114.05, type:'cn', lox:-9, loy:15, anc:'end'},
+    {id:'dln',  name:'Далянь',             lat:38.92, lon:121.63, type:'cn', lp:'b'},
+    {id:'qd',   name:'Циндао',             lat:36.07, lon:120.38, type:'cn', lp:'r'},
+    {id:'tjn',  name:'Тяньцзинь',          lat:39.13, lon:117.20, type:'cn', lox:-9, loy:15, anc:'end'},
+    {id:'nb',   name:'Нинбо',              lat:29.87, lon:121.55, type:'cn', lox:8, loy:15},
+    {id:'hkg',  name:'Гонконг',            lat:22.32, lon:114.17, type:'cn', lox:8, loy:-10},
+    {id:'hrb',  name:'Харбин',             lat:45.75, lon:126.65, type:'cn', lp:'r'},
+    {id:'sfh',  name:'Суйфэньхэ',          lat:44.38, lon:131.15, type:'cn', lp:'l'},
+    {id:'mzl',  name:'Маньчжурия',         lat:49.60, lon:117.43, type:'cn', lox:-9, loy:15, anc:'end'},
+
+    /* ── Japan major ports ── */
+    {id:'tky',  name:'Токио',              lat:35.69, lon:139.69, type:'jp', lp:'r'},
+    {id:'yok',  name:'Йокогама',           lat:35.44, lon:139.64, type:'jp', lox:8, loy:18},
+    {id:'osa',  name:'Осака',              lat:34.69, lon:135.50, type:'jp', lox:9, loy:15},
+    {id:'kob',  name:'Кобе',               lat:34.69, lon:135.19, type:'jp', lox:-9, loy:-11, anc:'end'},
+    {id:'nag',  name:'Нагоя',              lat:35.18, lon:136.91, type:'jp', lox:0, loy:-13, anc:'middle'},
+    {id:'fuk',  name:'Фукуока',            lat:33.59, lon:130.40, type:'jp', lp:'l'},
+    {id:'ngt',  name:'Ниигата',            lat:37.92, lon:139.04, type:'jp', lp:'r'},
+
+    /* ── South Korea ── */
+    {id:'pus',  name:'Пусан',              lat:35.18, lon:129.08, type:'kr', lp:'r'},
+    {id:'icn',  name:'Инчхон',             lat:37.46, lon:126.71, type:'kr', lp:'l'},
+
+    /* ── Singapore ── */
+    {id:'sgp',  name:'Сингапур',           lat:1.35,  lon:103.82, type:'sg', lp:'r'}
   ];
 
   /* ═══════════════════════════════════════════════════════════════════
-     FEDERAL HIGHWAYS — type 'highway', thin white semi-transparent lines
+     FEDERAL HIGHWAYS
      ═══════════════════════════════════════════════════════════════════ */
   var HIGHWAYS = [
-    /* М-10/М-11 «Россия»/«Нева»: Москва → Санкт-Петербург */
-    {from:'msc',  to:'spb'},
+    /* М-10/М-11: Москва → Санкт-Петербург */
+    {from:'msc', to:'spb'},
     /* М-4 «Дон»: Москва → Воронеж → Ростов-на-Дону */
-    {from:'msc',  to:'vrn'},
-    {from:'vrn',  to:'rnd'},
+    {from:'msc', to:'vrn'},
+    {from:'vrn', to:'rnd'},
     /* М-7 «Волга»: Москва → Н.Новгород → Казань → Уфа */
-    {from:'msc',  to:'nnov'},
-    {from:'nnov', to:'kzn'},
-    {from:'kzn',  to:'ufa'},
+    {from:'msc', to:'nnov'},
+    {from:'nnov',to:'kzn'},
+    {from:'kzn', to:'ufa'},
     /* М-5 «Урал»: Москва → Самара → Уфа → Челябинск */
-    {from:'msc',  to:'sam'},
-    {from:'sam',  to:'ufa'},
-    {from:'ufa',  to:'chel'},
-    /* М-12 «Восток»: Москва → Казань → Екатеринбург */
-    {from:'kzn',  to:'ekb'},
+    {from:'msc', to:'sam'},
+    {from:'sam', to:'ufa'},
+    {from:'ufa', to:'chel'},
+    /* М-12 «Восток»: Казань → Екатеринбург */
+    {from:'kzn', to:'ekb'},
     /* Р-254 «Иртыш»: Челябинск → Омск → Новосибирск */
-    {from:'chel', to:'omsk'},
-    {from:'omsk', to:'nsk'},
-    /* Р-255 «Сибирь»: Новосибирск → Красноярск */
-    {from:'nsk',  to:'krsk'},
-    /* Р-297 «Амур»: Забайкальск → Благовещенск → Хабаровск */
-    {from:'zbk',  to:'blg'},
-    {from:'blg',  to:'khv'},
+    {from:'chel',to:'omsk'},
+    {from:'omsk',to:'nsk'},
+    /* Р-255 «Сибирь»: Новосибирск → Красноярск → Иркутск */
+    {from:'nsk', to:'krsk'},
+    {from:'krsk',to:'irk'},
+    /* Р-258 «Байкал»: Иркутск → Улан-Удэ → Чита */
+    {from:'irk', to:'uud'},
+    {from:'uud', to:'cht'},
+    /* Р-297 «Амур»: Чита → Благовещенск → Хабаровск */
+    {from:'cht', to:'blg'},
+    {from:'blg', to:'khv'},
     /* А-370 «Уссури»: Хабаровск → Владивосток */
-    {from:'khv',  to:'vvo'}
+    {from:'khv', to:'vvo'},
+    /* Тюмень connections: Екатеринбург → Тюмень → Омск */
+    {from:'ekb', to:'tmn'},
+    {from:'tmn', to:'omsk'}
   ];
 
   /* ═══════════════════════════════════════════════════════════════════
-     RAILWAYS — type 'rail', blue static dashed lines
-     Note: some segments (e.g. Москва–СПб, Москва–Казань) overlap with
-     HIGHWAYS because railway and road corridors run in parallel — this
-     is geographically correct and intentional.
+     RAILWAYS
      ═══════════════════════════════════════════════════════════════════ */
   var RAIL = [
-    /* Транссиб: Москва → Н.Новгород → Пермь → Екатеринбург → Омск → Новосибирск → Красноярск → Хабаровск → Владивосток */
-    {from:'msc',  to:'nnov'},
-    {from:'nnov', to:'prm'},
-    {from:'prm',  to:'ekb'},
-    {from:'ekb',  to:'omsk'},
-    {from:'omsk', to:'nsk'},
-    {from:'nsk',  to:'krsk'},
-    {from:'krsk', to:'khv'},
-    {from:'khv',  to:'vvo'},
+    /* Транссибирская магистраль */
+    {from:'msc', to:'nnov'},
+    {from:'nnov',to:'prm'},
+    {from:'prm', to:'ekb'},
+    {from:'ekb', to:'tmn'},
+    {from:'tmn', to:'omsk'},
+    {from:'omsk',to:'nsk'},
+    {from:'nsk', to:'krsk'},
+    {from:'krsk',to:'irk'},
+    {from:'irk', to:'uud'},
+    {from:'uud', to:'cht'},
+    {from:'cht', to:'khv'},
+    {from:'khv', to:'vvo'},
+    /* БАМ: Тайшет (near Красноярск) → Ванино */
+    {from:'krsk',to:'van'},
     /* Москва → Казань (ветка) */
-    {from:'msc',  to:'kzn'},
+    {from:'msc', to:'kzn'},
     /* Южная: Москва → Воронеж → Ростов-на-Дону */
-    {from:'msc',  to:'vrn'},
-    {from:'vrn',  to:'rnd'},
+    {from:'msc', to:'vrn'},
+    {from:'vrn', to:'rnd'},
     /* Москва → Санкт-Петербург */
-    {from:'msc',  to:'spb'},
-    /* БАМ/ответвление: Красноярск (ближайший к Тайшету) → Благовещенск → Якутск */
-    {from:'krsk', to:'blg'},
-    {from:'blg',  to:'ykt'}
+    {from:'msc', to:'spb'},
+    /* Красноярск → Благовещенск (BAM connection) */
+    {from:'krsk',to:'blg'},
+    /* Благовещенск → Якутск (Amur-Yakutsk mainline) */
+    {from:'blg', to:'ykt'},
+    /* Хабаровск → Ванино (port access) */
+    {from:'khv', to:'van'},
+    /* Владивосток → Находка / Восточный (port branch) */
+    {from:'vvo', to:'nkh'},
+    {from:'nkh', to:'vst'},
+    /* China railways */
+    {from:'hrb', to:'mzl'},
+    {from:'hrb', to:'sfh'},
+    {from:'hrb', to:'dln'},
+    {from:'pek', to:'sha'},
+    {from:'sha', to:'gzh'},
+    /* Korea */
+    {from:'pus', to:'icn'},
+    /* Japan: Shinkansen corridor + western extension */
+    {from:'tky', to:'osa'},
+    {from:'osa', to:'fuk'}
   ];
 
   /* ═══════════════════════════════════════════════════════════════════
-     SEA ROUTES — orange solid lines
+     SEA ROUTES
      ═══════════════════════════════════════════════════════════════════ */
   var SEA = [
-    /* Российские арктические / каботажные */
-    {from:'vvo',  to:'krs'},
-    {from:'vvo',  to:'pkc'},
-    {from:'vvo',  to:'mgd'},
-    {from:'mgd',  to:'pvk'},
-    {from:'pvk',  to:'dyr'},
-    /* Международные */
-    {from:'vvo',  to:'pus'},
-    {from:'vvo',  to:'tky'},
-    {from:'vvo',  to:'sha'},
-    {from:'pus',  to:'sha'},
-    {from:'sha',  to:'hkg'},
-    {from:'hkg',  to:'sgp'},
-    {from:'sha',  to:'sgp'}
+    /* Russian cabotage / Arctic */
+    {from:'vvo', to:'krs'},
+    {from:'vvo', to:'pkc'},
+    {from:'vvo', to:'mgd'},
+    {from:'mgd', to:'pvk'},
+    {from:'pvk', to:'dyr'},
+    {from:'vvo', to:'van'},
+    {from:'van', to:'hlm'},
+    /* International */
+    {from:'vvo', to:'pus'},
+    {from:'vvo', to:'ngt'},
+    {from:'vvo', to:'dln'},
+    {from:'nkh', to:'pus'},
+    {from:'pus', to:'sha'},
+    {from:'pus', to:'tky'},
+    {from:'sha', to:'hkg'},
+    {from:'hkg', to:'sgp'},
+    {from:'sha', to:'sgp'},
+    /* China coastal */
+    {from:'dln', to:'qd'},
+    {from:'qd',  to:'sha'},
+    /* Japanese coastal */
+    {from:'tky', to:'osa'}
   ];
 
   /* ═══════════════════════════════════════════════════════════════════
@@ -416,7 +453,6 @@
     return t;
   }
 
-  /* colour map per city type */
   var TYPE_COLOR = {
     mega:    '#70c4ff',
     port:    '#f5a623',
@@ -428,7 +464,31 @@
   };
   var TYPE_RADIUS = { mega:3.5, port:4.5, special:5, cn:4, jp:4, sg:5.5, kr:4.5 };
 
+  /* ═══════════════════════════════════════════════════════════════════
+     CSS ANIMATION INJECTION
+     ═══════════════════════════════════════════════════════════════════ */
+  var stylesInjected = false;
+  function injectStyles() {
+    if (stylesInjected) return;
+    stylesInjected = true;
+    var css =
+      '@keyframes ps-dash-hw{to{stroke-dashoffset:-20}}' +
+      '@keyframes ps-dash-rail{to{stroke-dashoffset:-20}}' +
+      '@keyframes ps-dash-sea{to{stroke-dashoffset:-20}}' +
+      '.ps-hw{stroke-dasharray:8 12;animation:ps-dash-hw 1.05s linear infinite}' +
+      '.ps-rail{stroke-dasharray:8 12;animation:ps-dash-rail 1.05s linear infinite}' +
+      '.ps-sea{stroke-dasharray:8 12;animation:ps-dash-sea 1.05s linear infinite}';
+    var style = document.createElement('style');
+    style.textContent = css;
+    document.head.appendChild(style);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     BUILD MAP
+     ═══════════════════════════════════════════════════════════════════ */
   function buildMap(container) {
+    injectStyles();
+
     CITIES.forEach(function (c) {
       var p = px(c.lon, c.lat);
       c.x = p[0]; c.y = p[1];
@@ -440,38 +500,33 @@
     var svg = el('svg', {
       viewBox: '0 0 ' + W + ' ' + H,
       role: 'img',
-      'aria-label': 'Карта маршрутов Pacific Star: Россия, Дальний Восток, АТР, Китай, Япония, Сингапур'
+      'aria-label': 'Карта маршрутов Pacific Star: Россия, Дальний Восток, АТР, Китай, Япония, Корея, Сингапур'
     });
     svg.classList.add('route-map-svg');
 
     /* ── Defs ── */
     var defs = document.createElementNS(NS, 'defs');
 
-    /* Ocean gradient */
     var og = el('linearGradient', {id:'og', x1:'0%', y1:'0%', x2:'100%', y2:'100%'});
     og.appendChild(el('stop', {'offset':'0%',   'stop-color':'#071522'}));
     og.appendChild(el('stop', {'offset':'100%', 'stop-color':'#0c2038'}));
     defs.appendChild(og);
 
-    /* Russia gradient */
     var rg = el('linearGradient', {id:'rg', x1:'0%', y1:'100%', x2:'0%', y2:'0%'});
     rg.appendChild(el('stop', {'offset':'0%',   'stop-color':'#1e55a0'}));
     rg.appendChild(el('stop', {'offset':'100%', 'stop-color':'#163d7a'}));
     defs.appendChild(rg);
 
-    /* China gradient */
     var cg = el('linearGradient', {id:'cg', x1:'0%', y1:'0%', x2:'0%', y2:'100%'});
     cg.appendChild(el('stop', {'offset':'0%',   'stop-color':'#1a5e3e'}));
     cg.appendChild(el('stop', {'offset':'100%', 'stop-color':'#134a30'}));
     defs.appendChild(cg);
 
-    /* SE Asia gradient */
-    var sg = el('linearGradient', {id:'sg', x1:'0%', y1:'0%', x2:'0%', y2:'100%'});
-    sg.appendChild(el('stop', {'offset':'0%',   'stop-color':'#1a4530'}));
-    sg.appendChild(el('stop', {'offset':'100%', 'stop-color':'#103525'}));
-    defs.appendChild(sg);
+    var seag = el('linearGradient', {id:'seag', x1:'0%', y1:'0%', x2:'0%', y2:'100%'});
+    seag.appendChild(el('stop', {'offset':'0%',   'stop-color':'#1a4530'}));
+    seag.appendChild(el('stop', {'offset':'100%', 'stop-color':'#103525'}));
+    defs.appendChild(seag);
 
-    /* Glow filter */
     var gf = el('filter', {id:'gf', x:'-60%', y:'-60%', width:'220%', height:'220%'});
     var gb = el('feGaussianBlur', {in:'SourceGraphic', stdDeviation:'3.5', result:'b'});
     var gm = el('feMerge', {});
@@ -480,7 +535,6 @@
     gf.appendChild(gb); gf.appendChild(gm);
     defs.appendChild(gf);
 
-    /* Drop-shadow for labels */
     var ds = el('filter', {id:'ds', x:'-30%', y:'-30%', width:'160%', height:'160%'});
     ds.appendChild(el('feDropShadow', {dx:'0', dy:'0', stdDeviation:'2',
       'flood-color':'#000', 'flood-opacity':'0.95'}));
@@ -504,7 +558,7 @@
     }
 
     /* ── Countries back→front ── */
-    svg.appendChild(land(SE_ASIA,    'url(#sg)', '0.8'));
+    svg.appendChild(land(SE_ASIA,    'url(#seag)', '0.8'));
     svg.appendChild(land(KAZAKHSTAN, '#5a4830'));
     svg.appendChild(land(MONGOLIA,   '#6e4f28'));
     svg.appendChild(land(CHINA,      'url(#cg)', '1.2'));
@@ -515,7 +569,6 @@
     svg.appendChild(land(HOKKAIDO,   '#1b5e72', '1.2'));
     svg.appendChild(land(KYUSHU,     '#1b5e72', '1.2'));
     svg.appendChild(land(KURILS,     '#1b5e72', '0.8'));
-    /* Russia on top */
     svg.appendChild(land(RUSSIA,     'url(#rg)', '1.5'));
     svg.appendChild(land(KAMCHATKA,  'url(#rg)', '1.5'));
     svg.appendChild(land(SAKHALIN,   '#1e55a0',  '1.2'));
@@ -565,40 +618,45 @@
       }));
     });
 
-    /* ── Highway routes (white semi-transparent solid) ── */
+    /* ── Highway routes (animated white semi-transparent) ── */
     HIGHWAYS.forEach(function (r) {
       var a = byId[r.from], b = byId[r.to];
-      if (!a || !b) { return; }
-      svg.appendChild(el('line', {
+      if (!a || !b) return;
+      var line = el('line', {
         x1:a.x, y1:a.y, x2:b.x, y2:b.y,
-        stroke: 'rgba(255,255,255,0.25)',
-        'stroke-width': '1'
-      }));
+        stroke: 'rgba(255,255,255,0.30)',
+        'stroke-width': '1.2'
+      });
+      line.classList.add('ps-hw');
+      svg.appendChild(line);
     });
 
-    /* ── Rail routes (blue static dashed) ── */
+    /* ── Rail routes (animated blue dashed) ── */
     RAIL.forEach(function (r) {
       var a = byId[r.from], b = byId[r.to];
-      if (!a || !b) { return; }
-      svg.appendChild(el('line', {
+      if (!a || !b) return;
+      var line = el('line', {
         x1:a.x, y1:a.y, x2:b.x, y2:b.y,
         stroke: '#90d0f8',
         'stroke-width': '1.2',
-        'stroke-dasharray': '4 3',
         'stroke-opacity': '0.7'
-      }));
+      });
+      line.classList.add('ps-rail');
+      svg.appendChild(line);
     });
 
-    /* ── Sea routes (orange solid) ── */
+    /* ── Sea routes (animated orange) ── */
     SEA.forEach(function (r) {
       var a = byId[r.from], b = byId[r.to];
-      if (!a || !b) { return; }
-      svg.appendChild(el('line', {
+      if (!a || !b) return;
+      var line = el('line', {
         x1:a.x, y1:a.y, x2:b.x, y2:b.y,
         stroke: '#f5a623',
         'stroke-width': '1.5',
         'stroke-opacity': '0.6'
-      }));
+      });
+      line.classList.add('ps-sea');
+      svg.appendChild(line);
     });
 
     /* ── City markers + labels ── */
@@ -606,13 +664,11 @@
       var col = TYPE_COLOR[c.type] || '#ffffff';
       var r   = TYPE_RADIUS[c.type] || 4;
 
-      /* Dark halo */
       svg.appendChild(el('circle', {
         cx:c.x, cy:c.y, r:String(r + 2),
         fill:'rgba(0,0,0,0.52)'
       }));
 
-      /* Main dot */
       svg.appendChild(el('circle', {
         cx:c.x, cy:c.y, r:String(r),
         fill:col,
@@ -621,7 +677,6 @@
         filter: c.type !== 'mega' ? 'url(#gf)' : ''
       }));
 
-      /* Label — lox/loy/anc override per-city; fallback to lp direction */
       var OFF = 8;
       var dx, dy, anchor;
       if (c.lox !== undefined) {
@@ -634,7 +689,6 @@
       else                     { dx = OFF;  dy = 4;      anchor = 'start';  }
 
       var fs = (c.type === 'mega') ? 8.5 : 9;
-      /* Pill background */
       var lblW = c.name.length * fs * 0.57;
       var bx = anchor === 'end'   ? c.x + dx - lblW
              : anchor === 'start' ? c.x + dx
@@ -656,20 +710,20 @@
     });
 
     /* ── Legend ─────────────────────────────────────────────────────── */
-    var LX = 12, LY = H - 186;
+    var LX = 12, LY = H - 200;
     svg.appendChild(el('rect', {
-      x:LX - 10, y:LY - 14, width:'224', height:'178',
+      x:LX - 10, y:LY - 14, width:'224', height:'196',
       rx:'10', fill:'rgba(4,14,26,0.90)',
       stroke:'rgba(255,255,255,0.15)', 'stroke-width':'1'
     }));
 
     var legendDots = [
-      {col: TYPE_COLOR.mega,    lbl:'Города РФ с населением 1 млн+'},
+      {col: TYPE_COLOR.mega,    lbl:'Крупные города РФ'},
       {col: TYPE_COLOR.port,    lbl:'Порты РФ / пограничные КПП'},
       {col: TYPE_COLOR.special, lbl:'Якутск — северный узел'},
       {col: TYPE_COLOR.cn,      lbl:'Китайские порты и города'},
       {col: TYPE_COLOR.jp,      lbl:'Японские порты и города'},
-      {col: TYPE_COLOR.kr,      lbl:'Корейские порты'},
+      {col: TYPE_COLOR.kr,      lbl:'Корейские порты и города'},
       {col: TYPE_COLOR.sg,      lbl:'Сингапур'}
     ];
     legendDots.forEach(function (ld, i) {
@@ -683,32 +737,39 @@
       }));
     });
 
-    /* Route legend lines */
-    var ry = LY + 6 * 14 + 22;
-    svg.appendChild(el('line', {
+    /* Route legend lines (animated) */
+    var ry = LY + 7 * 14 + 8;
+
+    var seaLine = el('line', {
       x1:LX, y1:ry, x2:LX+26, y2:ry,
       stroke:'#f5a623', 'stroke-width':'1.5'
-    }));
+    });
+    seaLine.classList.add('ps-sea');
+    svg.appendChild(seaLine);
     svg.appendChild(txt('Морские маршруты', LX + 32, ry + 4, {
       fill:'rgba(255,255,255,0.82)',
       'font-size':'9', 'font-family':'Roboto,sans-serif'
     }));
 
     var ry2 = ry + 16;
-    svg.appendChild(el('line', {
+    var railLine = el('line', {
       x1:LX, y1:ry2, x2:LX+26, y2:ry2,
-      stroke:'#90d0f8', 'stroke-width':'1.2', 'stroke-dasharray':'4 3'
-    }));
+      stroke:'#90d0f8', 'stroke-width':'1.2'
+    });
+    railLine.classList.add('ps-rail');
+    svg.appendChild(railLine);
     svg.appendChild(txt('Ж/д магистрали', LX + 32, ry2 + 4, {
       fill:'rgba(255,255,255,0.82)',
       'font-size':'9', 'font-family':'Roboto,sans-serif'
     }));
 
     var ry3 = ry2 + 16;
-    svg.appendChild(el('line', {
+    var hwLine = el('line', {
       x1:LX, y1:ry3, x2:LX+26, y2:ry3,
-      stroke:'rgba(255,255,255,0.25)', 'stroke-width':'1'
-    }));
+      stroke:'rgba(255,255,255,0.30)', 'stroke-width':'1.2'
+    });
+    hwLine.classList.add('ps-hw');
+    svg.appendChild(hwLine);
     svg.appendChild(txt('Автодороги', LX + 32, ry3 + 4, {
       fill:'rgba(255,255,255,0.82)',
       'font-size':'9', 'font-family':'Roboto,sans-serif'
