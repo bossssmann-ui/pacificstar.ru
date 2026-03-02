@@ -723,7 +723,7 @@
       {col: TYPE_COLOR.special, lbl:'Якутск — северный узел'},
       {col: TYPE_COLOR.cn,      lbl:'Китайские порты и города'},
       {col: TYPE_COLOR.jp,      lbl:'Японские порты и города'},
-      {col: TYPE_COLOR.kr,      lbl:'Корейские порты и города'},
+      {col: TYPE_COLOR.kr,      lbl:'Корейские порты'},
       {col: TYPE_COLOR.sg,      lbl:'Сингапур'}
     ];
     legendDots.forEach(function (ld, i) {
