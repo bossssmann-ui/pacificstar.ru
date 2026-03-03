@@ -369,6 +369,7 @@ p { margin-bottom: 1rem; }
    ========================================= */
 .hero {
   min-height: 100vh;
+  background: rgba(0,0,0,0.15);
   display: flex;
   align-items: center;
   padding-top: 72px;
@@ -1045,6 +1046,7 @@ p { margin-bottom: 1rem; }
    ABOUT PAGE
    ========================================= */
 .page-hero {
+  background: rgba(0,0,0,0.15);
   padding: 140px 0 80px;
   text-align: center;
   position: relative;
