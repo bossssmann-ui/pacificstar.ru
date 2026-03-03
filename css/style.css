@@ -369,7 +369,6 @@ p { margin-bottom: 1rem; }
    ========================================= */
 .hero {
   min-height: 100vh;
-  background: #111;
   display: flex;
   align-items: center;
   padding-top: 72px;
@@ -385,7 +384,7 @@ p { margin-bottom: 1rem; }
   top: -15%;
   height: 130%;
   background: url('../img/port-de-barcelona-night.jpg') center 40% / cover no-repeat;
-  opacity: 0.45;
+  opacity: 0.75;
   z-index: 0;
   will-change: transform;
   transform: translateY(0);
@@ -667,7 +666,7 @@ p { margin-bottom: 1rem; }
    STATS SECTION
    ========================================= */
 .stats {
-  background: #222;
+  background: var(--color-light);
   padding: 70px 0;
 }
 
@@ -679,13 +678,13 @@ p { margin-bottom: 1rem; }
 }
 
 .stat-item {
-  color: var(--color-white);
+  color: var(--color-text);
 }
 
 .stat-num {
   font-size: clamp(2.4rem, 5vw, 3.4rem);
   font-weight: 800;
-  color: var(--color-accent);
+  color: var(--color-primary);
   display: block;
   line-height: 1;
   margin-bottom: 8px;
@@ -693,7 +692,7 @@ p { margin-bottom: 1rem; }
 
 .stat-label {
   font-size: 0.9rem;
-  color: rgba(255,255,255,0.8);
+  color: var(--color-muted);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -849,7 +848,7 @@ p { margin-bottom: 1rem; }
    CTA SECTION
    ========================================= */
 .cta-section {
-  background: #222;
+  background: var(--color-light);
   padding: 80px 0;
   text-align: center;
   position: relative;
@@ -862,7 +861,7 @@ p { margin-bottom: 1rem; }
   width: 400px;
   height: 400px;
   border-radius: 50%;
-  background: rgba(245,166,35,0.08);
+  background: rgba(13,43,94,0.06);
   top: -200px;
   right: -100px;
 }
@@ -873,7 +872,7 @@ p { margin-bottom: 1rem; }
   width: 300px;
   height: 300px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.04);
+  background: rgba(13,43,94,0.04);
   bottom: -150px;
   left: -80px;
 }
@@ -884,12 +883,12 @@ p { margin-bottom: 1rem; }
 }
 
 .cta-title {
-  color: var(--color-white);
+  color: var(--color-text);
   margin-bottom: 16px;
 }
 
 .cta-desc {
-  color: rgba(255,255,255,0.8);
+  color: var(--color-muted);
   font-size: 1.05rem;
   margin-bottom: 40px;
   max-width: 520px;
@@ -908,8 +907,8 @@ p { margin-bottom: 1rem; }
    FOOTER
    ========================================= */
 .site-footer {
-  background: #1a1a1a;
-  color: rgba(255,255,255,0.75);
+  background: var(--color-light);
+  color: var(--color-text);
   padding: 64px 0 0;
 }
 
@@ -918,7 +917,7 @@ p { margin-bottom: 1rem; }
   grid-template-columns: 2fr 1fr 1fr 1.5fr;
   gap: 48px;
   padding-bottom: 48px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .footer-brand .logo {
@@ -927,7 +926,7 @@ p { margin-bottom: 1rem; }
 
 .footer-brand .logo-text strong,
 .footer-brand .logo-text span {
-  color: rgba(255,255,255,0.9);
+  color: var(--color-text);
 }
 
 .footer-brand p {
@@ -945,8 +944,8 @@ p { margin-bottom: 1rem; }
   width: 38px;
   height: 38px;
   border-radius: 8px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(13,43,94,0.08);
+  border: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -964,7 +963,7 @@ p { margin-bottom: 1rem; }
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: var(--color-white);
+  color: var(--color-primary);
   margin-bottom: 20px;
 }
 
@@ -976,7 +975,7 @@ p { margin-bottom: 1rem; }
 
 .footer-nav a {
   font-size: 0.92rem;
-  color: rgba(255,255,255,0.7);
+  color: var(--color-text);
   transition: color var(--transition), padding-left var(--transition);
 }
 
@@ -1005,7 +1004,7 @@ p { margin-bottom: 1rem; }
 }
 
 .footer-contact-item a {
-  color: rgba(255,255,255,0.7);
+  color: var(--color-text);
   transition: color var(--transition);
 }
 
@@ -1024,7 +1023,7 @@ p { margin-bottom: 1rem; }
 
 .footer-bottom-text {
   font-size: 0.86rem;
-  color: rgba(255,255,255,0.5);
+  color: var(--color-muted);
 }
 
 .footer-bottom-links {
@@ -1034,7 +1033,7 @@ p { margin-bottom: 1rem; }
 
 .footer-bottom-links a {
   font-size: 0.86rem;
-  color: rgba(255,255,255,0.5);
+  color: var(--color-muted);
   transition: color var(--transition);
 }
 
@@ -1046,7 +1045,6 @@ p { margin-bottom: 1rem; }
    ABOUT PAGE
    ========================================= */
 .page-hero {
-  background: #111;
   padding: 140px 0 80px;
   text-align: center;
   position: relative;
@@ -1061,7 +1059,7 @@ p { margin-bottom: 1rem; }
   top: -15%;
   height: 130%;
   background: url('../img/port-de-barcelona-night.jpg') center 40% / cover no-repeat;
-  opacity: 0.45;
+  opacity: 0.75;
   z-index: 0;
   will-change: transform;
   transform: translateY(0);
