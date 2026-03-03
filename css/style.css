@@ -369,8 +369,7 @@ p { margin-bottom: 1rem; }
    ========================================= */
 .hero {
   min-height: 100vh;
-  /* Синий градиент — самый нижний слой */
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  background: #111;
   display: flex;
   align-items: center;
   padding-top: 72px;
@@ -378,7 +377,7 @@ p { margin-bottom: 1rem; }
   overflow: hidden;
 }
 
-/* ── Фотография порта — поверх синего фона, под текстом ── */
+/* ── Фотография порта — под текстом ── */
 .hero::after {
   content: '';
   position: absolute;
@@ -386,7 +385,6 @@ p { margin-bottom: 1rem; }
   top: -15%;
   height: 130%;
   background: url('../img/port-de-barcelona-night.jpg') center 40% / cover no-repeat;
-  /* Небольшая прозрачность, чтобы синий фон просвечивал снизу */
   opacity: 0.45;
   z-index: 0;
   will-change: transform;
