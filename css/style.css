@@ -667,7 +667,7 @@ p { margin-bottom: 1rem; }
    STATS SECTION
    ========================================= */
 .stats {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  background: #222;
   padding: 70px 0;
 }
 
@@ -849,7 +849,7 @@ p { margin-bottom: 1rem; }
    CTA SECTION
    ========================================= */
 .cta-section {
-  background: linear-gradient(135deg, #0d2b5e 0%, #1a4da0 100%);
+  background: #222;
   padding: 80px 0;
   text-align: center;
   position: relative;
@@ -908,7 +908,7 @@ p { margin-bottom: 1rem; }
    FOOTER
    ========================================= */
 .site-footer {
-  background: #0a1e40;
+  background: #1a1a1a;
   color: rgba(255,255,255,0.75);
   padding: 64px 0 0;
 }
@@ -1046,7 +1046,7 @@ p { margin-bottom: 1rem; }
    ABOUT PAGE
    ========================================= */
 .page-hero {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  background: #111;
   padding: 140px 0 80px;
   text-align: center;
   position: relative;
