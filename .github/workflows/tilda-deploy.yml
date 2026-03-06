@@ -59,6 +59,7 @@ jobs:
             --exclude='README.md' \
             --exclude='TILDA_COPILOT_ACCESS.md' \
             --exclude='TILDA_SETUP.md' \
+            --exclude='SMTP_SETUP.md' \
             --exclude='package*.json' \
             --exclude='.htmlvalidate.json' \
             --exclude='.gitignore' \
