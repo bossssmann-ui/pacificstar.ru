@@ -1,6 +1,19 @@
 {
+  "name": "pacificstar-server",
+  "version": "1.0.0",
+  "description": "Pacific Star website with SMTP email server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "validate": "html-validate *.html"
+  },
   "devDependencies": {
     "html-validate": "^10.9.0",
     "playwright": "^1.58.2"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "nodemailer": "^8.0.1"
   }
 }

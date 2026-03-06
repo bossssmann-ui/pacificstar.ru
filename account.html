@@ -246,8 +246,8 @@
             <div class="dash-smtp-notice" id="dashSmtpNotice" style="display:none;" aria-live="polite">
               <span aria-hidden="true">⚠️</span>
               <div>
-                <strong>Подтверждение e-mail временно недоступно</strong>
-                <p>Сейчас SMTP-сервер не настроен, поэтому письмо с подтверждением не было отправлено. Функция станет доступна после подключения почтового сервиса. Ваш аккаунт уже активен.</p>
+                <strong>Не удалось отправить подтверждение</strong>
+                <p>Проверьте SMTP-настройки сервера (файл .env). Убедитесь, что SMTP_HOST, SMTP_USER и SMTP_PASS заполнены. Ваш аккаунт уже активен.</p>
               </div>
             </div>
 
@@ -934,14 +934,32 @@
         var nameVal = (document.getElementById('regName').value || '').trim();
         var lastVal = (document.getElementById('regLastName').value || '').trim();
         var emailVal = (document.getElementById('regEmail').value || '').trim();
+        var phoneVal = (document.getElementById('regPhone').value || '').trim();
         var fullName = (nameVal + ' ' + lastVal).trim();
         btn.disabled = true;
         btn.textContent = 'Регистрируем…';
-        setTimeout(function () {
+
+        fetch('/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            firstName: nameVal,
+            lastName: lastVal,
+            email: emailVal,
+            phone: phoneVal
+          })
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          btn.disabled = false;
+          btn.textContent = 'Зарегистрироваться';
+          showDashboard(fullName, emailVal, !data.ok);
+        })
+        .catch(function () {
           btn.disabled = false;
           btn.textContent = 'Зарегистрироваться';
           showDashboard(fullName, emailVal, true);
-        }, 1500);
+        });
       });
     }
 
