@@ -1,0 +1,146 @@
+name: SSL Certificate — Let's Encrypt для pacificstar.ru
+
+# Запуск вручную + автоматическое обновление каждые 2 месяца
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 4 1 */2 *'   # 1-го числа каждого 2-го месяца в 04:00 UTC
+
+concurrency:
+  group: ssl-certificate
+  cancel-in-progress: false
+
+jobs:
+  # ─────────────────────────────────────────────────────────────
+  # Выпуск / обновление SSL-сертификата через Let's Encrypt
+  # Использует certbot с HTTP-01 challenge и FTP для доставки файлов
+  # ─────────────────────────────────────────────────────────────
+  issue-certificate:
+    name: 🔒 Выпустить SSL-сертификат
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      TW_HOST: ${{ secrets.TIMEWEB_HOST }}
+      TW_USER: ${{ secrets.TIMEWEB_USER }}
+      LFTP_PASSWORD: ${{ secrets.TIMEWEB_PASSWORD }}
+      DOMAIN: pacificstar.ru
+      EMAIL: info@pacificstar.ru
+
+    steps:
+      - name: Скачать код репозитория
+        uses: actions/checkout@v4
+
+      - name: Проверить секреты
+        run: |
+          MISSING=""
+          if [ -z "$TW_HOST" ];       then MISSING="$MISSING TIMEWEB_HOST"; fi
+          if [ -z "$TW_USER" ];       then MISSING="$MISSING TIMEWEB_USER"; fi
+          if [ -z "$LFTP_PASSWORD" ];  then MISSING="$MISSING TIMEWEB_PASSWORD"; fi
+          if [ -n "$MISSING" ]; then
+            echo "❌ Не хватает секретов:$MISSING"
+            echo "   Добавьте их: https://github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions"
+            exit 1
+          fi
+          echo "✅ Все секреты найдены"
+
+      - name: Установить certbot и lftp
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq certbot lftp
+
+      - name: Подготовить скрипты
+        run: |
+          chmod +x .github/scripts/certbot-auth-hook.sh
+          chmod +x .github/scripts/certbot-cleanup-hook.sh
+
+      - name: Создать .well-known/acme-challenge на сервере
+        run: |
+          lftp -u "$TW_USER,$LFTP_PASSWORD" "ftp://$TW_HOST" <<'LFTP_CMDS'
+            set ftp:ssl-allow yes
+            set ftp:ssl-force no
+            set ftp:passive-mode yes
+            set net:timeout 30
+            set cmd:fail-exit no
+            mkdir -p /public_html/.well-known
+            mkdir -p /public_html/.well-known/acme-challenge
+            bye
+          LFTP_CMDS
+          echo "✅ Директория .well-known/acme-challenge создана"
+
+      - name: Выпустить сертификат Let's Encrypt
+        run: |
+          sudo certbot certonly \
+            --non-interactive \
+            --agree-tos \
+            --email "$EMAIL" \
+            --preferred-challenges http \
+            --manual \
+            --manual-auth-hook    "$(pwd)/.github/scripts/certbot-auth-hook.sh" \
+            --manual-cleanup-hook "$(pwd)/.github/scripts/certbot-cleanup-hook.sh" \
+            -d "$DOMAIN" \
+            -d "www.$DOMAIN"
+
+          echo "✅ Сертификат выпущен!"
+
+      - name: Скопировать сертификаты
+        run: |
+          sudo mkdir -p /tmp/ssl-cert
+          sudo cp /etc/letsencrypt/live/$DOMAIN/fullchain.pem /tmp/ssl-cert/
+          sudo cp /etc/letsencrypt/live/$DOMAIN/privkey.pem   /tmp/ssl-cert/
+          sudo cp /etc/letsencrypt/live/$DOMAIN/cert.pem      /tmp/ssl-cert/
+          sudo cp /etc/letsencrypt/live/$DOMAIN/chain.pem     /tmp/ssl-cert/
+          sudo chmod 644 /tmp/ssl-cert/*.pem
+          echo "📜 Файлы сертификата:"
+          ls -la /tmp/ssl-cert/
+          echo ""
+          echo "📋 Информация о сертификате:"
+          openssl x509 -in /tmp/ssl-cert/cert.pem -noout -subject -issuer -dates
+
+      - name: Загрузить сертификат на сервер
+        run: |
+          lftp -u "$TW_USER,$LFTP_PASSWORD" "ftp://$TW_HOST" <<'LFTP_CMDS'
+            set ftp:ssl-allow yes
+            set ftp:ssl-force no
+            set ftp:passive-mode yes
+            set net:timeout 30
+            set net:max-retries 3
+            set cmd:fail-exit no
+            mkdir -p /ssl-cert
+            set cmd:fail-exit yes
+            lcd /tmp/ssl-cert
+            cd /ssl-cert
+            put fullchain.pem
+            put privkey.pem
+            put cert.pem
+            put chain.pem
+            bye
+          LFTP_CMDS
+          echo "✅ Сертификаты загружены на сервер в /ssl-cert/"
+
+      - name: Сохранить сертификат как артефакт
+        uses: actions/upload-artifact@v4
+        with:
+          name: ssl-certificate-${{ env.DOMAIN }}
+          path: /tmp/ssl-cert/
+          retention-days: 90
+
+      - name: Итог
+        run: |
+          echo "═══════════════════════════════════════════════"
+          echo "✅ SSL-сертификат для $DOMAIN выпущен!"
+          echo "═══════════════════════════════════════════════"
+          echo ""
+          echo "📂 Файлы на сервере: /ssl-cert/"
+          echo "   • fullchain.pem — полная цепочка сертификатов"
+          echo "   • privkey.pem   — приватный ключ"
+          echo "   • cert.pem      — сертификат домена"
+          echo "   • chain.pem     — промежуточный сертификат"
+          echo ""
+          echo "📋 Следующий шаг:"
+          echo "   Установите сертификат в панели Timeweb:"
+          echo "   1. Откройте Панель → Сайты → $DOMAIN → SSL"
+          echo "   2. Выберите «Установить свой сертификат»"
+          echo "   3. Вставьте содержимое fullchain.pem и privkey.pem"
+          echo "   Или включите автоматический Let's Encrypt в панели Timeweb."
+          echo ""
+          echo "🔄 Автоматическое обновление: 1-го числа каждого 2-го месяца"
