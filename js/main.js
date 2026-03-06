@@ -269,9 +269,11 @@
         submitBtn.innerHTML = 'Отправить заявку <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
 
         if (successMsg) {
+          successMsg.textContent = '❌ Не удалось отправить заявку. Попробуйте позже или позвоните нам.';
           successMsg.classList.add('show');
           setTimeout(function () {
             successMsg.classList.remove('show');
+            successMsg.innerHTML = '<span aria-hidden="true" style="font-size:1.2rem;">✅</span> Заявка отправлена! Мы свяжемся с вами в течение 15 минут.';
           }, 6000);
         }
       });

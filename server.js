@@ -48,7 +48,17 @@ app.use(express.static(path.join(__dirname), {
 
 /** Simple email-format check */
 function isValidEmail(value) {
-  return typeof value === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  return typeof value === 'string' && /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(value);
+}
+
+/** Escape HTML special characters to prevent XSS */
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 /** Send an email — falls back to console.log when SMTP is not configured */
@@ -76,7 +86,7 @@ function confirmationHtml(name) {
     '  <p style="margin:4px 0 0;opacity:.8;font-size:.9rem;">Транспортно-логистическая компания</p>',
     '</div>',
     '<div style="background:#f9fafb;padding:32px;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;">',
-    '  <h2 style="margin:0 0 12px;font-size:1.2rem;">Добро пожаловать, ' + name + '!</h2>',
+    '  <h2 style="margin:0 0 12px;font-size:1.2rem;">Добро пожаловать, ' + escapeHtml(name) + '!</h2>',
     '  <p style="color:#555;line-height:1.6;">',
     '    Ваша регистрация в личном кабинете Pacific Star прошла успешно.',
     '    Теперь вы можете отслеживать грузы, управлять заявками и получать уведомления о статусе доставки.',
@@ -100,11 +110,11 @@ function contactHtml(data) {
     '<html lang="ru"><head><meta charset="utf-8"></head><body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">',
     '<h2 style="color:#1a2744;">Новая заявка с сайта pacificstar.ru</h2>',
     '<table style="border-collapse:collapse;width:100%;">',
-    '<tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Имя</td><td style="padding:8px;border-bottom:1px solid #eee;">' + (data.name || '—') + '</td></tr>',
-    '<tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">E-mail</td><td style="padding:8px;border-bottom:1px solid #eee;">' + (data.email || '—') + '</td></tr>',
-    '<tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Телефон</td><td style="padding:8px;border-bottom:1px solid #eee;">' + (data.phone || '—') + '</td></tr>',
-    '<tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Услуга</td><td style="padding:8px;border-bottom:1px solid #eee;">' + (data.service || '—') + '</td></tr>',
-    '<tr><td style="padding:8px;font-weight:bold;vertical-align:top;">Сообщение</td><td style="padding:8px;">' + (data.message || '—') + '</td></tr>',
+    '<tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Имя</td><td style="padding:8px;border-bottom:1px solid #eee;">' + escapeHtml(data.name || '—') + '</td></tr>',
+    '<tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">E-mail</td><td style="padding:8px;border-bottom:1px solid #eee;">' + escapeHtml(data.email || '—') + '</td></tr>',
+    '<tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Телефон</td><td style="padding:8px;border-bottom:1px solid #eee;">' + escapeHtml(data.phone || '—') + '</td></tr>',
+    '<tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Услуга</td><td style="padding:8px;border-bottom:1px solid #eee;">' + escapeHtml(data.service || '—') + '</td></tr>',
+    '<tr><td style="padding:8px;font-weight:bold;vertical-align:top;">Сообщение</td><td style="padding:8px;">' + escapeHtml(data.message || '—') + '</td></tr>',
     '</table>',
     '</body></html>',
   ].join('\n');
