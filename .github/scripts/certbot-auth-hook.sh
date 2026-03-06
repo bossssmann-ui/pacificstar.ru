@@ -7,6 +7,7 @@
 # Переменные окружения (от certbot):
 #   CERTBOT_VALIDATION — содержимое файла проверки
 #   CERTBOT_TOKEN      — имя файла в .well-known/acme-challenge/
+#   CERTBOT_DOMAIN     — домен, для которого выполняется проверка
 #
 # Переменные окружения (от workflow):
 #   TW_HOST — хост FTP-сервера
@@ -39,7 +40,7 @@ LFTP_CMDS
 echo "✅ Challenge-файл загружен: ${CHALLENGE_DIR}/${CERTBOT_TOKEN}"
 
 # Даём серверу время обработать файл
-sleep 3
+sleep 5
 
 # Проверяем доступность файла
 HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \

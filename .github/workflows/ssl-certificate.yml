@@ -10,6 +10,9 @@ concurrency:
   group: ssl-certificate
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 jobs:
   # ─────────────────────────────────────────────────────────────
   # Выпуск / обновление SSL-сертификата через Let's Encrypt
@@ -22,6 +25,7 @@ jobs:
     env:
       TW_HOST: ${{ secrets.TIMEWEB_HOST }}
       TW_USER: ${{ secrets.TIMEWEB_USER }}
+      # LFTP_PASSWORD используется lftp; значение берётся из секрета TIMEWEB_PASSWORD
       LFTP_PASSWORD: ${{ secrets.TIMEWEB_PASSWORD }}
       DOMAIN: pacificstar.ru
       EMAIL: info@pacificstar.ru
