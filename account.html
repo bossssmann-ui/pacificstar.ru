@@ -113,6 +113,9 @@
           <button type="button" role="tab" class="account-tab" data-tab="register" aria-selected="false" id="tab-register">
             ✍️ Регистрация
           </button>
+          <button type="button" role="tab" class="account-tab" data-tab="dashboard" aria-selected="false" id="tab-dashboard" style="display:none;">
+            👤 Мой кабинет
+          </button>
           <button type="button" role="tab" class="account-tab" data-tab="track" aria-selected="false" id="tab-track">
             📦 Отследить груз
           </button>
@@ -221,6 +224,132 @@
               <button type="submit" class="btn btn-primary account-submit">Зарегистрироваться</button>
               <p class="account-switch">Уже есть аккаунт? <a href="#" class="account-link" data-switch="signin">Войти</a></p>
             </form>
+          </div>
+        </div>
+
+        <!-- ── Dashboard (shown after login / registration) ── -->
+        <div class="account-panel hidden" id="panel-dashboard" role="tabpanel" aria-labelledby="tab-dashboard">
+          <div class="dashboard-wrap fade-in">
+
+            <!-- Profile card -->
+            <div class="dash-profile-card">
+              <div class="dash-avatar" aria-hidden="true">👤</div>
+              <div class="dash-profile-info">
+                <h2 class="dash-profile-name" id="dashName">—</h2>
+                <p class="dash-profile-email" id="dashEmail">—</p>
+                <span class="dash-profile-badge">Клиент</span>
+              </div>
+              <button type="button" class="btn btn-outline dash-logout-btn" id="dashLogout">Выйти</button>
+            </div>
+
+            <!-- SMTP notice -->
+            <div class="dash-smtp-notice" id="dashSmtpNotice" style="display:none;" aria-live="polite">
+              <span aria-hidden="true">⚠️</span>
+              <div>
+                <strong>Подтверждение e-mail временно недоступно</strong>
+                <p>Сейчас SMTP-сервер не настроен, поэтому письмо с подтверждением не было отправлено. Функция станет доступна после подключения почтового сервиса. Ваш аккаунт уже активен.</p>
+              </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="dash-stats">
+              <div class="dash-stat-card">
+                <div class="dash-stat-icon" aria-hidden="true">📦</div>
+                <div class="dash-stat-value">4</div>
+                <div class="dash-stat-label">Активных заявок</div>
+              </div>
+              <div class="dash-stat-card">
+                <div class="dash-stat-icon" aria-hidden="true">✅</div>
+                <div class="dash-stat-value">12</div>
+                <div class="dash-stat-label">Доставлено</div>
+              </div>
+              <div class="dash-stat-card">
+                <div class="dash-stat-icon" aria-hidden="true">📑</div>
+                <div class="dash-stat-value">8</div>
+                <div class="dash-stat-label">Документов</div>
+              </div>
+              <div class="dash-stat-card">
+                <div class="dash-stat-icon" aria-hidden="true">🔔</div>
+                <div class="dash-stat-value">2</div>
+                <div class="dash-stat-label">Уведомления</div>
+              </div>
+            </div>
+
+            <!-- Quick actions -->
+            <div class="dash-section">
+              <h3 class="dash-section-title">Быстрые действия</h3>
+              <div class="dash-actions">
+                <button type="button" class="dash-action-btn" data-switch="neworder">
+                  <span class="dash-action-icon" aria-hidden="true">➕</span>
+                  <span>Создать заявку</span>
+                </button>
+                <button type="button" class="dash-action-btn" data-switch="track">
+                  <span class="dash-action-icon" aria-hidden="true">🔍</span>
+                  <span>Отследить груз</span>
+                </button>
+                <button type="button" class="dash-action-btn" data-switch="orders">
+                  <span class="dash-action-icon" aria-hidden="true">📋</span>
+                  <span>Мои заявки</span>
+                </button>
+                <a href="contacts.html#contactForm" class="dash-action-btn">
+                  <span class="dash-action-icon" aria-hidden="true">💬</span>
+                  <span>Связаться</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Recent orders -->
+            <div class="dash-section">
+              <h3 class="dash-section-title">Последние заявки</h3>
+              <div class="orders-list" role="list" aria-label="Последние заявки">
+                <div class="order-row">
+                  <div class="order-num">PS-2025-005678</div>
+                  <div class="order-info">
+                    <div class="order-route">Москва → Магадан (море + авто)</div>
+                    <div class="order-meta">Сборный груз · 3 200 кг · 10.02.2025</div>
+                  </div>
+                  <span class="order-status st-transit">🚢 В пути</span>
+                </div>
+                <div class="order-row">
+                  <div class="order-num">PS-2025-007890</div>
+                  <div class="order-info">
+                    <div class="order-route">Токио → Владивосток → Якутск</div>
+                    <div class="order-meta">20' контейнер · 12 000 кг · 18.02.2025</div>
+                  </div>
+                  <span class="order-status st-customs">🛃 На таможне</span>
+                </div>
+              </div>
+              <div style="margin-top:14px;">
+                <button type="button" class="account-link" data-switch="orders" style="background:none;border:none;cursor:pointer;font-size:0.9rem;">Смотреть все заявки →</button>
+              </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="dash-section">
+              <h3 class="dash-section-title">Уведомления</h3>
+              <div class="dash-notifications">
+                <div class="dash-notif">
+                  <span class="dash-notif-icon" aria-hidden="true">🚢</span>
+                  <div class="dash-notif-body">
+                    <div class="dash-notif-text">Груз PS-2025-005678 прибыл в порт Магадана</div>
+                    <div class="dash-notif-time">2 часа назад</div>
+                  </div>
+                </div>
+                <div class="dash-notif">
+                  <span class="dash-notif-icon" aria-hidden="true">🛃</span>
+                  <div class="dash-notif-body">
+                    <div class="dash-notif-text">Груз PS-2025-007890 проходит таможенный контроль</div>
+                    <div class="dash-notif-time">вчера, 14:30</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="account-crm-notice">
+              <span aria-hidden="true">🔗</span>
+              <span>Данные демонстрационные. После подключения AmoCRM здесь будут ваши реальные заявки и уведомления.</span>
+            </div>
+
           </div>
         </div>
 
@@ -737,23 +866,54 @@
       });
     }
 
+    /* ── Show dashboard after login / register ── */
+    function showDashboard(name, email, showSmtpNotice) {
+      var dashTab = document.getElementById('tab-dashboard');
+      var signinTab = document.getElementById('tab-signin');
+      var registerTab = document.getElementById('tab-register');
+      if (dashTab) dashTab.style.display = '';
+      if (signinTab) signinTab.style.display = 'none';
+      if (registerTab) registerTab.style.display = 'none';
+
+      var nameEl = document.getElementById('dashName');
+      var emailEl = document.getElementById('dashEmail');
+      if (nameEl) nameEl.textContent = name || 'Пользователь';
+      if (emailEl) emailEl.textContent = email || '—';
+
+      var smtpNotice = document.getElementById('dashSmtpNotice');
+      if (smtpNotice) smtpNotice.style.display = showSmtpNotice ? 'flex' : 'none';
+
+      switchTab('dashboard');
+      window.scrollTo({ top: document.querySelector('.account-tabs').offsetTop - 80, behavior: 'smooth' });
+    }
+
+    /* Logout */
+    var logoutBtn = document.getElementById('dashLogout');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', function () {
+        var dashTab = document.getElementById('tab-dashboard');
+        var signinTab = document.getElementById('tab-signin');
+        var registerTab = document.getElementById('tab-register');
+        if (dashTab) dashTab.style.display = 'none';
+        if (signinTab) signinTab.style.display = '';
+        if (registerTab) registerTab.style.display = '';
+        switchTab('signin');
+      });
+    }
+
     /* Sign in form */
     var signinForm = document.getElementById('signinForm');
     if (signinForm) {
       signinForm.addEventListener('submit', function (e) {
         e.preventDefault();
         var btn = signinForm.querySelector('[type="submit"]');
+        var emailVal = (document.getElementById('signinEmail').value || '').trim();
         btn.disabled = true;
         btn.textContent = 'Входим…';
         setTimeout(function () {
           btn.disabled = false;
           btn.textContent = 'Войти';
-          /* Show stub dashboard notice */
-          var notice = document.createElement('div');
-          notice.className = 'form-success show';
-          notice.innerHTML = '✅ Демо-вход выполнен. Полный функционал будет доступен после подключения AmoCRM.';
-          signinForm.appendChild(notice);
-          setTimeout(function () { notice.remove(); }, 6000);
+          showDashboard(emailVal.split('@')[0], emailVal, false);
         }, 1200);
       });
     }
@@ -771,16 +931,16 @@
           cnf.focus();
           return;
         }
+        var nameVal = (document.getElementById('regName').value || '').trim();
+        var lastVal = (document.getElementById('regLastName').value || '').trim();
+        var emailVal = (document.getElementById('regEmail').value || '').trim();
+        var fullName = (nameVal + ' ' + lastVal).trim();
         btn.disabled = true;
         btn.textContent = 'Регистрируем…';
         setTimeout(function () {
           btn.disabled = false;
           btn.textContent = 'Зарегистрироваться';
-          var notice = document.createElement('div');
-          notice.className = 'form-success show';
-          notice.innerHTML = '✅ Аккаунт создан! На вашу почту отправлено письмо с подтверждением.';
-          registerForm.appendChild(notice);
-          setTimeout(function () { notice.remove(); }, 6000);
+          showDashboard(fullName, emailVal, true);
         }, 1500);
       });
     }
