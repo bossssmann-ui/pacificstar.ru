@@ -13,9 +13,9 @@
 (function () {
   'use strict';
 
-  var W = 1200, H = 720;
-  var LON_MIN = 20, LON_MAX = 198;
-  var LAT_MAX = 78, LAT_MIN = 1;
+  var W = 1200, H = 660;
+  var LON_MIN = 18, LON_MAX = 185;
+  var LAT_MAX = 78, LAT_MIN = 30;
 
   function mercatorY(lat) {
     var latRad = lat * Math.PI / 180;
@@ -41,11 +41,11 @@
   /* ═══════════════════════════════════════════════════════════════════
      ЦВЕТА (тёмно-синяя логистическая тема)
      ═══════════════════════════════════════════════════════════════════ */
-  var C_OCEAN   = '#1e3a6e';
-  var C_RUSSIA  = '#5a8ebb';
-  var C_RBORD   = '#6da8d8';
-  var C_FOREIGN = '#243f72';
-  var C_FBORD   = '#3a5a8a';
+  var C_OCEAN   = '#2b4d8a';
+  var C_RUSSIA  = '#6a9fc8';
+  var C_RBORD   = '#7ab0d8';
+  var C_FOREIGN = 'none';
+  var C_FBORD   = 'rgba(106,159,200,0.35)';
 
   /* ═══════════════════════════════════════════════════════════════════
      ПОЛИГОНЫ СУШИ — координаты [lon, lat]
@@ -522,33 +522,18 @@
      ═══════════════════════════════════════════════════════════════════ */
 
   var CITIES = [
-    {name: 'Находка',           lon: 132.9, lat: 42.8, star: false, home: true,  label: 'right'},
-    {name: 'Владивосток',       lon: 131.9, lat: 43.1, star: false, label: 'left'},
-    {name: 'Москва',            lon: 37.6,  lat: 55.75, star: true, label: 'left'},
+    {name: 'Находка',           lon: 132.9, lat: 42.8, star: false, home: true,  label: 'bottom-right'},
+    {name: 'Москва',            lon: 37.6,  lat: 55.75, star: true, label: 'top'},
     {name: 'Санкт-Петербург',   lon: 30.3,  lat: 59.95, star: false, label: 'top'},
-    {name: 'Екатеринбург',      lon: 60.6,  lat: 56.85, star: false, label: 'right'},
-    {name: 'Новосибирск',       lon: 82.9,  lat: 55.0,  star: false, label: 'right'},
-    {name: 'Красноярск',        lon: 92.9,  lat: 56.0,  star: false, label: 'right'},
-    {name: 'Хабаровск',         lon: 135.1, lat: 48.5,  star: false, label: 'right'},
-    {name: 'Иркутск',           lon: 104.3, lat: 52.3,  star: false, label: 'right'},
-    {name: 'Якутск',            lon: 129.7, lat: 62.0,  star: false, label: 'right'},
-    {name: 'Петропавловск-Камчатский', lon: 158.6, lat: 53.0, star: false, label: 'bottom'}
+    {name: 'Екатеринбург',      lon: 60.6,  lat: 56.85, star: false, label: 'top'},
+    {name: 'Новосибирск',       lon: 82.9,  lat: 55.0,  star: false, label: 'top'}
   ];
 
   var ROUTES = [
-    [0, 7],  // Находка → Хабаровск
-    [0, 8],  // Находка → Иркутск
-    [0, 5],  // Находка → Новосибирск
-    [0, 4],  // Находка → Екатеринбург
-    [0, 2],  // Находка → Москва
-    [0, 3],  // Находка → Санкт-Петербург
-    [0, 9],  // Находка → Якутск
-    [0, 10], // Находка → Петропавловск-Камчатский
-    [2, 3],  // Москва → Санкт-Петербург
-    [2, 4],  // Москва → Екатеринбург
-    [4, 5],  // Екатеринбург → Новосибирск
-    [5, 6],  // Новосибирск → Красноярск
-    [6, 8],  // Красноярск → Иркутск
+    [0, 1],  // Находка → Москва
+    [0, 2],  // Находка → Санкт-Петербург
+    [0, 3],  // Находка → Екатеринбург
+    [0, 4],  // Находка → Новосибирск
   ];
 
   /* ═══════════════════════════════════════════════════════════════════
@@ -613,7 +598,7 @@
       return el('polygon', {
         points: polyStr(pts),
         fill: C_OCEAN,
-        stroke: '#2a5080',
+        stroke: 'rgba(106,159,200,0.25)',
         'stroke-width': '0.5',
         'stroke-linejoin': 'round'
       });
@@ -664,126 +649,151 @@
     svg.appendChild(water(CASPIAN));
     svg.appendChild(water(BAIKAL));
 
-    /* ══ 4. Водяной знак «РОССИЯ» ══ */
-    var rwm = px(100, 65.5);
-    svg.appendChild(txt('РОССИЯ', rwm[0].toFixed(1), rwm[1].toFixed(1), {
-      fill: 'rgba(255,255,255,0.12)',
-      'font-size': '28',
-      'font-family': 'Arial,Helvetica,sans-serif',
-      'font-weight': '700',
-      'letter-spacing': '8',
-      'text-anchor': 'middle',
-      'pointer-events': 'none'
-    }));
-
-    /* ══ 5. Маршрутные линии (безье-кривые) ══ */
+    /* ══ 4. Маршрутные линии (безье-кривые) ══ */
     ROUTES.forEach(function (r) {
       var a = CITIES[r[0]], b = CITIES[r[1]];
       var p0 = px(a.lon, a.lat), p1 = px(b.lon, b.lat);
       var mx = (p0[0] + p1[0]) / 2;
       var my = (p0[1] + p1[1]) / 2;
       var dist = Math.sqrt(Math.pow(p1[0] - p0[0], 2) + Math.pow(p1[1] - p0[1], 2));
-      var offset = dist * 0.2;
-      var cx = mx, cy = my - offset;
+      var offset = dist * 0.18;
+      var ctrlX = mx, ctrlY = my - offset;
 
       var d = 'M' + p0[0].toFixed(1) + ',' + p0[1].toFixed(1) +
-              ' Q' + cx.toFixed(1) + ',' + cy.toFixed(1) +
+              ' Q' + ctrlX.toFixed(1) + ',' + ctrlY.toFixed(1) +
               ' ' + p1[0].toFixed(1) + ',' + p1[1].toFixed(1);
 
       svg.appendChild(el('path', {
         d: d,
         fill: 'none',
-        stroke: 'rgba(255,255,255,0.55)',
-        'stroke-width': '2',
-        'stroke-linecap': 'round',
-        'stroke-dasharray': 'none'
+        stroke: 'rgba(255,255,255,0.65)',
+        'stroke-width': '2.5',
+        'stroke-linecap': 'round'
       }));
 
       /* Промежуточные точки вдоль кривой */
-      for (var t = 0.25; t <= 0.75; t += 0.25) {
+      for (var t = 0.2; t <= 0.8; t += 0.2) {
         var u = 1 - t;
-        var qx = u * u * p0[0] + 2 * u * t * cx + t * t * p1[0];
-        var qy = u * u * p0[1] + 2 * u * t * cy + t * t * p1[1];
+        var qx = u * u * p0[0] + 2 * u * t * ctrlX + t * t * p1[0];
+        var qy = u * u * p0[1] + 2 * u * t * ctrlY + t * t * p1[1];
         svg.appendChild(el('circle', {
-          cx: qx.toFixed(1), cy: qy.toFixed(1), r: '2.5',
-          fill: 'rgba(255,255,255,0.5)'
+          cx: qx.toFixed(1), cy: qy.toFixed(1), r: '3.5',
+          fill: 'rgba(200,210,220,0.6)',
+          stroke: 'none'
         }));
       }
     });
 
-    /* ══ 6. Города (маркеры + подписи) ══ */
-    CITIES.forEach(function (city, idx) {
+    /* ══ 5. Города (маркеры + подписи) ══ */
+    CITIES.forEach(function (city) {
       var c = px(city.lon, city.lat);
-      var cx = c[0], cy = c[1];
+      var cxV = c[0], cyV = c[1];
 
-      /* Маркер: белый круг */
-      svg.appendChild(el('circle', {
-        cx: cx.toFixed(1), cy: cy.toFixed(1),
-        r: city.home ? '6' : '4.5',
-        fill: 'white',
-        stroke: '#1a2d5e',
-        'stroke-width': '1.5'
-      }));
-
-      /* Москва: красная звезда */
-      if (city.star) {
-        svg.appendChild(txt('★', (cx + 0.5).toFixed(1), (cy + 3.5).toFixed(1), {
-          fill: '#ff4444',
-          'font-size': '11',
-          'text-anchor': 'middle',
-          'pointer-events': 'none'
-        }));
-      }
-
-      /* Находка: двойной круг-логотип */
+      /* Находка: special compass-logo marker */
       if (city.home) {
+        /* Outer ring */
         svg.appendChild(el('circle', {
-          cx: cx.toFixed(1), cy: cy.toFixed(1),
-          r: '9',
-          fill: 'none',
-          stroke: 'rgba(255,255,255,0.6)',
-          'stroke-width': '1.5'
+          cx: cxV.toFixed(1), cy: cyV.toFixed(1),
+          r: '14',
+          fill: '#1e3a6e',
+          stroke: 'rgba(255,255,255,0.7)',
+          'stroke-width': '2'
         }));
+        /* Inner white circle */
+        svg.appendChild(el('circle', {
+          cx: cxV.toFixed(1), cy: cyV.toFixed(1),
+          r: '9',
+          fill: 'white',
+          stroke: 'none'
+        }));
+        /* Blue center */
+        svg.appendChild(el('circle', {
+          cx: cxV.toFixed(1), cy: cyV.toFixed(1),
+          r: '5',
+          fill: '#2b4d8a',
+          stroke: 'none'
+        }));
+        /* Red accent arc (top-right quarter) */
+        var arcR = 7;
+        var ax1 = cxV, ay1 = cyV - arcR;
+        var ax2 = cxV + arcR, ay2 = cyV;
+        svg.appendChild(el('path', {
+          d: 'M' + ax1.toFixed(1) + ',' + ay1.toFixed(1) +
+             ' A' + arcR + ',' + arcR + ' 0 0 1 ' + ax2.toFixed(1) + ',' + ay2.toFixed(1),
+          fill: 'none',
+          stroke: '#e74c3c',
+          'stroke-width': '3',
+          'stroke-linecap': 'round'
+        }));
+      } else {
+        /* Regular city: white dot */
+        var dotR = city.star ? '7' : '6';
+        svg.appendChild(el('circle', {
+          cx: cxV.toFixed(1), cy: cyV.toFixed(1),
+          r: dotR,
+          fill: 'white',
+          stroke: 'rgba(255,255,255,0.3)',
+          'stroke-width': '2'
+        }));
+
+        /* Москва: красная звезда below the dot */
+        if (city.star) {
+          svg.appendChild(el('circle', {
+            cx: cxV.toFixed(1), cy: (cyV + 18).toFixed(1),
+            r: '10',
+            fill: 'white',
+            stroke: 'none'
+          }));
+          svg.appendChild(txt('★', cxV.toFixed(1), (cyV + 22.5).toFixed(1), {
+            fill: '#e74c3c',
+            'font-size': '16',
+            'text-anchor': 'middle',
+            'pointer-events': 'none'
+          }));
+        }
       }
 
       /* Подпись: тёмная плашка с белым текстом */
       var name = city.name;
-      var fontSize = 10;
-      /* Average Cyrillic char width at 10px bold Arial (~6.2px) */
-      var CHAR_W = 6.2;
-      var LABEL_PAD = 10;
-      var LABEL_H = 16;
-      var GAP_RIGHT = 12;
-      var GAP_LEFT = 8;
-      var GAP_TOP = 16;
-      var GAP_BOTTOM = 14;
+      var fontSize = city.home ? 14 : 13;
+      var CHAR_W = city.home ? 7.8 : 7.2;
+      var LABEL_PAD = 16;
+      var LABEL_H = city.home ? 28 : 24;
       var labelW = name.length * CHAR_W + LABEL_PAD;
 
-      /* Label placement based on city's label property */
       var lx, ly;
-      var pos = city.label || 'right';
-      if (pos === 'right')       { lx = cx + GAP_RIGHT;          ly = cy + 4; }
-      else if (pos === 'left')   { lx = cx - labelW - GAP_LEFT;  ly = cy + 4; }
-      else if (pos === 'top')    { lx = cx - labelW / 2;         ly = cy - GAP_TOP; }
-      else if (pos === 'bottom') { lx = cx - labelW / 2;         ly = cy + GAP_BOTTOM; }
+      var pos = city.label || 'top';
+      if (pos === 'top') {
+        lx = cxV - labelW / 2;
+        ly = cyV - 22;
+      } else if (pos === 'bottom-right') {
+        lx = cxV + 18;
+        ly = cyV + 20;
+      } else if (pos === 'right') {
+        lx = cxV + 16;
+        ly = cyV + 4;
+      } else if (pos === 'left') {
+        lx = cxV - labelW - 12;
+        ly = cyV + 4;
+      }
 
       /* Скруглённый прямоугольник */
       svg.appendChild(el('rect', {
         x: lx.toFixed(1),
-        y: (ly - LABEL_H + 4).toFixed(1),
+        y: (ly - LABEL_H + 6).toFixed(1),
         width: labelW.toFixed(1),
         height: LABEL_H.toFixed(0),
-        rx: '4', ry: '4',
-        fill: '#1a2d5e',
-        stroke: 'rgba(255,255,255,0.2)',
-        'stroke-width': '0.5'
+        rx: '5', ry: '5',
+        fill: '#1a2d5a',
+        stroke: 'rgba(255,255,255,0.15)',
+        'stroke-width': '1'
       }));
 
-      svg.appendChild(txt(name, (lx + 5).toFixed(1), (ly).toFixed(1), {
+      svg.appendChild(txt(name, (lx + LABEL_PAD / 2).toFixed(1), (ly).toFixed(1), {
         fill: 'white',
         'font-size': String(fontSize),
         'font-family': 'Arial,Helvetica,sans-serif',
-        'font-weight': '700',
+        'font-weight': '600',
         'pointer-events': 'none'
       }));
     });
