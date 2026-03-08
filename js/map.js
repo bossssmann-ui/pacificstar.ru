@@ -749,25 +749,30 @@
       /* Подпись: тёмная плашка с белым текстом */
       var name = city.name;
       var fontSize = 10;
-      /* Approximate char width for 10px Arial bold */
-      var charW = 5.8;
-      var labelW = name.length * charW + 10;
-      var labelH = 16;
+      /* Average Cyrillic char width at 10px bold Arial (~6.2px) */
+      var CHAR_W = 6.2;
+      var LABEL_PAD = 10;
+      var LABEL_H = 16;
+      var GAP_RIGHT = 12;
+      var GAP_LEFT = 8;
+      var GAP_TOP = 16;
+      var GAP_BOTTOM = 14;
+      var labelW = name.length * CHAR_W + LABEL_PAD;
 
       /* Label placement based on city's label property */
       var lx, ly;
       var pos = city.label || 'right';
-      if (pos === 'right')       { lx = cx + 12;              ly = cy + 4; }
-      else if (pos === 'left')   { lx = cx - labelW - 8;      ly = cy + 4; }
-      else if (pos === 'top')    { lx = cx - labelW / 2;      ly = cy - 16; }
-      else if (pos === 'bottom') { lx = cx - labelW / 2;      ly = cy + 14; }
+      if (pos === 'right')       { lx = cx + GAP_RIGHT;          ly = cy + 4; }
+      else if (pos === 'left')   { lx = cx - labelW - GAP_LEFT;  ly = cy + 4; }
+      else if (pos === 'top')    { lx = cx - labelW / 2;         ly = cy - GAP_TOP; }
+      else if (pos === 'bottom') { lx = cx - labelW / 2;         ly = cy + GAP_BOTTOM; }
 
       /* Скруглённый прямоугольник */
       svg.appendChild(el('rect', {
         x: lx.toFixed(1),
-        y: (ly - labelH + 4).toFixed(1),
+        y: (ly - LABEL_H + 4).toFixed(1),
         width: labelW.toFixed(1),
-        height: labelH.toFixed(0),
+        height: LABEL_H.toFixed(0),
         rx: '4', ry: '4',
         fill: '#1a2d5e',
         stroke: 'rgba(255,255,255,0.2)',
