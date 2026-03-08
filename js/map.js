@@ -43,8 +43,8 @@
      ═══════════════════════════════════════════════════════════════════ */
   var C_OCEAN   = '#1e3a6e';
   var C_RUSSIA  = '#5a8ebb';
-  var C_RBORD   = '#6a9fd5';
-  var C_FOREIGN = '#2a4a7a';
+  var C_RBORD   = '#6da8d8';
+  var C_FOREIGN = '#243f72';
   var C_FBORD   = '#3a5a8a';
 
   /* ═══════════════════════════════════════════════════════════════════
@@ -667,7 +667,7 @@
     /* ══ 4. Водяной знак «РОССИЯ» ══ */
     var rwm = px(100, 65.5);
     svg.appendChild(txt('РОССИЯ', rwm[0].toFixed(1), rwm[1].toFixed(1), {
-      fill: 'rgba(255,255,255,0.08)',
+      fill: 'rgba(255,255,255,0.12)',
       'font-size': '28',
       'font-family': 'Arial,Helvetica,sans-serif',
       'font-weight': '700',
@@ -693,8 +693,8 @@
       svg.appendChild(el('path', {
         d: d,
         fill: 'none',
-        stroke: 'rgba(255,255,255,0.45)',
-        'stroke-width': '1.8',
+        stroke: 'rgba(255,255,255,0.55)',
+        'stroke-width': '2',
         'stroke-linecap': 'round',
         'stroke-dasharray': 'none'
       }));
@@ -705,8 +705,8 @@
         var qx = u * u * p0[0] + 2 * u * t * cx + t * t * p1[0];
         var qy = u * u * p0[1] + 2 * u * t * cy + t * t * p1[1];
         svg.appendChild(el('circle', {
-          cx: qx.toFixed(1), cy: qy.toFixed(1), r: '2',
-          fill: 'rgba(255,255,255,0.4)'
+          cx: qx.toFixed(1), cy: qy.toFixed(1), r: '2.5',
+          fill: 'rgba(255,255,255,0.5)'
         }));
       }
     });
