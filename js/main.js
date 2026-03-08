@@ -20,7 +20,7 @@
   onScroll();
 
   /* Mark active nav link based on current page */
-  const navLinks = document.querySelectorAll('.nav-link');
+  const navLinks = document.querySelectorAll('.nav-link, .nav-dropdown-link');
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
 
   navLinks.forEach(function (link) {
@@ -29,6 +29,16 @@
       link.classList.add('active');
     }
   });
+
+  /* Also mark parent "Услуги" nav-link active when on a sub-page */
+  var servicePages = ['services.html', 'truck-delivery.html', 'remote-regions.html'];
+  if (servicePages.indexOf(currentPath) !== -1) {
+    document.querySelectorAll('.nav-item .nav-link').forEach(function (link) {
+      if (link.getAttribute('href') === 'services.html') {
+        link.classList.add('active');
+      }
+    });
+  }
 
   /* =======================================
      BURGER MENU (mobile)
@@ -43,8 +53,22 @@
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
-    /* Close on nav link click */
-    mobileNav.querySelectorAll('.nav-link').forEach(function (link) {
+    /* Mobile nav: expandable "Услуги" group */
+    mobileNav.querySelectorAll('.mobile-nav-toggle').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        btn.parentElement.classList.toggle('open');
+      });
+    });
+
+    /* Auto-open mobile group if current page is inside it */
+    if (servicePages.indexOf(currentPath) !== -1) {
+      mobileNav.querySelectorAll('.mobile-nav-group').forEach(function (g) {
+        g.classList.add('open');
+      });
+    }
+
+    /* Close on nav link click (skip toggle buttons) */
+    mobileNav.querySelectorAll('a.nav-link').forEach(function (link) {
       link.addEventListener('click', function () {
         burger.classList.remove('open');
         mobileNav.classList.remove('open');

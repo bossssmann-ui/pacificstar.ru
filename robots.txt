@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /START.html
+Disallow: /hello.html
+
+Sitemap: https://pacificstar.ru/sitemap.xml
