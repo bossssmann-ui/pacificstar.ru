@@ -4067,3 +4067,92 @@ select.form-control {
 @media (max-width: 400px) {
   .dash-stats { grid-template-columns: 1fr; }
 }
+
+/* ========== SEE-ALSO NAV CARDS ========== */
+.see-also-section { background: var(--color-white); }
+
+.see-also-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin: 0 auto;
+}
+
+.see-also-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  background: var(--color-light);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: transform var(--transition), box-shadow var(--transition);
+  border: 1px solid transparent;
+}
+
+.see-also-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-accent);
+}
+
+.see-also-icon { font-size: 2rem; flex-shrink: 0; }
+
+.see-also-card strong {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 4px;
+  color: var(--color-primary);
+}
+
+.see-also-card p {
+  font-size: 0.88rem;
+  color: var(--color-muted);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.see-also-arrow {
+  flex-shrink: 0;
+  font-size: 1.3rem;
+  color: var(--color-accent);
+  margin-left: auto;
+}
+
+/* ========== SERVICE CARD DOUBLE ACTION ========== */
+.service-card-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* ========== FORM SUCCESS LINKS ========== */
+.form-success-links {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+
+.form-success-links a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.form-success-links a:hover {
+  color: var(--color-accent-dark);
+}
+
+/* ========== SEE-ALSO RESPONSIVE ========== */
+@media (max-width: 640px) {
+  .see-also-grid { grid-template-columns: 1fr; }
+  .see-also-card { padding: 16px; }
+  .service-card-actions { flex-direction: column; }
+  .service-card-actions .btn { width: 100%; justify-content: center; text-align: center; }
+}
