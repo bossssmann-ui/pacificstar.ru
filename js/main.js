@@ -30,15 +30,47 @@
     }
   });
 
-  /* Also mark parent "Услуги" nav-link active when on a sub-page */
+  /* Also mark parent "Услуги" nav-toggle active when on a sub-page */
   var servicePages = ['services.html', 'truck-delivery.html', 'remote-regions.html'];
   if (servicePages.indexOf(currentPath) !== -1) {
-    document.querySelectorAll('.nav-item .nav-link').forEach(function (link) {
-      if (link.getAttribute('href') === 'services.html') {
-        link.classList.add('active');
-      }
+    document.querySelectorAll('.nav-item .nav-toggle').forEach(function (btn) {
+      btn.classList.add('active');
     });
   }
+
+  /* =======================================
+     DESKTOP NAV DROPDOWN: click to toggle
+     ======================================= */
+  document.querySelectorAll('.nav-item .nav-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var item = btn.closest('.nav-item');
+      var wasOpen = item.classList.contains('open');
+
+      /* Close any already-open dropdown */
+      document.querySelectorAll('.nav-item.open').forEach(function (el) {
+        el.classList.remove('open');
+        var toggle = el.querySelector('.nav-toggle');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+      });
+
+      if (!wasOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  /* Close desktop dropdown on outside click */
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.nav-item')) {
+      document.querySelectorAll('.nav-item.open').forEach(function (el) {
+        el.classList.remove('open');
+        var toggle = el.querySelector('.nav-toggle');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
 
   /* =======================================
      BURGER MENU (mobile)

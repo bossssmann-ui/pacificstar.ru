@@ -276,10 +276,35 @@ p { margin-bottom: 1rem; }
   position: relative;
 }
 
-.nav-item .nav-link {
+.nav-item .nav-link,
+.nav-item .nav-toggle {
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+.nav-toggle {
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.92rem;
+  color: var(--color-text);
+  white-space: nowrap;
+  transition: color var(--transition), background var(--transition);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.nav-toggle:hover,
+.nav-toggle.active {
+  color: var(--color-primary);
+  background: var(--color-light);
+}
+
+.nav-toggle.active {
+  font-weight: 700;
 }
 
 .nav-chevron {
@@ -306,7 +331,8 @@ p { margin-bottom: 1rem; }
   z-index: 2000;
 }
 
-.nav-item:hover .nav-dropdown {
+.nav-item:hover .nav-dropdown,
+.nav-item.open .nav-dropdown {
   display: block;
 }
 
