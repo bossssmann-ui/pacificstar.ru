@@ -3076,6 +3076,20 @@ select.form-control {
   font-size: 0.875rem !important;
   padding: 8px 16px !important;
 }
+.btn-calc-route {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: #fff;
+  color: #2b4d8a;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  z-index: 2;
+}
 
 /* City group keyboard focus */
 .city-group:focus { outline: none; }

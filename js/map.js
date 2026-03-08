@@ -657,10 +657,10 @@
       var my = (p0[1] + p1[1]) / 2;
       var dist = Math.sqrt(Math.pow(p1[0] - p0[0], 2) + Math.pow(p1[1] - p0[1], 2));
       var offset = dist * 0.18;
-      var ctrlX = mx, ctrlY = my - offset;
+      var controlX = mx, controlY = my - offset;
 
       var d = 'M' + p0[0].toFixed(1) + ',' + p0[1].toFixed(1) +
-              ' Q' + ctrlX.toFixed(1) + ',' + ctrlY.toFixed(1) +
+              ' Q' + controlX.toFixed(1) + ',' + controlY.toFixed(1) +
               ' ' + p1[0].toFixed(1) + ',' + p1[1].toFixed(1);
 
       svg.appendChild(el('path', {
@@ -674,8 +674,8 @@
       /* Промежуточные точки вдоль кривой */
       for (var t = 0.2; t <= 0.8; t += 0.2) {
         var u = 1 - t;
-        var qx = u * u * p0[0] + 2 * u * t * ctrlX + t * t * p1[0];
-        var qy = u * u * p0[1] + 2 * u * t * ctrlY + t * t * p1[1];
+        var qx = u * u * p0[0] + 2 * u * t * controlX + t * t * p1[0];
+        var qy = u * u * p0[1] + 2 * u * t * controlY + t * t * p1[1];
         svg.appendChild(el('circle', {
           cx: qx.toFixed(1), cy: qy.toFixed(1), r: '3.5',
           fill: 'rgba(200,210,220,0.6)',
@@ -687,13 +687,13 @@
     /* ══ 5. Города (маркеры + подписи) ══ */
     CITIES.forEach(function (city) {
       var c = px(city.lon, city.lat);
-      var cxV = c[0], cyV = c[1];
+      var cityX = c[0], cityY = c[1];
 
       /* Находка: special compass-logo marker */
       if (city.home) {
         /* Outer ring */
         svg.appendChild(el('circle', {
-          cx: cxV.toFixed(1), cy: cyV.toFixed(1),
+          cx: cityX.toFixed(1), cy: cityY.toFixed(1),
           r: '14',
           fill: '#1e3a6e',
           stroke: 'rgba(255,255,255,0.7)',
@@ -701,22 +701,22 @@
         }));
         /* Inner white circle */
         svg.appendChild(el('circle', {
-          cx: cxV.toFixed(1), cy: cyV.toFixed(1),
+          cx: cityX.toFixed(1), cy: cityY.toFixed(1),
           r: '9',
           fill: 'white',
           stroke: 'none'
         }));
         /* Blue center */
         svg.appendChild(el('circle', {
-          cx: cxV.toFixed(1), cy: cyV.toFixed(1),
+          cx: cityX.toFixed(1), cy: cityY.toFixed(1),
           r: '5',
           fill: '#2b4d8a',
           stroke: 'none'
         }));
         /* Red accent arc (top-right quarter) */
         var arcR = 7;
-        var ax1 = cxV, ay1 = cyV - arcR;
-        var ax2 = cxV + arcR, ay2 = cyV;
+        var ax1 = cityX, ay1 = cityY - arcR;
+        var ax2 = cityX + arcR, ay2 = cityY;
         svg.appendChild(el('path', {
           d: 'M' + ax1.toFixed(1) + ',' + ay1.toFixed(1) +
              ' A' + arcR + ',' + arcR + ' 0 0 1 ' + ax2.toFixed(1) + ',' + ay2.toFixed(1),
@@ -729,7 +729,7 @@
         /* Regular city: white dot */
         var dotR = city.star ? '7' : '6';
         svg.appendChild(el('circle', {
-          cx: cxV.toFixed(1), cy: cyV.toFixed(1),
+          cx: cityX.toFixed(1), cy: cityY.toFixed(1),
           r: dotR,
           fill: 'white',
           stroke: 'rgba(255,255,255,0.3)',
@@ -739,12 +739,12 @@
         /* Москва: красная звезда below the dot */
         if (city.star) {
           svg.appendChild(el('circle', {
-            cx: cxV.toFixed(1), cy: (cyV + 18).toFixed(1),
+            cx: cityX.toFixed(1), cy: (cityY + 18).toFixed(1),
             r: '10',
             fill: 'white',
             stroke: 'none'
           }));
-          svg.appendChild(txt('★', cxV.toFixed(1), (cyV + 22.5).toFixed(1), {
+          svg.appendChild(txt('★', cityX.toFixed(1), (cityY + 22.5).toFixed(1), {
             fill: '#e74c3c',
             'font-size': '16',
             'text-anchor': 'middle',
@@ -764,17 +764,17 @@
       var lx, ly;
       var pos = city.label || 'top';
       if (pos === 'top') {
-        lx = cxV - labelW / 2;
-        ly = cyV - 22;
+        lx = cityX - labelW / 2;
+        ly = cityY - 22;
       } else if (pos === 'bottom-right') {
-        lx = cxV + 18;
-        ly = cyV + 20;
+        lx = cityX + 18;
+        ly = cityY + 20;
       } else if (pos === 'right') {
-        lx = cxV + 16;
-        ly = cyV + 4;
+        lx = cityX + 16;
+        ly = cityY + 4;
       } else if (pos === 'left') {
-        lx = cxV - labelW - 12;
-        ly = cyV + 4;
+        lx = cityX - labelW - 12;
+        ly = cityY + 4;
       }
 
       /* Скруглённый прямоугольник */
