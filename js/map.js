@@ -1,18 +1,14 @@
 /**
- * Pacific Star — Contour Map v9 (школьный атлас)
- * ================================================
- * Стиль: контурная карта в стиле школьного атласа
- *  - Светлый/белый фон, бежевая суша, голубая вода
- *  - Тонкие чёткие границы стран
- *  - Подписи стран и водоёмов
- *  - Без маршрутов, городов и анимаций
+ * Pacific Star — Logistics Route Map v10 (тёмный стиль)
+ * =====================================================
+ * Стиль: тёмно-синяя логистическая карта
+ *  - Тёмно-синий океан, Россия выделена голубым
+ *  - Белые маршрутные линии (безье-кривые)
+ *  - Города с подписями в тёмных плашках
+ *  - Профессиональный, минималистичный вид
  *
  * Проекция: Mercator  ДОЛ 20° – 198°  ШИР 1° – 78°
  * SVG canvas: 1200 × 720
- *
- * v9: исправлена топография — Байкал (узкий серп вместо гигантского пятна),
- *     Новая Земля (реальная ширина островов), Каспий (сужение в средней части),
- *     Белое/Чёрное/Азовское моря (более точные формы), граница в Приморье
  */
 (function () {
   'use strict';
@@ -43,21 +39,13 @@
   }
 
   /* ═══════════════════════════════════════════════════════════════════
-     ЦВЕТА (школьный атлас)
+     ЦВЕТА (тёмно-синяя логистическая тема)
      ═══════════════════════════════════════════════════════════════════ */
-  var C_OCEAN     = '#b4cfe0';
-  var C_RUSSIA    = '#d0dcbe';
-  var C_KZ        = '#e0dac4';
-  var C_MN        = '#ddd8c2';
-  var C_CN        = '#dbd7c4';
-  var C_JP        = '#e2ddc8';
-  var C_SE        = '#d8d4b8';
-  var C_EUR       = '#e4e0cc';
-  var C_WBORD     = '#777';
-  var C_RBORD     = '#555';
-  var C_WBORD_W   = '0.9';
-  var C_RBORD_W   = '1.2';
-  var C_WATERMARK = 'rgba(60,80,60,0.30)';
+  var C_OCEAN   = '#1e3a6e';
+  var C_RUSSIA  = '#5a8ebb';
+  var C_RBORD   = '#6a9fd5';
+  var C_FOREIGN = '#2a4a7a';
+  var C_FBORD   = '#3a5a8a';
 
   /* ═══════════════════════════════════════════════════════════════════
      ПОЛИГОНЫ СУШИ — координаты [lon, lat]
@@ -530,59 +518,37 @@
   ];
 
   /* ═══════════════════════════════════════════════════════════════════
-     ГЕОГРАФИЧЕСКИЕ ПОДПИСИ
+     ГОРОДА И МАРШРУТЫ
      ═══════════════════════════════════════════════════════════════════ */
 
-  /* Моря и океаны — курсив */
-  var SEAS = [
-    {lines:['Северный','Ледовитый','океан'], lon:90,  lat:75.5, sz:10},
-    {lines:['Баренцево','море'],             lon:38,  lat:73.5, sz:9},
-    {lines:['Карское','море'],               lon:70,  lat:73.5, sz:9},
-    {lines:['Берингово','море'],             lon:183, lat:63.0, sz:10},
-    {lines:['Охотское','море'],              lon:150, lat:55.5, sz:10},
-    {lines:['Японское','море'],              lon:134, lat:40.5, sz:10},
-    {lines:['Жёлтое','море'],               lon:121, lat:36.0, sz:9},
-    {lines:['Вост.-Китайское','море'],       lon:127, lat:28.5, sz:9},
-    {lines:['Южно-Китайское','море'],        lon:113, lat:14.0, sz:10},
-    {lines:['Тихий','океан'],               lon:178, lat:44.5, sz:11},
-    {lines:['Чёрное море'],                 lon:34,  lat:43.5, sz:8},
-    {lines:['Каспийское','море'],            lon:51,  lat:42.0, sz:8},
-    {lines:['Белое море'],                  lon:36,  lat:65.5, sz:7},
-    {lines:['Байкал'],                      lon:108.5, lat:54.0, sz:7},
-    {lines:['Сулу-море'],                   lon:121, lat:9.5,  sz:8}
+  var CITIES = [
+    {name: 'Находка',           lon: 132.9, lat: 42.8, star: false, home: true,  label: 'right'},
+    {name: 'Владивосток',       lon: 131.9, lat: 43.1, star: false, label: 'left'},
+    {name: 'Москва',            lon: 37.6,  lat: 55.75, star: true, label: 'left'},
+    {name: 'Санкт-Петербург',   lon: 30.3,  lat: 59.95, star: false, label: 'top'},
+    {name: 'Екатеринбург',      lon: 60.6,  lat: 56.85, star: false, label: 'right'},
+    {name: 'Новосибирск',       lon: 82.9,  lat: 55.0,  star: false, label: 'right'},
+    {name: 'Красноярск',        lon: 92.9,  lat: 56.0,  star: false, label: 'right'},
+    {name: 'Хабаровск',         lon: 135.1, lat: 48.5,  star: false, label: 'right'},
+    {name: 'Иркутск',           lon: 104.3, lat: 52.3,  star: false, label: 'right'},
+    {name: 'Якутск',            lon: 129.7, lat: 62.0,  star: false, label: 'right'},
+    {name: 'Петропавловск-Камчатский', lon: 158.6, lat: 53.0, star: false, label: 'bottom'}
   ];
 
-  /* Страны */
-  var COUNTRY_LABELS = [
-    {text:'РОССИЯ',       lon:100,  lat:65.5, sz:13},
-    {text:'КИТАЙ',        lon:104,  lat:33.0, sz:12},
-    {text:'МОНГОЛИЯ',     lon:104,  lat:46.0, sz:10},
-    {text:'КАЗАХСТАН',    lon:68,   lat:44.0, sz:10},
-    {text:'ЯПОНИЯ',       lon:135.5,lat:36.5, sz:10},
-    {text:'КОРЕЯ',        lon:127.5,lat:38.0, sz:9},
-    {text:'ВЬЕТНАМ',      lon:106,  lat:16.0, sz:9},
-    {text:'МАЛАЙЗИЯ',     lon:104,  lat:5.5,  sz:9},
-    {text:'ФИНЛЯНДИЯ',    lon:25.5, lat:64.5, sz:8},
-    {text:'ЭСТОНИЯ',      lon:26.0, lat:58.8, sz:7},
-    {text:'ЛАТВИЯ',       lon:25.5, lat:57.0, sz:7},
-    {text:'ЛИТВА',        lon:25.0, lat:55.5, sz:7},
-    {text:'БЕЛАРУСЬ',     lon:28.5, lat:53.5, sz:8},
-    {text:'УКРАИНА',      lon:32,   lat:49.0, sz:9},
-    {text:'ГРУЗИЯ',       lon:43.5, lat:42.0, sz:7},
-    {text:'АЗЕРБАЙДЖАН',  lon:48.0, lat:40.5, sz:7},
-    {text:'ТАЙВАНЬ',      lon:120.8,lat:23.8, sz:7},
-    {text:'ТУРЦИЯ',       lon:34.0, lat:39.0, sz:8},
-    {text:'ИРАН',         lon:55.0, lat:32.0, sz:9},
-    {text:'Калининград',  lon:21.5, lat:54.8, sz:6},
-    {text:'ФИЛИППИНЫ',    lon:122.0,lat:15.5, sz:8},
-    {text:'ИНДОНЕЗИЯ',    lon:111,  lat:3.5,  sz:8}
-  ];
-
-  /* Регионы России */
-  var REGION_LABELS = [
-    {lines:['Западная','Сибирь'],  lon:71,  lat:62.5, sz:8},
-    {lines:['Восточная','Сибирь'], lon:112, lat:64.5, sz:8},
-    {lines:['Дальний','Восток'],   lon:140, lat:61.0, sz:8}
+  var ROUTES = [
+    [0, 7],  // Находка → Хабаровск
+    [0, 8],  // Находка → Иркутск
+    [0, 5],  // Находка → Новосибирск
+    [0, 4],  // Находка → Екатеринбург
+    [0, 2],  // Находка → Москва
+    [0, 3],  // Находка → Санкт-Петербург
+    [0, 9],  // Находка → Якутск
+    [0, 10], // Находка → Петропавловск-Камчатский
+    [2, 3],  // Москва → Санкт-Петербург
+    [2, 4],  // Москва → Екатеринбург
+    [4, 5],  // Екатеринбург → Новосибирск
+    [5, 6],  // Новосибирск → Красноярск
+    [6, 8],  // Красноярск → Иркутск
   ];
 
   /* ═══════════════════════════════════════════════════════════════════
@@ -607,142 +573,212 @@
      ═══════════════════════════════════════════════════════════════════ */
   function buildMap(container) {
 
-    /* ── Корневой SVG ── */
     var svg = el('svg', {
       viewBox: '0 0 ' + W + ' ' + H,
       preserveAspectRatio: 'xMidYMid meet',
       role: 'img',
-      'aria-label': 'Контурная карта: Россия и Азиатско-Тихоокеанский регион'
+      'aria-label': 'Логистическая карта: маршруты Pacific Star'
     });
     svg.classList.add('route-map-svg');
 
-    /* ── Фоновый прямоугольник (океан) ── */
+    /* ── Фон (океан) ── */
     svg.appendChild(el('rect', {
       width: W, height: H, fill: C_OCEAN
     }));
 
-    /* ── Вспомогательная функция: полигон суши ── */
-    function land(pts, fill, strokeColor, strokeWidth) {
+    /* ── Полигон суши: иностранные территории (очень тонкий контур) ── */
+    function foreign(pts) {
       return el('polygon', {
         points: polyStr(pts),
-        fill: fill,
-        stroke: strokeColor || C_WBORD,
-        'stroke-width': strokeWidth || C_WBORD_W,
+        fill: C_FOREIGN,
+        stroke: C_FBORD,
+        'stroke-width': '0.6',
         'stroke-linejoin': 'round'
       });
     }
 
-    /* ── Вспомогательная функция: водоём (поверх суши) ── */
+    /* ── Полигон суши: Россия ── */
+    function russia(pts, sw) {
+      return el('polygon', {
+        points: polyStr(pts),
+        fill: C_RUSSIA,
+        stroke: C_RBORD,
+        'stroke-width': sw || '1.2',
+        'stroke-linejoin': 'round'
+      });
+    }
+
+    /* ── Водоём (поверх суши, цвет океана) ── */
     function water(pts) {
       return el('polygon', {
         points: polyStr(pts),
         fill: C_OCEAN,
-        stroke: '#6a9ab0',
-        'stroke-width': '0.7',
+        stroke: '#2a5080',
+        'stroke-width': '0.5',
         'stroke-linejoin': 'round'
       });
     }
 
-    /* ── Суша: от дальнего к ближнему ── */
-    /* Фоновые заливки (без видимой границы) */
-    svg.appendChild(land(IRAN_CA,        C_EUR, C_EUR,   '0'));
-    svg.appendChild(land(TURKEY,         C_EUR, '#b0a898','0.6'));
-    svg.appendChild(land(WEST_EDGE,      C_EUR, C_EUR,   '0'));
-    /* Юго-Восточная Азия */
-    svg.appendChild(land(SE_ASIA,        C_SE));
-    /* Индонезия (видимые части) */
-    svg.appendChild(land(SUMATRA_N,      C_SE,  C_WBORD, '0.8'));
-    svg.appendChild(land(BORNEO_N,       C_SE,  C_WBORD, '0.8'));
-    /* Восточная Азия */
-    svg.appendChild(land(KAZAKHSTAN,     C_KZ));
-    svg.appendChild(land(MONGOLIA,       C_MN));
-    svg.appendChild(land(CHINA,          C_CN));
-    svg.appendChild(land(HAINAN,         C_CN,  C_WBORD, '0.8'));
-    svg.appendChild(land(TAIWAN,         C_CN,  C_WBORD, '0.8'));
-    svg.appendChild(land(KOREA,          C_EUR, C_WBORD, '0.9'));
-    svg.appendChild(land(LUZON,          C_SE,  C_WBORD, '0.8'));
-    svg.appendChild(land(SHIKOKU,        C_JP,  C_WBORD, '0.8'));
-    svg.appendChild(land(HONSHU,         C_JP));
-    svg.appendChild(land(HOKKAIDO,       C_JP));
-    svg.appendChild(land(KYUSHU,         C_JP,  C_WBORD, '0.8'));
-    svg.appendChild(land(OKINAWA,        C_JP,  C_WBORD, '0.7'));
-    svg.appendChild(land(KURILS,         C_RUSSIA, C_RBORD, '0.8'));
-    /* Европейские соседи */
-    svg.appendChild(land(FINLAND,        C_EUR));
-    svg.appendChild(land(ESTONIA,        C_EUR));
-    svg.appendChild(land(LATVIA,         C_EUR));
-    svg.appendChild(land(LITHUANIA,      C_EUR));
-    svg.appendChild(land(BELARUS,        C_EUR));
-    svg.appendChild(land(UKRAINE,        C_EUR));
-    svg.appendChild(land(GEORGIA,        C_EUR));
-    svg.appendChild(land(AZERBAIJAN,     C_EUR));
-    /* Россия поверх соседей */
-    svg.appendChild(land(RUSSIA,         C_RUSSIA, C_RBORD, C_RBORD_W));
-    svg.appendChild(land(KAMCHATKA,      C_RUSSIA, C_RBORD, C_RBORD_W));
-    svg.appendChild(land(SAKHALIN,       C_RUSSIA, C_RBORD));
-    /* Новая Земля */
-    svg.appendChild(land(NOVAYA_ZEMLYA_S, C_RUSSIA, C_RBORD));
-    svg.appendChild(land(NOVAYA_ZEMLYA_N, C_RUSSIA, C_RBORD));
-    /* Особые территории */
-    svg.appendChild(land(KALININGRAD,    C_RUSSIA, C_RBORD));
-    svg.appendChild(land(CRIMEA,         C_RUSSIA, C_RBORD));
+    /* ══ 1. Иностранные территории (фоновые, очень тонкие) ══ */
+    svg.appendChild(foreign(IRAN_CA));
+    svg.appendChild(foreign(TURKEY));
+    svg.appendChild(foreign(WEST_EDGE));
+    svg.appendChild(foreign(SE_ASIA));
+    svg.appendChild(foreign(SUMATRA_N));
+    svg.appendChild(foreign(BORNEO_N));
+    svg.appendChild(foreign(KAZAKHSTAN));
+    svg.appendChild(foreign(MONGOLIA));
+    svg.appendChild(foreign(CHINA));
+    svg.appendChild(foreign(HAINAN));
+    svg.appendChild(foreign(TAIWAN));
+    svg.appendChild(foreign(KOREA));
+    svg.appendChild(foreign(LUZON));
+    svg.appendChild(foreign(SHIKOKU));
+    svg.appendChild(foreign(HONSHU));
+    svg.appendChild(foreign(HOKKAIDO));
+    svg.appendChild(foreign(KYUSHU));
+    svg.appendChild(foreign(OKINAWA));
+    svg.appendChild(foreign(FINLAND));
+    svg.appendChild(foreign(ESTONIA));
+    svg.appendChild(foreign(LATVIA));
+    svg.appendChild(foreign(LITHUANIA));
+    svg.appendChild(foreign(BELARUS));
+    svg.appendChild(foreign(UKRAINE));
+    svg.appendChild(foreign(GEORGIA));
+    svg.appendChild(foreign(AZERBAIJAN));
 
-    /* ── Водоёмы поверх суши ── */
+    /* ══ 2. Россия и российские территории (выделенные голубым) ══ */
+    svg.appendChild(russia(RUSSIA));
+    svg.appendChild(russia(KAMCHATKA));
+    svg.appendChild(russia(SAKHALIN, '1.0'));
+    svg.appendChild(russia(NOVAYA_ZEMLYA_S, '0.8'));
+    svg.appendChild(russia(NOVAYA_ZEMLYA_N, '0.8'));
+    svg.appendChild(russia(KALININGRAD, '0.8'));
+    svg.appendChild(russia(CRIMEA, '0.8'));
+    svg.appendChild(russia(KURILS, '0.8'));
+
+    /* ══ 3. Водоёмы поверх суши ══ */
     svg.appendChild(water(WHITE_SEA));
     svg.appendChild(water(BLACK_SEA));
     svg.appendChild(water(AZOV_SEA));
     svg.appendChild(water(CASPIAN));
     svg.appendChild(water(BAIKAL));
 
-    /* ── Подписи морей (курсив, синеватые) ── */
-    var SEA_STYLE = {
-      fill: '#3a6a8a',
-      'font-family': 'Georgia,serif',
-      'font-style': 'italic',
+    /* ══ 4. Водяной знак «РОССИЯ» ══ */
+    var rwm = px(100, 65.5);
+    svg.appendChild(txt('РОССИЯ', rwm[0].toFixed(1), rwm[1].toFixed(1), {
+      fill: 'rgba(255,255,255,0.08)',
+      'font-size': '28',
+      'font-family': 'Arial,Helvetica,sans-serif',
+      'font-weight': '700',
+      'letter-spacing': '8',
       'text-anchor': 'middle',
       'pointer-events': 'none'
-    };
-    SEAS.forEach(function (s) {
-      var c = px(s.lon, s.lat);
-      s.lines.forEach(function (line, i) {
-        var lineH = (s.sz || 9) + 2;
-        var offset = (i - (s.lines.length - 1) / 2) * lineH;
-        svg.appendChild(txt(line, c[0].toFixed(1),
-          (c[1] + offset).toFixed(1),
-          Object.assign({'font-size': String(s.sz || 9)}, SEA_STYLE)
-        ));
-      });
+    }));
+
+    /* ══ 5. Маршрутные линии (безье-кривые) ══ */
+    ROUTES.forEach(function (r) {
+      var a = CITIES[r[0]], b = CITIES[r[1]];
+      var p0 = px(a.lon, a.lat), p1 = px(b.lon, b.lat);
+      var mx = (p0[0] + p1[0]) / 2;
+      var my = (p0[1] + p1[1]) / 2;
+      var dist = Math.sqrt(Math.pow(p1[0] - p0[0], 2) + Math.pow(p1[1] - p0[1], 2));
+      var offset = dist * 0.2;
+      var cx = mx, cy = my - offset;
+
+      var d = 'M' + p0[0].toFixed(1) + ',' + p0[1].toFixed(1) +
+              ' Q' + cx.toFixed(1) + ',' + cy.toFixed(1) +
+              ' ' + p1[0].toFixed(1) + ',' + p1[1].toFixed(1);
+
+      svg.appendChild(el('path', {
+        d: d,
+        fill: 'none',
+        stroke: 'rgba(255,255,255,0.45)',
+        'stroke-width': '1.8',
+        'stroke-linecap': 'round',
+        'stroke-dasharray': 'none'
+      }));
+
+      /* Промежуточные точки вдоль кривой */
+      for (var t = 0.25; t <= 0.75; t += 0.25) {
+        var u = 1 - t;
+        var qx = u * u * p0[0] + 2 * u * t * cx + t * t * p1[0];
+        var qy = u * u * p0[1] + 2 * u * t * cy + t * t * p1[1];
+        svg.appendChild(el('circle', {
+          cx: qx.toFixed(1), cy: qy.toFixed(1), r: '2',
+          fill: 'rgba(255,255,255,0.4)'
+        }));
+      }
     });
 
-    /* ── Подписи регионов России (водяные знаки) ── */
-    REGION_LABELS.forEach(function (rl) {
-      var c = px(rl.lon, rl.lat);
-      rl.lines.forEach(function (line, i) {
-        svg.appendChild(txt(line, c[0].toFixed(1),
-          (c[1] + i * ((rl.sz || 8) + 2)).toFixed(1),
-          {
-            fill: C_WATERMARK,
-            'font-size': String(rl.sz || 8),
-            'font-family': 'Georgia,serif',
-            'font-weight': '700',
-            'letter-spacing': '1.5',
-            'text-anchor': 'middle',
-            'pointer-events': 'none'
-          }
-        ));
-      });
-    });
+    /* ══ 6. Города (маркеры + подписи) ══ */
+    CITIES.forEach(function (city, idx) {
+      var c = px(city.lon, city.lat);
+      var cx = c[0], cy = c[1];
 
-    /* ── Подписи стран ── */
-    COUNTRY_LABELS.forEach(function (cl) {
-      var c = px(cl.lon, cl.lat);
-      svg.appendChild(txt(cl.text, c[0].toFixed(1), c[1].toFixed(1), {
-        fill: '#333',
-        'font-size': String(cl.sz || 10),
+      /* Маркер: белый круг */
+      svg.appendChild(el('circle', {
+        cx: cx.toFixed(1), cy: cy.toFixed(1),
+        r: city.home ? '6' : '4.5',
+        fill: 'white',
+        stroke: '#1a2d5e',
+        'stroke-width': '1.5'
+      }));
+
+      /* Москва: красная звезда */
+      if (city.star) {
+        svg.appendChild(txt('★', (cx + 0.5).toFixed(1), (cy + 3.5).toFixed(1), {
+          fill: '#ff4444',
+          'font-size': '11',
+          'text-anchor': 'middle',
+          'pointer-events': 'none'
+        }));
+      }
+
+      /* Находка: двойной круг-логотип */
+      if (city.home) {
+        svg.appendChild(el('circle', {
+          cx: cx.toFixed(1), cy: cy.toFixed(1),
+          r: '9',
+          fill: 'none',
+          stroke: 'rgba(255,255,255,0.6)',
+          'stroke-width': '1.5'
+        }));
+      }
+
+      /* Подпись: тёмная плашка с белым текстом */
+      var name = city.name;
+      var fontSize = 10;
+      /* Approximate char width for 10px Arial bold */
+      var charW = 5.8;
+      var labelW = name.length * charW + 10;
+      var labelH = 16;
+
+      /* Label placement based on city's label property */
+      var lx, ly;
+      var pos = city.label || 'right';
+      if (pos === 'right')       { lx = cx + 12;              ly = cy + 4; }
+      else if (pos === 'left')   { lx = cx - labelW - 8;      ly = cy + 4; }
+      else if (pos === 'top')    { lx = cx - labelW / 2;      ly = cy - 16; }
+      else if (pos === 'bottom') { lx = cx - labelW / 2;      ly = cy + 14; }
+
+      /* Скруглённый прямоугольник */
+      svg.appendChild(el('rect', {
+        x: lx.toFixed(1),
+        y: (ly - labelH + 4).toFixed(1),
+        width: labelW.toFixed(1),
+        height: labelH.toFixed(0),
+        rx: '4', ry: '4',
+        fill: '#1a2d5e',
+        stroke: 'rgba(255,255,255,0.2)',
+        'stroke-width': '0.5'
+      }));
+
+      svg.appendChild(txt(name, (lx + 5).toFixed(1), (ly).toFixed(1), {
+        fill: 'white',
+        'font-size': String(fontSize),
         'font-family': 'Arial,Helvetica,sans-serif',
         'font-weight': '700',
-        'letter-spacing': '1',
-        'text-anchor': 'middle',
         'pointer-events': 'none'
       }));
     });
