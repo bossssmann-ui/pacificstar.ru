@@ -297,7 +297,7 @@
           successMsg.classList.add('show');
           setTimeout(function () {
             successMsg.classList.remove('show');
-            successMsg.innerHTML = '<span aria-hidden="true" style="font-size:1.2rem;">✅</span> Заявка отправлена! Мы свяжемся с вами в течение 15 минут.';
+            successMsg.innerHTML = '<span aria-hidden="true" style="font-size:1.2rem;">✅</span> Заявка отправлена! Мы свяжемся с вами в течение 15 минут.<div class="form-success-links"><a href="services.html">Посмотреть все услуги</a> <span aria-hidden="true">·</span> <a href="account.html">Личный кабинет</a></div>';
           }, 6000);
         }
       });
