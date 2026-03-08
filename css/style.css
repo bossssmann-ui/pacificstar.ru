@@ -3569,7 +3569,7 @@ select.form-control {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 .mm-step { text-align: center; min-width: 90px; }
 .mm-icon { font-size: 1.6rem; margin-bottom: 6px; }
