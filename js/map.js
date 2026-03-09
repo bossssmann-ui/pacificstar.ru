@@ -14,6 +14,13 @@
   var LON_MAX = 191;
   var LAT_MAX = 82;
   var LAT_MIN = -12;
+  var LON_SPAN = LON_MAX - LON_MIN;
+  var LAT_SPAN = LAT_MAX - LAT_MIN;
+  var PIXELS_PER_DEGREE = Math.min(W / LON_SPAN, H / LAT_SPAN);
+  var MAP_W = LON_SPAN * PIXELS_PER_DEGREE;
+  var MAP_H = LAT_SPAN * PIXELS_PER_DEGREE;
+  var OFFSET_X = (W - MAP_W) / 2;
+  var OFFSET_Y = (H - MAP_H) / 2;
 
   var C_OCEAN = '#2b4d8a';
   var C_LAND = '#6a9fc8';
@@ -33,8 +40,8 @@
 
   function px(lon, lat) {
     var normalizedLon = normalizeLon(lon);
-    var x = (normalizedLon - LON_MIN) / (LON_MAX - LON_MIN) * W;
-    var y = (LAT_MAX - lat) / (LAT_MAX - LAT_MIN) * H;
+    var x = OFFSET_X + (normalizedLon - LON_MIN) * PIXELS_PER_DEGREE;
+    var y = OFFSET_Y + (LAT_MAX - lat) * PIXELS_PER_DEGREE;
     return [x, y];
   }
 
