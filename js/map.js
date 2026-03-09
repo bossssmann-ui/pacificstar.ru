@@ -9,6 +9,7 @@
 
   var W = 1080;
   var H = 1080;
+  /* Границы окна заданы в нормализованной системе 0..360 для работы через 180-й меридиан. */
   var LON_MIN = 19;
   var LON_MAX = 191;
   var LAT_MAX = 82;
@@ -25,8 +26,9 @@
 
   var cachedFeatures = null;
 
+  /* Нормализуем долготы в 0..360, чтобы корректно отрисовать регион через 180-й меридиан. */
   function normalizeLon(lon) {
-    return lon < LON_MIN ? lon + 360 : lon;
+    return ((lon % 360) + 360) % 360;
   }
 
   function px(lon, lat) {
@@ -61,7 +63,7 @@
   }
 
   var LABELS = [
-    { text: 'Калининград', lon: 20.2, lat: 54.7, size: 17, anchor: 'start', dx: 8 },
+    { text: 'Калининград', lon: 20.4, lat: 54.7, size: 17, anchor: 'start' },
     { text: 'Россия', lon: 103, lat: 60, size: 34 },
     { text: 'Чукотка', lon: 177, lat: 66, size: 18 },
     { text: 'Северный Ледовитый океан', lon: 105, lat: 77, size: 18, opacity: 0.7 },
@@ -71,7 +73,7 @@
   ];
 
   function addGrid(svg) {
-    for (var lon = 30; lon <= 180; lon += 30) {
+    function appendMeridian(lon) {
       var top = px(lon, LAT_MAX);
       var bottom = px(lon, LAT_MIN);
       svg.appendChild(el('line', {
@@ -83,6 +85,12 @@
         'stroke-width': '1'
       }));
     }
+
+    for (var lon = 30; lon <= 180; lon += 30) {
+      appendMeridian(lon);
+    }
+
+    appendMeridian(LON_MAX);
 
     for (var lat = 0; lat <= 80; lat += 20) {
       var left = px(LON_MIN, lat);
@@ -136,23 +144,29 @@
   }
 
   function polygonInView(rings) {
+    var minLon = Infinity;
+    var maxLon = -Infinity;
+    var minLat = Infinity;
+    var maxLat = -Infinity;
+
     for (var i = 0; i < rings.length; i += 1) {
       for (var j = 0; j < rings[i].length; j += 1) {
         var lon = normalizeLon(rings[i][j][0]);
         var lat = rings[i][j][1];
-        if (lon >= LON_MIN && lon <= LON_MAX && lat >= LAT_MIN && lat <= LAT_MAX) {
-          return true;
-        }
+        minLon = Math.min(minLon, lon);
+        maxLon = Math.max(maxLon, lon);
+        minLat = Math.min(minLat, lat);
+        maxLat = Math.max(maxLat, lat);
       }
     }
 
-    return false;
+    return maxLon >= LON_MIN && minLon <= LON_MAX && maxLat >= LAT_MIN && minLat <= LAT_MAX;
   }
 
   function renderLabels(svg) {
     LABELS.forEach(function (label) {
       var point = px(label.lon, label.lat);
-      svg.appendChild(txt(label.text, fmt(point[0] + (label.dx || 0)), fmt(point[1] + (label.dy || 0)), {
+      svg.appendChild(txt(label.text, fmt(point[0]), fmt(point[1]), {
         'font-size': String(label.size),
         'font-weight': '600',
         opacity: label.opacity || '1',
@@ -201,7 +215,7 @@
       viewBox: '0 0 ' + W + ' ' + H,
       preserveAspectRatio: 'xMidYMid meet',
       role: 'img',
-      'aria-label': 'Точный региональный квадрат карты Pacific Star'
+      'aria-label': 'Региональная карта Pacific Star от Калининграда до Чукотки'
     });
 
     svg.classList.add('route-map-svg');
