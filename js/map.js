@@ -2,7 +2,7 @@
  * Pacific Star — Regional Map
  * ========================
  * Точный квадратный фрагмент карты от Калининграда до Чукотки
- * и от Арктики до Индонезийского архипелага.
+ * и от Арктики до южной точки Индии.
  */
 (function () {
   'use strict';
@@ -13,7 +13,7 @@
   var LON_MIN = 19;
   var LON_MAX = 191;
   var LAT_MAX = 82;
-  var LAT_MIN = -12;
+  var LAT_MIN = 6.75;
   var LON_SPAN = LON_MAX - LON_MIN;
   var LAT_SPAN = LAT_MAX - LAT_MIN;
   var PIXELS_PER_DEGREE = Math.min(W / LON_SPAN, H / LAT_SPAN);
@@ -74,7 +74,7 @@
     { text: 'Россия', lon: 103, lat: 60, size: 34 },
     { text: 'Чукотка', lon: 177, lat: 66, size: 18 },
     { text: 'Северный Ледовитый океан', lon: 105, lat: 77, size: 18, opacity: 0.7 },
-    { text: 'Индонезийский архипелаг', lon: 118, lat: -5, size: 18, opacity: 0.7 },
+    { text: 'Индия', lon: 79, lat: 20, size: 18, opacity: 0.7 },
     { text: 'Япония', lon: 138, lat: 37, size: 16 },
     { text: 'Китай', lon: 106, lat: 35, size: 18 }
   ];
