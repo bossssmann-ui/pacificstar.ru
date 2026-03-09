@@ -1,17 +1,18 @@
 /**
- * Pacific Star — World Map
+ * Pacific Star — Regional Map
  * ========================
- * Точная SVG-карта мира на основе реальных GeoJSON-границ стран.
+ * Точный квадратный фрагмент карты от Калининграда до Чукотки
+ * и от Арктики до Индонезийского архипелага.
  */
 (function () {
   'use strict';
 
-  var W = 1200;
-  var H = 660;
-  var LON_MIN = -180;
-  var LON_MAX = 180;
-  var LAT_MAX = 85;
-  var LAT_MIN = -85;
+  var W = 1080;
+  var H = 1080;
+  var LON_MIN = 19;
+  var LON_MAX = 191;
+  var LAT_MAX = 82;
+  var LAT_MIN = -12;
 
   var C_OCEAN = '#2b4d8a';
   var C_LAND = '#6a9fc8';
@@ -24,8 +25,13 @@
 
   var cachedFeatures = null;
 
+  function normalizeLon(lon) {
+    return lon < LON_MIN ? lon + 360 : lon;
+  }
+
   function px(lon, lat) {
-    var x = (lon - LON_MIN) / (LON_MAX - LON_MIN) * W;
+    var normalizedLon = normalizeLon(lon);
+    var x = (normalizedLon - LON_MIN) / (LON_MAX - LON_MIN) * W;
     var y = (LAT_MAX - lat) / (LAT_MAX - LAT_MIN) * H;
     return [x, y];
   }
@@ -55,20 +61,17 @@
   }
 
   var LABELS = [
-    { text: 'Северная Америка', lon: -108, lat: 49, size: 22 },
-    { text: 'Южная Америка', lon: -60, lat: -20, size: 20 },
-    { text: 'Европа', lon: 18, lat: 54, size: 18 },
-    { text: 'Африка', lon: 20, lat: 7, size: 22 },
-    { text: 'Азия', lon: 97, lat: 43, size: 24 },
-    { text: 'Австралия', lon: 135, lat: -26, size: 20 },
-    { text: 'Тихий океан', lon: -148, lat: 2, size: 18, opacity: 0.65 },
-    { text: 'Атлантический океан', lon: -28, lat: 12, size: 18, opacity: 0.65 },
-    { text: 'Индийский океан', lon: 80, lat: -18, size: 18, opacity: 0.65 },
-    { text: 'Тихий океан', lon: 154, lat: 0, size: 18, opacity: 0.65 }
+    { text: 'Калининград', lon: 20.2, lat: 54.7, size: 17, anchor: 'start', dx: 8 },
+    { text: 'Россия', lon: 103, lat: 60, size: 34 },
+    { text: 'Чукотка', lon: 177, lat: 66, size: 18 },
+    { text: 'Северный Ледовитый океан', lon: 105, lat: 77, size: 18, opacity: 0.7 },
+    { text: 'Индонезийский архипелаг', lon: 118, lat: -5, size: 18, opacity: 0.7 },
+    { text: 'Япония', lon: 138, lat: 37, size: 16 },
+    { text: 'Китай', lon: 106, lat: 35, size: 18 }
   ];
 
   function addGrid(svg) {
-    for (var lon = -150; lon <= 150; lon += 30) {
+    for (var lon = 30; lon <= 180; lon += 30) {
       var top = px(lon, LAT_MAX);
       var bottom = px(lon, LAT_MIN);
       svg.appendChild(el('line', {
@@ -81,7 +84,7 @@
       }));
     }
 
-    for (var lat = -60; lat <= 60; lat += 30) {
+    for (var lat = 0; lat <= 80; lat += 20) {
       var left = px(LON_MIN, lat);
       var right = px(LON_MAX, lat);
       svg.appendChild(el('line', {
@@ -102,11 +105,11 @@
 
     var first = px(ring[0][0], ring[0][1]);
     var d = 'M ' + fmt(first[0]) + ' ' + fmt(first[1]);
-    var prevLon = ring[0][0];
+    var prevLon = normalizeLon(ring[0][0]);
     var prevPoint = first;
 
     for (var i = 1; i < ring.length; i += 1) {
-      var lon = ring[i][0];
+      var lon = normalizeLon(ring[i][0]);
       var lat = ring[i][1];
       var point = px(lon, lat);
 
@@ -132,13 +135,28 @@
     return rings.map(ringToPath).join(' ');
   }
 
+  function polygonInView(rings) {
+    for (var i = 0; i < rings.length; i += 1) {
+      for (var j = 0; j < rings[i].length; j += 1) {
+        var lon = normalizeLon(rings[i][j][0]);
+        var lat = rings[i][j][1];
+        if (lon >= LON_MIN && lon <= LON_MAX && lat >= LAT_MIN && lat <= LAT_MAX) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
   function renderLabels(svg) {
     LABELS.forEach(function (label) {
       var point = px(label.lon, label.lat);
-      svg.appendChild(txt(label.text, fmt(point[0]), fmt(point[1]), {
+      svg.appendChild(txt(label.text, fmt(point[0] + (label.dx || 0)), fmt(point[1] + (label.dy || 0)), {
         'font-size': String(label.size),
         'font-weight': '600',
-        opacity: label.opacity || '1'
+        opacity: label.opacity || '1',
+        'text-anchor': label.anchor || 'middle'
       }));
     });
   }
@@ -157,6 +175,10 @@
           : [];
 
       polygons.forEach(function (polygon) {
+        if (!polygonInView(polygon)) {
+          return;
+        }
+
         var path = polygonToPath(polygon);
         if (!path) {
           return;
@@ -179,7 +201,7 @@
       viewBox: '0 0 ' + W + ' ' + H,
       preserveAspectRatio: 'xMidYMid meet',
       role: 'img',
-      'aria-label': 'Точная карта мира Pacific Star'
+      'aria-label': 'Точный региональный квадрат карты Pacific Star'
     });
 
     svg.classList.add('route-map-svg');
