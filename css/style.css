@@ -3055,15 +3055,32 @@ select.form-control {
 /* ═══════════════════════════════════════════════════════════════════════
    INTERACTIVE ROUTE MAP
    ═══════════════════════════════════════════════════════════════════════ */
-.route-map-container {
-  border-radius: 8px;
+.map-section-full {
+  background: #223d6e;
+  padding: 60px 0;
   overflow: hidden;
-  box-shadow: 0 4px 32px rgba(0,0,0,0.35);
+}
+.route-map-stage {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+.route-map-frame {
+  position: relative;
+}
+.route-map-container {
+  min-height: 100vh;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: none;
   background: #2b4d8a;
   line-height: 0;
 }
 .route-map-svg {
-  width: 100%; height: auto; display: block;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .route-map-container:focus-within { outline: 2px solid var(--color-accent); }
 .map-legend-note {
@@ -3079,7 +3096,7 @@ select.form-control {
 .btn-calc-route {
   position: absolute;
   top: 20px;
-  left: 20px;
+  left: max(20px, calc(50vw - 570px + 20px));
   background: #fff;
   color: #2b4d8a;
   font-weight: 700;
@@ -3089,6 +3106,35 @@ select.form-control {
   text-decoration: none;
   box-shadow: 0 2px 12px rgba(0,0,0,0.15);
   z-index: 2;
+}
+
+@media (max-width: 1024px) {
+  .route-map-container {
+    min-height: 70vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .map-section-full {
+    padding: 56px 0;
+  }
+
+  .route-map-container {
+    min-height: 56vh;
+  }
+
+  .map-legend-note {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .btn-calc-route {
+    left: 16px;
+    right: 16px;
+    top: 16px;
+    text-align: center;
+  }
 }
 
 /* City group keyboard focus */
