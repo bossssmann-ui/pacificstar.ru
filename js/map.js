@@ -32,6 +32,8 @@
   var C_CAPITAL = '#ffd166';
   var C_POINT_STROKE = 'rgba(17,34,64,0.95)';
   var C_LABEL_STROKE = 'rgba(17,34,64,0.72)';
+  var BASE_POINT_STROKE_WIDTH = 2;
+  var BASE_LABEL_STROKE_WIDTH = 3;
 
   var NS = 'http://www.w3.org/2000/svg';
   var DATA_URL = 'data/world-countries.geo.json?v=20260309';
@@ -215,27 +217,99 @@
       var point = px(pointData.lon, pointData.lat);
       var isCapital = pointData.kind === 'capital';
       var radius = isCapital ? 6 : 4.5;
+      var dx = pointData.dx || 0;
+      var dy = pointData.dy || 0;
+      var fontSize = pointData.size || 16;
       var marker = el('circle', {
         cx: fmt(point[0]),
         cy: fmt(point[1]),
         r: String(radius),
         fill: isCapital ? C_CAPITAL : C_POINT,
         stroke: C_POINT_STROKE,
-        'stroke-width': '2'
+        'stroke-width': String(BASE_POINT_STROKE_WIDTH),
+        'data-base-radius': String(radius),
+        'data-base-stroke-width': String(BASE_POINT_STROKE_WIDTH)
       });
 
       svg.appendChild(marker);
-      svg.appendChild(txt(pointData.text, fmt(point[0] + (pointData.dx || 0)), fmt(point[1] + (pointData.dy || 0)), {
-        'font-size': String(pointData.size || 16),
+      svg.appendChild(txt(pointData.text, fmt(point[0] + dx), fmt(point[1] + dy), {
+        'font-size': String(fontSize),
         'font-weight': isCapital ? '700' : '600',
         'text-anchor': pointData.anchor || 'start',
         fill: isCapital ? C_CAPITAL : '#ffffff',
         stroke: C_LABEL_STROKE,
-        'stroke-width': '3',
+        'stroke-width': String(BASE_LABEL_STROKE_WIDTH),
         'stroke-linejoin': 'round',
-        'paint-order': 'stroke fill'
+        'paint-order': 'stroke fill',
+        'data-base-font-size': String(fontSize),
+        'data-base-stroke-width': String(BASE_LABEL_STROKE_WIDTH),
+        'data-point-x': fmt(point[0]),
+        'data-point-y': fmt(point[1]),
+        'data-base-dx': String(dx),
+        'data-base-dy': String(dy)
       }));
     });
+  }
+
+  function getPointScale(container) {
+    var rect = container.getBoundingClientRect();
+    var fitScale = Math.min(rect.width / W, rect.height / H);
+
+    if (!Number.isFinite(fitScale) || fitScale <= 1) {
+      return 1;
+    }
+
+    return 1 / fitScale;
+  }
+
+  function resizePointLabels(svg, container) {
+    var pointScale = getPointScale(container);
+
+    Array.prototype.forEach.call(svg.querySelectorAll('circle[data-base-radius]'), function (marker) {
+      var baseRadius = Number(marker.getAttribute('data-base-radius'));
+      var baseStrokeWidth = Number(marker.getAttribute('data-base-stroke-width'));
+
+      marker.setAttribute('r', fmt(baseRadius * pointScale));
+      marker.setAttribute('stroke-width', fmt(baseStrokeWidth * pointScale));
+    });
+
+    Array.prototype.forEach.call(svg.querySelectorAll('text[data-base-font-size]'), function (label) {
+      var baseFontSize = Number(label.getAttribute('data-base-font-size'));
+      var baseStrokeWidth = Number(label.getAttribute('data-base-stroke-width'));
+      var pointX = Number(label.getAttribute('data-point-x'));
+      var pointY = Number(label.getAttribute('data-point-y'));
+      var baseDx = Number(label.getAttribute('data-base-dx'));
+      var baseDy = Number(label.getAttribute('data-base-dy'));
+
+      label.setAttribute('x', fmt(pointX + (baseDx * pointScale)));
+      label.setAttribute('y', fmt(pointY + (baseDy * pointScale)));
+      label.setAttribute('font-size', fmt(baseFontSize * pointScale));
+      label.setAttribute('stroke-width', fmt(baseStrokeWidth * pointScale));
+    });
+  }
+
+  function bindPointLabelScaling(svg, container) {
+    function handleScaleUpdate() {
+      resizePointLabels(svg, container);
+    }
+
+    if (container._pointLabelResizeHandler) {
+      window.removeEventListener('resize', container._pointLabelResizeHandler);
+    }
+
+    if (container._pointLabelResizeObserver) {
+      container._pointLabelResizeObserver.disconnect();
+    }
+
+    container._pointLabelResizeHandler = handleScaleUpdate;
+    window.addEventListener('resize', handleScaleUpdate);
+
+    if (window.ResizeObserver) {
+      container._pointLabelResizeObserver = new ResizeObserver(handleScaleUpdate);
+      container._pointLabelResizeObserver.observe(container);
+    }
+
+    handleScaleUpdate();
   }
 
   function renderFeatures(svg, features) {
@@ -329,6 +403,7 @@
         renderFeatures(svg, features);
         renderLabels(svg);
         renderPointLabels(svg);
+        bindPointLabelScaling(svg, container);
       })
       .catch(function () {
         renderFallback(svg);
