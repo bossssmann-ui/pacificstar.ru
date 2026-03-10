@@ -115,7 +115,7 @@
     { text: 'Пекин', lon: 116.4, lat: 39.9, dx: -10, dy: -10, anchor: 'end', kind: 'capital' },
     { text: 'Шанхай', lon: 121.5, lat: 31.2, dx: 8, dy: 18 },
     { text: 'Циндао', lon: 120.4, lat: 36.1, dx: 8, dy: -8 },
-    { text: 'Шэньчжэнь', lon: 114.1, lat: 22.5, dx: 8, dy: 18 },
+    { text: 'Шенжень', lon: 114.1, lat: 22.5, dx: 8, dy: 18 },
     { text: 'Токио', lon: 139.7, lat: 35.7, dx: 8, dy: -8, kind: 'capital' },
     { text: 'Йокогама', lon: 139.6, lat: 35.4, dx: 8, dy: 18 },
     { text: 'Кобе', lon: 135.2, lat: 34.7, dx: -10, dy: 18, anchor: 'end' },
@@ -125,7 +125,7 @@
     { text: 'Нью-Дели', lon: 77.2, lat: 28.6, dx: 8, dy: -8, kind: 'capital' },
     { text: 'Мумбаи', lon: 72.9, lat: 19.1, dx: 8, dy: 18 },
     { text: 'Ченнаи', lon: 80.3, lat: 13.1, dx: 8, dy: 18 },
-    { text: 'Колката', lon: 88.4, lat: 22.6, dx: 8, dy: -8 }
+    { text: 'Калькутта', lon: 88.4, lat: 22.6, dx: 8, dy: -8 }
   ];
 
   var ROAD_ROUTES = [
