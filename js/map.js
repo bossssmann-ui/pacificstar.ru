@@ -34,6 +34,9 @@
   var C_LABEL_STROKE = 'rgba(17,34,64,0.72)';
   var C_ROAD_LINE = 'rgba(255,255,255,0.80)';
   var C_ROAD_BRANCH_LINE = 'rgba(255,255,255,0.55)';
+  var C_ROAD_CHINA = 'rgba(255,195,80,0.72)';
+  var C_ROAD_JAPAN = 'rgba(255,130,120,0.72)';
+  var C_ROAD_KOREA = 'rgba(100,230,190,0.72)';
   var BASE_POINT_STROKE_WIDTH = 2;
   var BASE_LABEL_STROKE_WIDTH = 3;
   var pointLabelScalingBindings = new WeakMap();
@@ -132,7 +135,28 @@
     { text: 'Нью-Дели', lon: 77.2, lat: 28.6, dx: 8, dy: -8, kind: 'capital' },
     { text: 'Мумбаи', lon: 72.9, lat: 19.1, dx: 8, dy: 18 },
     { text: 'Ченнаи', lon: 80.3, lat: 13.1, dx: 8, dy: 18 },
-    { text: 'Калькутта', lon: 88.4, lat: 22.6, dx: 8, dy: -8 }
+    { text: 'Калькутта', lon: 88.4, lat: 22.6, dx: 8, dy: -8 },
+    /* Россия — дополнительные города */
+    { text: 'Хабаровск', lon: 135.1, lat: 48.5, size: 14, dx: 8, dy: -8 },
+    { text: 'Чита', lon: 113.5, lat: 52.0, size: 14, dx: 8, dy: -8 },
+    { text: 'Воронеж', lon: 39.2, lat: 51.7, size: 13, dx: -12, dy: -8, anchor: 'end' },
+    { text: 'Ростов-на-Дону', lon: 39.7, lat: 47.2, size: 13, dx: 8, dy: -8 },
+    /* Китай — СВ-коридор и ключевые порты */
+    { text: 'Харбин', lon: 126.6, lat: 45.8, size: 13, dx: 8, dy: -8 },
+    { text: 'Чанчунь', lon: 125.3, lat: 43.9, size: 13, dx: 8, dy: -8 },
+    { text: 'Шэньян', lon: 123.4, lat: 41.8, size: 13, dx: 8, dy: -8 },
+    { text: 'Далянь', lon: 121.6, lat: 38.9, size: 13, dx: 8, dy: 18 },
+    { text: 'Тяньцзинь', lon: 117.2, lat: 39.1, size: 12, dx: 8, dy: 18 },
+    { text: 'Ухань', lon: 114.3, lat: 30.6, size: 12, dx: 8, dy: -8 },
+    { text: 'Гуанчжоу', lon: 113.2, lat: 23.1, size: 13, dx: 8, dy: -8 },
+    /* Япония */
+    { text: 'Осака', lon: 135.5, lat: 34.7, size: 13, dx: 8, dy: 18 },
+    { text: 'Нагоя', lon: 136.9, lat: 35.2, size: 12, dx: 8, dy: -8 },
+    { text: 'Фукуока', lon: 130.4, lat: 33.6, size: 13, dx: 8, dy: -8 },
+    { text: 'Саппоро', lon: 141.4, lat: 43.1, size: 13, dx: 8, dy: -8 },
+    /* Корея */
+    { text: 'Тэджон', lon: 127.4, lat: 36.3, size: 12, dx: 8, dy: -8 },
+    { text: 'Тэгу', lon: 128.6, lat: 35.9, size: 12, dx: 8, dy: -8 }
   ];
 
   var ROAD_ROUTES = [
@@ -227,6 +251,159 @@
       points: [
         { lon: 117.3, lat: 49.7 },
         { lon: 117.4, lat: 49.6 }
+      ]
+    },
+    /* -------- Россия: дополнительные ветки -------- */
+    {
+      /* М-4 «Дон»: Москва — Воронеж — Ростов-на-Дону — Краснодар — Новороссийск */
+      kind: 'branch',
+      points: [
+        { lon: 37.6, lat: 55.8 },
+        { lon: 39.2, lat: 51.7 },
+        { lon: 39.7, lat: 47.2 },
+        { lon: 39.0, lat: 45.0 },
+        { lon: 37.8, lat: 44.7 }
+      ]
+    },
+    {
+      /* М-1 «Беларусь» / Е30: Москва — Смоленск — (Беларусь — Литва) — Калининград */
+      kind: 'branch',
+      points: [
+        { lon: 37.6, lat: 55.8 },
+        { lon: 32.0, lat: 54.8 },
+        { lon: 28.5, lat: 54.6 },
+        { lon: 24.0, lat: 54.7 },
+        { lon: 20.4, lat: 54.7 }
+      ]
+    },
+    /* -------- Китай: основные автострады -------- */
+    {
+      /* G1/G12 «Цзинхэ»: Пекин — Шэньян — Чанчунь — Харбин — Муданьцзян — Суйфэньхэ (граница РФ) */
+      kind: 'china',
+      points: [
+        { lon: 116.4, lat: 39.9 },
+        { lon: 117.2, lat: 39.1 },
+        { lon: 120.7, lat: 40.8 },
+        { lon: 123.4, lat: 41.8 },
+        { lon: 125.3, lat: 43.9 },
+        { lon: 126.6, lat: 45.8 },
+        { lon: 129.6, lat: 44.6 },
+        { lon: 131.2, lat: 44.4 }
+      ]
+    },
+    {
+      /* G111/G10: Харбин — Хэйхэ (граница РФ с Благовещенском) */
+      kind: 'china',
+      points: [
+        { lon: 126.6, lat: 45.8 },
+        { lon: 126.6, lat: 47.4 },
+        { lon: 127.5, lat: 50.2 }
+      ]
+    },
+    {
+      /* G301 / G10: Харбин — Цицикар — Хайлар — Маньчжурия (граница РФ — Забайкальск) */
+      kind: 'china',
+      points: [
+        { lon: 126.6, lat: 45.8 },
+        { lon: 123.9, lat: 47.4 },
+        { lon: 120.0, lat: 48.6 },
+        { lon: 119.7, lat: 49.2 },
+        { lon: 117.4, lat: 49.6 }
+      ]
+    },
+    {
+      /* G3: Шэньян — Далянь */
+      kind: 'china',
+      points: [
+        { lon: 123.4, lat: 41.8 },
+        { lon: 122.0, lat: 40.1 },
+        { lon: 121.6, lat: 38.9 }
+      ]
+    },
+    {
+      /* G2 «Цзинху»: Пекин — Цзинань — Нанкин — Шанхай */
+      kind: 'china',
+      points: [
+        { lon: 116.4, lat: 39.9 },
+        { lon: 116.5, lat: 38.0 },
+        { lon: 117.0, lat: 36.7 },
+        { lon: 117.1, lat: 34.3 },
+        { lon: 118.8, lat: 32.1 },
+        { lon: 120.2, lat: 30.3 },
+        { lon: 121.5, lat: 31.2 }
+      ]
+    },
+    {
+      /* G4 «Цзинган'ao»: Пекин — Ухань — Чанша — Гуанчжоу — Шэньчжэнь */
+      kind: 'china',
+      points: [
+        { lon: 116.4, lat: 39.9 },
+        { lon: 114.5, lat: 38.0 },
+        { lon: 113.7, lat: 34.8 },
+        { lon: 114.3, lat: 30.6 },
+        { lon: 113.0, lat: 28.2 },
+        { lon: 113.2, lat: 23.1 },
+        { lon: 114.1, lat: 22.5 }
+      ]
+    },
+    /* -------- Корея: основные шоссе -------- */
+    {
+      /* Сеул — Тэджон — Тэгу — Пусан (Gyeongbu Expressway) */
+      kind: 'korea',
+      points: [
+        { lon: 127.0, lat: 37.6 },
+        { lon: 127.4, lat: 36.3 },
+        { lon: 128.6, lat: 35.9 },
+        { lon: 129.1, lat: 35.2 }
+      ]
+    },
+    {
+      /* Сеул — Инчхон (Gyeongin Expressway) */
+      kind: 'korea',
+      points: [
+        { lon: 127.0, lat: 37.6 },
+        { lon: 126.7, lat: 37.5 }
+      ]
+    },
+    /* -------- Япония: основные автострады -------- */
+    {
+      /* Томэй / Мэйсин (Токай): Токио — Нагоя — Осака — Кобе */
+      kind: 'japan',
+      points: [
+        { lon: 139.7, lat: 35.7 },
+        { lon: 138.4, lat: 35.1 },
+        { lon: 136.9, lat: 35.2 },
+        { lon: 135.5, lat: 34.7 },
+        { lon: 135.2, lat: 34.7 }
+      ]
+    },
+    {
+      /* Сан'ё: Кобе — Хиросима — Симоносеки — Фукуока */
+      kind: 'japan',
+      points: [
+        { lon: 135.2, lat: 34.7 },
+        { lon: 133.1, lat: 34.2 },
+        { lon: 132.5, lat: 34.4 },
+        { lon: 130.9, lat: 33.9 },
+        { lon: 130.4, lat: 33.6 }
+      ]
+    },
+    {
+      /* Тохоку: Токио — Сэндай — Аомори */
+      kind: 'japan',
+      points: [
+        { lon: 139.7, lat: 35.7 },
+        { lon: 140.9, lat: 38.3 },
+        { lon: 140.7, lat: 40.8 }
+      ]
+    },
+    {
+      /* Хоккайдо: Аомори — Хакодате — Саппоро */
+      kind: 'japan',
+      points: [
+        { lon: 140.7, lat: 40.8 },
+        { lon: 140.7, lat: 41.8 },
+        { lon: 141.4, lat: 43.1 }
       ]
     }
   ];
@@ -516,7 +693,15 @@
     ROAD_ROUTES.forEach(function (route) {
       var isMain = route.kind === 'main';
       var isCrossing = route.kind === 'crossing';
-      var stroke = isCrossing ? 'rgba(255,255,255,0.90)' : isMain ? C_ROAD_LINE : C_ROAD_BRANCH_LINE;
+      var isChina = route.kind === 'china';
+      var isJapan = route.kind === 'japan';
+      var isKorea = route.kind === 'korea';
+      var stroke = isCrossing ? 'rgba(255,255,255,0.90)'
+        : isMain ? C_ROAD_LINE
+          : isChina ? C_ROAD_CHINA
+            : isJapan ? C_ROAD_JAPAN
+              : isKorea ? C_ROAD_KOREA
+                : C_ROAD_BRANCH_LINE;
       var width = isMain ? 1.5 : 1.0;
       var dash = isCrossing ? '4 3' : null;
       renderRoadPath(svg, route.points, stroke, width, dash);
@@ -563,7 +748,7 @@
       viewBox: '0 0 ' + W + ' ' + H,
       preserveAspectRatio: 'xMidYMid meet',
       role: 'img',
-      'aria-label': 'Карта Pacific Star с автодорожными маршрутами России, приграничными переходами с Китаем и ключевыми городами России, Китая, Японии, Южной Кореи и Индии'
+      'aria-label': 'Карта Pacific Star с автодорожными маршрутами России (белый), Китая (оранжевый), Японии (красный) и Южной Кореи (бирюзовый), приграничными переходами и ключевыми городами региона'
     });
 
     svg.classList.add('route-map-svg');
