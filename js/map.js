@@ -32,6 +32,8 @@
   var C_CAPITAL = '#ffd166';
   var C_POINT_STROKE = 'rgba(17,34,64,0.95)';
   var C_LABEL_STROKE = 'rgba(17,34,64,0.72)';
+  var C_ROUTE = 'rgba(255, 209, 102, 0.92)';
+  var C_ROUTE_GLOW = 'rgba(255, 255, 255, 0.28)';
 
   var NS = 'http://www.w3.org/2000/svg';
   var DATA_URL = 'data/world-countries.geo.json?v=20260309';
@@ -107,6 +109,61 @@
     { text: 'Колката', lon: 88.4, lat: 22.6, dx: 8, dy: -8 }
   ];
 
+  var SEA_ROUTES = [
+    {
+      points: [
+        [131.9, 43.1],
+        [130.4, 40.6],
+        [128.9, 38.1],
+        [129.1, 35.2]
+      ]
+    },
+    {
+      points: [
+        [131.9, 43.1],
+        [135.2, 41.5],
+        [138.1, 38.7],
+        [139.6, 35.4]
+      ]
+    },
+    {
+      points: [
+        [121.5, 31.2],
+        [124.2, 33.4],
+        [126.6, 34.5],
+        [129.1, 35.2]
+      ]
+    },
+    {
+      points: [
+        [121.5, 31.2],
+        [126.8, 32.2],
+        [133.1, 33.4],
+        [139.6, 35.4]
+      ]
+    },
+    {
+      points: [
+        [131.9, 43.1],
+        [126.2, 36.5],
+        [121.5, 31.2],
+        [112.5, 19.8],
+        [103.8, 7.4],
+        [91.8, 9.5],
+        [80.3, 13.1]
+      ]
+    },
+    {
+      points: [
+        [121.5, 31.2],
+        [112.5, 19.8],
+        [103.8, 7.4],
+        [91.8, 9.5],
+        [72.9, 19.1]
+      ]
+    }
+  ];
+
   function addGrid(svg) {
     function appendMeridian(lon) {
       var top = px(lon, LAT_MAX);
@@ -139,6 +196,22 @@
         'stroke-width': '1'
       }));
     }
+  }
+
+  function routeToPath(points) {
+    if (!points || points.length < 2) {
+      return '';
+    }
+
+    var first = px(points[0][0], points[0][1]);
+    var d = 'M ' + fmt(first[0]) + ' ' + fmt(first[1]);
+
+    for (var i = 1; i < points.length; i += 1) {
+      var point = px(points[i][0], points[i][1]);
+      d += ' L ' + fmt(point[0]) + ' ' + fmt(point[1]);
+    }
+
+    return d;
   }
 
   function ringToPath(ring) {
@@ -206,6 +279,34 @@
         'font-weight': '600',
         opacity: label.opacity || '1',
         'text-anchor': label.anchor || 'middle'
+      }));
+    });
+  }
+
+  function renderSeaRoutes(svg) {
+    SEA_ROUTES.forEach(function (route) {
+      var path = routeToPath(route.points);
+      if (!path) {
+        return;
+      }
+
+      svg.appendChild(el('path', {
+        d: path,
+        fill: 'none',
+        stroke: C_ROUTE_GLOW,
+        'stroke-width': '11',
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      }));
+
+      svg.appendChild(el('path', {
+        d: path,
+        fill: 'none',
+        stroke: C_ROUTE,
+        'stroke-width': '3.5',
+        'stroke-dasharray': '12 12',
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
       }));
     });
   }
@@ -278,7 +379,7 @@
       viewBox: '0 0 ' + W + ' ' + H,
       preserveAspectRatio: 'xMidYMid meet',
       role: 'img',
-      'aria-label': 'Карта Pacific Star с основными портовыми городами и столицами России, Китая, Японии, Южной Кореи и Индии'
+      'aria-label': 'Карта Pacific Star с основными портовыми городами, столицами и символическими морскими маршрутами России, Китая, Японии, Южной Кореи и Индии'
     });
 
     svg.classList.add('route-map-svg');
@@ -293,6 +394,7 @@
   }
 
   function renderFallback(svg) {
+    renderSeaRoutes(svg);
     renderLabels(svg);
     svg.appendChild(txt('Не удалось загрузить геоданные карты', fmt(W / 2), fmt(H / 2), {
       'font-size': '26',
@@ -327,6 +429,7 @@
     loadFeatures()
       .then(function (features) {
         renderFeatures(svg, features);
+        renderSeaRoutes(svg);
         renderLabels(svg);
         renderPointLabels(svg);
       })
