@@ -34,6 +34,7 @@
   var C_LABEL_STROKE = 'rgba(17,34,64,0.72)';
   var BASE_POINT_STROKE_WIDTH = 2;
   var BASE_LABEL_STROKE_WIDTH = 3;
+  var pointLabelScalingBindings = new WeakMap();
 
   var NS = 'http://www.w3.org/2000/svg';
   var DATA_URL = 'data/world-countries.geo.json?v=20260309';
@@ -213,6 +214,11 @@
   }
 
   function renderPointLabels(svg) {
+    var renderedPoints = {
+      markers: [],
+      labels: []
+    };
+
     CITY_POINTS.forEach(function (pointData) {
       var point = px(pointData.lon, pointData.lat);
       var isCapital = pointData.kind === 'capital';
@@ -232,7 +238,9 @@
       });
 
       svg.appendChild(marker);
-      svg.appendChild(txt(pointData.text, fmt(point[0] + dx), fmt(point[1] + dy), {
+      renderedPoints.markers.push(marker);
+
+      var label = txt(pointData.text, fmt(point[0] + dx), fmt(point[1] + dy), {
         'font-size': String(fontSize),
         'font-weight': isCapital ? '700' : '600',
         'text-anchor': pointData.anchor || 'start',
@@ -247,25 +255,36 @@
         'data-point-y': fmt(point[1]),
         'data-base-dx': String(dx),
         'data-base-dy': String(dy)
-      }));
+      });
+
+      svg.appendChild(label);
+      renderedPoints.labels.push(label);
     });
+
+    return renderedPoints;
   }
 
   function getPointScale(container) {
     var rect = container.getBoundingClientRect();
+
+    if (!rect.width || !rect.height) {
+      return 1;
+    }
+
     var fitScale = Math.min(rect.width / W, rect.height / H);
 
-    if (!Number.isFinite(fitScale) || fitScale <= 1) {
+    /* Only shrink city markers and labels when the rendered map grows beyond the base SVG size. */
+    if (!Number.isFinite(fitScale) || fitScale < 1) {
       return 1;
     }
 
     return 1 / fitScale;
   }
 
-  function resizePointLabels(svg, container) {
+  function resizePointLabels(container, markers, labels) {
     var pointScale = getPointScale(container);
 
-    Array.prototype.forEach.call(svg.querySelectorAll('circle[data-base-radius]'), function (marker) {
+    markers.forEach(function (marker) {
       var baseRadius = Number(marker.getAttribute('data-base-radius'));
       var baseStrokeWidth = Number(marker.getAttribute('data-base-stroke-width'));
 
@@ -273,7 +292,7 @@
       marker.setAttribute('stroke-width', fmt(baseStrokeWidth * pointScale));
     });
 
-    Array.prototype.forEach.call(svg.querySelectorAll('text[data-base-font-size]'), function (label) {
+    labels.forEach(function (label) {
       var baseFontSize = Number(label.getAttribute('data-base-font-size'));
       var baseStrokeWidth = Number(label.getAttribute('data-base-stroke-width'));
       var pointX = Number(label.getAttribute('data-point-x'));
@@ -288,26 +307,40 @@
     });
   }
 
-  function bindPointLabelScaling(svg, container) {
+  function bindPointLabelScaling(container, renderedPoints) {
+    var existingBinding = pointLabelScalingBindings.get(container);
+
+    if (existingBinding) {
+      window.removeEventListener('resize', existingBinding.handleScaleUpdate);
+      if (existingBinding.resizeObserver) {
+        existingBinding.resizeObserver.disconnect();
+      }
+    }
+
+    var resizeFrame = null;
+
     function handleScaleUpdate() {
-      resizePointLabels(svg, container);
-    }
+      if (resizeFrame !== null) {
+        return;
+      }
 
-    if (container._pointLabelResizeHandler) {
-      window.removeEventListener('resize', container._pointLabelResizeHandler);
+      resizeFrame = window.requestAnimationFrame(function () {
+        resizeFrame = null;
+        resizePointLabels(container, renderedPoints.markers, renderedPoints.labels);
+      });
     }
-
-    if (container._pointLabelResizeObserver) {
-      container._pointLabelResizeObserver.disconnect();
-    }
-
-    container._pointLabelResizeHandler = handleScaleUpdate;
     window.addEventListener('resize', handleScaleUpdate);
 
+    var resizeObserver = null;
     if (window.ResizeObserver) {
-      container._pointLabelResizeObserver = new ResizeObserver(handleScaleUpdate);
-      container._pointLabelResizeObserver.observe(container);
+      resizeObserver = new ResizeObserver(handleScaleUpdate);
+      resizeObserver.observe(container);
     }
+
+    pointLabelScalingBindings.set(container, {
+      handleScaleUpdate: handleScaleUpdate,
+      resizeObserver: resizeObserver
+    });
 
     handleScaleUpdate();
   }
@@ -400,10 +433,11 @@
 
     loadFeatures()
       .then(function (features) {
+        var renderedPoints;
         renderFeatures(svg, features);
         renderLabels(svg);
-        renderPointLabels(svg);
-        bindPointLabelScaling(svg, container);
+        renderedPoints = renderPointLabels(svg);
+        bindPointLabelScaling(container, renderedPoints);
       })
       .catch(function () {
         renderFallback(svg);
