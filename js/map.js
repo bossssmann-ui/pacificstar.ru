@@ -34,6 +34,14 @@
   var C_LABEL_STROKE = 'rgba(17,34,64,0.72)';
   var C_ROAD_LINE = 'rgba(255,255,255,0.80)';
   var C_ROAD_BRANCH_LINE = 'rgba(255,255,255,0.55)';
+  var BASE_POINT_STROKE_WIDTH = 2;
+  var BASE_LABEL_STROKE_WIDTH = 3;
+  var pointLabelScalingBindings = new WeakMap();
+  var C_ROUTE = 'rgba(255,209,102,0.92)';
+  var C_ROUTE_GLOW = 'rgba(255,255,255,0.28)';
+  var C_ROAD = '#ffd166';
+  var C_ROAD_BRANCH = '#ffe29a';
+  var C_ROAD_SHADOW = 'rgba(17,34,64,0.52)';
 
   var NS = 'http://www.w3.org/2000/svg';
   var DATA_URL = 'data/world-countries.geo.json?v=20260309';
@@ -223,6 +231,33 @@
     }
   ];
 
+  var SEA_ROUTES = [
+    {
+      name: 'Владивосток — Пусан',
+      points: [[131.9, 43.1], [129.1, 35.2]]
+    },
+    {
+      name: 'Владивосток — Йокогама',
+      points: [[131.9, 43.1], [139.6, 35.4]]
+    },
+    {
+      name: 'Шанхай — Пусан',
+      points: [[121.5, 31.2], [129.1, 35.2]]
+    },
+    {
+      name: 'Шанхай — Йокогама',
+      points: [[121.5, 31.2], [139.6, 35.4]]
+    },
+    {
+      name: 'Владивосток — Ченнаи',
+      points: [[131.9, 43.1], [121.5, 31.2], [80.3, 13.1]]
+    },
+    {
+      name: 'Шанхай — Мумбаи',
+      points: [[121.5, 31.2], [72.9, 19.1]]
+    }
+  ];
+
   function addGrid(svg) {
     function appendMeridian(lon) {
       var top = px(lon, LAT_MAX);
@@ -327,29 +362,121 @@
   }
 
   function renderPointLabels(svg) {
+    var markers = [];
+    var labels = [];
+
     CITY_POINTS.forEach(function (pointData) {
       var point = px(pointData.lon, pointData.lat);
       var isCapital = pointData.kind === 'capital';
-      var radius = isCapital ? 6 : 4.5;
+      var baseRadius = isCapital ? 6 : 4.5;
       var marker = el('circle', {
         cx: fmt(point[0]),
         cy: fmt(point[1]),
-        r: String(radius),
+        r: String(baseRadius),
         fill: isCapital ? C_CAPITAL : C_POINT,
         stroke: C_POINT_STROKE,
-        'stroke-width': '2'
+        'stroke-width': String(BASE_POINT_STROKE_WIDTH),
+        'data-base-r': String(baseRadius),
+        'data-base-stroke-width': String(BASE_POINT_STROKE_WIDTH)
       });
 
-      svg.appendChild(marker);
-      svg.appendChild(txt(pointData.text, fmt(point[0] + (pointData.dx || 0)), fmt(point[1] + (pointData.dy || 0)), {
-        'font-size': String(pointData.size || 16),
+      var baseFontSize = pointData.size || 16;
+      var label = txt(pointData.text, fmt(point[0] + (pointData.dx || 0)), fmt(point[1] + (pointData.dy || 0)), {
+        'font-size': String(baseFontSize),
         'font-weight': isCapital ? '700' : '600',
         'text-anchor': pointData.anchor || 'start',
         fill: isCapital ? C_CAPITAL : '#ffffff',
         stroke: C_LABEL_STROKE,
-        'stroke-width': '3',
+        'stroke-width': String(BASE_LABEL_STROKE_WIDTH),
         'stroke-linejoin': 'round',
-        'paint-order': 'stroke fill'
+        'paint-order': 'stroke fill',
+        'data-base-font-size': String(baseFontSize),
+        'data-base-stroke-width': String(BASE_LABEL_STROKE_WIDTH)
+      });
+
+      svg.appendChild(marker);
+      svg.appendChild(label);
+      markers.push(marker);
+      labels.push(label);
+    });
+
+    return { markers: markers, labels: labels };
+  }
+
+  function getPointScale(container) {
+    var size = Math.max(1, Math.min(container.offsetWidth || W, container.offsetHeight || W));
+    return Math.min(1, W / size);
+  }
+
+  function resizePointLabels(container, markers, labels) {
+    var scale = getPointScale(container);
+
+    markers.forEach(function (marker) {
+      var baseR = parseFloat(marker.getAttribute('data-base-r'));
+      var baseStroke = parseFloat(marker.getAttribute('data-base-stroke-width'));
+      marker.setAttribute('r', fmt(baseR * scale));
+      marker.setAttribute('stroke-width', fmt(baseStroke * scale));
+    });
+
+    labels.forEach(function (label) {
+      var baseFontSize = parseFloat(label.getAttribute('data-base-font-size'));
+      var baseStroke = parseFloat(label.getAttribute('data-base-stroke-width'));
+      label.setAttribute('font-size', fmt(baseFontSize * scale));
+      label.setAttribute('stroke-width', fmt(baseStroke * scale));
+    });
+  }
+
+  function bindPointLabelScaling(container, renderedPoints) {
+    var markers = renderedPoints.markers;
+    var labels = renderedPoints.labels;
+
+    function onResize() {
+      if (!container.isConnected) {
+        return;
+      }
+      resizePointLabels(container, markers, labels);
+    }
+
+    if (typeof ResizeObserver !== 'undefined') {
+      var ro = new ResizeObserver(onResize);
+      ro.observe(container);
+      pointLabelScalingBindings.set(container, ro);
+    }
+
+    window.addEventListener('resize', onResize);
+  }
+
+  function routeToPath(points) {
+    var first = px(points[0][0], points[0][1]);
+    var d = 'M ' + fmt(first[0]) + ' ' + fmt(first[1]);
+    for (var i = 1; i < points.length; i += 1) {
+      var pt = px(points[i][0], points[i][1]);
+      d += ' L ' + fmt(pt[0]) + ' ' + fmt(pt[1]);
+    }
+    return d;
+  }
+
+  function renderSeaRoutes(svg) {
+    SEA_ROUTES.forEach(function (route) {
+      var d = routeToPath(route.points);
+
+      svg.appendChild(el('path', {
+        d: d,
+        fill: 'none',
+        stroke: C_ROUTE_GLOW,
+        'stroke-width': '6',
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      }));
+
+      svg.appendChild(el('path', {
+        d: d,
+        fill: 'none',
+        stroke: C_ROUTE,
+        'stroke-width': '2.5',
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round',
+        'stroke-dasharray': '8 6'
       }));
     });
   }
@@ -451,6 +578,7 @@
   }
 
   function renderFallback(svg) {
+    renderSeaRoutes(svg);
     renderRoads(svg);
     renderLabels(svg);
     renderPointLabels(svg);
@@ -487,9 +615,11 @@
     loadFeatures()
       .then(function (features) {
         renderFeatures(svg, features);
+        renderSeaRoutes(svg);
         renderRoads(svg);
         renderLabels(svg);
-        renderPointLabels(svg);
+        var renderedPoints = renderPointLabels(svg);
+        bindPointLabelScaling(container, renderedPoints);
       })
       .catch(function () {
         renderFallback(svg);
