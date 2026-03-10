@@ -32,6 +32,8 @@
   var C_CAPITAL = '#ffd166';
   var C_POINT_STROKE = 'rgba(17,34,64,0.95)';
   var C_LABEL_STROKE = 'rgba(17,34,64,0.72)';
+  var C_ROAD_LINE = 'rgba(255,255,255,0.80)';
+  var C_ROAD_BRANCH_LINE = 'rgba(255,255,255,0.55)';
   var BASE_POINT_STROKE_WIDTH = 2;
   var BASE_LABEL_STROKE_WIDTH = 3;
   var pointLabelScalingBindings = new WeakMap();
@@ -135,30 +137,36 @@
 
   var ROAD_ROUTES = [
     {
+      /* М-ось: Владивосток — Мурманск */
       kind: 'main',
       points: [
         { lon: 131.9, lat: 43.1 },
         { lon: 131.9, lat: 43.8 },
         { lon: 135.1, lat: 48.5 },
+        { lon: 132.9, lat: 48.8 },
+        { lon: 130.7, lat: 49.5 },
         { lon: 128.5, lat: 50.9 },
-        { lon: 123.9, lat: 54.0 },
+        { lon: 128.1, lat: 51.4 },
         { lon: 113.5, lat: 52.0 },
         { lon: 107.6, lat: 51.8 },
         { lon: 104.3, lat: 52.3 },
         { lon: 92.9, lat: 56.0 },
         { lon: 82.9, lat: 55.0 },
         { lon: 73.4, lat: 55.0 },
-        { lon: 65.5, lat: 57.1 },
+        { lon: 68.9, lat: 57.1 },
         { lon: 60.6, lat: 56.8 },
         { lon: 61.4, lat: 55.2 },
         { lon: 56.0, lat: 54.7 },
         { lon: 49.1, lat: 55.8 },
+        { lon: 44.0, lat: 56.3 },
         { lon: 37.6, lat: 55.8 },
         { lon: 30.3, lat: 59.9 },
+        { lon: 34.3, lat: 61.8 },
         { lon: 33.1, lat: 69.0 }
       ]
     },
     {
+      /* Ответвление: Находка */
       kind: 'branch',
       points: [
         { lon: 132.9, lat: 42.8 },
@@ -166,6 +174,7 @@
       ]
     },
     {
+      /* Ответвление: Пограничный (граница КНР) */
       kind: 'branch',
       points: [
         { lon: 131.4, lat: 44.4 },
@@ -173,23 +182,27 @@
       ]
     },
     {
+      /* Ответвление: Благовещенск от Белогорска */
       kind: 'branch',
       points: [
-        { lon: 127.5, lat: 50.3 },
-        { lon: 128.5, lat: 50.9 }
+        { lon: 128.5, lat: 50.9 },
+        { lon: 127.5, lat: 50.3 }
       ]
     },
     {
+      /* Ответвление: Забайкальск (Р-258, юго-восток от Читы) */
       kind: 'branch',
       points: [
-        { lon: 117.3, lat: 49.7 },
-        { lon: 113.5, lat: 52.0 }
+        { lon: 113.5, lat: 52.0 },
+        { lon: 117.3, lat: 49.7 }
       ]
     },
     {
+      /* Р-504 «Колыма»: Хабаровск — Комсомольск — Нерюнгри — Якутск — Магадан */
       kind: 'branch',
       points: [
-        { lon: 123.9, lat: 54.0 },
+        { lon: 135.1, lat: 48.5 },
+        { lon: 136.9, lat: 50.6 },
         { lon: 124.7, lat: 56.7 },
         { lon: 129.7, lat: 62.0 },
         { lon: 150.8, lat: 59.6 }
@@ -468,53 +481,45 @@
     });
   }
 
-  function routePoints(points) {
-    return points.map(function (pointData) {
-      var point = px(pointData.lon, pointData.lat);
-      return fmt(point[0]) + ',' + fmt(point[1]);
-    }).join(' ');
+  function smoothPath(pixelPoints) {
+    if (pixelPoints.length < 2) { return ''; }
+    var d = 'M ' + fmt(pixelPoints[0][0]) + ' ' + fmt(pixelPoints[0][1]);
+    for (var i = 1; i < pixelPoints.length - 1; i++) {
+      var mx = (pixelPoints[i][0] + pixelPoints[i + 1][0]) / 2;
+      var my = (pixelPoints[i][1] + pixelPoints[i + 1][1]) / 2;
+      d += ' Q ' + fmt(pixelPoints[i][0]) + ' ' + fmt(pixelPoints[i][1]) + ' ' + fmt(mx) + ' ' + fmt(my);
+    }
+    var last = pixelPoints[pixelPoints.length - 1];
+    d += ' L ' + fmt(last[0]) + ' ' + fmt(last[1]);
+    return d;
   }
 
-  function renderRouteStroke(svg, points, stroke, width, opacity, dashArray) {
+  function renderRoadPath(svg, points, stroke, width, dashArray) {
+    var pixelPoints = points.map(function (p) { return px(p.lon, p.lat); });
+    var d = smoothPath(pixelPoints);
+    if (!d) { return; }
     var attrs = {
-      points: points,
+      d: d,
       fill: 'none',
       stroke: stroke,
       'stroke-width': String(width),
       'stroke-linecap': 'round',
-      'stroke-linejoin': 'round',
-      opacity: String(opacity)
+      'stroke-linejoin': 'round'
     };
-
     if (dashArray) {
       attrs['stroke-dasharray'] = dashArray;
     }
-
-    svg.appendChild(el('polyline', attrs));
+    svg.appendChild(el('path', attrs));
   }
 
   function renderRoads(svg) {
     ROAD_ROUTES.forEach(function (route) {
-      var points = routePoints(route.points);
       var isMain = route.kind === 'main';
       var isCrossing = route.kind === 'crossing';
-
-      renderRouteStroke(
-        svg,
-        points,
-        C_ROAD_SHADOW,
-        isMain ? 9 : 6,
-        isCrossing ? 0.38 : 0.58,
-        isCrossing ? '8 7' : ''
-      );
-      renderRouteStroke(
-        svg,
-        points,
-        isMain ? C_ROAD : C_ROAD_BRANCH,
-        isMain ? 5.5 : 3.5,
-        isCrossing ? 0.82 : 0.96,
-        isCrossing ? '8 7' : ''
-      );
+      var stroke = isCrossing ? 'rgba(255,255,255,0.90)' : isMain ? C_ROAD_LINE : C_ROAD_BRANCH_LINE;
+      var width = isMain ? 1.5 : 1.0;
+      var dash = isCrossing ? '4 3' : null;
+      renderRoadPath(svg, route.points, stroke, width, dash);
     });
   }
 
