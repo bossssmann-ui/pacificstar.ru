@@ -452,20 +452,10 @@
       svg.appendChild(el('path', {
         d: d,
         fill: 'none',
-        stroke: C_ROUTE_GLOW,
-        'stroke-width': '6',
+        stroke: C_ROAD_LINE,
+        'stroke-width': '1.5',
         'stroke-linecap': 'round',
         'stroke-linejoin': 'round'
-      }));
-
-      svg.appendChild(el('path', {
-        d: d,
-        fill: 'none',
-        stroke: C_ROUTE,
-        'stroke-width': '2.5',
-        'stroke-linecap': 'round',
-        'stroke-linejoin': 'round',
-        'stroke-dasharray': '8 6'
       }));
     });
   }
