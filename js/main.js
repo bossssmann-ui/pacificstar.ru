@@ -308,6 +308,10 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       })
+      .then(function (response) {
+        if (!response.ok) { throw new Error('HTTP ' + response.status); }
+        return response.json();
+      })
       .then(function () {
         submitBtn.disabled = false;
         submitBtn.innerHTML = 'Отправить заявку <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
@@ -329,7 +333,6 @@
           successMsg.classList.add('show');
           setTimeout(function () {
             successMsg.classList.remove('show');
-            successMsg.innerHTML = '<span aria-hidden="true" style="font-size:1.2rem;">✅</span> Заявка отправлена! Мы свяжемся с вами в течение 15 минут.<div class="form-success-links"><a href="services.html">Посмотреть все услуги</a> <span aria-hidden="true">·</span> <a href="account.html">Личный кабинет</a></div>';
           }, 6000);
         }
       });

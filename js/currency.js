@@ -517,9 +517,12 @@
     });
 
     /* Refresh */
-    document.getElementById('currencyRefresh').addEventListener('click', function () {
-      fetchRates(function () { updateCards(); });
-    });
+    var refreshBtn = document.getElementById('currencyRefresh');
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', function () {
+        fetchRates(function () { updateCards(); });
+      });
+    }
 
     /* Retry */
     var retryBtn = document.getElementById('currencyRetry');
@@ -536,10 +539,12 @@
       swapBtn.addEventListener('click', function () {
         var from = document.getElementById('convFrom');
         var to   = document.getElementById('convTo');
-        var tmp  = from.value;
-        from.value = to.value;
-        to.value   = tmp;
-        convert();
+        if (from && to) {
+          var tmp  = from.value;
+          from.value = to.value;
+          to.value   = tmp;
+          convert();
+        }
       });
     }
   }
