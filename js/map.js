@@ -16,14 +16,12 @@
   var LAT_MIN = 6.75;
   var LON_SPAN = LON_MAX - LON_MIN;
   var LAT_SPAN = LAT_MAX - LAT_MIN;
-  /* Empirical clearance in SVG pixels so India stays comfortably above the lower edge of the fullscreen map block. */
-  var INDIA_LOWER_EDGE_CLEARANCE_PX = 120;
   var PIXELS_PER_DEGREE = Math.min(W / LON_SPAN, H / LAT_SPAN);
   var MAP_W = LON_SPAN * PIXELS_PER_DEGREE;
   var MAP_H = LAT_SPAN * PIXELS_PER_DEGREE;
   var OFFSET_X = (W - MAP_W) / 2;
-  /* Do not let the upward shift move the rendered geography above the visible square viewport. */
-  var OFFSET_Y = Math.max(0, ((H - MAP_H) / 2) - INDIA_LOWER_EDGE_CLEARANCE_PX);
+  /* Anchor the cropped region to the top of the square viewport so the Arctic starts near the upper edge. */
+  var OFFSET_Y = 0;
 
   var C_OCEAN = '#2b4d8a';
   var C_LAND = '#6a9fc8';
