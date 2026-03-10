@@ -26,6 +26,7 @@
   --shadow-lg:       0 8px 40px rgba(13, 43, 94, 0.18);
   --radius:          8px;
   --radius-lg:       14px;
+  --container-max-width: 1180px;
 }
 
 html {
@@ -65,7 +66,7 @@ button {
 /* --- Container --- */
 .container {
   width: 100%;
-  max-width: 1180px;
+  max-width: var(--container-max-width);
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -3056,6 +3057,8 @@ select.form-control {
    INTERACTIVE ROUTE MAP
    ═══════════════════════════════════════════════════════════════════════ */
 .map-section-full {
+  /* Keep the CTA aligned with the content column even when the map itself stretches edge to edge. */
+  --map-cta-left-offset: max(20px, calc(50vw - (var(--container-max-width) / 2) + 20px));
   background: #223d6e;
   padding: 60px 0;
   overflow: hidden;
@@ -3070,7 +3073,9 @@ select.form-control {
   position: relative;
 }
 .route-map-container {
+  /* Progressive enhancement: supporting browsers override vh with dvh for collapsing mobile browser chrome. */
   min-height: 100vh;
+  min-height: 100dvh;
   border-radius: 0;
   overflow: hidden;
   box-shadow: none;
@@ -3096,7 +3101,7 @@ select.form-control {
 .btn-calc-route {
   position: absolute;
   top: 20px;
-  left: max(20px, calc(50vw - 570px + 20px));
+  left: var(--map-cta-left-offset);
   background: #fff;
   color: #2b4d8a;
   font-weight: 700;
@@ -3111,6 +3116,7 @@ select.form-control {
 @media (max-width: 1024px) {
   .route-map-container {
     min-height: 70vh;
+    min-height: 70dvh;
   }
 }
 
@@ -3121,6 +3127,7 @@ select.form-control {
 
   .route-map-container {
     min-height: 56vh;
+    min-height: 56dvh;
   }
 
   .map-legend-note {
