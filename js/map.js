@@ -480,19 +480,13 @@
     window.addEventListener('resize', onResize);
   }
 
-  function routeToPath(points) {
-    var first = px(points[0][0], points[0][1]);
-    var d = 'M ' + fmt(first[0]) + ' ' + fmt(first[1]);
-    for (var i = 1; i < points.length; i += 1) {
-      var pt = px(points[i][0], points[i][1]);
-      d += ' L ' + fmt(pt[0]) + ' ' + fmt(pt[1]);
-    }
-    return d;
-  }
-
   function renderSeaRoutes(svg) {
     SEA_ROUTES.forEach(function (route) {
-      var d = routeToPath(route.points);
+      var pixelPoints = route.points.map(function (p) {
+        return px(p[0], p[1]);
+      });
+      var d = smoothPath(pixelPoints);
+      if (!d) { return; }
 
       svg.appendChild(el('path', {
         d: d,
