@@ -241,6 +241,8 @@
       name: 'Владивосток — Ченнаи',
       points: [
         [131.9, 43.1],
+        [131.0, 37.0],
+        [128.5, 33.5],
         [121.5, 31.2],
         [110.0, 20.0],
         [107.0, 10.0],
@@ -268,13 +270,17 @@
       name: 'Новороссийск — Мумбаи',
       points: [
         [37.8, 44.7],
-        [29.0, 41.2],
-        [26.5, 39.9],
+        [29.2, 41.3],
+        [29.0, 40.7],
+        [27.5, 40.6],
+        [26.4, 40.1],
+        [25.5, 39.5],
         [25.0, 38.0],
-        [30.0, 35.0],
+        [27.0, 35.5],
+        [30.0, 34.0],
         [32.3, 31.3],
         [32.6, 29.9],
-        [32.8, 27.8],
+        [33.5, 28.0],
         [35.0, 25.5],
         [38.0, 19.5],
         [42.0, 13.5],
@@ -474,19 +480,13 @@
     window.addEventListener('resize', onResize);
   }
 
-  function routeToPath(points) {
-    var first = px(points[0][0], points[0][1]);
-    var d = 'M ' + fmt(first[0]) + ' ' + fmt(first[1]);
-    for (var i = 1; i < points.length; i += 1) {
-      var pt = px(points[i][0], points[i][1]);
-      d += ' L ' + fmt(pt[0]) + ' ' + fmt(pt[1]);
-    }
-    return d;
-  }
-
   function renderSeaRoutes(svg) {
     SEA_ROUTES.forEach(function (route) {
-      var d = routeToPath(route.points);
+      var pixelPoints = route.points.map(function (p) {
+        return px(p[0], p[1]);
+      });
+      var d = smoothPath(pixelPoints);
+      if (!d) { return; }
 
       svg.appendChild(el('path', {
         d: d,
