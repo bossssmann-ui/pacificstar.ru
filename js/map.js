@@ -32,8 +32,8 @@
   var C_CAPITAL = '#ffd166';
   var C_POINT_STROKE = 'rgba(17,34,64,0.95)';
   var C_LABEL_STROKE = 'rgba(17,34,64,0.72)';
-  var C_ROUTE = 'rgba(255, 209, 102, 0.92)';
-  var C_ROUTE_GLOW = 'rgba(255, 255, 255, 0.28)';
+  var C_ROUTE = 'rgba(255,209,102,0.92)';
+  var C_ROUTE_GLOW = 'rgba(255,255,255,0.28)';
 
   var NS = 'http://www.w3.org/2000/svg';
   var DATA_URL = 'data/world-countries.geo.json?v=20260309';
