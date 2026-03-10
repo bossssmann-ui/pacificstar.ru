@@ -39,9 +39,6 @@
   var pointLabelScalingBindings = new WeakMap();
   var C_ROUTE = 'rgba(255,209,102,0.92)';
   var C_ROUTE_GLOW = 'rgba(255,255,255,0.28)';
-  var C_ROAD = '#ffd166';
-  var C_ROAD_BRANCH = '#ffe29a';
-  var C_ROAD_SHADOW = 'rgba(17,34,64,0.52)';
 
   var NS = 'http://www.w3.org/2000/svg';
   var DATA_URL = 'data/world-countries.geo.json?v=20260309';
@@ -166,19 +163,11 @@
       ]
     },
     {
-      /* Ответвление: Находка */
-      kind: 'branch',
-      points: [
-        { lon: 132.9, lat: 42.8 },
-        { lon: 131.9, lat: 43.1 }
-      ]
-    },
-    {
       /* Ответвление: Пограничный (граница КНР) */
       kind: 'branch',
       points: [
-        { lon: 131.4, lat: 44.4 },
-        { lon: 131.9, lat: 43.8 }
+        { lon: 131.9, lat: 43.8 },
+        { lon: 131.4, lat: 44.4 }
       ]
     },
     {
@@ -494,32 +483,30 @@
     return d;
   }
 
-  function renderRoadPath(svg, points, stroke, width, dashArray) {
-    var pixelPoints = points.map(function (p) { return px(p.lon, p.lat); });
-    var d = smoothPath(pixelPoints);
-    if (!d) { return; }
-    var attrs = {
-      d: d,
-      fill: 'none',
-      stroke: stroke,
-      'stroke-width': String(width),
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round'
-    };
-    if (dashArray) {
-      attrs['stroke-dasharray'] = dashArray;
-    }
-    svg.appendChild(el('path', attrs));
-  }
-
   function renderRoads(svg) {
     ROAD_ROUTES.forEach(function (route) {
+      var pixelPoints = route.points.map(function (p) {
+        return px(p.lon, p.lat);
+      });
+      var d = smoothPath(pixelPoints);
+      if (!d) {
+        return;
+      }
       var isMain = route.kind === 'main';
       var isCrossing = route.kind === 'crossing';
-      var stroke = isCrossing ? 'rgba(255,255,255,0.90)' : isMain ? C_ROAD_LINE : C_ROAD_BRANCH_LINE;
-      var width = isMain ? 1.5 : 1.0;
-      var dash = isCrossing ? '4 3' : null;
-      renderRoadPath(svg, route.points, stroke, width, dash);
+      var attrs = {
+        d: d,
+        fill: 'none',
+        stroke: isCrossing ? 'rgba(255,255,255,0.90)' : (isMain ? C_ROAD_LINE : C_ROAD_BRANCH_LINE),
+        'stroke-width': isMain ? '1.5' : '1.0',
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      };
+      if (isCrossing) {
+        attrs['stroke-dasharray'] = '4 3';
+        attrs['stroke-width'] = '1.5';
+      }
+      svg.appendChild(el('path', attrs));
     });
   }
 
