@@ -32,6 +32,9 @@
   var C_CAPITAL = '#ffd166';
   var C_POINT_STROKE = 'rgba(17,34,64,0.95)';
   var C_LABEL_STROKE = 'rgba(17,34,64,0.72)';
+  var C_ROAD = '#ffd166';
+  var C_ROAD_BRANCH = '#ffe29a';
+  var C_ROAD_SHADOW = 'rgba(17,34,64,0.52)';
 
   var NS = 'http://www.w3.org/2000/svg';
   var DATA_URL = 'data/world-countries.geo.json?v=20260309';
@@ -87,10 +90,28 @@
 
   var CITY_POINTS = [
     { text: 'Москва', lon: 37.6, lat: 55.8, size: 18, dx: 8, dy: -8, kind: 'capital' },
-    { text: 'Санкт-Петербург', lon: 30.3, lat: 59.9, dx: 8, dy: -8 },
+    { text: 'Санкт-Петербург', lon: 30.3, lat: 59.9, dx: 8, dy: -8, size: 15 },
+    { text: 'Мурманск', lon: 33.1, lat: 69.0, dx: 8, dy: -8 },
     { text: 'Новороссийск', lon: 37.8, lat: 44.7, dx: 8, dy: 18 },
     { text: 'Владивосток', lon: 131.9, lat: 43.1, dx: 8, dy: -8 },
-    { text: 'Находка', lon: 132.9, lat: 42.8, dx: 8, dy: 18 },
+    { text: 'Уссурийск', lon: 131.9, lat: 43.8, size: 14, dx: -12, dy: -12, anchor: 'end' },
+    { text: 'Находка', lon: 132.9, lat: 42.8, size: 14, dx: 8, dy: 22 },
+    { text: 'Пограничный', lon: 131.4, lat: 44.4, size: 13, dx: -14, dy: -12, anchor: 'end' },
+    { text: 'Суйфэньхэ', lon: 131.2, lat: 44.4, size: 13, dx: 10, dy: 14 },
+    { text: 'Благовещенск', lon: 127.5, lat: 50.3, size: 13, dx: -14, dy: -10, anchor: 'end' },
+    { text: 'Хэйхэ', lon: 127.5, lat: 50.2, size: 13, dx: 10, dy: -12 },
+    { text: 'Забайкальск', lon: 117.3, lat: 49.7, size: 13, dx: -14, dy: 18, anchor: 'end' },
+    { text: 'Маньчжурия', lon: 117.4, lat: 49.6, size: 13, dx: 10, dy: -10 },
+    { text: 'Якутск', lon: 129.7, lat: 62.0, size: 15, dx: 8, dy: -8 },
+    { text: 'Магадан', lon: 150.8, lat: 59.6, size: 15, dx: 8, dy: -8 },
+    { text: 'Иркутск', lon: 104.3, lat: 52.3, size: 14, dx: 8, dy: -8 },
+    { text: 'Красноярск', lon: 92.9, lat: 56.0, size: 14, dx: -12, dy: -10, anchor: 'end' },
+    { text: 'Новосибирск', lon: 82.9, lat: 55.0, size: 14, dx: 8, dy: 18 },
+    { text: 'Омск', lon: 73.4, lat: 55.0, size: 14, dx: -12, dy: -8, anchor: 'end' },
+    { text: 'Екатеринбург', lon: 60.6, lat: 56.8, size: 14, dx: 8, dy: -8 },
+    { text: 'Челябинск', lon: 61.4, lat: 55.2, size: 14, dx: -10, dy: 18, anchor: 'end' },
+    { text: 'Уфа', lon: 56.0, lat: 54.7, size: 14, dx: -12, dy: -10, anchor: 'end' },
+    { text: 'Казань', lon: 49.1, lat: 55.8, size: 14, dx: 8, dy: -8 },
     { text: 'Пекин', lon: 116.4, lat: 39.9, dx: -10, dy: -10, anchor: 'end', kind: 'capital' },
     { text: 'Шанхай', lon: 121.5, lat: 31.2, dx: 8, dy: 18 },
     { text: 'Циндао', lon: 120.4, lat: 36.1, dx: 8, dy: -8 },
@@ -105,6 +126,91 @@
     { text: 'Мумбаи', lon: 72.9, lat: 19.1, dx: 8, dy: 18 },
     { text: 'Ченнаи', lon: 80.3, lat: 13.1, dx: 8, dy: 18 },
     { text: 'Колката', lon: 88.4, lat: 22.6, dx: 8, dy: -8 }
+  ];
+
+  var ROAD_ROUTES = [
+    {
+      kind: 'main',
+      points: [
+        { lon: 131.9, lat: 43.1 },
+        { lon: 131.9, lat: 43.8 },
+        { lon: 135.1, lat: 48.5 },
+        { lon: 128.5, lat: 50.9 },
+        { lon: 123.9, lat: 54.0 },
+        { lon: 113.5, lat: 52.0 },
+        { lon: 107.6, lat: 51.8 },
+        { lon: 104.3, lat: 52.3 },
+        { lon: 92.9, lat: 56.0 },
+        { lon: 82.9, lat: 55.0 },
+        { lon: 73.4, lat: 55.0 },
+        { lon: 65.5, lat: 57.1 },
+        { lon: 60.6, lat: 56.8 },
+        { lon: 61.4, lat: 55.2 },
+        { lon: 56.0, lat: 54.7 },
+        { lon: 49.1, lat: 55.8 },
+        { lon: 37.6, lat: 55.8 },
+        { lon: 30.3, lat: 59.9 },
+        { lon: 33.1, lat: 69.0 }
+      ]
+    },
+    {
+      kind: 'branch',
+      points: [
+        { lon: 132.9, lat: 42.8 },
+        { lon: 131.9, lat: 43.1 }
+      ]
+    },
+    {
+      kind: 'branch',
+      points: [
+        { lon: 131.4, lat: 44.4 },
+        { lon: 131.9, lat: 43.8 }
+      ]
+    },
+    {
+      kind: 'branch',
+      points: [
+        { lon: 127.5, lat: 50.3 },
+        { lon: 128.5, lat: 50.9 }
+      ]
+    },
+    {
+      kind: 'branch',
+      points: [
+        { lon: 117.3, lat: 49.7 },
+        { lon: 113.5, lat: 52.0 }
+      ]
+    },
+    {
+      kind: 'branch',
+      points: [
+        { lon: 123.9, lat: 54.0 },
+        { lon: 124.7, lat: 56.7 },
+        { lon: 129.7, lat: 62.0 },
+        { lon: 150.8, lat: 59.6 }
+      ]
+    },
+    {
+      kind: 'crossing',
+      points: [
+        { lon: 131.4, lat: 44.4 },
+        { lon: 131.2, lat: 44.4 }
+      ]
+    },
+    {
+      kind: 'crossing',
+      points: [
+        { lon: 127.5, lat: 50.3 },
+        { lon: 127.5, lat: 50.2 }
+      ]
+    },
+    {
+      kind: 'crossing',
+      points: [
+        { lon: 117.3, lat: 49.7 },
+        { lon: 117.4, lat: 49.6 }
+      ]
+    }
   ];
 
   function addGrid(svg) {
@@ -238,6 +344,56 @@
     });
   }
 
+  function routePoints(points) {
+    return points.map(function (pointData) {
+      var point = px(pointData.lon, pointData.lat);
+      return fmt(point[0]) + ',' + fmt(point[1]);
+    }).join(' ');
+  }
+
+  function renderRouteStroke(svg, points, stroke, width, opacity, dashArray) {
+    var attrs = {
+      points: points,
+      fill: 'none',
+      stroke: stroke,
+      'stroke-width': String(width),
+      'stroke-linecap': 'round',
+      'stroke-linejoin': 'round',
+      opacity: String(opacity)
+    };
+
+    if (dashArray) {
+      attrs['stroke-dasharray'] = dashArray;
+    }
+
+    svg.appendChild(el('polyline', attrs));
+  }
+
+  function renderRoads(svg) {
+    ROAD_ROUTES.forEach(function (route) {
+      var points = routePoints(route.points);
+      var isMain = route.kind === 'main';
+      var isCrossing = route.kind === 'crossing';
+
+      renderRouteStroke(
+        svg,
+        points,
+        C_ROAD_SHADOW,
+        isMain ? 9 : 6,
+        isCrossing ? 0.38 : 0.58,
+        isCrossing ? '8 7' : ''
+      );
+      renderRouteStroke(
+        svg,
+        points,
+        isMain ? C_ROAD : C_ROAD_BRANCH,
+        isMain ? 5.5 : 3.5,
+        isCrossing ? 0.82 : 0.96,
+        isCrossing ? '8 7' : ''
+      );
+    });
+  }
+
   function renderFeatures(svg, features) {
     features.forEach(function (feature) {
       if (!feature || !feature.geometry) {
@@ -278,7 +434,7 @@
       viewBox: '0 0 ' + W + ' ' + H,
       preserveAspectRatio: 'xMidYMid meet',
       role: 'img',
-      'aria-label': 'Карта Pacific Star с основными портовыми городами и столицами России, Китая, Японии, Южной Кореи и Индии'
+      'aria-label': 'Карта Pacific Star с автодорожными маршрутами России, приграничными переходами с Китаем и ключевыми городами России, Китая, Японии, Южной Кореи и Индии'
     });
 
     svg.classList.add('route-map-svg');
@@ -293,7 +449,9 @@
   }
 
   function renderFallback(svg) {
+    renderRoads(svg);
     renderLabels(svg);
+    renderPointLabels(svg);
     svg.appendChild(txt('Не удалось загрузить геоданные карты', fmt(W / 2), fmt(H / 2), {
       'font-size': '26',
       'font-weight': '700'
@@ -327,6 +485,7 @@
     loadFeatures()
       .then(function (features) {
         renderFeatures(svg, features);
+        renderRoads(svg);
         renderLabels(svg);
         renderPointLabels(svg);
       })
