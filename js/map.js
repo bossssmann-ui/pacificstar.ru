@@ -28,6 +28,10 @@
   var C_BORDER = '#9cc4e0';
   var C_GRID = 'rgba(255,255,255,0.12)';
   var C_LABEL = 'rgba(255,255,255,0.8)';
+  var C_POINT = '#ffffff';
+  var C_CAPITAL = '#ffd166';
+  var C_POINT_STROKE = 'rgba(17,34,64,0.95)';
+  var C_LABEL_STROKE = 'rgba(17,34,64,0.72)';
 
   var NS = 'http://www.w3.org/2000/svg';
   var DATA_URL = 'data/world-countries.geo.json?v=20260309';
@@ -77,7 +81,30 @@
     { text: 'Северный Ледовитый океан', lon: 105, lat: 77, size: 18, opacity: 0.7 },
     { text: 'Индия', lon: 79, lat: 20, size: 18, opacity: 0.7 },
     { text: 'Япония', lon: 138, lat: 37, size: 16 },
-    { text: 'Китай', lon: 106, lat: 35, size: 18 }
+    { text: 'Китай', lon: 106, lat: 35, size: 18 },
+    { text: 'Южная Корея', lon: 127.6, lat: 36.4, size: 14 }
+  ];
+
+  var CITY_POINTS = [
+    { text: 'Москва', lon: 37.6, lat: 55.8, size: 18, dx: 8, dy: -8, kind: 'capital' },
+    { text: 'Санкт-Петербург', lon: 30.3, lat: 59.9, dx: 8, dy: -8 },
+    { text: 'Новороссийск', lon: 37.8, lat: 44.7, dx: 8, dy: 18 },
+    { text: 'Владивосток', lon: 131.9, lat: 43.1, dx: 8, dy: -8 },
+    { text: 'Находка', lon: 132.9, lat: 42.8, dx: 8, dy: 18 },
+    { text: 'Пекин', lon: 116.4, lat: 39.9, dx: -10, dy: -10, anchor: 'end', kind: 'capital' },
+    { text: 'Шанхай', lon: 121.5, lat: 31.2, dx: 8, dy: 18 },
+    { text: 'Циндао', lon: 120.4, lat: 36.1, dx: 8, dy: -8 },
+    { text: 'Шэньчжэнь', lon: 114.1, lat: 22.5, dx: 8, dy: 18 },
+    { text: 'Токио', lon: 139.7, lat: 35.7, dx: 8, dy: -8, kind: 'capital' },
+    { text: 'Йокогама', lon: 139.6, lat: 35.4, dx: 8, dy: 18 },
+    { text: 'Кобе', lon: 135.2, lat: 34.7, dx: -10, dy: 18, anchor: 'end' },
+    { text: 'Сеул', lon: 127.0, lat: 37.6, dx: -10, dy: -10, anchor: 'end', kind: 'capital' },
+    { text: 'Пусан', lon: 129.1, lat: 35.2, dx: 8, dy: 18 },
+    { text: 'Инчхон', lon: 126.7, lat: 37.5, dx: -10, dy: 18, anchor: 'end' },
+    { text: 'Нью-Дели', lon: 77.2, lat: 28.6, dx: 8, dy: -8, kind: 'capital' },
+    { text: 'Мумбаи', lon: 72.9, lat: 19.1, dx: 8, dy: 18 },
+    { text: 'Ченнаи', lon: 80.3, lat: 13.1, dx: 8, dy: 18 },
+    { text: 'Колката', lon: 88.4, lat: 22.6, dx: 8, dy: -8 }
   ];
 
   function addGrid(svg) {
@@ -183,6 +210,34 @@
     });
   }
 
+  function renderPointLabels(svg) {
+    CITY_POINTS.forEach(function (pointData) {
+      var point = px(pointData.lon, pointData.lat);
+      var isCapital = pointData.kind === 'capital';
+      var radius = isCapital ? 6 : 4.5;
+      var marker = el('circle', {
+        cx: fmt(point[0]),
+        cy: fmt(point[1]),
+        r: String(radius),
+        fill: isCapital ? C_CAPITAL : C_POINT,
+        stroke: C_POINT_STROKE,
+        'stroke-width': '2'
+      });
+
+      svg.appendChild(marker);
+      svg.appendChild(txt(pointData.text, fmt(point[0] + (pointData.dx || 0)), fmt(point[1] + (pointData.dy || 0)), {
+        'font-size': String(pointData.size || 16),
+        'font-weight': isCapital ? '700' : '600',
+        'text-anchor': pointData.anchor || 'start',
+        fill: isCapital ? C_CAPITAL : '#ffffff',
+        stroke: C_LABEL_STROKE,
+        'stroke-width': '3',
+        'stroke-linejoin': 'round',
+        'paint-order': 'stroke fill'
+      }));
+    });
+  }
+
   function renderFeatures(svg, features) {
     features.forEach(function (feature) {
       if (!feature || !feature.geometry) {
@@ -223,7 +278,7 @@
       viewBox: '0 0 ' + W + ' ' + H,
       preserveAspectRatio: 'xMidYMid meet',
       role: 'img',
-      'aria-label': 'Региональная карта Pacific Star от Калининграда до Чукотки'
+      'aria-label': 'Карта Pacific Star с основными портовыми городами и столицами России, Китая, Японии, Южной Кореи и Индии'
     });
 
     svg.classList.add('route-map-svg');
@@ -273,6 +328,7 @@
       .then(function (features) {
         renderFeatures(svg, features);
         renderLabels(svg);
+        renderPointLabels(svg);
       })
       .catch(function () {
         renderFallback(svg);
