@@ -20,7 +20,8 @@
   var MAP_W = LON_SPAN * PIXELS_PER_DEGREE;
   var MAP_H = LAT_SPAN * PIXELS_PER_DEGREE;
   var OFFSET_X = (W - MAP_W) / 2;
-  var OFFSET_Y = (H - MAP_H) / 2;
+  /* Anchor the cropped region to the top of the square viewport so the Arctic starts near the upper edge. */
+  var OFFSET_Y = 0;
 
   var C_OCEAN = '#2b4d8a';
   var C_LAND = '#6a9fc8';
