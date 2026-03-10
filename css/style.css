@@ -3100,7 +3100,7 @@ select.form-control {
 }
 .btn-calc-route {
   position: absolute;
-  top: 20px;
+  top: 0;
   left: var(--map-cta-left-offset);
   background: #fff;
   color: #2b4d8a;
@@ -3139,7 +3139,7 @@ select.form-control {
   .btn-calc-route {
     left: 16px;
     right: 16px;
-    top: 16px;
+    top: 0;
     text-align: center;
   }
 }

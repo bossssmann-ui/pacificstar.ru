@@ -20,7 +20,7 @@
   var MAP_W = LON_SPAN * PIXELS_PER_DEGREE;
   var MAP_H = LAT_SPAN * PIXELS_PER_DEGREE;
   var OFFSET_X = (W - MAP_W) / 2;
-  var OFFSET_Y = (H - MAP_H) / 2;
+  var OFFSET_Y = Math.max(0, ((H - MAP_H) / 2) - 120);
 
   var C_OCEAN = '#2b4d8a';
   var C_LAND = '#6a9fc8';
