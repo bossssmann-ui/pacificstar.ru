@@ -877,6 +877,7 @@
       var isChina = route.kind === 'china';
       var isJapan = route.kind === 'japan';
       var isKorea = route.kind === 'korea';
+      var dash = isCrossing ? '4 4' : '';
       var stroke = isCrossing ? 'rgba(255,255,255,0.90)'
         : isMain ? C_ROAD_LINE
           : isChina ? C_ROAD_CHINA
