@@ -24,6 +24,7 @@
   var isLoading   = false;
   var selectedCode = 'USD';
   var chartCache   = {};   /* code → [{date, value}] */
+  var cardCache    = {};   /* code → { card, rateVal, changeEl } */
 
   /* ── Fetch rates from CBR ── */
   function fetchRates(onDone) {
@@ -35,37 +36,34 @@
     if (loadingEl) loadingEl.style.display = 'flex';
     if (errorEl)   errorEl.style.display   = 'none';
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', CBR_URL, true);
-    xhr.timeout = 8000;
-    xhr.onload = function () {
-      isLoading = false;
-      if (loadingEl) loadingEl.style.display = 'none';
-      if (xhr.status === 200) {
-        try {
-          var data = JSON.parse(xhr.responseText);
-          CURRENCIES.forEach(function (c) {
-            var entry = data.Valute && data.Valute[c.code];
-            if (entry) {
-              rates[c.code]     = entry.Value    / entry.Nominal;
-              prevRates[c.code] = entry.Previous / entry.Nominal;
-            }
-          });
-          lastUpdate = new Date(data.Date);
-          if (onDone) onDone();
-        } catch (e) {
-          showError();
-        }
-      } else {
+    var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timeoutId = setTimeout(function () { if (controller) controller.abort(); }, 8000);
+
+    fetch(CBR_URL, controller ? { signal: controller.signal } : {})
+      .then(function (response) {
+        clearTimeout(timeoutId);
+        if (!response.ok) { throw new Error('HTTP ' + response.status); }
+        return response.json();
+      })
+      .then(function (data) {
+        isLoading = false;
+        if (loadingEl) loadingEl.style.display = 'none';
+        CURRENCIES.forEach(function (c) {
+          var entry = data.Valute && data.Valute[c.code];
+          if (entry) {
+            rates[c.code]     = entry.Value    / entry.Nominal;
+            prevRates[c.code] = entry.Previous / entry.Nominal;
+          }
+        });
+        lastUpdate = new Date(data.Date);
+        if (onDone) onDone();
+      })
+      .catch(function () {
+        clearTimeout(timeoutId);
+        isLoading = false;
+        if (loadingEl) loadingEl.style.display = 'none';
         showError();
-      }
-    };
-    xhr.onerror = xhr.ontimeout = function () {
-      isLoading = false;
-      if (loadingEl) loadingEl.style.display = 'none';
-      showError();
-    };
-    xhr.send();
+      });
   }
 
   function showError() {
@@ -92,24 +90,21 @@
   /* ── Update rate cards ── */
   function updateCards() {
     CURRENCIES.forEach(function (c) {
-      var card = document.getElementById('rate-' + c.code);
-      if (!card) return;
-      var rateVal = card.querySelector('.currency-rate-value');
-      var changeEl = card.querySelector('.currency-change');
-      if (!rates[c.code]) return;
+      var cached = cardCache[c.code];
+      if (!cached || !rates[c.code]) return;
 
       var displayRate = rates[c.code] * c.nominal;
-      if (rateVal) rateVal.textContent = displayRate.toFixed(2) + ' ₽';
+      if (cached.rateVal) cached.rateVal.textContent = displayRate.toFixed(2) + ' ₽';
 
-      if (changeEl) {
+      if (cached.changeEl) {
         if (prevRates[c.code]) {
           var prevRate = prevRates[c.code] * c.nominal;
           var diff = displayRate - prevRate;
           var arrow = diff >= 0 ? '▲' : '▼';
-          changeEl.textContent = arrow + ' ' + Math.abs(diff).toFixed(2);
-          changeEl.className = 'currency-change ' + (diff >= 0 ? 'up' : 'down');
+          cached.changeEl.textContent = arrow + ' ' + Math.abs(diff).toFixed(2);
+          cached.changeEl.className = 'currency-change ' + (diff >= 0 ? 'up' : 'down');
         } else {
-          changeEl.textContent = '';
+          cached.changeEl.textContent = '';
         }
       }
     });
@@ -189,24 +184,27 @@
 
   function fetchArchiveDay(dateStr, code, nominal, onDone) {
     var url = CBR_ARCHIVE + dateStr + '/daily_json.js';
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.timeout = 6000;
-    xhr.onload = function () {
-      if (xhr.status === 200) {
-        try {
-          var data = JSON.parse(xhr.responseText);
-          var entry = data.Valute && data.Valute[code];
-          if (entry) {
-            onDone(null, entry.Value / entry.Nominal * nominal);
-            return;
-          }
-        } catch (e) { /* fall through */ }
-      }
-      onDone(new Error('no data'));
-    };
-    xhr.onerror = xhr.ontimeout = function () { onDone(new Error('error')); };
-    xhr.send();
+    var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    var timeoutId = setTimeout(function () { if (controller) controller.abort(); }, 6000);
+
+    fetch(url, controller ? { signal: controller.signal } : {})
+      .then(function (response) {
+        clearTimeout(timeoutId);
+        if (!response.ok) { throw new Error('HTTP ' + response.status); }
+        return response.json();
+      })
+      .then(function (data) {
+        var entry = data.Valute && data.Valute[code];
+        if (entry) {
+          onDone(null, entry.Value / entry.Nominal * nominal);
+        } else {
+          onDone(new Error('no data'));
+        }
+      })
+      .catch(function () {
+        clearTimeout(timeoutId);
+        onDone(new Error('error'));
+      });
   }
 
   function loadChartData(code, onDone) {
@@ -379,6 +377,8 @@
 
     /* Tooltip logic */
     var tooltip = document.getElementById('chartTooltip');
+    /* Cache dot elements once — they are never added/removed after render */
+    var dots = svg.querySelectorAll('.chart-dot');
     svg.addEventListener('mousemove', function (e) {
       var rect = svg.getBoundingClientRect();
       var mx   = e.clientX - rect.left;
@@ -389,7 +389,6 @@
       });
       if (!best || !tooltip) return;
       /* Show dots near hover */
-      var dots = svg.querySelectorAll('.chart-dot');
       for (var d = 0; d < dots.length; d++) {
         dots[d].setAttribute('opacity', d === best.i ? '1' : '0');
       }
@@ -401,7 +400,6 @@
     });
     svg.addEventListener('mouseleave', function () {
       if (tooltip) tooltip.style.display = 'none';
-      var dots = svg.querySelectorAll('.chart-dot');
       for (var d = 0; d < dots.length; d++) {
         dots[d].setAttribute('opacity', '0');
       }
@@ -510,10 +508,17 @@
       '</div>'
     ].join('');
 
-    /* Card click */
+    /* Card click + populate card cache */
     CURRENCIES.forEach(function (c) {
       var card = document.getElementById('rate-' + c.code);
-      if (card) card.addEventListener('click', function () { selectCard(c.code); });
+      if (card) {
+        cardCache[c.code] = {
+          card:     card,
+          rateVal:  card.querySelector('.currency-rate-value'),
+          changeEl: card.querySelector('.currency-change')
+        };
+        card.addEventListener('click', function () { selectCard(c.code); });
+      }
     });
 
     /* Refresh */

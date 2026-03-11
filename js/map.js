@@ -34,11 +34,14 @@
   var C_LABEL_STROKE = 'rgba(17,34,64,0.72)';
   var C_ROAD_LINE = 'rgba(255,255,255,0.80)';
   var C_ROAD_BRANCH_LINE = 'rgba(255,255,255,0.55)';
+  var C_ROAD_CHINA = 'rgba(255,195,80,0.72)';
+  var C_ROAD_JAPAN = 'rgba(255,130,120,0.72)';
+  var C_ROAD_KOREA = 'rgba(100,230,190,0.72)';
+  var C_SEA_ROUTE_LINE = 'rgba(255,255,255,0.92)';
+  var C_SEA_ROUTE_GLOW = 'rgba(255,255,255,0.42)';
   var BASE_POINT_STROKE_WIDTH = 2;
   var BASE_LABEL_STROKE_WIDTH = 3;
   var pointLabelScalingBindings = new WeakMap();
-  var C_ROUTE = 'rgba(255,209,102,0.92)';
-  var C_ROUTE_GLOW = 'rgba(255,255,255,0.28)';
 
   var NS = 'http://www.w3.org/2000/svg';
   var DATA_URL = 'data/world-countries.geo.json?v=20260309';
@@ -129,7 +132,28 @@
     { text: 'Нью-Дели', lon: 77.2, lat: 28.6, dx: 8, dy: -8, kind: 'capital' },
     { text: 'Мумбаи', lon: 72.9, lat: 19.1, dx: 8, dy: 18 },
     { text: 'Ченнаи', lon: 80.3, lat: 13.1, dx: 8, dy: 18 },
-    { text: 'Калькутта', lon: 88.4, lat: 22.6, dx: 8, dy: -8 }
+    { text: 'Калькутта', lon: 88.4, lat: 22.6, dx: 8, dy: -8 },
+    /* Россия — дополнительные города */
+    { text: 'Хабаровск', lon: 135.1, lat: 48.5, size: 14, dx: 8, dy: -8 },
+    { text: 'Чита', lon: 113.5, lat: 52.0, size: 14, dx: 8, dy: -8 },
+    { text: 'Воронеж', lon: 39.2, lat: 51.7, size: 13, dx: -12, dy: -8, anchor: 'end' },
+    { text: 'Ростов-на-Дону', lon: 39.7, lat: 47.2, size: 13, dx: 8, dy: -8 },
+    /* Китай — СВ-коридор и ключевые порты */
+    { text: 'Харбин', lon: 126.6, lat: 45.8, size: 13, dx: 8, dy: -8 },
+    { text: 'Чанчунь', lon: 125.3, lat: 43.9, size: 13, dx: 8, dy: -8 },
+    { text: 'Шэньян', lon: 123.4, lat: 41.8, size: 13, dx: 8, dy: -8 },
+    { text: 'Далянь', lon: 121.6, lat: 38.9, size: 13, dx: 8, dy: 18 },
+    { text: 'Тяньцзинь', lon: 117.2, lat: 39.1, size: 12, dx: 8, dy: 18 },
+    { text: 'Ухань', lon: 114.3, lat: 30.6, size: 12, dx: 8, dy: -8 },
+    { text: 'Гуанчжоу', lon: 113.2, lat: 23.1, size: 13, dx: 8, dy: -8 },
+    /* Япония */
+    { text: 'Осака', lon: 135.5, lat: 34.7, size: 13, dx: 8, dy: 18 },
+    { text: 'Нагоя', lon: 136.9, lat: 35.2, size: 12, dx: 8, dy: -8 },
+    { text: 'Фукуока', lon: 130.4, lat: 33.6, size: 13, dx: 8, dy: -8 },
+    { text: 'Саппоро', lon: 141.4, lat: 43.1, size: 13, dx: 8, dy: -8 },
+    /* Корея */
+    { text: 'Тэджон', lon: 127.4, lat: 36.3, size: 12, dx: 8, dy: -8 },
+    { text: 'Тэгу', lon: 128.6, lat: 35.9, size: 12, dx: 8, dy: -8 }
   ];
 
   var ROAD_ROUTES = [
@@ -198,6 +222,16 @@
       ]
     },
     {
+      /* Ответвление: Москва — Новороссийск (М-4 «Дон») */
+      kind: 'branch',
+      points: [
+        { lon: 37.6, lat: 55.8 },
+        { lon: 38.5, lat: 51.7 },
+        { lon: 39.7, lat: 47.2 },
+        { lon: 37.8, lat: 44.7 }
+      ]
+    },
+    {
       kind: 'crossing',
       points: [
         { lon: 131.4, lat: 44.4 },
@@ -216,6 +250,208 @@
       points: [
         { lon: 117.3, lat: 49.7 },
         { lon: 117.4, lat: 49.6 }
+      ]
+    },
+    /* -------- Россия: дополнительные ветки -------- */
+    {
+      /* М-4 «Дон»: Москва — Воронеж — Ростов-на-Дону — Краснодар — Новороссийск */
+      kind: 'branch',
+      points: [
+        { lon: 37.6, lat: 55.8 },
+        { lon: 39.2, lat: 51.7 },
+        { lon: 39.7, lat: 47.2 },
+        { lon: 39.0, lat: 45.0 },
+        { lon: 37.8, lat: 44.7 }
+      ]
+    },
+    {
+      /* М-1 «Беларусь» / Е30: Москва — Смоленск — (Беларусь — Литва) — Калининград */
+      kind: 'branch',
+      points: [
+        { lon: 37.6, lat: 55.8 },
+        { lon: 32.0, lat: 54.8 },
+        { lon: 28.5, lat: 54.6 },
+        { lon: 24.0, lat: 54.7 },
+        { lon: 20.4, lat: 54.7 }
+      ]
+    },
+    /* -------- Китай: основные автострады -------- */
+    {
+      /* G1/G12 «Цзинхэ»: Пекин — Шэньян — Чанчунь — Харбин — Муданьцзян — Суйфэньхэ (граница РФ) */
+      kind: 'china',
+      points: [
+        { lon: 116.4, lat: 39.9 },
+        { lon: 117.2, lat: 39.1 },
+        { lon: 120.7, lat: 40.8 },
+        { lon: 123.4, lat: 41.8 },
+        { lon: 125.3, lat: 43.9 },
+        { lon: 126.6, lat: 45.8 },
+        { lon: 129.6, lat: 44.6 },
+        { lon: 131.2, lat: 44.4 }
+      ]
+    },
+    {
+      /* G111/G10: Харбин — Хэйхэ (граница РФ с Благовещенском) */
+      kind: 'china',
+      points: [
+        { lon: 126.6, lat: 45.8 },
+        { lon: 126.6, lat: 47.4 },
+        { lon: 127.5, lat: 50.2 }
+      ]
+    },
+    {
+      /* G301 / G10: Харбин — Цицикар — Хайлар — Маньчжурия (граница РФ — Забайкальск) */
+      kind: 'china',
+      points: [
+        { lon: 126.6, lat: 45.8 },
+        { lon: 123.9, lat: 47.4 },
+        { lon: 120.0, lat: 48.6 },
+        { lon: 119.7, lat: 49.2 },
+        { lon: 117.4, lat: 49.6 }
+      ]
+    },
+    {
+      /* G3: Шэньян — Далянь */
+      kind: 'china',
+      points: [
+        { lon: 123.4, lat: 41.8 },
+        { lon: 122.0, lat: 40.1 },
+        { lon: 121.6, lat: 38.9 }
+      ]
+    },
+    {
+      /* G2 «Цзинху»: Пекин — Цзинань — Нанкин — Шанхай */
+      kind: 'china',
+      points: [
+        { lon: 116.4, lat: 39.9 },
+        { lon: 116.5, lat: 38.0 },
+        { lon: 117.0, lat: 36.7 },
+        { lon: 117.1, lat: 34.3 },
+        { lon: 118.8, lat: 32.1 },
+        { lon: 120.2, lat: 30.3 },
+    {
+      /* Китай: Суйфэньхэ — Харбин — Чанчунь — Шэньян — Пекин */
+      kind: 'branch',
+      points: [
+        { lon: 131.2, lat: 44.4 },
+        { lon: 126.6, lat: 45.8 },
+        { lon: 125.3, lat: 43.9 },
+        { lon: 123.4, lat: 41.8 },
+        { lon: 116.4, lat: 39.9 }
+      ]
+    },
+    {
+      /* Китай: Хэйхэ — Харбин */
+      kind: 'branch',
+      points: [
+        { lon: 127.5, lat: 50.2 },
+        { lon: 126.6, lat: 45.8 }
+      ]
+    },
+    {
+      /* Китай: Маньчжурия — Пекин */
+      kind: 'branch',
+      points: [
+        { lon: 117.4, lat: 49.6 },
+        { lon: 115.9, lat: 43.6 },
+        { lon: 116.4, lat: 39.9 }
+      ]
+    },
+    {
+      /* Китай: Пекин — Циндао */
+      kind: 'branch',
+      points: [
+        { lon: 116.4, lat: 39.9 },
+        { lon: 120.4, lat: 36.1 }
+      ]
+    },
+    {
+      /* Китай: Пекин — Шанхай */
+      kind: 'branch',
+      points: [
+        { lon: 116.4, lat: 39.9 },
+        { lon: 118.8, lat: 32.1 },
+        { lon: 121.5, lat: 31.2 }
+      ]
+    },
+    {
+      /* G4 «Цзинган'ao»: Пекин — Ухань — Чанша — Гуанчжоу — Шэньчжэнь */
+      kind: 'china',
+      points: [
+        { lon: 116.4, lat: 39.9 },
+        { lon: 114.5, lat: 38.0 },
+        { lon: 113.7, lat: 34.8 },
+        { lon: 114.3, lat: 30.6 },
+        { lon: 113.0, lat: 28.2 },
+        { lon: 113.2, lat: 23.1 },
+        { lon: 114.1, lat: 22.5 }
+      ]
+    },
+    /* -------- Корея: основные шоссе -------- */
+    {
+      /* Сеул — Тэджон — Тэгу — Пусан (Gyeongbu Expressway) */
+      kind: 'korea',
+      points: [
+        { lon: 127.0, lat: 37.6 },
+        { lon: 127.4, lat: 36.3 },
+        { lon: 128.6, lat: 35.9 },
+        { lon: 129.1, lat: 35.2 }
+      ]
+    },
+    {
+      /* Сеул — Инчхон (Gyeongin Expressway) */
+      kind: 'korea',
+      points: [
+        { lon: 127.0, lat: 37.6 },
+        { lon: 126.7, lat: 37.5 }
+      ]
+    },
+    /* -------- Япония: основные автострады -------- */
+    {
+      /* Томэй / Мэйсин (Токай): Токио — Нагоя — Осака — Кобе */
+      kind: 'japan',
+      points: [
+        { lon: 139.7, lat: 35.7 },
+        { lon: 138.4, lat: 35.1 },
+        { lon: 136.9, lat: 35.2 },
+        { lon: 135.5, lat: 34.7 },
+        { lon: 135.2, lat: 34.7 }
+      ]
+    },
+    {
+      /* Сан'ё: Кобе — Хиросима — Симоносеки — Фукуока */
+      kind: 'japan',
+      points: [
+        { lon: 135.2, lat: 34.7 },
+        { lon: 133.1, lat: 34.2 },
+        { lon: 132.5, lat: 34.4 },
+        { lon: 130.9, lat: 33.9 },
+        { lon: 130.4, lat: 33.6 }
+      ]
+    },
+    {
+      /* Тохоку: Токио — Сэндай — Аомори */
+      kind: 'japan',
+      points: [
+        { lon: 139.7, lat: 35.7 },
+        { lon: 140.9, lat: 38.3 },
+        { lon: 140.7, lat: 40.8 }
+      ]
+    },
+    {
+      /* Хоккайдо: Аомори — Хакодате — Саппоро */
+      kind: 'japan',
+      points: [
+        { lon: 140.7, lat: 40.8 },
+        { lon: 140.7, lat: 41.8 },
+        { lon: 141.4, lat: 43.1 }
+      ]
+      /* Китай: Шанхай — Шэньчжэнь */
+      kind: 'branch',
+      points: [
+        { lon: 121.5, lat: 31.2 },
+        { lon: 119.3, lat: 26.1 },
+        { lon: 114.1, lat: 22.5 }
       ]
     }
   ];
@@ -274,6 +510,18 @@
         [97.0, 4.5],
         [92.0, 7.5],
         [86.0, 11.0],
+        [131.0, 37.0],
+        [128.5, 33.5],
+        [121.5, 31.2],
+        [119.2, 25.5],
+        [117.2, 19.5],
+        [113.4, 13.8],
+        [108.8, 9.4],
+        [103.6, 7.4],
+        [98.5, 8.0],
+        [93.2, 9.2],
+        [88.2, 10.6],
+        [84.2, 11.8],
         [80.3, 13.1]
       ]
     },
@@ -296,6 +544,17 @@
         [75.5, 8.5],
         [73.5, 11.0],
         [72.0, 15.0],
+        [119.2, 25.5],
+        [117.2, 19.5],
+        [113.4, 13.8],
+        [108.8, 9.4],
+        [103.6, 7.4],
+        [98.8, 7.6],
+        [93.5, 8.4],
+        [88.0, 9.0],
+        [82.0, 9.6],
+        [77.2, 10.8],
+        [74.0, 13.8],
         [72.9, 19.1]
       ]
     },
@@ -325,6 +584,27 @@
         [31.0, 42.0],
         [34.0, 43.0],
         [37.8, 44.7]
+        [37.8, 44.7],
+        [33.0, 42.0],
+        [29.2, 41.3],
+        [29.0, 40.7],
+        [28.4, 40.5],
+        [27.2, 40.0],
+        [25.6, 39.2],
+        [24.8, 37.2],
+        [27.0, 35.5],
+        [30.6, 33.6],
+        [32.3, 31.3],
+        [32.6, 29.9],
+        [33.6, 27.2],
+        [35.5, 23.5],
+        [38.4, 18.0],
+        [42.0, 13.5],
+        [43.5, 12.5],
+        [49.5, 11.3],
+        [58.0, 14.2],
+        [66.0, 17.5],
+        [72.9, 19.1]
       ]
     }
   ];
@@ -369,7 +649,7 @@
     }
 
     var first = px(ring[0][0], ring[0][1]);
-    var d = 'M ' + fmt(first[0]) + ' ' + fmt(first[1]);
+    var parts = ['M ' + fmt(first[0]) + ' ' + fmt(first[1])];
     var prevLon = normalizeLon(ring[0][0]);
     var prevPoint = first;
 
@@ -380,20 +660,20 @@
 
       if (Math.abs(lon - prevLon) > 180) {
         if (prevLon > lon) {
-          d += ' L ' + fmt(W) + ' ' + fmt(prevPoint[1]);
-          d += ' M 0.0 ' + fmt(point[1]);
+          parts.push('L ' + fmt(W) + ' ' + fmt(prevPoint[1]));
+          parts.push('M 0.0 ' + fmt(point[1]));
         } else {
-          d += ' L 0.0 ' + fmt(prevPoint[1]);
-          d += ' M ' + fmt(W) + ' ' + fmt(point[1]);
+          parts.push('L 0.0 ' + fmt(prevPoint[1]));
+          parts.push('M ' + fmt(W) + ' ' + fmt(point[1]));
         }
       }
 
-      d += ' L ' + fmt(point[0]) + ' ' + fmt(point[1]);
+      parts.push('L ' + fmt(point[0]) + ' ' + fmt(point[1]));
       prevLon = lon;
       prevPoint = point;
     }
 
-    return d + ' Z';
+    return parts.join(' ') + ' Z';
   }
 
   function polygonToPath(rings) {
@@ -450,6 +730,8 @@
         'data-base-r': String(baseRadius),
         'data-base-stroke-width': String(BASE_POINT_STROKE_WIDTH)
       });
+      marker._baseR = baseRadius;
+      marker._baseStroke = BASE_POINT_STROKE_WIDTH;
 
       var baseFontSize = pointData.size || 16;
       var label = txt(pointData.text, fmt(point[0] + (pointData.dx || 0)), fmt(point[1] + (pointData.dy || 0)), {
@@ -464,6 +746,8 @@
         'data-base-font-size': String(baseFontSize),
         'data-base-stroke-width': String(BASE_LABEL_STROKE_WIDTH)
       });
+      label._baseFontSize = baseFontSize;
+      label._baseStroke = BASE_LABEL_STROKE_WIDTH;
 
       svg.appendChild(marker);
       svg.appendChild(label);
@@ -479,19 +763,25 @@
     return Math.min(1, W / size);
   }
 
+  function getCachedNumeric(element, propName, attrName) {
+    return element[propName] !== undefined
+      ? element[propName]
+      : parseFloat(element.getAttribute(attrName));
+  }
+
   function resizePointLabels(container, markers, labels) {
     var scale = getPointScale(container);
 
     markers.forEach(function (marker) {
-      var baseR = parseFloat(marker.getAttribute('data-base-r'));
-      var baseStroke = parseFloat(marker.getAttribute('data-base-stroke-width'));
+      var baseR      = getCachedNumeric(marker, '_baseR',      'data-base-r');
+      var baseStroke = getCachedNumeric(marker, '_baseStroke', 'data-base-stroke-width');
       marker.setAttribute('r', fmt(baseR * scale));
       marker.setAttribute('stroke-width', fmt(baseStroke * scale));
     });
 
     labels.forEach(function (label) {
-      var baseFontSize = parseFloat(label.getAttribute('data-base-font-size'));
-      var baseStroke = parseFloat(label.getAttribute('data-base-stroke-width'));
+      var baseFontSize = getCachedNumeric(label, '_baseFontSize', 'data-base-font-size');
+      var baseStroke   = getCachedNumeric(label, '_baseStroke',   'data-base-stroke-width');
       label.setAttribute('font-size', fmt(baseFontSize * scale));
       label.setAttribute('stroke-width', fmt(baseStroke * scale));
     });
@@ -528,7 +818,16 @@
       svg.appendChild(el('path', {
         d: d,
         fill: 'none',
-        stroke: C_ROAD_LINE,
+        stroke: C_SEA_ROUTE_GLOW,
+        'stroke-width': '3.4',
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      }));
+
+      svg.appendChild(el('path', {
+        d: d,
+        fill: 'none',
+        stroke: C_SEA_ROUTE_LINE,
         'stroke-width': '1.5',
         'stroke-linecap': 'round',
         'stroke-linejoin': 'round'
@@ -560,6 +859,18 @@
       }
       var isMain = route.kind === 'main';
       var isCrossing = route.kind === 'crossing';
+      var isChina = route.kind === 'china';
+      var isJapan = route.kind === 'japan';
+      var isKorea = route.kind === 'korea';
+      var stroke = isCrossing ? 'rgba(255,255,255,0.90)'
+        : isMain ? C_ROAD_LINE
+          : isChina ? C_ROAD_CHINA
+            : isJapan ? C_ROAD_JAPAN
+              : isKorea ? C_ROAD_KOREA
+                : C_ROAD_BRANCH_LINE;
+      var width = isMain ? 1.5 : 1.0;
+      var dash = isCrossing ? '4 3' : null;
+      renderRoadPath(svg, route.points, stroke, width, dash);
       var attrs = {
         d: d,
         fill: 'none',
@@ -616,7 +927,7 @@
       viewBox: '0 0 ' + W + ' ' + H,
       preserveAspectRatio: 'xMidYMid meet',
       role: 'img',
-      'aria-label': 'Карта Pacific Star с автодорожными маршрутами России, приграничными переходами с Китаем и ключевыми городами России, Китая, Японии, Южной Кореи и Индии'
+      'aria-label': 'Карта Pacific Star с автодорожными маршрутами России (белый), Китая (оранжевый), Японии (красный) и Южной Кореи (бирюзовый), приграничными переходами и ключевыми городами региона'
     });
 
     svg.classList.add('route-map-svg');
@@ -667,8 +978,8 @@
 
     loadFeatures()
       .then(function (features) {
-        renderFeatures(svg, features);
         renderSeaRoutes(svg);
+        renderFeatures(svg, features);
         renderRoads(svg);
         renderLabels(svg);
         var renderedPoints = renderPointLabels(svg);
