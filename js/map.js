@@ -37,14 +37,11 @@
   var C_ROAD_CHINA = 'rgba(255,195,80,0.72)';
   var C_ROAD_JAPAN = 'rgba(255,130,120,0.72)';
   var C_ROAD_KOREA = 'rgba(100,230,190,0.72)';
+  var C_SEA_ROUTE_LINE = 'rgba(255,255,255,0.92)';
+  var C_SEA_ROUTE_GLOW = 'rgba(255,255,255,0.42)';
   var BASE_POINT_STROKE_WIDTH = 2;
   var BASE_LABEL_STROKE_WIDTH = 3;
   var pointLabelScalingBindings = new WeakMap();
-  var C_ROUTE = 'rgba(255,209,102,0.92)';
-  var C_ROUTE_GLOW = 'rgba(255,255,255,0.28)';
-  var C_ROAD = '#ffd166';
-  var C_ROAD_BRANCH = '#ffe29a';
-  var C_ROAD_SHADOW = 'rgba(17,34,64,0.52)';
 
   var NS = 'http://www.w3.org/2000/svg';
   var DATA_URL = 'data/world-countries.geo.json?v=20260309';
@@ -190,19 +187,11 @@
       ]
     },
     {
-      /* Ответвление: Находка */
-      kind: 'branch',
-      points: [
-        { lon: 132.9, lat: 42.8 },
-        { lon: 131.9, lat: 43.1 }
-      ]
-    },
-    {
       /* Ответвление: Пограничный (граница КНР) */
       kind: 'branch',
       points: [
-        { lon: 131.4, lat: 44.4 },
-        { lon: 131.9, lat: 43.8 }
+        { lon: 131.9, lat: 43.8 },
+        { lon: 131.4, lat: 44.4 }
       ]
     },
     {
@@ -230,6 +219,16 @@
         { lon: 124.7, lat: 56.7 },
         { lon: 129.7, lat: 62.0 },
         { lon: 150.8, lat: 59.6 }
+      ]
+    },
+    {
+      /* Ответвление: Москва — Новороссийск (М-4 «Дон») */
+      kind: 'branch',
+      points: [
+        { lon: 37.6, lat: 55.8 },
+        { lon: 38.5, lat: 51.7 },
+        { lon: 39.7, lat: 47.2 },
+        { lon: 37.8, lat: 44.7 }
       ]
     },
     {
@@ -330,6 +329,48 @@
         { lon: 117.1, lat: 34.3 },
         { lon: 118.8, lat: 32.1 },
         { lon: 120.2, lat: 30.3 },
+    {
+      /* Китай: Суйфэньхэ — Харбин — Чанчунь — Шэньян — Пекин */
+      kind: 'branch',
+      points: [
+        { lon: 131.2, lat: 44.4 },
+        { lon: 126.6, lat: 45.8 },
+        { lon: 125.3, lat: 43.9 },
+        { lon: 123.4, lat: 41.8 },
+        { lon: 116.4, lat: 39.9 }
+      ]
+    },
+    {
+      /* Китай: Хэйхэ — Харбин */
+      kind: 'branch',
+      points: [
+        { lon: 127.5, lat: 50.2 },
+        { lon: 126.6, lat: 45.8 }
+      ]
+    },
+    {
+      /* Китай: Маньчжурия — Пекин */
+      kind: 'branch',
+      points: [
+        { lon: 117.4, lat: 49.6 },
+        { lon: 115.9, lat: 43.6 },
+        { lon: 116.4, lat: 39.9 }
+      ]
+    },
+    {
+      /* Китай: Пекин — Циндао */
+      kind: 'branch',
+      points: [
+        { lon: 116.4, lat: 39.9 },
+        { lon: 120.4, lat: 36.1 }
+      ]
+    },
+    {
+      /* Китай: Пекин — Шанхай */
+      kind: 'branch',
+      points: [
+        { lon: 116.4, lat: 39.9 },
+        { lon: 118.8, lat: 32.1 },
         { lon: 121.5, lat: 31.2 }
       ]
     },
@@ -405,6 +446,13 @@
         { lon: 140.7, lat: 41.8 },
         { lon: 141.4, lat: 43.1 }
       ]
+      /* Китай: Шанхай — Шэньчжэнь */
+      kind: 'branch',
+      points: [
+        { lon: 121.5, lat: 31.2 },
+        { lon: 119.3, lat: 26.1 },
+        { lon: 114.1, lat: 22.5 }
+      ]
     }
   ];
 
@@ -427,11 +475,66 @@
     },
     {
       name: 'Владивосток — Ченнаи',
-      points: [[131.9, 43.1], [121.5, 31.2], [80.3, 13.1]]
+      points: [
+        [131.9, 43.1],
+        [131.0, 37.0],
+        [128.5, 33.5],
+        [121.5, 31.2],
+        [119.2, 25.5],
+        [117.2, 19.5],
+        [113.4, 13.8],
+        [108.8, 9.4],
+        [103.6, 7.4],
+        [98.5, 8.0],
+        [93.2, 9.2],
+        [88.2, 10.6],
+        [84.2, 11.8],
+        [80.3, 13.1]
+      ]
     },
     {
       name: 'Шанхай — Мумбаи',
-      points: [[121.5, 31.2], [72.9, 19.1]]
+      points: [
+        [121.5, 31.2],
+        [119.2, 25.5],
+        [117.2, 19.5],
+        [113.4, 13.8],
+        [108.8, 9.4],
+        [103.6, 7.4],
+        [98.8, 7.6],
+        [93.5, 8.4],
+        [88.0, 9.0],
+        [82.0, 9.6],
+        [77.2, 10.8],
+        [74.0, 13.8],
+        [72.9, 19.1]
+      ]
+    },
+    {
+      name: 'Новороссийск — Мумбаи',
+      points: [
+        [37.8, 44.7],
+        [33.0, 42.0],
+        [29.2, 41.3],
+        [29.0, 40.7],
+        [28.4, 40.5],
+        [27.2, 40.0],
+        [25.6, 39.2],
+        [24.8, 37.2],
+        [27.0, 35.5],
+        [30.6, 33.6],
+        [32.3, 31.3],
+        [32.6, 29.9],
+        [33.6, 27.2],
+        [35.5, 23.5],
+        [38.4, 18.0],
+        [42.0, 13.5],
+        [43.5, 12.5],
+        [49.5, 11.3],
+        [58.0, 14.2],
+        [66.0, 17.5],
+        [72.9, 19.1]
+      ]
     }
   ];
 
@@ -475,7 +578,7 @@
     }
 
     var first = px(ring[0][0], ring[0][1]);
-    var d = 'M ' + fmt(first[0]) + ' ' + fmt(first[1]);
+    var parts = ['M ' + fmt(first[0]) + ' ' + fmt(first[1])];
     var prevLon = normalizeLon(ring[0][0]);
     var prevPoint = first;
 
@@ -486,20 +589,20 @@
 
       if (Math.abs(lon - prevLon) > 180) {
         if (prevLon > lon) {
-          d += ' L ' + fmt(W) + ' ' + fmt(prevPoint[1]);
-          d += ' M 0.0 ' + fmt(point[1]);
+          parts.push('L ' + fmt(W) + ' ' + fmt(prevPoint[1]));
+          parts.push('M 0.0 ' + fmt(point[1]));
         } else {
-          d += ' L 0.0 ' + fmt(prevPoint[1]);
-          d += ' M ' + fmt(W) + ' ' + fmt(point[1]);
+          parts.push('L 0.0 ' + fmt(prevPoint[1]));
+          parts.push('M ' + fmt(W) + ' ' + fmt(point[1]));
         }
       }
 
-      d += ' L ' + fmt(point[0]) + ' ' + fmt(point[1]);
+      parts.push('L ' + fmt(point[0]) + ' ' + fmt(point[1]));
       prevLon = lon;
       prevPoint = point;
     }
 
-    return d + ' Z';
+    return parts.join(' ') + ' Z';
   }
 
   function polygonToPath(rings) {
@@ -556,6 +659,8 @@
         'data-base-r': String(baseRadius),
         'data-base-stroke-width': String(BASE_POINT_STROKE_WIDTH)
       });
+      marker._baseR = baseRadius;
+      marker._baseStroke = BASE_POINT_STROKE_WIDTH;
 
       var baseFontSize = pointData.size || 16;
       var label = txt(pointData.text, fmt(point[0] + (pointData.dx || 0)), fmt(point[1] + (pointData.dy || 0)), {
@@ -570,6 +675,8 @@
         'data-base-font-size': String(baseFontSize),
         'data-base-stroke-width': String(BASE_LABEL_STROKE_WIDTH)
       });
+      label._baseFontSize = baseFontSize;
+      label._baseStroke = BASE_LABEL_STROKE_WIDTH;
 
       svg.appendChild(marker);
       svg.appendChild(label);
@@ -585,19 +692,25 @@
     return Math.min(1, W / size);
   }
 
+  function getCachedNumeric(element, propName, attrName) {
+    return element[propName] !== undefined
+      ? element[propName]
+      : parseFloat(element.getAttribute(attrName));
+  }
+
   function resizePointLabels(container, markers, labels) {
     var scale = getPointScale(container);
 
     markers.forEach(function (marker) {
-      var baseR = parseFloat(marker.getAttribute('data-base-r'));
-      var baseStroke = parseFloat(marker.getAttribute('data-base-stroke-width'));
+      var baseR      = getCachedNumeric(marker, '_baseR',      'data-base-r');
+      var baseStroke = getCachedNumeric(marker, '_baseStroke', 'data-base-stroke-width');
       marker.setAttribute('r', fmt(baseR * scale));
       marker.setAttribute('stroke-width', fmt(baseStroke * scale));
     });
 
     labels.forEach(function (label) {
-      var baseFontSize = parseFloat(label.getAttribute('data-base-font-size'));
-      var baseStroke = parseFloat(label.getAttribute('data-base-stroke-width'));
+      var baseFontSize = getCachedNumeric(label, '_baseFontSize', 'data-base-font-size');
+      var baseStroke   = getCachedNumeric(label, '_baseStroke',   'data-base-stroke-width');
       label.setAttribute('font-size', fmt(baseFontSize * scale));
       label.setAttribute('stroke-width', fmt(baseStroke * scale));
     });
@@ -623,25 +736,19 @@
     window.addEventListener('resize', onResize);
   }
 
-  function routeToPath(points) {
-    var first = px(points[0][0], points[0][1]);
-    var d = 'M ' + fmt(first[0]) + ' ' + fmt(first[1]);
-    for (var i = 1; i < points.length; i += 1) {
-      var pt = px(points[i][0], points[i][1]);
-      d += ' L ' + fmt(pt[0]) + ' ' + fmt(pt[1]);
-    }
-    return d;
-  }
-
   function renderSeaRoutes(svg) {
     SEA_ROUTES.forEach(function (route) {
-      var d = routeToPath(route.points);
+      var pixelPoints = route.points.map(function (p) {
+        return px(p[0], p[1]);
+      });
+      var d = smoothPath(pixelPoints);
+      if (!d) { return; }
 
       svg.appendChild(el('path', {
         d: d,
         fill: 'none',
-        stroke: C_ROUTE_GLOW,
-        'stroke-width': '6',
+        stroke: C_SEA_ROUTE_GLOW,
+        'stroke-width': '3.4',
         'stroke-linecap': 'round',
         'stroke-linejoin': 'round'
       }));
@@ -649,11 +756,10 @@
       svg.appendChild(el('path', {
         d: d,
         fill: 'none',
-        stroke: C_ROUTE,
-        'stroke-width': '2.5',
+        stroke: C_SEA_ROUTE_LINE,
+        'stroke-width': '1.5',
         'stroke-linecap': 'round',
-        'stroke-linejoin': 'round',
-        'stroke-dasharray': '8 6'
+        'stroke-linejoin': 'round'
       }));
     });
   }
@@ -671,26 +777,15 @@
     return d;
   }
 
-  function renderRoadPath(svg, points, stroke, width, dashArray) {
-    var pixelPoints = points.map(function (p) { return px(p.lon, p.lat); });
-    var d = smoothPath(pixelPoints);
-    if (!d) { return; }
-    var attrs = {
-      d: d,
-      fill: 'none',
-      stroke: stroke,
-      'stroke-width': String(width),
-      'stroke-linecap': 'round',
-      'stroke-linejoin': 'round'
-    };
-    if (dashArray) {
-      attrs['stroke-dasharray'] = dashArray;
-    }
-    svg.appendChild(el('path', attrs));
-  }
-
   function renderRoads(svg) {
     ROAD_ROUTES.forEach(function (route) {
+      var pixelPoints = route.points.map(function (p) {
+        return px(p.lon, p.lat);
+      });
+      var d = smoothPath(pixelPoints);
+      if (!d) {
+        return;
+      }
       var isMain = route.kind === 'main';
       var isCrossing = route.kind === 'crossing';
       var isChina = route.kind === 'china';
@@ -705,6 +800,19 @@
       var width = isMain ? 1.5 : 1.0;
       var dash = isCrossing ? '4 3' : null;
       renderRoadPath(svg, route.points, stroke, width, dash);
+      var attrs = {
+        d: d,
+        fill: 'none',
+        stroke: isCrossing ? 'rgba(255,255,255,0.90)' : (isMain ? C_ROAD_LINE : C_ROAD_BRANCH_LINE),
+        'stroke-width': isMain ? '1.5' : '1.0',
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      };
+      if (isCrossing) {
+        attrs['stroke-dasharray'] = '4 3';
+        attrs['stroke-width'] = '1.5';
+      }
+      svg.appendChild(el('path', attrs));
     });
   }
 
@@ -799,8 +907,8 @@
 
     loadFeatures()
       .then(function (features) {
-        renderFeatures(svg, features);
         renderSeaRoutes(svg);
+        renderFeatures(svg, features);
         renderRoads(svg);
         renderLabels(svg);
         var renderedPoints = renderPointLabels(svg);
