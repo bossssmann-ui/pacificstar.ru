@@ -41,22 +41,29 @@
   /* =======================================
      DESKTOP NAV DROPDOWN: click to toggle
      ======================================= */
+  var openNavItem = null; /* track currently open dropdown item */
+
+  function closeOpenNavItem() {
+    if (openNavItem) {
+      openNavItem.classList.remove('open');
+      var toggle = openNavItem.querySelector('.nav-toggle');
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+      openNavItem = null;
+    }
+  }
+
   document.querySelectorAll('.nav-item .nav-toggle').forEach(function (btn) {
     btn.addEventListener('click', function (e) {
       e.preventDefault();
       var item = btn.closest('.nav-item');
-      var wasOpen = item.classList.contains('open');
+      var wasOpen = item === openNavItem;
 
-      /* Close any already-open dropdown */
-      document.querySelectorAll('.nav-item.open').forEach(function (el) {
-        el.classList.remove('open');
-        var toggle = el.querySelector('.nav-toggle');
-        if (toggle) toggle.setAttribute('aria-expanded', 'false');
-      });
+      closeOpenNavItem();
 
       if (!wasOpen) {
         item.classList.add('open');
         btn.setAttribute('aria-expanded', 'true');
+        openNavItem = item;
       }
     });
   });
@@ -64,11 +71,7 @@
   /* Close desktop dropdown on outside click */
   document.addEventListener('click', function (e) {
     if (!e.target.closest('.nav-item')) {
-      document.querySelectorAll('.nav-item.open').forEach(function (el) {
-        el.classList.remove('open');
-        var toggle = el.querySelector('.nav-toggle');
-        if (toggle) toggle.setAttribute('aria-expanded', 'false');
-      });
+      closeOpenNavItem();
     }
   });
 
@@ -252,11 +255,11 @@
 
         if (!field.value.trim()) {
           valid = false;
-          field.style.borderColor = '#e74c3c';
-          if (error) error.style.display = 'block';
+          field.classList.add('field-invalid');
+          if (error) error.classList.add('field-error-visible');
         } else {
-          field.style.borderColor = '';
-          if (error) error.style.display = 'none';
+          field.classList.remove('field-invalid');
+          if (error) error.classList.remove('field-error-visible');
         }
       });
 
@@ -266,7 +269,7 @@
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(emailField.value.trim())) {
           valid = false;
-          emailField.style.borderColor = '#e74c3c';
+          emailField.classList.add('field-invalid');
         }
       }
 
@@ -276,7 +279,7 @@
         const cleaned = phoneField.value.replace(/\D/g, '');
         if (cleaned.length < 10) {
           valid = false;
-          phoneField.style.borderColor = '#e74c3c';
+          phoneField.classList.add('field-invalid');
         }
       }
 
@@ -284,9 +287,9 @@
       const privacyCheck = contactForm.querySelector('[name="privacy"]');
       if (privacyCheck && !privacyCheck.checked) {
         valid = false;
-        privacyCheck.style.outline = '2px solid #e74c3c';
+        privacyCheck.classList.add('field-invalid');
       } else if (privacyCheck) {
-        privacyCheck.style.outline = '';
+        privacyCheck.classList.remove('field-invalid');
       }
 
       if (!valid) return;
@@ -296,11 +299,11 @@
       submitBtn.textContent = 'Отправка...';
 
       const formData = {
-        name:    (contactForm.querySelector('[name="name"]')    || {}).value || '',
-        email:   (contactForm.querySelector('[name="email"]')   || {}).value || '',
-        phone:   (contactForm.querySelector('[name="phone"]')   || {}).value || '',
-        service: (contactForm.querySelector('[name="service"]') || {}).value || '',
-        message: (contactForm.querySelector('[name="message"]') || {}).value || ''
+        name:    (contactForm.elements['name']    || {}).value || '',
+        email:   (contactForm.elements['email']   || {}).value || '',
+        phone:   (contactForm.elements['phone']   || {}).value || '',
+        service: (contactForm.elements['service'] || {}).value || '',
+        message: (contactForm.elements['message'] || {}).value || ''
       };
 
       fetch('/api/contact', {
@@ -341,10 +344,10 @@
     /* Live validation: clear error on input */
     contactForm.querySelectorAll('.form-control').forEach(function (field) {
       field.addEventListener('input', function () {
-        field.style.borderColor = '';
+        field.classList.remove('field-invalid');
         const group = field.closest('.form-group');
         const error = group && group.querySelector('.field-error');
-        if (error) error.style.display = 'none';
+        if (error) error.classList.remove('field-error-visible');
       });
     });
   }
@@ -359,12 +362,12 @@
       let val = input.value.replace(/\D/g, '');
       if (val.startsWith('8')) val = '7' + val.slice(1);
       if (val.startsWith('7') && val.length > 0) {
-        let masked = '+7';
-        if (val.length > 1) masked += ' (' + val.substring(1, 4);
-        if (val.length >= 4) masked += ') ' + val.substring(4, 7);
-        if (val.length >= 7) masked += '-' + val.substring(7, 9);
-        if (val.length >= 9) masked += '-' + val.substring(9, 11);
-        input.value = masked;
+        var parts = ['+7'];
+        if (val.length > 1) parts.push(' (' + val.substring(1, 4));
+        if (val.length >= 4) parts.push(') ' + val.substring(4, 7));
+        if (val.length >= 7) parts.push('-' + val.substring(7, 9));
+        if (val.length >= 9) parts.push('-' + val.substring(9, 11));
+        input.value = parts.join('');
       }
     });
   });

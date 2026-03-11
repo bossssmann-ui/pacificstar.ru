@@ -1772,6 +1772,22 @@ p { margin-bottom: 1rem; }
   box-shadow: 0 0 0 3px rgba(26, 77, 160, 0.1);
 }
 
+.form-control.field-invalid {
+  border-color: #e74c3c;
+}
+
+input[type="checkbox"].field-invalid {
+  outline: 2px solid #e74c3c;
+}
+
+.field-error {
+  display: none;
+}
+
+.field-error.field-error-visible {
+  display: block;
+}
+
 .form-control::placeholder {
   color: #b0b9c9;
 }
