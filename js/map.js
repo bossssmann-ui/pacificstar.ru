@@ -329,6 +329,9 @@
         { lon: 117.1, lat: 34.3 },
         { lon: 118.8, lat: 32.1 },
         { lon: 120.2, lat: 30.3 },
+        { lon: 121.5, lat: 31.2 }
+      ]
+    },
     {
       /* Китай: Суйфэньхэ — Харбин — Чанчунь — Шэньян — Пекин */
       kind: 'branch',
@@ -446,8 +449,10 @@
         { lon: 140.7, lat: 41.8 },
         { lon: 141.4, lat: 43.1 }
       ]
+    },
+    {
       /* Китай: Шанхай — Шэньчжэнь */
-      kind: 'branch',
+      kind: 'china',
       points: [
         { lon: 121.5, lat: 31.2 },
         { lon: 119.3, lat: 26.1 },
@@ -461,7 +466,8 @@
       name: 'Владивосток — Пусан',
       points: [
         [131.9, 43.1],
-        [130.5, 39.0],
+        [131.0, 40.7],
+        [130.0, 37.8],
         [129.1, 35.2]
       ]
     },
@@ -469,8 +475,9 @@
       name: 'Владивосток — Йокогама',
       points: [
         [131.9, 43.1],
-        [134.0, 39.0],
-        [137.5, 36.5],
+        [133.2, 41.0],
+        [136.4, 38.5],
+        [138.4, 36.6],
         [139.6, 35.4]
       ]
     },
@@ -478,7 +485,9 @@
       name: 'Шанхай — Пусан',
       points: [
         [121.5, 31.2],
-        [125.0, 33.0],
+        [123.2, 32.6],
+        [125.7, 34.0],
+        [127.6, 34.7],
         [129.1, 35.2]
       ]
     },
@@ -497,19 +506,22 @@
       name: 'Владивосток — Ченнаи',
       points: [
         [131.9, 43.1],
-        [131.0, 38.0],
-        [129.0, 34.5],
-        [125.0, 31.0],
-        [119.0, 24.5],
-        [115.5, 18.0],
-        [113.0, 12.0],
-        [109.5, 7.0],
-        [106.5, 3.0],
-        [104.0, 1.0],
-        [101.0, 2.5],
-        [97.0, 4.5],
-        [92.0, 7.5],
-        [86.0, 11.0],
+        [131.2, 40.5],
+        [129.8, 37.0],
+        [128.4, 34.6],
+        [126.1, 31.8],
+        [123.0, 28.4],
+        [121.0, 24.5],
+        [118.2, 20.0],
+        [114.5, 15.0],
+        [111.5, 10.0],
+        [108.0, 6.0],
+        [103.8, 1.5],
+        [100.6, 2.2],
+        [96.4, 5.5],
+        [92.0, 8.8],
+        [87.5, 10.8],
+        [83.0, 11.8],
         [80.3, 13.1]
       ]
     },
@@ -518,20 +530,20 @@
       name: 'Шанхай — Мумбаи',
       points: [
         [121.5, 31.2],
-        [119.0, 24.5],
-        [115.5, 18.0],
-        [113.0, 12.0],
-        [109.5, 7.0],
-        [106.5, 3.0],
-        [104.0, 1.0],
-        [101.0, 2.5],
-        [97.0, 4.5],
+        [123.5, 28.0],
+        [122.2, 24.0],
+        [118.5, 18.5],
+        [114.5, 12.0],
+        [110.5, 7.0],
+        [106.8, 3.2],
+        [103.8, 1.2],
+        [100.5, 2.0],
+        [95.0, 5.2],
         [90.0, 7.0],
-        [83.0, 7.0],
-        [79.0, 7.0],
-        [75.5, 8.5],
-        [73.5, 11.0],
-        [72.0, 15.0],
+        [83.5, 6.5],
+        [78.0, 6.2],
+        [74.0, 8.8],
+        [72.8, 13.0],
         [72.9, 19.1]
       ]
     },
@@ -540,26 +552,27 @@
       name: 'Мумбаи — Новороссийск',
       points: [
         [72.9, 19.1],
-        [64.0, 17.0],
-        [56.0, 14.0],
-        [50.0, 12.5],
-        [45.0, 12.5],
-        [43.5, 12.8],
-        [42.5, 14.0],
-        [40.5, 17.0],
-        [39.0, 20.0],
-        [37.0, 23.0],
-        [35.5, 27.0],
+        [66.0, 17.5],
+        [60.0, 15.5],
+        [54.0, 13.0],
+        [48.5, 11.8],
+        [44.5, 12.0],
+        [43.0, 13.2],
+        [42.7, 15.0],
+        [43.0, 18.0],
+        [41.8, 22.5],
+        [38.5, 28.0],
         [32.3, 31.3],
-        [30.5, 33.0],
-        [28.0, 35.0],
-        [26.0, 37.0],
-        [25.5, 38.5],
-        [26.0, 39.5],
-        [27.0, 40.5],
+        [30.0, 32.2],
+        [30.6, 33.2],
+        [28.5, 35.5],
+        [25.0, 36.0],
+        [24.0, 38.5],
+        [26.0, 40.0],
+        [28.8, 40.9],
         [29.0, 41.0],
         [31.0, 42.0],
-        [34.0, 43.0],
+        [34.5, 43.5],
         [37.8, 44.7]
       ]
     }
@@ -714,9 +727,15 @@
     return { markers: markers, labels: labels };
   }
 
-  function getPointScale(container) {
+  function getPointScale(container, baseDevicePixelRatio) {
     var size = Math.max(1, Math.min(container.offsetWidth || W, container.offsetHeight || W));
-    return Math.min(1, W / size);
+    var containerScale = Math.min(1, W / size);
+    var currentDevicePixelRatio = window.devicePixelRatio || 1;
+    var viewportScale = window.visualViewport && window.visualViewport.scale
+      ? window.visualViewport.scale
+      : 1;
+    var zoomScale = Math.max(1, viewportScale * (currentDevicePixelRatio / (baseDevicePixelRatio || currentDevicePixelRatio)));
+    return containerScale / zoomScale;
   }
 
   function getCachedNumeric(element, propName, attrName) {
@@ -725,8 +744,8 @@
       : parseFloat(element.getAttribute(attrName));
   }
 
-  function resizePointLabels(container, markers, labels) {
-    var scale = getPointScale(container);
+  function resizePointLabels(container, markers, labels, baseDevicePixelRatio) {
+    var scale = getPointScale(container, baseDevicePixelRatio);
 
     markers.forEach(function (marker) {
       var baseR      = getCachedNumeric(marker, '_baseR',      'data-base-r');
@@ -744,23 +763,46 @@
   }
 
   function bindPointLabelScaling(container, renderedPoints) {
+    var existingBinding = pointLabelScalingBindings.get(container);
+    if (existingBinding) {
+      if (existingBinding.resizeObserver) {
+        existingBinding.resizeObserver.disconnect();
+      }
+      window.removeEventListener('resize', existingBinding.onResize);
+      if (existingBinding.visualViewport) {
+        existingBinding.visualViewport.removeEventListener('resize', existingBinding.onResize);
+      }
+    }
+
     var markers = renderedPoints.markers;
     var labels = renderedPoints.labels;
+    var baseDevicePixelRatio = window.devicePixelRatio || 1;
 
     function onResize() {
       if (!container.isConnected) {
         return;
       }
-      resizePointLabels(container, markers, labels);
+      resizePointLabels(container, markers, labels, baseDevicePixelRatio);
     }
+
+    var binding = {
+      onResize: onResize,
+      resizeObserver: null,
+      visualViewport: window.visualViewport || null
+    };
 
     if (typeof ResizeObserver !== 'undefined') {
       var ro = new ResizeObserver(onResize);
       ro.observe(container);
-      pointLabelScalingBindings.set(container, ro);
+      binding.resizeObserver = ro;
     }
 
     window.addEventListener('resize', onResize);
+    if (binding.visualViewport) {
+      binding.visualViewport.addEventListener('resize', onResize);
+    }
+    pointLabelScalingBindings.set(container, binding);
+    onResize();
   }
 
   function renderSeaRoutes(svg) {
@@ -826,18 +868,16 @@
                 : C_ROAD_BRANCH_LINE;
       var width = isMain ? 1.5 : 1.0;
       var dash = isCrossing ? '4 3' : null;
-      renderRoadPath(svg, route.points, stroke, width, dash);
       var attrs = {
         d: d,
         fill: 'none',
-        stroke: isCrossing ? 'rgba(255,255,255,0.90)' : (isMain ? C_ROAD_LINE : C_ROAD_BRANCH_LINE),
-        'stroke-width': isMain ? '1.5' : '1.0',
+        stroke: stroke,
+        'stroke-width': String(width),
         'stroke-linecap': 'round',
         'stroke-linejoin': 'round'
       };
-      if (isCrossing) {
-        attrs['stroke-dasharray'] = '4 3';
-        attrs['stroke-width'] = '1.5';
+      if (dash) {
+        attrs['stroke-dasharray'] = dash;
       }
       svg.appendChild(el('path', attrs));
     });
