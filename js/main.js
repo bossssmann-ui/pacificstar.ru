@@ -241,11 +241,18 @@
   const contactForm = document.getElementById('contactForm');
 
   if (contactForm) {
+    /* Cache form field references once — avoids repeated DOM queries on submit */
+    const submitBtn   = contactForm.querySelector('[type="submit"]');
+    const successMsg  = document.getElementById('formSuccess');
+    const emailField  = contactForm.querySelector('[type="email"]');
+    const phoneField  = contactForm.querySelector('[name="phone"]');
+    const privacyCheck = contactForm.querySelector('[name="privacy"]');
+    const nameField   = contactForm.querySelector('[name="name"]');
+    const serviceField = contactForm.querySelector('[name="service"]');
+    const messageField = contactForm.querySelector('[name="message"]');
+
     contactForm.addEventListener('submit', function (e) {
       e.preventDefault();
-
-      const submitBtn = contactForm.querySelector('[type="submit"]');
-      const successMsg = document.getElementById('formSuccess');
 
       /* Basic validation */
       let valid = true;
@@ -264,7 +271,6 @@
       });
 
       /* Email format */
-      const emailField = contactForm.querySelector('[type="email"]');
       if (emailField && emailField.value.trim()) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(emailField.value.trim())) {
@@ -274,7 +280,6 @@
       }
 
       /* Phone format (loose check) */
-      const phoneField = contactForm.querySelector('[name="phone"]');
       if (phoneField && phoneField.value.trim()) {
         const cleaned = phoneField.value.replace(/\D/g, '');
         if (cleaned.length < 10) {
@@ -284,7 +289,6 @@
       }
 
       /* Privacy checkbox */
-      const privacyCheck = contactForm.querySelector('[name="privacy"]');
       if (privacyCheck && !privacyCheck.checked) {
         valid = false;
         privacyCheck.classList.add('field-invalid');
@@ -299,6 +303,11 @@
       submitBtn.textContent = 'Отправка...';
 
       const formData = {
+        name:    nameField    ? nameField.value    : '',
+        email:   emailField   ? emailField.value   : '',
+        phone:   phoneField   ? phoneField.value   : '',
+        service: serviceField ? serviceField.value : '',
+        message: messageField ? messageField.value : ''
         name:    (contactForm.elements['name']    || {}).value || '',
         email:   (contactForm.elements['email']   || {}).value || '',
         phone:   (contactForm.elements['phone']   || {}).value || '',
@@ -374,19 +383,22 @@
 
   /* =======================================
      SMOOTH ANCHOR SCROLL (within page)
+     ─────────────────────────────────────
+     Single delegated listener instead of
+     one handler per anchor element.
      ======================================= */
-  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-    anchor.addEventListener('click', function (e) {
-      const targetId = anchor.getAttribute('href');
-      if (targetId === '#') return;
-      const target = document.querySelector(targetId);
-      if (target) {
-        e.preventDefault();
-        const headerHeight = (header && header.offsetHeight) || 72;
-        const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
-        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
-      }
-    });
+  document.addEventListener('click', function (e) {
+    const anchor = e.target.closest('a[href^="#"]');
+    if (!anchor) return;
+    const targetId = anchor.getAttribute('href');
+    if (targetId === '#') return;
+    const target = document.querySelector(targetId);
+    if (target) {
+      e.preventDefault();
+      const headerHeight = (header && header.offsetHeight) || 72;
+      const top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 16;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    }
   });
 })();
 

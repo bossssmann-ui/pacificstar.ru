@@ -377,6 +377,8 @@
 
     /* Tooltip logic */
     var tooltip = document.getElementById('chartTooltip');
+    /* Cache dot elements once — they are never added/removed after render */
+    var dots = svg.querySelectorAll('.chart-dot');
     svg.addEventListener('mousemove', function (e) {
       var rect = svg.getBoundingClientRect();
       var mx   = e.clientX - rect.left;
@@ -387,7 +389,6 @@
       });
       if (!best || !tooltip) return;
       /* Show dots near hover */
-      var dots = svg.querySelectorAll('.chart-dot');
       for (var d = 0; d < dots.length; d++) {
         dots[d].setAttribute('opacity', d === best.i ? '1' : '0');
       }
@@ -399,7 +400,6 @@
     });
     svg.addEventListener('mouseleave', function () {
       if (tooltip) tooltip.style.display = 'none';
-      var dots = svg.querySelectorAll('.chart-dot');
       for (var d = 0; d < dots.length; d++) {
         dots[d].setAttribute('opacity', '0');
       }

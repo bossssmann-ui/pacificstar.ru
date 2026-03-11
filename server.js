@@ -1,8 +1,9 @@
 'use strict';
 
-const path    = require('path');
-const express = require('express');
-const mailer  = require('nodemailer');
+const path        = require('path');
+const express     = require('express');
+const mailer      = require('nodemailer');
+const compression = require('compression');
 
 require('dotenv').config();
 
@@ -36,12 +37,28 @@ if (SMTP_HOST && SMTP_USER && SMTP_PASS) {
 /* ── Express app ───────────────────────────────────────────────────── */
 const app = express();
 
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+/* Cache-Control for versioned static assets (JS, CSS, images, fonts) */
+app.use(function (req, res, next) {
+  if (/\.(js|css|svg|png|jpg|jpeg|gif|webp|ico|woff|woff2|ttf|otf)(\?.*)?$/.test(req.url)) {
+    /* Versioned assets (query-string cache-buster) get a long TTL */
+    if (/\?/.test(req.url)) {
+      res.set('Cache-Control', 'public, max-age=31536000, immutable');
+    } else {
+      res.set('Cache-Control', 'public, max-age=86400');
+    }
+  }
+  next();
+});
 
 /* Serve the static website from the repo root */
 app.use(express.static(path.join(__dirname), {
   extensions: ['html'],
+  etag:         true,
+  lastModified: true,
 }));
 
 /* ── Helpers ───────────────────────────────────────────────────────── */
