@@ -308,11 +308,6 @@
         phone:   phoneField   ? phoneField.value   : '',
         service: serviceField ? serviceField.value : '',
         message: messageField ? messageField.value : ''
-        name:    (contactForm.elements['name']    || {}).value || '',
-        email:   (contactForm.elements['email']   || {}).value || '',
-        phone:   (contactForm.elements['phone']   || {}).value || '',
-        service: (contactForm.elements['service'] || {}).value || '',
-        message: (contactForm.elements['message'] || {}).value || ''
       };
 
       fetch('/api/contact', {
