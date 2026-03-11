@@ -34,11 +34,11 @@
   var C_LABEL_STROKE = 'rgba(17,34,64,0.72)';
   var C_ROAD_LINE = 'rgba(255,255,255,0.80)';
   var C_ROAD_BRANCH_LINE = 'rgba(255,255,255,0.55)';
+  var C_SEA_ROUTE_LINE = 'rgba(255,255,255,0.92)';
+  var C_SEA_ROUTE_GLOW = 'rgba(255,255,255,0.42)';
   var BASE_POINT_STROKE_WIDTH = 2;
   var BASE_LABEL_STROKE_WIDTH = 3;
   var pointLabelScalingBindings = new WeakMap();
-  var C_ROUTE = 'rgba(255,209,102,0.92)';
-  var C_ROUTE_GLOW = 'rgba(255,255,255,0.28)';
 
   var NS = 'http://www.w3.org/2000/svg';
   var DATA_URL = 'data/world-countries.geo.json?v=20260309';
@@ -198,6 +198,16 @@
       ]
     },
     {
+      /* Ответвление: Москва — Новороссийск (М-4 «Дон») */
+      kind: 'branch',
+      points: [
+        { lon: 37.6, lat: 55.8 },
+        { lon: 38.5, lat: 51.7 },
+        { lon: 39.7, lat: 47.2 },
+        { lon: 37.8, lat: 44.7 }
+      ]
+    },
+    {
       kind: 'crossing',
       points: [
         { lon: 131.4, lat: 44.4 },
@@ -216,6 +226,60 @@
       points: [
         { lon: 117.3, lat: 49.7 },
         { lon: 117.4, lat: 49.6 }
+      ]
+    },
+    {
+      /* Китай: Суйфэньхэ — Харбин — Чанчунь — Шэньян — Пекин */
+      kind: 'branch',
+      points: [
+        { lon: 131.2, lat: 44.4 },
+        { lon: 126.6, lat: 45.8 },
+        { lon: 125.3, lat: 43.9 },
+        { lon: 123.4, lat: 41.8 },
+        { lon: 116.4, lat: 39.9 }
+      ]
+    },
+    {
+      /* Китай: Хэйхэ — Харбин */
+      kind: 'branch',
+      points: [
+        { lon: 127.5, lat: 50.2 },
+        { lon: 126.6, lat: 45.8 }
+      ]
+    },
+    {
+      /* Китай: Маньчжурия — Пекин */
+      kind: 'branch',
+      points: [
+        { lon: 117.4, lat: 49.6 },
+        { lon: 115.9, lat: 43.6 },
+        { lon: 116.4, lat: 39.9 }
+      ]
+    },
+    {
+      /* Китай: Пекин — Циндао */
+      kind: 'branch',
+      points: [
+        { lon: 116.4, lat: 39.9 },
+        { lon: 120.4, lat: 36.1 }
+      ]
+    },
+    {
+      /* Китай: Пекин — Шанхай */
+      kind: 'branch',
+      points: [
+        { lon: 116.4, lat: 39.9 },
+        { lon: 118.8, lat: 32.1 },
+        { lon: 121.5, lat: 31.2 }
+      ]
+    },
+    {
+      /* Китай: Шанхай — Шэньчжэнь */
+      kind: 'branch',
+      points: [
+        { lon: 121.5, lat: 31.2 },
+        { lon: 119.3, lat: 26.1 },
+        { lon: 114.1, lat: 22.5 }
       ]
     }
   ];
@@ -244,11 +308,13 @@
         [131.0, 37.0],
         [128.5, 33.5],
         [121.5, 31.2],
-        [110.0, 20.0],
-        [107.0, 10.0],
-        [103.8, 1.2],
-        [95.0, 5.0],
-        [88.0, 10.0],
+        [119.0, 25.0],
+        [116.5, 19.0],
+        [111.5, 12.0],
+        [104.2, 1.2],
+        [98.2, 4.0],
+        [91.5, 6.8],
+        [86.0, 8.7],
         [80.3, 13.1]
       ]
     },
@@ -256,13 +322,15 @@
       name: 'Шанхай — Мумбаи',
       points: [
         [121.5, 31.2],
-        [110.0, 20.0],
-        [107.0, 10.0],
-        [103.8, 1.2],
-        [95.0, 5.0],
-        [82.0, 5.0],
-        [76.5, 8.0],
-        [73.5, 14.0],
+        [119.0, 25.0],
+        [116.5, 19.0],
+        [111.5, 12.0],
+        [104.2, 1.2],
+        [98.2, 4.0],
+        [91.5, 6.8],
+        [84.5, 7.0],
+        [77.8, 8.2],
+        [74.0, 13.5],
         [72.9, 19.1]
       ]
     },
@@ -270,23 +338,25 @@
       name: 'Новороссийск — Мумбаи',
       points: [
         [37.8, 44.7],
+        [33.0, 42.0],
         [29.2, 41.3],
         [29.0, 40.7],
-        [27.5, 40.6],
-        [26.4, 40.1],
-        [25.5, 39.5],
-        [25.0, 38.0],
+        [28.4, 40.5],
+        [27.2, 40.0],
+        [25.6, 39.2],
+        [24.8, 37.2],
         [27.0, 35.5],
-        [30.0, 34.0],
+        [30.6, 33.6],
         [32.3, 31.3],
         [32.6, 29.9],
-        [33.5, 28.0],
-        [35.0, 25.5],
-        [38.0, 19.5],
+        [33.6, 27.2],
+        [35.5, 23.5],
+        [38.4, 18.0],
         [42.0, 13.5],
         [43.5, 12.5],
-        [50.0, 11.5],
-        [60.0, 15.0],
+        [49.5, 11.3],
+        [58.0, 14.2],
+        [66.0, 17.5],
         [72.9, 19.1]
       ]
     }
@@ -332,7 +402,7 @@
     }
 
     var first = px(ring[0][0], ring[0][1]);
-    var d = 'M ' + fmt(first[0]) + ' ' + fmt(first[1]);
+    var parts = ['M ' + fmt(first[0]) + ' ' + fmt(first[1])];
     var prevLon = normalizeLon(ring[0][0]);
     var prevPoint = first;
 
@@ -343,20 +413,20 @@
 
       if (Math.abs(lon - prevLon) > 180) {
         if (prevLon > lon) {
-          d += ' L ' + fmt(W) + ' ' + fmt(prevPoint[1]);
-          d += ' M 0.0 ' + fmt(point[1]);
+          parts.push('L ' + fmt(W) + ' ' + fmt(prevPoint[1]));
+          parts.push('M 0.0 ' + fmt(point[1]));
         } else {
-          d += ' L 0.0 ' + fmt(prevPoint[1]);
-          d += ' M ' + fmt(W) + ' ' + fmt(point[1]);
+          parts.push('L 0.0 ' + fmt(prevPoint[1]));
+          parts.push('M ' + fmt(W) + ' ' + fmt(point[1]));
         }
       }
 
-      d += ' L ' + fmt(point[0]) + ' ' + fmt(point[1]);
+      parts.push('L ' + fmt(point[0]) + ' ' + fmt(point[1]));
       prevLon = lon;
       prevPoint = point;
     }
 
-    return d + ' Z';
+    return parts.join(' ') + ' Z';
   }
 
   function polygonToPath(rings) {
@@ -413,6 +483,8 @@
         'data-base-r': String(baseRadius),
         'data-base-stroke-width': String(BASE_POINT_STROKE_WIDTH)
       });
+      marker._baseR = baseRadius;
+      marker._baseStroke = BASE_POINT_STROKE_WIDTH;
 
       var baseFontSize = pointData.size || 16;
       var label = txt(pointData.text, fmt(point[0] + (pointData.dx || 0)), fmt(point[1] + (pointData.dy || 0)), {
@@ -427,6 +499,8 @@
         'data-base-font-size': String(baseFontSize),
         'data-base-stroke-width': String(BASE_LABEL_STROKE_WIDTH)
       });
+      label._baseFontSize = baseFontSize;
+      label._baseStroke = BASE_LABEL_STROKE_WIDTH;
 
       svg.appendChild(marker);
       svg.appendChild(label);
@@ -442,19 +516,25 @@
     return Math.min(1, W / size);
   }
 
+  function getCachedNumeric(element, propName, attrName) {
+    return element[propName] !== undefined
+      ? element[propName]
+      : parseFloat(element.getAttribute(attrName));
+  }
+
   function resizePointLabels(container, markers, labels) {
     var scale = getPointScale(container);
 
     markers.forEach(function (marker) {
-      var baseR = parseFloat(marker.getAttribute('data-base-r'));
-      var baseStroke = parseFloat(marker.getAttribute('data-base-stroke-width'));
+      var baseR      = getCachedNumeric(marker, '_baseR',      'data-base-r');
+      var baseStroke = getCachedNumeric(marker, '_baseStroke', 'data-base-stroke-width');
       marker.setAttribute('r', fmt(baseR * scale));
       marker.setAttribute('stroke-width', fmt(baseStroke * scale));
     });
 
     labels.forEach(function (label) {
-      var baseFontSize = parseFloat(label.getAttribute('data-base-font-size'));
-      var baseStroke = parseFloat(label.getAttribute('data-base-stroke-width'));
+      var baseFontSize = getCachedNumeric(label, '_baseFontSize', 'data-base-font-size');
+      var baseStroke   = getCachedNumeric(label, '_baseStroke',   'data-base-stroke-width');
       label.setAttribute('font-size', fmt(baseFontSize * scale));
       label.setAttribute('stroke-width', fmt(baseStroke * scale));
     });
@@ -491,7 +571,16 @@
       svg.appendChild(el('path', {
         d: d,
         fill: 'none',
-        stroke: C_ROAD_LINE,
+        stroke: C_SEA_ROUTE_GLOW,
+        'stroke-width': '3.4',
+        'stroke-linecap': 'round',
+        'stroke-linejoin': 'round'
+      }));
+
+      svg.appendChild(el('path', {
+        d: d,
+        fill: 'none',
+        stroke: C_SEA_ROUTE_LINE,
         'stroke-width': '1.5',
         'stroke-linecap': 'round',
         'stroke-linejoin': 'round'
@@ -630,8 +719,8 @@
 
     loadFeatures()
       .then(function (features) {
-        renderFeatures(svg, features);
         renderSeaRoutes(svg);
+        renderFeatures(svg, features);
         renderRoads(svg);
         renderLabels(svg);
         var renderedPoints = renderPointLabels(svg);

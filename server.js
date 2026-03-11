@@ -94,47 +94,67 @@ async function sendMail(to, subject, html) {
 }
 
 /* ── Registration confirmation template ────────────────────────────── */
+var CONFIRMATION_TEMPLATE_PREFIX = [
+  '<!DOCTYPE html>',
+  '<html lang="ru"><head><meta charset="utf-8"></head><body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">',
+  '<div style="background:#1a2744;color:#fff;padding:24px 32px;border-radius:12px 12px 0 0;text-align:center;">',
+  '  <h1 style="margin:0;font-size:1.4rem;">🌟 Pacific Star</h1>',
+  '  <p style="margin:4px 0 0;opacity:.8;font-size:.9rem;">Транспортно-логистическая компания</p>',
+  '</div>',
+  '<div style="background:#f9fafb;padding:32px;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;">',
+  '  <h2 style="margin:0 0 12px;font-size:1.2rem;">Добро пожаловать, ',
+].join('\n');
+
+var CONFIRMATION_TEMPLATE_SUFFIX = [
+  '!</h2>',
+  '  <p style="color:#555;line-height:1.6;">',
+  '    Ваша регистрация в личном кабинете Pacific Star прошла успешно.',
+  '    Теперь вы можете отслеживать грузы, управлять заявками и получать уведомления о статусе доставки.',
+  '  </p>',
+  '  <p style="color:#555;line-height:1.6;">',
+  '    Если вы не регистрировались на нашем сайте — просто проигнорируйте это письмо.',
+  '  </p>',
+  '  <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;">',
+  '  <p style="color:#999;font-size:.82rem;text-align:center;">',
+  '    © Pacific Star · pacificstar.ru',
+  '  </p>',
+  '</div>',
+  '</body></html>',
+].join('\n');
+
 function confirmationHtml(name) {
-  return [
-    '<!DOCTYPE html>',
-    '<html lang="ru"><head><meta charset="utf-8"></head><body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">',
-    '<div style="background:#1a2744;color:#fff;padding:24px 32px;border-radius:12px 12px 0 0;text-align:center;">',
-    '  <h1 style="margin:0;font-size:1.4rem;">🌟 Pacific Star</h1>',
-    '  <p style="margin:4px 0 0;opacity:.8;font-size:.9rem;">Транспортно-логистическая компания</p>',
-    '</div>',
-    '<div style="background:#f9fafb;padding:32px;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 12px 12px;">',
-    '  <h2 style="margin:0 0 12px;font-size:1.2rem;">Добро пожаловать, ' + escapeHtml(name) + '!</h2>',
-    '  <p style="color:#555;line-height:1.6;">',
-    '    Ваша регистрация в личном кабинете Pacific Star прошла успешно.',
-    '    Теперь вы можете отслеживать грузы, управлять заявками и получать уведомления о статусе доставки.',
-    '  </p>',
-    '  <p style="color:#555;line-height:1.6;">',
-    '    Если вы не регистрировались на нашем сайте — просто проигнорируйте это письмо.',
-    '  </p>',
-    '  <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;">',
-    '  <p style="color:#999;font-size:.82rem;text-align:center;">',
-    '    © Pacific Star · pacificstar.ru',
-    '  </p>',
-    '</div>',
-    '</body></html>',
-  ].join('\n');
+  return CONFIRMATION_TEMPLATE_PREFIX + escapeHtml(name) + CONFIRMATION_TEMPLATE_SUFFIX;
 }
 
 /* ── Contact form template ─────────────────────────────────────────── */
+var CONTACT_TEMPLATE_PREFIX = [
+  '<!DOCTYPE html>',
+  '<html lang="ru"><head><meta charset="utf-8"></head><body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">',
+  '<h2 style="color:#1a2744;">Новая заявка с сайта pacificstar.ru</h2>',
+  '<table style="border-collapse:collapse;width:100%;">',
+].join('\n');
+
+var CONTACT_TEMPLATE_SUFFIX = '</table>\n</body></html>';
+
+var TD_LABEL = 'style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;"';
+var TD_VALUE = 'style="padding:8px;border-bottom:1px solid #eee;"';
+var TD_LABEL_LAST = 'style="padding:8px;font-weight:bold;vertical-align:top;"';
+var TD_VALUE_LAST = 'style="padding:8px;"';
+
+function contactRow(label, value, isLast) {
+  var tl = isLast ? TD_LABEL_LAST : TD_LABEL;
+  var tv = isLast ? TD_VALUE_LAST : TD_VALUE;
+  return '<tr><td ' + tl + '>' + label + '</td><td ' + tv + '>' + value + '</td></tr>';
+}
+
 function contactHtml(data) {
-  return [
-    '<!DOCTYPE html>',
-    '<html lang="ru"><head><meta charset="utf-8"></head><body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px;">',
-    '<h2 style="color:#1a2744;">Новая заявка с сайта pacificstar.ru</h2>',
-    '<table style="border-collapse:collapse;width:100%;">',
-    '<tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Имя</td><td style="padding:8px;border-bottom:1px solid #eee;">' + escapeHtml(data.name || '—') + '</td></tr>',
-    '<tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">E-mail</td><td style="padding:8px;border-bottom:1px solid #eee;">' + escapeHtml(data.email || '—') + '</td></tr>',
-    '<tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Телефон</td><td style="padding:8px;border-bottom:1px solid #eee;">' + escapeHtml(data.phone || '—') + '</td></tr>',
-    '<tr><td style="padding:8px;border-bottom:1px solid #eee;font-weight:bold;">Услуга</td><td style="padding:8px;border-bottom:1px solid #eee;">' + escapeHtml(data.service || '—') + '</td></tr>',
-    '<tr><td style="padding:8px;font-weight:bold;vertical-align:top;">Сообщение</td><td style="padding:8px;">' + escapeHtml(data.message || '—') + '</td></tr>',
-    '</table>',
-    '</body></html>',
-  ].join('\n');
+  return CONTACT_TEMPLATE_PREFIX + '\n' +
+    contactRow('Имя',       escapeHtml(data.name    || '—'), false) + '\n' +
+    contactRow('E-mail',    escapeHtml(data.email   || '—'), false) + '\n' +
+    contactRow('Телефон',   escapeHtml(data.phone   || '—'), false) + '\n' +
+    contactRow('Услуга',    escapeHtml(data.service || '—'), false) + '\n' +
+    contactRow('Сообщение', escapeHtml(data.message || '—'), true)  + '\n' +
+    CONTACT_TEMPLATE_SUFFIX;
 }
 
 /* ── API routes ────────────────────────────────────────────────────── */

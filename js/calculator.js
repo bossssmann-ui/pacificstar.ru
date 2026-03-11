@@ -68,28 +68,34 @@
                   'Петропавловск-Камч.','Магадан','Анадырь','Певек','Другой город'];
 
     [fromSel, toSel].forEach(function (sel) {
-      sel.innerHTML = '';
+      var frag = document.createDocumentFragment();
       cities.forEach(function (c) {
         var opt = document.createElement('option');
         opt.value = c; opt.textContent = c;
-        sel.appendChild(opt);
+        frag.appendChild(opt);
       });
+      sel.innerHTML = '';
+      sel.appendChild(frag);
     });
     toSel.value = 'Владивосток';
 
-    transSel.innerHTML = '';
+    var transFrag = document.createDocumentFragment();
     Object.keys(TRANSPORT).forEach(function (k) {
       var opt = document.createElement('option');
       opt.value = k; opt.textContent = TRANSPORT[k].label;
-      transSel.appendChild(opt);
+      transFrag.appendChild(opt);
     });
+    transSel.innerHTML = '';
+    transSel.appendChild(transFrag);
 
-    cargoSel.innerHTML = '';
+    var cargoFrag = document.createDocumentFragment();
     Object.keys(CARGO).forEach(function (k) {
       var opt = document.createElement('option');
       opt.value = k; opt.textContent = CARGO[k].label;
-      cargoSel.appendChild(opt);
+      cargoFrag.appendChild(opt);
     });
+    cargoSel.innerHTML = '';
+    cargoSel.appendChild(cargoFrag);
 
     return true;
   }
