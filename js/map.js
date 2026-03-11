@@ -44,7 +44,7 @@
   var pointLabelScalingBindings = new WeakMap();
 
   var NS = 'http://www.w3.org/2000/svg';
-  var DATA_URL = 'data/world-countries.geo.json?v=20260309';
+  var DATA_URL = 'data/world-countries.geo.json?v=20260311';
 
   var cachedFeatures = null;
 
@@ -969,7 +969,7 @@
       return Promise.resolve(cachedFeatures);
     }
 
-    return fetch(DATA_URL, { cache: 'force-cache' })
+    return fetch(DATA_URL, { cache: 'no-cache' })
       .then(function (response) {
         if (!response.ok) {
           throw new Error('HTTP ' + response.status);
