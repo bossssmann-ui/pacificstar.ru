@@ -516,7 +516,7 @@ p { margin-bottom: 1rem; }
   top: -15%;
   height: 130%;
   background: url('../img/port-de-barcelona-night.jpg') center 40% / cover no-repeat;
-  opacity: 0.75;
+  opacity: 1;
   z-index: 0;
   will-change: transform;
   transform: translateY(0);
@@ -1207,7 +1207,7 @@ p { margin-bottom: 1rem; }
   top: -20%;
   height: 140%;
   background: url('../img/port-de-barcelona-night.jpg') center 40% / cover no-repeat;
-  opacity: 0.45;
+  opacity: 1;
   z-index: 0;
   will-change: transform;
   pointer-events: none;
