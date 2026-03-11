@@ -41,6 +41,8 @@
   var C_SEA_ROUTE_GLOW = 'rgba(255,255,255,0.42)';
   var BASE_POINT_STROKE_WIDTH = 2;
   var BASE_LABEL_STROKE_WIDTH = 3;
+  var CITY_LABEL_OFFSET_X = 10;
+  var CITY_LABEL_OFFSET_Y = 10;
   var pointLabelScalingBindings = new WeakMap();
 
   var NS = 'http://www.w3.org/2000/svg';
@@ -96,64 +98,64 @@
   ];
 
   var CITY_POINTS = [
-    { text: 'Москва', lon: 37.6, lat: 55.8, size: 18, dx: 8, dy: -8, kind: 'capital' },
-    { text: 'Санкт-Петербург', lon: 30.3, lat: 59.9, dx: 8, dy: -8, size: 15 },
-    { text: 'Мурманск', lon: 33.1, lat: 69.0, dx: 8, dy: -8 },
-    { text: 'Новороссийск', lon: 37.8, lat: 44.7, dx: 8, dy: 18 },
-    { text: 'Владивосток', lon: 131.9, lat: 43.1, dx: 8, dy: -8 },
-    { text: 'Уссурийск', lon: 131.9, lat: 43.8, size: 14, dx: -12, dy: -12, anchor: 'end' },
-    { text: 'Находка', lon: 132.9, lat: 42.8, size: 14, dx: 8, dy: 22 },
-    { text: 'Пограничный', lon: 131.4, lat: 44.4, size: 13, dx: -14, dy: -12, anchor: 'end' },
-    { text: 'Суйфэньхэ', lon: 131.2, lat: 44.4, size: 13, dx: 10, dy: 14 },
-    { text: 'Благовещенск', lon: 127.5, lat: 50.3, size: 13, dx: -14, dy: -10, anchor: 'end' },
-    { text: 'Хэйхэ', lon: 127.5, lat: 50.2, size: 13, dx: 10, dy: -12 },
-    { text: 'Забайкальск', lon: 117.3, lat: 49.7, size: 13, dx: -14, dy: 18, anchor: 'end' },
-    { text: 'Маньчжурия', lon: 117.4, lat: 49.6, size: 13, dx: 10, dy: -10 },
-    { text: 'Якутск', lon: 129.7, lat: 62.0, size: 15, dx: 8, dy: -8 },
-    { text: 'Магадан', lon: 150.8, lat: 59.6, size: 15, dx: 8, dy: -8 },
-    { text: 'Иркутск', lon: 104.3, lat: 52.3, size: 14, dx: 8, dy: -8 },
-    { text: 'Красноярск', lon: 92.9, lat: 56.0, size: 14, dx: -12, dy: -10, anchor: 'end' },
-    { text: 'Новосибирск', lon: 82.9, lat: 55.0, size: 14, dx: 8, dy: 18 },
-    { text: 'Омск', lon: 73.4, lat: 55.0, size: 14, dx: -12, dy: -8, anchor: 'end' },
-    { text: 'Екатеринбург', lon: 60.6, lat: 56.8, size: 14, dx: 8, dy: -8 },
-    { text: 'Челябинск', lon: 61.4, lat: 55.2, size: 14, dx: -10, dy: 18, anchor: 'end' },
-    { text: 'Уфа', lon: 56.0, lat: 54.7, size: 14, dx: -12, dy: -10, anchor: 'end' },
-    { text: 'Казань', lon: 49.1, lat: 55.8, size: 14, dx: 8, dy: -8 },
-    { text: 'Пекин', lon: 116.4, lat: 39.9, dx: -10, dy: -10, anchor: 'end', kind: 'capital' },
-    { text: 'Шанхай', lon: 121.5, lat: 31.2, dx: 8, dy: 18 },
-    { text: 'Циндао', lon: 120.4, lat: 36.1, dx: 8, dy: -8 },
-    { text: 'Шенжень', lon: 114.1, lat: 22.5, dx: 8, dy: 18 },
-    { text: 'Токио', lon: 139.7, lat: 35.7, dx: 8, dy: -8, kind: 'capital' },
-    { text: 'Йокогама', lon: 139.6, lat: 35.4, dx: 8, dy: 18 },
-    { text: 'Кобе', lon: 135.2, lat: 34.7, dx: -10, dy: 18, anchor: 'end' },
-    { text: 'Сеул', lon: 127.0, lat: 37.6, dx: -10, dy: -10, anchor: 'end', kind: 'capital' },
-    { text: 'Пусан', lon: 129.1, lat: 35.2, dx: 8, dy: 18 },
-    { text: 'Инчхон', lon: 126.7, lat: 37.5, dx: -10, dy: 18, anchor: 'end' },
-    { text: 'Нью-Дели', lon: 77.2, lat: 28.6, dx: 8, dy: -8, kind: 'capital' },
-    { text: 'Мумбаи', lon: 72.9, lat: 19.1, dx: 8, dy: 18 },
-    { text: 'Ченнаи', lon: 80.3, lat: 13.1, dx: 8, dy: 18 },
-    { text: 'Калькутта', lon: 88.4, lat: 22.6, dx: 8, dy: -8 },
+    { text: 'Москва', lon: 37.6156, lat: 55.7522, size: 18, dx: 8, dy: -8, kind: 'capital' },
+    { text: 'Санкт-Петербург', lon: 30.3141, lat: 59.9386, dx: 8, dy: -8, size: 15 },
+    { text: 'Мурманск', lon: 33.0925, lat: 68.9792, dx: 8, dy: -8 },
+    { text: 'Новороссийск', lon: 37.7675, lat: 44.7244, dx: 8, dy: 18 },
+    { text: 'Владивосток', lon: 131.8855, lat: 43.1155, dx: 8, dy: -8 },
+    { text: 'Уссурийск', lon: 131.9514, lat: 43.7974, size: 14, dx: -12, dy: -12, anchor: 'end' },
+    { text: 'Находка', lon: 132.8935, lat: 42.8248, size: 14, dx: 8, dy: 22 },
+    { text: 'Пограничный', lon: 131.3826, lat: 44.4138, size: 13, dx: -14, dy: -12, anchor: 'end' },
+    { text: 'Суйфэньхэ', lon: 131.1478, lat: 44.3996, size: 13, dx: 10, dy: 14 },
+    { text: 'Благовещенск', lon: 127.5272, lat: 50.2907, size: 13, dx: -14, dy: -10, anchor: 'end' },
+    { text: 'Хэйхэ', lon: 127.4902, lat: 50.2449, size: 13, dx: 10, dy: -12 },
+    { text: 'Забайкальск', lon: 117.3215, lat: 49.6513, size: 13, dx: -14, dy: 18, anchor: 'end' },
+    { text: 'Маньчжурия', lon: 117.4317, lat: 49.5978, size: 13, dx: 10, dy: -10 },
+    { text: 'Якутск', lon: 129.7326, lat: 62.0272, size: 15, dx: 8, dy: -8 },
+    { text: 'Магадан', lon: 150.8085, lat: 59.5682, size: 15, dx: 8, dy: -8 },
+    { text: 'Иркутск', lon: 104.2964, lat: 52.2978, size: 14, dx: 8, dy: -8 },
+    { text: 'Красноярск', lon: 92.7917, lat: 56.0097, size: 14, dx: -12, dy: -10, anchor: 'end' },
+    { text: 'Новосибирск', lon: 82.9357, lat: 55.0084, size: 14, dx: 8, dy: 18 },
+    { text: 'Омск', lon: 73.3645, lat: 54.9914, size: 14, dx: -12, dy: -8, anchor: 'end' },
+    { text: 'Екатеринбург', lon: 60.6057, lat: 56.8389, size: 14, dx: 8, dy: -8 },
+    { text: 'Челябинск', lon: 61.4368, lat: 55.1644, size: 14, dx: -10, dy: 18, anchor: 'end' },
+    { text: 'Уфа', lon: 55.9721, lat: 54.7388, size: 14, dx: -12, dy: -10, anchor: 'end' },
+    { text: 'Казань', lon: 49.1221, lat: 55.7887, size: 14, dx: 8, dy: -8 },
+    { text: 'Пекин', lon: 116.4074, lat: 39.9042, dx: -10, dy: -10, anchor: 'end', kind: 'capital' },
+    { text: 'Шанхай', lon: 121.4737, lat: 31.2304, dx: 8, dy: 18 },
+    { text: 'Циндао', lon: 120.3826, lat: 36.0671, dx: 8, dy: -8 },
+    { text: 'Шенжень', lon: 114.0579, lat: 22.5431, dx: 8, dy: 18 },
+    { text: 'Токио', lon: 139.6917, lat: 35.6895, dx: 8, dy: -8, kind: 'capital' },
+    { text: 'Йокогама', lon: 139.6380, lat: 35.4437, dx: 8, dy: 18 },
+    { text: 'Кобе', lon: 135.1955, lat: 34.6901, dx: -10, dy: 18, anchor: 'end' },
+    { text: 'Сеул', lon: 126.9780, lat: 37.5665, dx: -10, dy: -10, anchor: 'end', kind: 'capital' },
+    { text: 'Пусан', lon: 129.0756, lat: 35.1796, dx: 8, dy: 18 },
+    { text: 'Инчхон', lon: 126.7052, lat: 37.4563, dx: -10, dy: 18, anchor: 'end' },
+    { text: 'Нью-Дели', lon: 77.2090, lat: 28.6139, dx: 8, dy: -8, kind: 'capital' },
+    { text: 'Мумбаи', lon: 72.8777, lat: 19.0760, dx: 8, dy: 18 },
+    { text: 'Ченнаи', lon: 80.2707, lat: 13.0827, dx: 8, dy: 18 },
+    { text: 'Калькутта', lon: 88.3639, lat: 22.5726, dx: 8, dy: -8 },
     /* Россия — дополнительные города */
-    { text: 'Хабаровск', lon: 135.1, lat: 48.5, size: 14, dx: 8, dy: -8 },
-    { text: 'Чита', lon: 113.5, lat: 52.0, size: 14, dx: 8, dy: -8 },
-    { text: 'Воронеж', lon: 39.2, lat: 51.7, size: 13, dx: -12, dy: -8, anchor: 'end' },
-    { text: 'Ростов-на-Дону', lon: 39.7, lat: 47.2, size: 13, dx: 8, dy: -8 },
+    { text: 'Хабаровск', lon: 135.0719, lat: 48.4802, size: 14, dx: 8, dy: -8 },
+    { text: 'Чита', lon: 113.5000, lat: 52.0333, size: 14, dx: 8, dy: -8 },
+    { text: 'Воронеж', lon: 39.1843, lat: 51.6720, size: 13, dx: -12, dy: -8, anchor: 'end' },
+    { text: 'Ростов-на-Дону', lon: 39.7204, lat: 47.2221, size: 13, dx: 8, dy: -8 },
     /* Китай — СВ-коридор и ключевые порты */
-    { text: 'Харбин', lon: 126.6, lat: 45.8, size: 13, dx: 8, dy: -8 },
-    { text: 'Чанчунь', lon: 125.3, lat: 43.9, size: 13, dx: 8, dy: -8 },
-    { text: 'Шэньян', lon: 123.4, lat: 41.8, size: 13, dx: 8, dy: -8 },
-    { text: 'Далянь', lon: 121.6, lat: 38.9, size: 13, dx: 8, dy: 18 },
-    { text: 'Тяньцзинь', lon: 117.2, lat: 39.1, size: 12, dx: 8, dy: 18 },
-    { text: 'Ухань', lon: 114.3, lat: 30.6, size: 12, dx: 8, dy: -8 },
-    { text: 'Гуанчжоу', lon: 113.2, lat: 23.1, size: 13, dx: 8, dy: -8 },
+    { text: 'Харбин', lon: 126.5349, lat: 45.8038, size: 13, dx: 8, dy: -8 },
+    { text: 'Чанчунь', lon: 125.3235, lat: 43.8171, size: 13, dx: 8, dy: -8 },
+    { text: 'Шэньян', lon: 123.4315, lat: 41.8057, size: 13, dx: 8, dy: -8 },
+    { text: 'Далянь', lon: 121.6147, lat: 38.9140, size: 13, dx: 8, dy: 18 },
+    { text: 'Тяньцзинь', lon: 117.3616, lat: 39.3434, size: 12, dx: 8, dy: 18 },
+    { text: 'Ухань', lon: 114.3055, lat: 30.5928, size: 12, dx: 8, dy: -8 },
+    { text: 'Гуанчжоу', lon: 113.2644, lat: 23.1291, size: 13, dx: 8, dy: -8 },
     /* Япония */
-    { text: 'Осака', lon: 135.5, lat: 34.7, size: 13, dx: 8, dy: 18 },
-    { text: 'Нагоя', lon: 136.9, lat: 35.2, size: 12, dx: 8, dy: -8 },
-    { text: 'Фукуока', lon: 130.4, lat: 33.6, size: 13, dx: 8, dy: -8 },
-    { text: 'Саппоро', lon: 141.4, lat: 43.1, size: 13, dx: 8, dy: -8 },
+    { text: 'Осака', lon: 135.5023, lat: 34.6937, size: 13, dx: 8, dy: 18 },
+    { text: 'Нагоя', lon: 136.9066, lat: 35.1815, size: 12, dx: 8, dy: -8 },
+    { text: 'Фукуока', lon: 130.4017, lat: 33.5904, size: 13, dx: 8, dy: -8 },
+    { text: 'Саппоро', lon: 141.3544, lat: 43.0621, size: 13, dx: 8, dy: -8 },
     /* Корея */
-    { text: 'Тэджон', lon: 127.4, lat: 36.3, size: 12, dx: 8, dy: -8 },
-    { text: 'Тэгу', lon: 128.6, lat: 35.9, size: 12, dx: 8, dy: -8 }
+    { text: 'Тэджон', lon: 127.3845, lat: 36.3504, size: 12, dx: 8, dy: -8 },
+    { text: 'Тэгу', lon: 128.6014, lat: 35.8722, size: 12, dx: 8, dy: -8 }
   ];
 
   var ROAD_ROUTES = [
@@ -720,10 +722,12 @@
       marker._baseStroke = BASE_POINT_STROKE_WIDTH;
 
       var baseFontSize = pointData.size || 16;
-      var label = txt(pointData.text, fmt(point[0] + (pointData.dx || 0)), fmt(point[1] + (pointData.dy || 0)), {
+      var labelDx = pointData.dx !== undefined ? -Math.abs(pointData.dx) : -CITY_LABEL_OFFSET_X;
+      var labelDy = pointData.dy !== undefined ? -Math.abs(pointData.dy) : -CITY_LABEL_OFFSET_Y;
+      var label = txt(pointData.text, fmt(point[0] + labelDx), fmt(point[1] + labelDy), {
         'font-size': String(baseFontSize),
         'font-weight': isCapital ? '700' : '600',
-        'text-anchor': pointData.anchor || 'start',
+        'text-anchor': 'end',
         fill: isCapital ? C_CAPITAL : '#ffffff',
         stroke: C_LABEL_STROKE,
         'stroke-width': String(BASE_LABEL_STROKE_WIDTH),
