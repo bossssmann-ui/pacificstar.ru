@@ -44,7 +44,7 @@
   var pointLabelScalingBindings = new WeakMap();
 
   var NS = 'http://www.w3.org/2000/svg';
-  var DATA_URL = 'data/world-countries.geo.json?v=20260311';
+  var DATA_URL = 'data/world-countries.geo.json?v=20260311b';
 
   var cachedFeatures = null;
 
