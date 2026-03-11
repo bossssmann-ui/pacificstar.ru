@@ -332,7 +332,7 @@
     }
 
     var first = px(ring[0][0], ring[0][1]);
-    var d = 'M ' + fmt(first[0]) + ' ' + fmt(first[1]);
+    var parts = ['M ' + fmt(first[0]) + ' ' + fmt(first[1])];
     var prevLon = normalizeLon(ring[0][0]);
     var prevPoint = first;
 
@@ -343,20 +343,20 @@
 
       if (Math.abs(lon - prevLon) > 180) {
         if (prevLon > lon) {
-          d += ' L ' + fmt(W) + ' ' + fmt(prevPoint[1]);
-          d += ' M 0.0 ' + fmt(point[1]);
+          parts.push('L ' + fmt(W) + ' ' + fmt(prevPoint[1]));
+          parts.push('M 0.0 ' + fmt(point[1]));
         } else {
-          d += ' L 0.0 ' + fmt(prevPoint[1]);
-          d += ' M ' + fmt(W) + ' ' + fmt(point[1]);
+          parts.push('L 0.0 ' + fmt(prevPoint[1]));
+          parts.push('M ' + fmt(W) + ' ' + fmt(point[1]));
         }
       }
 
-      d += ' L ' + fmt(point[0]) + ' ' + fmt(point[1]);
+      parts.push('L ' + fmt(point[0]) + ' ' + fmt(point[1]));
       prevLon = lon;
       prevPoint = point;
     }
 
-    return d + ' Z';
+    return parts.join(' ') + ' Z';
   }
 
   function polygonToPath(rings) {
@@ -413,6 +413,8 @@
         'data-base-r': String(baseRadius),
         'data-base-stroke-width': String(BASE_POINT_STROKE_WIDTH)
       });
+      marker._baseR = baseRadius;
+      marker._baseStroke = BASE_POINT_STROKE_WIDTH;
 
       var baseFontSize = pointData.size || 16;
       var label = txt(pointData.text, fmt(point[0] + (pointData.dx || 0)), fmt(point[1] + (pointData.dy || 0)), {
@@ -427,6 +429,8 @@
         'data-base-font-size': String(baseFontSize),
         'data-base-stroke-width': String(BASE_LABEL_STROKE_WIDTH)
       });
+      label._baseFontSize = baseFontSize;
+      label._baseStroke = BASE_LABEL_STROKE_WIDTH;
 
       svg.appendChild(marker);
       svg.appendChild(label);
@@ -442,19 +446,25 @@
     return Math.min(1, W / size);
   }
 
+  function getCachedNumeric(element, propName, attrName) {
+    return element[propName] !== undefined
+      ? element[propName]
+      : parseFloat(element.getAttribute(attrName));
+  }
+
   function resizePointLabels(container, markers, labels) {
     var scale = getPointScale(container);
 
     markers.forEach(function (marker) {
-      var baseR = parseFloat(marker.getAttribute('data-base-r'));
-      var baseStroke = parseFloat(marker.getAttribute('data-base-stroke-width'));
+      var baseR      = getCachedNumeric(marker, '_baseR',      'data-base-r');
+      var baseStroke = getCachedNumeric(marker, '_baseStroke', 'data-base-stroke-width');
       marker.setAttribute('r', fmt(baseR * scale));
       marker.setAttribute('stroke-width', fmt(baseStroke * scale));
     });
 
     labels.forEach(function (label) {
-      var baseFontSize = parseFloat(label.getAttribute('data-base-font-size'));
-      var baseStroke = parseFloat(label.getAttribute('data-base-stroke-width'));
+      var baseFontSize = getCachedNumeric(label, '_baseFontSize', 'data-base-font-size');
+      var baseStroke   = getCachedNumeric(label, '_baseStroke',   'data-base-stroke-width');
       label.setAttribute('font-size', fmt(baseFontSize * scale));
       label.setAttribute('stroke-width', fmt(baseStroke * scale));
     });
