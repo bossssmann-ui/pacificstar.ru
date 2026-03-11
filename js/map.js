@@ -163,26 +163,36 @@
       points: [
         { lon: 131.9, lat: 43.1 },
         { lon: 131.9, lat: 43.8 },
+        { lon: 132.8, lat: 44.6 },
+        { lon: 134.7, lat: 46.8 },
         { lon: 135.1, lat: 48.5 },
         { lon: 132.9, lat: 48.8 },
-        { lon: 130.7, lat: 49.5 },
+        { lon: 131.0, lat: 49.0 },
         { lon: 128.5, lat: 50.9 },
         { lon: 128.1, lat: 51.4 },
+        { lon: 123.9, lat: 54.0 },
+        { lon: 119.8, lat: 53.7 },
         { lon: 113.5, lat: 52.0 },
         { lon: 107.6, lat: 51.8 },
         { lon: 104.3, lat: 52.3 },
         { lon: 92.9, lat: 56.0 },
+        { lon: 86.1, lat: 55.4 },
         { lon: 82.9, lat: 55.0 },
         { lon: 73.4, lat: 55.0 },
-        { lon: 68.9, lat: 57.1 },
+        { lon: 69.5, lat: 56.1 },
+        { lon: 65.5, lat: 57.2 },
         { lon: 60.6, lat: 56.8 },
         { lon: 61.4, lat: 55.2 },
         { lon: 56.0, lat: 54.7 },
-        { lon: 49.1, lat: 55.8 },
-        { lon: 44.0, lat: 56.3 },
+        { lon: 50.1, lat: 53.2 },
+        { lon: 45.0, lat: 53.2 },
+        { lon: 39.7, lat: 54.6 },
         { lon: 37.6, lat: 55.8 },
+        { lon: 35.9, lat: 56.9 },
         { lon: 30.3, lat: 59.9 },
         { lon: 34.3, lat: 61.8 },
+        { lon: 34.5, lat: 62.9 },
+        { lon: 32.4, lat: 67.2 },
         { lon: 33.1, lat: 69.0 }
       ]
     },
@@ -203,21 +213,28 @@
       ]
     },
     {
-      /* Ответвление: Забайкальск (Р-258, юго-восток от Читы) */
+      /* Ответвление: Забайкальск (А-350, юго-восток от Читы) */
       kind: 'branch',
       points: [
         { lon: 113.5, lat: 52.0 },
+        { lon: 116.5, lat: 50.4 },
         { lon: 117.3, lat: 49.7 }
       ]
     },
     {
-      /* Р-504 «Колыма»: Хабаровск — Комсомольск — Нерюнгри — Якутск — Магадан */
+      /* А-360 «Лена» + Р-504 «Колыма»: Сковородино — Нерюнгри — Якутск — Магадан */
       kind: 'branch',
       points: [
-        { lon: 135.1, lat: 48.5 },
-        { lon: 136.9, lat: 50.6 },
+        { lon: 123.9, lat: 54.0 },
+        { lon: 124.7, lat: 55.2 },
         { lon: 124.7, lat: 56.7 },
+        { lon: 125.4, lat: 58.6 },
+        { lon: 126.3, lat: 59.0 },
+        { lon: 129.9, lat: 62.0 },
         { lon: 129.7, lat: 62.0 },
+        { lon: 135.6, lat: 62.7 },
+        { lon: 143.2, lat: 64.6 },
+        { lon: 148.2, lat: 62.8 },
         { lon: 150.8, lat: 59.6 }
       ]
     },
@@ -329,6 +346,9 @@
         { lon: 117.1, lat: 34.3 },
         { lon: 118.8, lat: 32.1 },
         { lon: 120.2, lat: 30.3 },
+        { lon: 121.5, lat: 31.2 }
+      ]
+    },
     {
       /* Китай: Суйфэньхэ — Харбин — Чанчунь — Шэньян — Пекин */
       kind: 'branch',
@@ -446,8 +466,10 @@
         { lon: 140.7, lat: 41.8 },
         { lon: 141.4, lat: 43.1 }
       ]
-      /* Китай: Шанхай — Шэньчжэнь */
-      kind: 'branch',
+    },
+    {
+      /* G15 «Шэньхай»: Шанхай — Фучжоу — Шэньчжэнь */
+      kind: 'china',
       points: [
         { lon: 121.5, lat: 31.2 },
         { lon: 119.3, lat: 26.1 },
@@ -824,14 +846,11 @@
             : isJapan ? C_ROAD_JAPAN
               : isKorea ? C_ROAD_KOREA
                 : C_ROAD_BRANCH_LINE;
-      var width = isMain ? 1.5 : 1.0;
-      var dash = isCrossing ? '4 3' : null;
-      renderRoadPath(svg, route.points, stroke, width, dash);
       var attrs = {
         d: d,
         fill: 'none',
-        stroke: isCrossing ? 'rgba(255,255,255,0.90)' : (isMain ? C_ROAD_LINE : C_ROAD_BRANCH_LINE),
-        'stroke-width': isMain ? '1.5' : '1.0',
+        stroke: stroke,
+        'stroke-width': isCrossing ? '1.5' : (isMain ? '1.5' : '1.0'),
         'stroke-linecap': 'round',
         'stroke-linejoin': 'round'
       };
