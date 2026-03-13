@@ -750,23 +750,23 @@
       : parseFloat(element.getAttribute(attrName));
   }
 
-  function positionPointLabel(marker, label, scale) {
+  function getPointLabelPosition(marker, label, scale) {
     var pointX = getCachedNumeric(label, '_pointX', 'data-point-x');
     var pointY = getCachedNumeric(label, '_pointY', 'data-point-y');
     var baseR = getCachedNumeric(marker, '_baseR', 'data-base-r');
     var markerOffset = (baseR * scale) / Math.sqrt(2);
     var targetX = pointX - markerOffset;
     var targetY = pointY - markerOffset;
-
-    label.setAttribute('x', fmt(pointX));
-    label.setAttribute('y', fmt(pointY));
-
+    var currentX = parseFloat(label.getAttribute('x'));
+    var currentY = parseFloat(label.getAttribute('y'));
     var bbox = label.getBBox();
     var shiftX = targetX - (bbox.x + bbox.width);
     var shiftY = targetY - (bbox.y + bbox.height);
 
-    label.setAttribute('x', fmt(pointX + shiftX));
-    label.setAttribute('y', fmt(pointY + shiftY));
+    return {
+      x: currentX + shiftX,
+      y: currentY + shiftY
+    };
   }
 
   function resizePointLabels(container, markers, labels, baseDevicePixelRatio) {
@@ -786,8 +786,13 @@
       label.setAttribute('stroke-width', fmt(baseStroke * scale));
     });
 
-    labels.forEach(function (label, index) {
-      positionPointLabel(markers[index], label, scale);
+    var labelPositions = labels.map(function (label, index) {
+      return getPointLabelPosition(markers[index], label, scale);
+    });
+
+    labelPositions.forEach(function (position, index) {
+      labels[index].setAttribute('x', fmt(position.x));
+      labels[index].setAttribute('y', fmt(position.y));
     });
   }
 
