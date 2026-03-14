@@ -705,9 +705,7 @@
       marker._baseStroke = BASE_POINT_STROKE_WIDTH;
 
       var baseFontSize = pointData.size || 16;
-      var labelDx = pointData.dx !== undefined ? -Math.abs(pointData.dx) : -CITY_LABEL_OFFSET_X;
-      var labelDy = pointData.dy !== undefined ? -Math.abs(pointData.dy) : -CITY_LABEL_OFFSET_Y;
-      var label = txt(pointData.text, fmt(point[0] + labelDx), fmt(point[1] + labelDy), {
+      var label = txt(pointData.text, fmt(point[0]), fmt(point[1]), {
         'font-size': String(baseFontSize),
         'font-weight': isCapital ? '700' : '600',
         'text-anchor': 'end',
@@ -717,10 +715,14 @@
         'stroke-linejoin': 'round',
         'paint-order': 'stroke fill',
         'data-base-font-size': String(baseFontSize),
-        'data-base-stroke-width': String(BASE_LABEL_STROKE_WIDTH)
+        'data-base-stroke-width': String(BASE_LABEL_STROKE_WIDTH),
+        'data-point-x': fmt(point[0]),
+        'data-point-y': fmt(point[1])
       });
       label._baseFontSize = baseFontSize;
       label._baseStroke = BASE_LABEL_STROKE_WIDTH;
+      label._pointX = point[0];
+      label._pointY = point[1];
 
       svg.appendChild(marker);
       svg.appendChild(label);
@@ -748,6 +750,25 @@
       : parseFloat(element.getAttribute(attrName));
   }
 
+  function getPointLabelPosition(marker, label, scale) {
+    var pointX = getCachedNumeric(label, '_pointX', 'data-point-x');
+    var pointY = getCachedNumeric(label, '_pointY', 'data-point-y');
+    var baseR = getCachedNumeric(marker, '_baseR', 'data-base-r');
+    var markerOffset = (baseR * scale) / Math.sqrt(2);
+    var targetX = pointX - markerOffset;
+    var targetY = pointY - markerOffset;
+    var currentX = parseFloat(label.getAttribute('x'));
+    var currentY = parseFloat(label.getAttribute('y'));
+    var bbox = label.getBBox();
+    var shiftX = targetX - (bbox.x + bbox.width);
+    var shiftY = targetY - (bbox.y + bbox.height);
+
+    return {
+      x: currentX + shiftX,
+      y: currentY + shiftY
+    };
+  }
+
   function resizePointLabels(container, markers, labels, baseDevicePixelRatio) {
     var scale = getPointScale(container, baseDevicePixelRatio);
 
@@ -763,6 +784,15 @@
       var baseStroke   = getCachedNumeric(label, '_baseStroke',   'data-base-stroke-width');
       label.setAttribute('font-size', fmt(baseFontSize * scale));
       label.setAttribute('stroke-width', fmt(baseStroke * scale));
+    });
+
+    var labelPositions = labels.map(function (label, index) {
+      return getPointLabelPosition(markers[index], label, scale);
+    });
+
+    labelPositions.forEach(function (position, index) {
+      labels[index].setAttribute('x', fmt(position.x));
+      labels[index].setAttribute('y', fmt(position.y));
     });
   }
 
