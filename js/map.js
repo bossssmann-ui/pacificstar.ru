@@ -25,7 +25,7 @@
 
   var C_OCEAN = '#2b4d8a';
   var C_LAND = '#6a9fc8';
-  var C_BORDER = '#9cc4e0';
+  var C_BORDER = '#4a7da8';
   var C_GRID = 'rgba(255,255,255,0.12)';
   var C_LABEL = 'rgba(255,255,255,0.8)';
   var C_POINT = '#ffffff';
@@ -470,26 +470,32 @@
         [131.9, 43.1],
         [131.0, 40.7],
         [130.0, 37.8],
+        [130.0, 35.5],
         [129.1, 35.2]
       ]
     },
     {
+      /* Через Цусимский пролив, южнее Кюсю и Сикоку, тихоокеанское побережье */
       name: 'Владивосток — Йокогама',
       points: [
         [131.9, 43.1],
-        [133.2, 41.0],
-        [136.4, 38.5],
-        [138.4, 36.6],
+        [131.0, 40.5],
+        [130.5, 37.0],
+        [128.5, 33.0],
+        [131.0, 30.0],
+        [136.0, 31.0],
+        [139.0, 33.5],
         [139.6, 35.4]
       ]
     },
     {
+      /* Через Восточно-Китайское море, южнее о. Чеджу */
       name: 'Шанхай — Пусан',
       points: [
         [121.5, 31.2],
-        [123.2, 32.6],
-        [125.7, 34.0],
-        [127.6, 34.7],
+        [123.5, 32.5],
+        [126.0, 33.0],
+        [128.5, 33.5],
         [129.1, 35.2]
       ]
     },
@@ -509,18 +515,18 @@
       points: [
         [131.9, 43.1],
         [131.2, 40.5],
-        [129.8, 37.0],
-        [128.4, 34.6],
-        [126.1, 31.8],
+        [130.5, 37.0],
+        [129.5, 33.5],
+        [126.5, 31.0],
         [123.0, 28.4],
-        [121.0, 24.5],
-        [118.2, 20.0],
-        [114.5, 15.0],
-        [111.5, 10.0],
+        [119.5, 24.5],
+        [117.5, 20.0],
+        [114.0, 15.0],
+        [111.0, 10.0],
         [108.0, 6.0],
-        [103.8, 1.5],
-        [100.6, 2.2],
-        [96.4, 5.5],
+        [104.5, 1.0],
+        [100.0, 3.0],
+        [98.0, 5.0],
         [92.0, 8.8],
         [87.5, 10.8],
         [83.0, 11.8],
@@ -533,18 +539,18 @@
       points: [
         [121.5, 31.2],
         [123.5, 28.0],
-        [122.2, 24.0],
-        [118.5, 18.5],
-        [114.5, 12.0],
-        [110.5, 7.0],
-        [106.8, 3.2],
-        [103.8, 1.2],
-        [100.5, 2.0],
-        [95.0, 5.2],
-        [90.0, 7.0],
-        [83.5, 6.5],
-        [78.0, 6.2],
-        [74.0, 8.8],
+        [119.5, 24.0],
+        [117.5, 18.5],
+        [114.0, 12.0],
+        [110.0, 7.5],
+        [107.0, 3.5],
+        [104.5, 1.0],
+        [100.0, 3.0],
+        [98.0, 5.0],
+        [92.0, 7.0],
+        [85.0, 5.5],
+        [79.5, 5.5],
+        [75.5, 8.5],
         [72.8, 13.0],
         [72.9, 19.1]
       ]
@@ -556,23 +562,27 @@
         [72.9, 19.1],
         [66.0, 17.5],
         [60.0, 15.5],
-        [54.0, 13.0],
-        [48.5, 11.8],
-        [44.5, 12.0],
-        [43.0, 13.2],
-        [42.7, 15.0],
-        [43.0, 18.0],
-        [41.8, 22.5],
-        [38.5, 28.0],
+        [54.0, 13.5],
+        [49.0, 12.0],
+        [44.5, 12.5],
+        [43.3, 12.8],
+        [42.5, 14.5],
+        [40.0, 18.0],
+        [38.5, 22.0],
+        [36.0, 25.5],
+        [34.5, 27.0],
+        [33.5, 28.5],
+        [33.0, 29.5],
+        [32.5, 30.5],
         [32.3, 31.3],
-        [30.0, 32.2],
-        [30.6, 33.2],
-        [28.5, 35.5],
-        [25.0, 36.0],
-        [24.0, 38.5],
-        [26.0, 40.0],
-        [28.8, 40.9],
-        [29.0, 41.0],
+        [30.5, 32.5],
+        [28.0, 34.5],
+        [25.5, 35.5],
+        [24.0, 37.5],
+        [26.0, 39.0],
+        [27.5, 40.7],
+        [28.5, 40.9],
+        [29.0, 41.1],
         [31.0, 42.0],
         [34.5, 43.5],
         [37.8, 44.7]
@@ -705,10 +715,13 @@
       marker._baseStroke = BASE_POINT_STROKE_WIDTH;
 
       var baseFontSize = pointData.size || 16;
+      var dxVal = pointData.dx !== undefined ? pointData.dx : CITY_LABEL_OFFSET_X;
+      var dyVal = pointData.dy !== undefined ? pointData.dy : -CITY_LABEL_OFFSET_Y;
+      var labelAnchor = pointData.anchor || (dxVal < 0 ? 'end' : 'start');
       var label = txt(pointData.text, fmt(point[0]), fmt(point[1]), {
         'font-size': String(baseFontSize),
         'font-weight': isCapital ? '700' : '600',
-        'text-anchor': 'end',
+        'text-anchor': labelAnchor,
         fill: isCapital ? C_CAPITAL : '#ffffff',
         stroke: C_LABEL_STROKE,
         'stroke-width': String(BASE_LABEL_STROKE_WIDTH),
@@ -723,6 +736,9 @@
       label._baseStroke = BASE_LABEL_STROKE_WIDTH;
       label._pointX = point[0];
       label._pointY = point[1];
+      label._dx = dxVal;
+      label._dy = dyVal;
+      label._anchor = labelAnchor;
 
       svg.appendChild(marker);
       svg.appendChild(label);
@@ -755,13 +771,28 @@
     var pointY = getCachedNumeric(label, '_pointY', 'data-point-y');
     var baseR = getCachedNumeric(marker, '_baseR', 'data-base-r');
     var markerOffset = (baseR * scale) / Math.sqrt(2);
-    var targetX = pointX - markerOffset;
-    var targetY = pointY - markerOffset;
+    var dx = label._dx !== undefined ? label._dx : CITY_LABEL_OFFSET_X;
+    var dy = label._dy !== undefined ? label._dy : -CITY_LABEL_OFFSET_Y;
+    var anchor = label._anchor || 'start';
+
+    var targetX = pointX + (dx >= 0 ? markerOffset : -markerOffset);
+    var targetY = pointY + (dy >= 0 ? markerOffset : -markerOffset);
     var currentX = parseFloat(label.getAttribute('x'));
     var currentY = parseFloat(label.getAttribute('y'));
     var bbox = label.getBBox();
-    var shiftX = targetX - (bbox.x + bbox.width);
-    var shiftY = targetY - (bbox.y + bbox.height);
+
+    var shiftX;
+    if (anchor === 'start') {
+      shiftX = targetX - bbox.x;
+    } else if (anchor === 'middle') {
+      shiftX = targetX - (bbox.x + bbox.width / 2);
+    } else {
+      shiftX = targetX - (bbox.x + bbox.width);
+    }
+
+    var shiftY = dy >= 0
+      ? targetY - bbox.y
+      : targetY - (bbox.y + bbox.height);
 
     return {
       x: currentX + shiftX,
@@ -943,7 +974,7 @@
           d: path,
           fill: C_LAND,
           stroke: C_BORDER,
-          'stroke-width': '0.9',
+          'stroke-width': '1.2',
           'stroke-linejoin': 'round',
           'fill-rule': 'evenodd'
         }));
