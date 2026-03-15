@@ -5,8 +5,9 @@ package-lock.json
 # macOS
 .DS_Store
 
-# Editor artefacts
-.vscode/
+# Editor artefacts — keep shared extension recommendations, ignore everything else
+.vscode/*
+!.vscode/extensions.json
 .idea/
 *.swp
 *.swo

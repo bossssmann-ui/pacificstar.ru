@@ -1,0 +1,36 @@
+{
+  "version": "0.2",
+  "language": "ru,en",
+  "dictionaryDefinitions": [
+    {
+      "name": "project-words",
+      "path": "./cspell-dict-project.txt",
+      "addWords": true
+    }
+  ],
+  "dictionaries": ["ru_ru", "en_US", "project-words"],
+  "import": ["@cspell/dict-ru_ru/cspell-ext.json"],
+  "files": [
+    "**/*.html",
+    "**/*.js",
+    "**/*.css",
+    "**/*.md"
+  ],
+  "ignorePaths": [
+    "node_modules/**",
+    "data/**",
+    "previews/**",
+    "img/**",
+    "dist/**",
+    "build/**",
+    "package-lock.json",
+    "*.min.js",
+    "*.min.css"
+  ],
+  "ignoreRegExpList": [
+    "/\\b[0-9a-fA-F]{6,}\\b/g",
+    "/#[0-9a-fA-F]{3,8}\\b/g",
+    "/https?:\\/\\/[^\\s'\"]+/g",
+    "/url\\([^)]+\\)/gi"
+  ]
+}
