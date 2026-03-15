@@ -52,6 +52,22 @@ pacificstar.ru/
 
 ---
 
+## 🎨 Figma GitHub Action
+
+В репозиторий добавлен ручной workflow для получения JSON файла из Figma API.
+
+### Что нужно настроить:
+
+Добавьте секрет `FIGMA_ACCESS_TOKEN` в настройках GitHub Secrets:
+👉 https://github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions
+
+### Как запустить:
+
+👉 https://github.com/bossssmann-ui/pacificstar.ru/actions/workflows/figma-file-export.yml  
+→ «Run workflow» → укажите `file_key` → скачайте артефакт `figma-file-json`
+
+---
+
 ## 🔗 Важные ссылки
 
 | | |
@@ -59,5 +75,6 @@ pacificstar.ru/
 | Сайт | https://pacificstar.ru |
 | Pull Request | https://github.com/bossssmann-ui/pacificstar.ru/pulls |
 | Деплой (ручной) | https://github.com/bossssmann-ui/pacificstar.ru/actions/workflows/tilda-deploy.yml |
+| Figma JSON export | https://github.com/bossssmann-ui/pacificstar.ru/actions/workflows/figma-file-export.yml |
 | Секреты GitHub | https://github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions |
 | Скриншоты страниц | https://github.com/bossssmann-ui/pacificstar.ru/tree/copilot/refactor-site-description/previews |
