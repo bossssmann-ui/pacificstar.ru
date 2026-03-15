@@ -13,6 +13,7 @@ jobs:
     name: 📥 Export Figma file JSON
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions: {}
 
     steps:
       - name: Check required secret
