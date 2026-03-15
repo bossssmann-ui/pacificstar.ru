@@ -715,7 +715,9 @@
       marker._baseStroke = BASE_POINT_STROKE_WIDTH;
 
       var baseFontSize = pointData.size || 16;
-      var labelAnchor = pointData.anchor || ((pointData.dx || 0) < 0 ? 'end' : 'start');
+      var dxVal = pointData.dx !== undefined ? pointData.dx : CITY_LABEL_OFFSET_X;
+      var dyVal = pointData.dy !== undefined ? pointData.dy : -CITY_LABEL_OFFSET_Y;
+      var labelAnchor = pointData.anchor || (dxVal < 0 ? 'end' : 'start');
       var label = txt(pointData.text, fmt(point[0]), fmt(point[1]), {
         'font-size': String(baseFontSize),
         'font-weight': isCapital ? '700' : '600',
@@ -734,8 +736,8 @@
       label._baseStroke = BASE_LABEL_STROKE_WIDTH;
       label._pointX = point[0];
       label._pointY = point[1];
-      label._dx = pointData.dx || CITY_LABEL_OFFSET_X;
-      label._dy = pointData.dy || -CITY_LABEL_OFFSET_Y;
+      label._dx = dxVal;
+      label._dy = dyVal;
       label._anchor = labelAnchor;
 
       svg.appendChild(marker);
@@ -769,9 +771,9 @@
     var pointY = getCachedNumeric(label, '_pointY', 'data-point-y');
     var baseR = getCachedNumeric(marker, '_baseR', 'data-base-r');
     var markerOffset = (baseR * scale) / Math.sqrt(2);
-    var dx = label._dx || CITY_LABEL_OFFSET_X;
-    var dy = label._dy || -CITY_LABEL_OFFSET_Y;
-    var anchor = label._anchor || 'end';
+    var dx = label._dx !== undefined ? label._dx : CITY_LABEL_OFFSET_X;
+    var dy = label._dy !== undefined ? label._dy : -CITY_LABEL_OFFSET_Y;
+    var anchor = label._anchor || 'start';
 
     var targetX = pointX + (dx >= 0 ? markerOffset : -markerOffset);
     var targetY = pointY + (dy >= 0 ? markerOffset : -markerOffset);
