@@ -5,9 +5,12 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "validate": "html-validate *.html"
+    "validate": "html-validate *.html",
+    "spellcheck": "cspell --no-progress"
   },
   "devDependencies": {
+    "@cspell/dict-ru_ru": "^2.3.2",
+    "cspell": "^9.7.0",
     "html-validate": "^10.9.0",
     "playwright": "^1.58.2"
   },
