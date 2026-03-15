@@ -1,0 +1,44 @@
+name: Figma file export
+
+on:
+  workflow_dispatch:
+    inputs:
+      file_key:
+        description: Figma file key to export as JSON
+        required: true
+        type: string
+
+jobs:
+  export-figma-file:
+    name: 📥 Export Figma file JSON
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+
+    steps:
+      - name: Check required secret
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+        run: |
+          if [ -z "$FIGMA_ACCESS_TOKEN" ]; then
+            echo "FIGMA_ACCESS_TOKEN repository secret is required."
+            exit 1
+          fi
+
+      - name: Download file JSON from Figma API
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+          FIGMA_FILE_KEY: ${{ inputs.file_key }}
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error \
+            --header "X-Figma-Token: ${FIGMA_ACCESS_TOKEN}" \
+            "https://api.figma.com/v1/files/${FIGMA_FILE_KEY}" \
+            --output figma-file.json
+
+      - name: Upload Figma response
+        uses: actions/upload-artifact@v4
+        with:
+          name: figma-file-json
+          path: figma-file.json
+          if-no-files-found: error
