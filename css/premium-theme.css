@@ -64,6 +64,11 @@
 .delay-400 { transition-delay: 400ms; }
 .delay-500 { transition-delay: 500ms; }
 
+/* --- Premium heading font applied to all headings --- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading-premium);
+}
+
 /* --- Premium heading accent --- */
 .section-title {
   font-family: var(--font-heading-premium);

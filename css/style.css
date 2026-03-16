@@ -19,7 +19,8 @@
   --color-white:     #ffffff;
   --color-muted:     #6c757d;
   --color-border:    #dde3ee;
-  --font-main:       'Roboto', sans-serif;
+  --font-main:       'Inter', sans-serif;
+  --font-heading:    'Cormorant Garamond', serif;
   --transition:      0.3s ease;
   --shadow-sm:       0 2px 8px rgba(13, 43, 94, 0.10);
   --shadow-md:       0 4px 20px rgba(13, 43, 94, 0.14);
@@ -42,6 +43,10 @@ body {
   -webkit-font-smoothing: antialiased;
   hyphens: none;
   overflow-wrap: break-word;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
 }
 
 a {
@@ -916,7 +921,7 @@ p { margin-bottom: 1rem; }
   font-size: 3rem;
   line-height: 1;
   color: var(--color-accent);
-  font-family: Georgia, serif;
+  font-family: var(--font-heading);
   margin-bottom: 12px;
   display: block;
 }
