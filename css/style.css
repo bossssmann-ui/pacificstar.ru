@@ -3070,12 +3070,15 @@ select.form-control {
 .map-section-full {
   /* Keep the CTA aligned with the content column even when the map itself stretches edge to edge. */
   --map-cta-left-offset: max(20px, calc(50vw - (var(--container-max-width) / 2) + 20px));
+  position: relative;
+  z-index: 0;
   background: #0d1b3e;
   padding: 60px 0;
   overflow: hidden;
 }
 .route-map-stage {
   position: relative;
+  z-index: 2;
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
@@ -3085,6 +3088,8 @@ select.form-control {
 }
 .route-map-container {
   position: relative;
+  z-index: 1;
+  isolation: isolate;
   height: clamp(380px, 55vw, 680px);
   min-height: 0;
   border-radius: 12px;
@@ -3096,6 +3101,7 @@ select.form-control {
 #leaflet-map {
   position: absolute;
   inset: 0;
+  z-index: 1;
   width: 100%;
   height: 100%;
 }
