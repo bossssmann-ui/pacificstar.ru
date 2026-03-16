@@ -35,7 +35,7 @@
 }
 
 .preloader-text {
-  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-family: var(--font-sans);
   font-size: 1.4rem;
   font-weight: 300;
   letter-spacing: 6px;
@@ -391,7 +391,7 @@ html.dark-theme .custom-cursor-ring.is-hovered {
 
 .leaflet-ps-popup__title {
   display: block;
-  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-family: var(--font-sans);
   font-size: 1rem;
   font-weight: 600;
   color: #d4af37;
