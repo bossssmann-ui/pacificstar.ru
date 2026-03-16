@@ -1,7 +1,8 @@
 /**
  * Pacific Star — Interactive Leaflet Map
  * =========================================
- * Premium dark map using CartoDB Dark Matter tiles.
+ * Premium dark map using local Leaflet assets and
+ * bundled GeoJSON land polygons.
  * Pulsing markers for key logistics hubs; animated
  * dashed polylines for routes from Vladivostok.
  */
@@ -9,6 +10,7 @@
   'use strict';
 
   /* ---- Data ---- */
+  var GEOJSON_URL = 'data/world-countries.geo.json';
   var HUB_LAT = 43.1155;
   var HUB_LON = 131.8855;
 
@@ -50,6 +52,65 @@
     );
   }
 
+  function getFeatureStyle(feature) {
+    var name = feature && feature.properties ? feature.properties.name : '';
+    var isRussia = name === 'Russia';
+
+    return {
+      color: isRussia ? '#9fd5ff' : 'rgba(255, 255, 255, 0.22)',
+      weight: isRussia ? 1.5 : 1,
+      opacity: isRussia ? 0.95 : 0.65,
+      fillColor: isRussia ? '#5d96c3' : '#17345f',
+      fillOpacity: isRussia ? 0.92 : 0.82
+    };
+  }
+
+  function addLandLayer(map) {
+    return fetch(GEOJSON_URL)
+      .then(function (response) {
+        if (!response.ok) {
+          throw new Error('HTTP ' + response.status);
+        }
+
+        return response.json();
+      })
+      .then(function (geoJson) {
+        L.geoJSON(geoJson, {
+          style: getFeatureStyle
+        }).addTo(map);
+      })
+      .catch(function (error) {
+        if (typeof console !== 'undefined') {
+          console.warn('[map.js] Failed to load bundled GeoJSON land layer.', error);
+        }
+      });
+  }
+
+  function addRoutes(map) {
+    POINTS.forEach(function (point) {
+      if (point.hub) return;
+
+      L.polyline(
+        [[HUB_LAT, HUB_LON], [point.lat, point.lon]],
+        {
+          color: '#d4af37',
+          weight: 2,
+          opacity: 0.75,
+          dashArray: '8 8',
+          className: 'leaflet-ps-route'
+        }
+      ).addTo(map);
+    });
+  }
+
+  function addMarkers(map) {
+    POINTS.forEach(function (point) {
+      L.marker([point.lat, point.lon], { icon: createMarkerIcon(point.hub) })
+        .bindPopup(buildPopup(point), { className: 'leaflet-ps-popup-wrap' })
+        .addTo(map);
+    });
+  }
+
   /* ---- Map initialisation ---- */
   function init() {
     var container = document.getElementById('leaflet-map');
@@ -66,44 +127,16 @@
       zoomControl:      true,
       attributionControl: true,
       minZoom:          2,
-      maxZoom:          10
+      maxZoom:          10,
+      worldCopyJump:    false
     });
 
-    /* Dark premium tile layer */
-    L.tileLayer(
-      'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-      {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright" ' +
-          'target="_blank" rel="noopener">OpenStreetMap</a> contributors ' +
-          '&copy; <a href="https://carto.com/attributions" ' +
-          'target="_blank" rel="noopener">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 19
-      }
-    ).addTo(map);
+    map.attributionControl.setPrefix(false);
+    map.attributionControl.addAttribution('© Natural Earth');
 
-    /* Routes: animated dashed lines from Vladivostok */
-    POINTS.forEach(function (point) {
-      if (point.hub) return;
-      L.polyline(
-        [[HUB_LAT, HUB_LON], [point.lat, point.lon]],
-        {
-          color:     '#d4af37',
-          weight:    2,
-          opacity:   0.75,
-          dashArray: '8 8',
-          className: 'leaflet-ps-route'
-        }
-      ).addTo(map);
-    });
-
-    /* Markers */
-    POINTS.forEach(function (point) {
-      L.marker([point.lat, point.lon], { icon: createMarkerIcon(point.hub) })
-        .bindPopup(buildPopup(point), { className: 'leaflet-ps-popup-wrap' })
-        .addTo(map);
-    });
+    addLandLayer(map);
+    addRoutes(map);
+    addMarkers(map);
   }
 
   if (document.readyState === 'loading') {
