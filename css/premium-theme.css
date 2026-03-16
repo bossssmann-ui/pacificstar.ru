@@ -1,0 +1,93 @@
+/* =========================================
+   Pacific Star — Premium Theme Overlay
+   ========================================= */
+
+/* --- Premium CSS Variables --- */
+:root {
+  /* Premium accent colours (complement existing blue palette) */
+  --premium-gold:        #d4af37;
+  --premium-gold-hover:  #f3ce56;
+  --premium-silver:      #c0c0c0;
+
+  /* Glassmorphism card surface */
+  --premium-glass-bg:    rgba(255, 255, 255, 0.55);
+  --premium-glass-border: rgba(255, 255, 255, 0.35);
+  --premium-glass-shadow: 0 8px 32px rgba(13, 43, 94, 0.12);
+
+  /* Premium typography */
+  --font-heading-premium: 'Cormorant Garamond', 'Georgia', serif;
+  --font-body-premium:    'Inter', 'Roboto', sans-serif;
+
+  /* Smooth transitions */
+  --transition-premium: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Soft premium shadow */
+  --shadow-premium: 0 10px 40px rgba(13, 43, 94, 0.14);
+}
+
+/* --- Premium card (glassmorphism) --- */
+.premium-card {
+  background: var(--premium-glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--premium-glass-border);
+  border-radius: 16px;
+  box-shadow: var(--premium-glass-shadow);
+  transition: var(--transition-premium);
+  will-change: transform, box-shadow;
+}
+
+.premium-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-premium);
+  border-color: rgba(212, 175, 55, 0.35);
+}
+
+/* --- Scroll animation base state --- */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s ease-out, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* Visible state added by JS IntersectionObserver */
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delay helpers */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+
+/* --- Premium heading accent --- */
+.section-title {
+  font-family: var(--font-heading-premium);
+  font-weight: 400;
+  letter-spacing: 0.3px;
+}
+
+/* Gold underline accent on section headings */
+.section-title::after {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 2px;
+  background: var(--premium-gold);
+  margin: 10px auto 0;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.section-title:hover::after {
+  width: 80px;
+}
+
+/* --- Refined body font --- */
+body {
+  font-family: var(--font-body-premium);
+}
