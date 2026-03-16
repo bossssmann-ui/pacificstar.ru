@@ -10,9 +10,10 @@
   'use strict';
 
   /* ---- Data ---- */
-  var GEOJSON_URL = 'data/world-countries.geo.json';
+  var COUNTRIES_GEOJSON_PATH = 'data/world-countries.geo.json';
   var HUB_LAT = 43.1155;
   var HUB_LON = 131.8855;
+  var HUB_COORDS = [HUB_LAT, HUB_LON];
 
   var POINTS = [
     { name: 'Владивосток',  lat: 43.1155, lon: 131.8855, hub: true,
@@ -66,23 +67,19 @@
   }
 
   function addLandLayer(map) {
-    return fetch(GEOJSON_URL)
+    return fetch(COUNTRIES_GEOJSON_PATH)
       .then(function (response) {
         if (!response.ok) {
-          throw new Error('HTTP ' + response.status);
+          throw new Error('Failed to load "' + COUNTRIES_GEOJSON_PATH + '": HTTP ' + response.status + ' - ' + response.statusText);
         }
 
         return response.json();
       })
       .then(function (geoJson) {
         L.geoJSON(geoJson, {
+          pane: 'land',
           style: getFeatureStyle
         }).addTo(map);
-      })
-      .catch(function (error) {
-        if (typeof console !== 'undefined') {
-          console.warn('[map.js] Failed to load bundled GeoJSON land layer.', error);
-        }
       });
   }
 
@@ -91,7 +88,7 @@
       if (point.hub) return;
 
       L.polyline(
-        [[HUB_LAT, HUB_LON], [point.lat, point.lon]],
+        [HUB_COORDS, [point.lat, point.lon]],
         {
           color: '#d4af37',
           weight: 2,
@@ -111,13 +108,11 @@
     });
   }
 
-  /* ---- Map initialisation ---- */
+  /* ---- Map initialization ---- */
   function init() {
     var container = document.getElementById('leaflet-map');
     if (!container || typeof L === 'undefined') {
-      if (typeof console !== 'undefined') {
-        console.warn('[map.js] Leaflet map could not initialise: container or L is missing.');
-      }
+      console.warn('[map.js] Leaflet map could not initialize: container or L is missing.');
       return;
     }
 
@@ -127,16 +122,21 @@
       zoomControl:      true,
       attributionControl: true,
       minZoom:          2,
-      maxZoom:          10,
-      worldCopyJump:    false
+      maxZoom:          10
     });
 
-    map.attributionControl.setPrefix(false);
     map.attributionControl.addAttribution('© Natural Earth');
+    map.createPane('land');
+    map.getPane('land').style.zIndex = '250';
 
-    addLandLayer(map);
-    addRoutes(map);
-    addMarkers(map);
+    addLandLayer(map)
+      .catch(function (error) {
+        console.warn('[map.js] Failed to load bundled GeoJSON land layer; routes and markers will still render. ' + (error && error.message ? error.message : error));
+      })
+      .finally(function () {
+        addRoutes(map);
+        addMarkers(map);
+      });
   }
 
   if (document.readyState === 'loading') {
