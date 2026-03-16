@@ -1,0 +1,308 @@
+/* =========================================
+   Pacific Star — Premium Features
+   Preloader · Dark/Light Mode · Custom Cursor
+   ========================================= */
+
+/* ---- 1. PRELOADER ---- */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0d2b5e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.preloader.is-loaded {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.preloader-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  animation: preloader-pulse 1.5s ease-in-out infinite;
+}
+
+.preloader-icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.preloader-text {
+  font-family: 'Cormorant Garamond', 'Georgia', serif;
+  font-size: 1.4rem;
+  font-weight: 300;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: #d4af37;
+}
+
+.preloader-bar {
+  width: 120px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.preloader-bar::after {
+  content: '';
+  position: absolute;
+  left: -100%;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #d4af37;
+  animation: preloader-bar-sweep 1.2s ease-in-out infinite;
+}
+
+@keyframes preloader-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.65; }
+}
+
+@keyframes preloader-bar-sweep {
+  0%   { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* ---- 2. DARK / LIGHT MODE ---- */
+
+/* Dark theme variable overrides */
+html.dark-theme {
+  --color-primary:   #4a90d9;
+  --color-secondary: #6baae8;
+  --color-accent:    #f5a623;
+  --color-accent-dark: #d4891a;
+  --color-text:      #dde3f0;
+  --color-light:     #161c2a;
+  --color-white:     #0e1219;
+  --color-muted:     #8899aa;
+  --color-border:    #232e42;
+  --shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md:       0 4px 20px rgba(0, 0, 0, 0.45);
+  --shadow-lg:       0 8px 40px rgba(0, 0, 0, 0.55);
+  --premium-glass-bg:     rgba(22, 30, 46, 0.75);
+  --premium-glass-border: rgba(255, 255, 255, 0.07);
+  --premium-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+html.dark-theme body {
+  background: #0e1219;
+  color: var(--color-text);
+}
+
+html.dark-theme .site-header {
+  background: rgba(10, 14, 22, 0.97);
+  border-bottom-color: var(--color-border);
+}
+
+html.dark-theme .site-header.scrolled {
+  background: rgba(10, 14, 22, 0.99);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+html.dark-theme .nav-link,
+html.dark-theme .nav-toggle {
+  color: var(--color-text);
+}
+
+html.dark-theme .nav-link:hover,
+html.dark-theme .nav-link.active,
+html.dark-theme .nav-toggle:hover,
+html.dark-theme .nav-toggle.active {
+  color: var(--color-accent);
+}
+
+html.dark-theme .hero {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+html.dark-theme .hero-card {
+  background: rgba(22, 30, 46, 0.85);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+html.dark-theme .hero-card-desc {
+  color: var(--color-muted);
+}
+
+html.dark-theme .section-alt,
+html.dark-theme .bg-light {
+  background: #111620;
+}
+
+html.dark-theme .card,
+html.dark-theme .service-card,
+html.dark-theme .premium-card,
+html.dark-theme .feature-card {
+  background: #161c2a;
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+html.dark-theme .btn-outline {
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+html.dark-theme .btn-outline:hover {
+  background: var(--color-light);
+}
+
+html.dark-theme footer,
+html.dark-theme .footer {
+  background: #080c12;
+}
+
+html.dark-theme .footer-bottom {
+  border-top-color: var(--color-border);
+}
+
+html.dark-theme input,
+html.dark-theme textarea,
+html.dark-theme select {
+  background: #161c2a;
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+html.dark-theme input::placeholder,
+html.dark-theme textarea::placeholder {
+  color: var(--color-muted);
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-text);
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.3s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.theme-toggle:hover {
+  background: var(--color-light);
+  transform: rotate(20deg);
+}
+
+.theme-toggle svg {
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* Show moon in light mode, sun in dark mode */
+.theme-toggle .icon-sun  { display: none; }
+.theme-toggle .icon-moon { display: block; }
+
+html.dark-theme .theme-toggle .icon-sun  { display: block; }
+html.dark-theme .theme-toggle .icon-moon { display: none; }
+
+/* ---- 3. CUSTOM CURSOR ---- */
+
+/* Only apply on pointer-fine devices (mouse, not touch) */
+@media (pointer: fine) {
+  body {
+    cursor: none;
+  }
+
+  a,
+  button,
+  [role="button"],
+  label[for],
+  select,
+  input[type="submit"],
+  input[type="button"],
+  input[type="checkbox"],
+  input[type="radio"],
+  .cursor-pointer {
+    cursor: none;
+  }
+}
+
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  background: var(--color-primary, #0d2b5e);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  will-change: transform;
+  display: none;
+}
+
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid var(--color-primary, #0d2b5e);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+  will-change: transform;
+  opacity: 0.55;
+  display: none;
+}
+
+@media (pointer: fine) {
+  .custom-cursor,
+  .custom-cursor-ring {
+    display: block;
+  }
+}
+
+.custom-cursor.is-hovered {
+  width: 18px;
+  height: 18px;
+  background: var(--color-accent, #f5a623);
+}
+
+.custom-cursor-ring.is-hovered {
+  width: 50px;
+  height: 50px;
+  border-color: var(--color-accent, #f5a623);
+  opacity: 0.35;
+}
+
+html.dark-theme .custom-cursor {
+  background: var(--color-accent, #f5a623);
+}
+
+html.dark-theme .custom-cursor-ring {
+  border-color: var(--color-accent, #f5a623);
+}
+
+html.dark-theme .custom-cursor.is-hovered {
+  background: #ffffff;
+}
+
+html.dark-theme .custom-cursor-ring.is-hovered {
+  border-color: #ffffff;
+}
