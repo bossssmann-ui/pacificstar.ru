@@ -2,7 +2,7 @@
  * Pacific Star — Interactive Leaflet Map
  * =========================================
  * Premium dark map using local Leaflet assets and
- * bundled GeoJSON land polygons.
+ * bundled GeoJSON land polygons (inline via map-geodata.js).
  * Pulsing markers for key logistics hubs; animated
  * dashed polylines for routes from Vladivostok.
  */
@@ -10,7 +10,6 @@
   'use strict';
 
   /* ---- Data ---- */
-  var COUNTRIES_GEOJSON_PATH = 'data/world-countries.geo.json';
   var HUB_LAT = 43.1155;
   var HUB_LON = 131.8855;
   var HUB_COORDS = [HUB_LAT, HUB_LON];
@@ -67,20 +66,20 @@
   }
 
   function addLandLayer(map) {
-    return fetch(COUNTRIES_GEOJSON_PATH)
-      .then(function (response) {
-        if (!response.ok) {
-          throw new Error('Failed to load "' + COUNTRIES_GEOJSON_PATH + '": HTTP ' + response.status + ' - ' + response.statusText);
-        }
-
-        return response.json();
-      })
-      .then(function (geoJson) {
-        L.geoJSON(geoJson, {
-          pane: 'land',
-          style: getFeatureStyle
-        }).addTo(map);
-      });
+    /* Use inline GeoJSON bundled in map-geodata.js (no fetch required). */
+    var geoJson = window.WORLD_GEOJSON;
+    if (!geoJson) {
+      console.warn('[map.js] window.WORLD_GEOJSON not found — land layer skipped.');
+      return;
+    }
+    try {
+      L.geoJSON(geoJson, {
+        pane: 'land',
+        style: getFeatureStyle
+      }).addTo(map);
+    } catch (e) {
+      console.warn('[map.js] Failed to render GeoJSON land layer: ' + (e && e.message ? e.message : e));
+    }
   }
 
   function addRoutes(map) {
@@ -116,27 +115,35 @@
       return;
     }
 
-    var map = L.map('leaflet-map', {
-      center:           [55, 110],
-      zoom:             3,
-      zoomControl:      true,
-      attributionControl: true,
-      minZoom:          2,
-      maxZoom:          10
-    });
+    try {
+      /* Fix default Leaflet marker image path for production environments. */
+      L.Icon.Default.imagePath = 'vendor/images/';
 
-    map.attributionControl.addAttribution('© Natural Earth');
-    map.createPane('land');
-    map.getPane('land').style.zIndex = '250';
-
-    addLandLayer(map)
-      .catch(function (error) {
-        console.warn('[map.js] Failed to load bundled GeoJSON land layer; routes and markers will still render. ' + (error && error.message ? error.message : error));
-      })
-      .finally(function () {
-        addRoutes(map);
-        addMarkers(map);
+      var map = L.map('leaflet-map', {
+        center:           [55, 110],
+        zoom:             3,
+        zoomControl:      true,
+        attributionControl: true,
+        minZoom:          2,
+        maxZoom:          10
       });
+
+      map.attributionControl.addAttribution('© Natural Earth');
+      map.createPane('land');
+      map.getPane('land').style.zIndex = '250';
+
+      addLandLayer(map);
+      addRoutes(map);
+      addMarkers(map);
+
+      /* Ensure correct map size after any pending layout reflows. */
+      setTimeout(function () {
+        map.invalidateSize();
+      }, 200);
+
+    } catch (e) {
+      console.warn('[map.js] Map initialization failed: ' + (e && e.message ? e.message : e));
+    }
   }
 
   if (document.readyState === 'loading') {
