@@ -117,7 +117,7 @@
     }
 
     var map = L.map('leaflet-map', {
-      center:           [55, 110],
+      center:           [55, 108],
       zoom:             3,
       zoomControl:      true,
       attributionControl: true,
@@ -129,14 +129,21 @@
     map.createPane('land');
     map.getPane('land').style.zIndex = '250';
 
-    addLandLayer(map)
-      .catch(function (error) {
-        console.warn('[map.js] Failed to load bundled GeoJSON land layer; routes and markers will still render. ' + (error && error.message ? error.message : error));
-      })
-      .finally(function () {
-        addRoutes(map);
-        addMarkers(map);
-      });
+    /* Add routes and markers immediately — the map must never be blank
+       while waiting for the GeoJSON land layer to download.            */
+    addRoutes(map);
+    addMarkers(map);
+
+    /* Fit view to cover all route points on every screen size. */
+    var allLatLngs = POINTS.map(function (p) { return [p.lat, p.lon]; });
+    map.fitBounds(L.latLngBounds(allLatLngs), { padding: [10, 10], maxZoom: 4 });
+
+    /* Load land polygons asynchronously — visual enhancement only.
+       Uses .then()/.catch() instead of .finally() for broad browser
+       compatibility (Safari < 12, old Android WebView, etc.).       */
+    addLandLayer(map).catch(function (error) {
+      console.warn('[map.js] Failed to load bundled GeoJSON land layer; routes and markers remain visible. ' + (error && error.message ? error.message : error));
+    });
   }
 
   if (document.readyState === 'loading') {
