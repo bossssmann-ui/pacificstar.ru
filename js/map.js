@@ -114,7 +114,10 @@
   /* ---- Map initialization ---- */
   function init() {
     var container = document.getElementById('leaflet-map');
-    if (!container || typeof L === 'undefined') {
+    if (!container) {
+      return;
+    }
+    if (typeof L === 'undefined') {
       console.warn('[map.js] Leaflet map could not initialize: container or L is missing.');
       return;
     }
