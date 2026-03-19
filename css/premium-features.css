@@ -424,3 +424,121 @@ html.dark-theme .custom-cursor-ring.is-hovered {
 #routeMapContainer .leaflet-control-attribution a {
   color: rgba(212, 175, 55, 0.8);
 }
+
+/* =========================================
+   SVG Route Map Styles  (replaces Leaflet)
+   ========================================= */
+
+.svg-route-map {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- Land polygons ---- */
+.svg-map-country {
+  fill: #17345f;
+  fill-opacity: 0.82;
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 0.6;
+  stroke-linejoin: round;
+}
+
+.svg-map-country--russia {
+  fill: #5d96c3;
+  fill-opacity: 0.92;
+  stroke: #9fd5ff;
+  stroke-width: 0.9;
+}
+
+/* ---- Animated route lines ---- */
+@keyframes svg-route-flow {
+  from { stroke-dashoffset: 16; }
+  to   { stroke-dashoffset: 0; }
+}
+
+.svg-map-route {
+  stroke: #d4af37;
+  stroke-width: 1.8;
+  stroke-opacity: 0.78;
+  stroke-dasharray: 8 8;
+  animation: svg-route-flow 1.2s linear infinite;
+}
+
+/* ---- City markers ---- */
+.svg-map-dot {
+  fill: #d4af37;
+  filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.7));
+}
+
+.svg-map-marker--hub .svg-map-dot {
+  fill: #ffffff;
+  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.9));
+}
+
+@keyframes svg-pulse {
+  0%   { r: 7;  opacity: 0.8; }
+  100% { r: 20; opacity: 0;   }
+}
+
+@keyframes svg-pulse-hub {
+  0%   { r: 10; opacity: 0.8; }
+  100% { r: 26; opacity: 0;   }
+}
+
+.svg-map-pulse {
+  fill: none;
+  stroke: #d4af37;
+  stroke-width: 1.5;
+  animation: svg-pulse 2.4s ease-out infinite;
+}
+
+.svg-map-marker--hub .svg-map-pulse {
+  stroke: #ffffff;
+  animation: svg-pulse-hub 2s ease-out infinite;
+}
+
+.svg-map-marker {
+  cursor: pointer;
+}
+
+.svg-map-marker:focus {
+  outline: none;
+}
+
+.svg-map-marker:focus .svg-map-dot {
+  stroke: #d4af37;
+  stroke-width: 2;
+}
+
+/* ---- Tooltip ---- */
+.svg-map-tooltip {
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  gap: 3px;
+  padding: 9px 13px;
+  min-width: 140px;
+  max-width: 200px;
+  background: rgba(13, 27, 62, 0.93);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  z-index: 10;
+  transform: translateY(-50%);
+}
+
+.svg-map-tt-title {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #d4af37;
+}
+
+.svg-map-tt-desc {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.75);
+}
