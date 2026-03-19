@@ -203,9 +203,16 @@
       container.appendChild(svg);
 
       /* ---- Tooltip ---- */
+      var TOOLTIP_WIDTH = 180;
       var tooltip = document.createElement('div');
       tooltip.className = 'svg-map-tooltip';
       container.appendChild(tooltip);
+
+      function getEventCoords(e) {
+        var touch = e.touches && e.touches[0];
+        return { x: touch ? touch.clientX : (e.clientX || 0),
+                 y: touch ? touch.clientY : (e.clientY || 0) };
+      }
 
       function showTooltip(markerEl, clientX, clientY) {
         var rect  = container.getBoundingClientRect();
@@ -215,7 +222,7 @@
         tooltip.style.display = 'flex';
         /* Prevent tooltip from leaving the right edge. */
         var tx = clientX - rect.left + 14;
-        if (tx + 180 > rect.width) { tx = clientX - rect.left - 180 - 4; }
+        if (tx + TOOLTIP_WIDTH > rect.width) { tx = clientX - rect.left - TOOLTIP_WIDTH - 4; }
         tooltip.style.left = tx + 'px';
         tooltip.style.top  = (clientY - rect.top - 10) + 'px';
       }
@@ -229,13 +236,13 @@
         g.addEventListener('mousemove',  function (e) { showTooltip(g, e.clientX, e.clientY); });
         g.addEventListener('mouseleave', hideTooltip);
         g.addEventListener('focus', function () {
-          var dot   = g.querySelector('.svg-map-dot');
-          var svgBR = svg.getBoundingClientRect();
-          var conBR = container.getBoundingClientRect();
-          var scale = svgBR.width / SVG_W;
-          var cxPx  = parseFloat(dot.getAttribute('cx')) * scale + svgBR.left;
-          var cyPx  = parseFloat(dot.getAttribute('cy')) * scale + svgBR.top;
-          showTooltip(g, cxPx, cyPx + conBR.top - svgBR.top);
+          var dot          = g.querySelector('.svg-map-dot');
+          var svgRect      = svg.getBoundingClientRect();
+          var containerRect = container.getBoundingClientRect();
+          var scale = svgRect.width / SVG_W;
+          var cxPx  = parseFloat(dot.getAttribute('cx')) * scale + svgRect.left;
+          var cyPx  = parseFloat(dot.getAttribute('cy')) * scale + svgRect.top;
+          showTooltip(g, cxPx, cyPx + containerRect.top - svgRect.top);
         });
         g.addEventListener('blur', hideTooltip);
         /* Touch: toggle on tap. */
@@ -243,8 +250,8 @@
           if (tooltip.style.display === 'flex') {
             hideTooltip();
           } else {
-            showTooltip(g, e.clientX || (e.touches && e.touches[0].clientX) || 0,
-                           e.clientY || (e.touches && e.touches[0].clientY) || 0);
+            var coords = getEventCoords(e);
+            showTooltip(g, coords.x, coords.y);
           }
         });
       });
