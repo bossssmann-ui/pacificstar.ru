@@ -5,6 +5,10 @@
  * bundled GeoJSON land polygons (inline via map-geodata.js).
  * Pulsing markers for key logistics hubs; animated
  * dashed polylines for routes from Vladivostok.
+ *
+ * Fix (2026-03-19): Added CartoDB Dark Matter tile layer —
+ * without a tile layer Leaflet renders only the container
+ * background colour (solid blue screen).
  */
 (function () {
   'use strict';
@@ -127,6 +131,18 @@
         minZoom:          2,
         maxZoom:          10
       });
+
+      /* ---- Tile layer (ocean / land base) ---- */
+      /* CartoDB Dark Matter — free, no API key required. */
+      L.tileLayer(
+        'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png',
+        {
+          attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
+          subdomains: 'abcd',
+          maxZoom: 19,
+          opacity: 0.85
+        }
+      ).addTo(map);
 
       map.attributionControl.addAttribution('© Natural Earth');
       map.createPane('land');
