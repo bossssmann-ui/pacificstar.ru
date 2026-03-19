@@ -672,145 +672,19 @@
         <div class="section-header">
           <span class="section-label">Маршруты</span>
           <h2 class="section-title" id="route-map-title">Карта логистических маршрутов</h2>
-          <p class="section-desc">Три варианта отображения географии работы — выберите подходящий</p>
+          <p class="section-desc">SVG-карта выбрана как основа для дальнейшего наполнения маршрутной информацией</p>
           <div class="divider" aria-hidden="true"></div>
         </div>
 
-        <!-- Tab switcher -->
-        <div class="map-option-tabs" role="tablist" aria-label="Формат отображения карты">
-          <button class="map-option-tab map-option-tab--active"
-                  role="tab" aria-selected="true"
-                  aria-controls="map-panel-svg" id="map-tab-svg"
-                  type="button" data-panel="svg">
-            <span aria-hidden="true">🗺️</span> SVG-карта
-          </button>
-          <button class="map-option-tab"
-                  role="tab" aria-selected="false"
-                  aria-controls="map-panel-leaflet" id="map-tab-leaflet"
-                  type="button" data-panel="leaflet">
-            <span aria-hidden="true">🔍</span> Интерактивная
-          </button>
-          <button class="map-option-tab"
-                  role="tab" aria-selected="false"
-                  aria-controls="map-panel-stats" id="map-tab-stats"
-                  type="button" data-panel="stats">
-            <span aria-hidden="true">📊</span> Цифры
-          </button>
-        </div>
-
-        <!-- Panel A: SVG route map (default) -->
-        <div id="map-panel-svg" class="map-panel map-panel--active"
-             role="tabpanel" aria-labelledby="map-tab-svg">
+        <div id="map-panel-svg" class="map-panel map-panel--active">
           <div id="svg-map-container" class="map-frame"
                role="img" aria-label="Карта маршрутов Pacific Star"></div>
         </div>
 
-        <!-- Panel B: Leaflet interactive map (lazy-loaded on tab click) -->
-        <div id="map-panel-leaflet" class="map-panel"
-             role="tabpanel" aria-labelledby="map-tab-leaflet" hidden>
-          <div id="leaflet-map" class="map-frame"
-               role="application" aria-label="Интерактивная карта маршрутов Pacific Star"></div>
-        </div>
-
-        <!-- Panel C: Geography in numbers -->
-        <div id="map-panel-stats" class="map-panel"
-             role="tabpanel" aria-labelledby="map-tab-stats" hidden>
-          <div class="map-stats-grid">
-            <div class="map-stat-card">
-              <span class="map-stat-icon" aria-hidden="true">🌏</span>
-              <strong class="map-stat-value">6</strong>
-              <span class="map-stat-label">регионов<br>присутствия</span>
-            </div>
-            <div class="map-stat-card">
-              <span class="map-stat-icon" aria-hidden="true">⚓</span>
-              <strong class="map-stat-value">12+</strong>
-              <span class="map-stat-label">портов<br>назначения</span>
-            </div>
-            <div class="map-stat-card">
-              <span class="map-stat-icon" aria-hidden="true">🚢</span>
-              <strong class="map-stat-value">300+</strong>
-              <span class="map-stat-label">постоянных<br>клиентов</span>
-            </div>
-            <div class="map-stat-card">
-              <span class="map-stat-icon" aria-hidden="true">📦</span>
-              <strong class="map-stat-value">10+</strong>
-              <span class="map-stat-label">лет опыта<br>в логистике</span>
-            </div>
-            <div class="map-stat-card">
-              <span class="map-stat-icon" aria-hidden="true">🚛</span>
-              <strong class="map-stat-value">5</strong>
-              <span class="map-stat-label">видов<br>транспорта</span>
-            </div>
-            <div class="map-stat-card">
-              <span class="map-stat-icon" aria-hidden="true">🕐</span>
-              <strong class="map-stat-value">24/7</strong>
-              <span class="map-stat-label">поддержка<br>и отслеживание</span>
-            </div>
-          </div>
-        </div>
-
       </div>
 
-      <!-- Tab-switcher logic -->
       <script>
-      /* Signal map.js to skip its auto-init; we trigger it manually on tab click. */
       window.LEAFLET_MAP_TAB_MODE = true;
-      (function () {
-        var tabs   = document.querySelectorAll('.map-option-tab');
-        var panels = document.querySelectorAll('.map-panel');
-        var leafletInited = false;
-        /* Milliseconds to wait after revealing the Leaflet panel before
-           calling initLeafletMap(), giving the browser time to compute
-           the container dimensions before Leaflet reads them. */
-        var LEAFLET_INIT_DELAY_MS = 100;
-
-        function activate(tab) {
-          tabs.forEach(function (t) {
-            t.classList.remove('map-option-tab--active');
-            t.setAttribute('aria-selected', 'false');
-          });
-          panels.forEach(function (p) {
-            p.classList.remove('map-panel--active');
-            p.hidden = true;
-          });
-
-          tab.classList.add('map-option-tab--active');
-          tab.setAttribute('aria-selected', 'true');
-
-          var panel = document.getElementById('map-panel-' + tab.dataset.panel);
-          if (panel) {
-            panel.hidden = false;
-            panel.classList.add('map-panel--active');
-          }
-
-          if (tab.dataset.panel === 'leaflet' && !leafletInited) {
-            leafletInited = true;
-            setTimeout(function () {
-              if (window.initLeafletMap) {
-                window.initLeafletMap();
-              } else {
-                /* Scripts still loading — init once they finish, but only
-                   if the Leaflet panel is still the active one. */
-                window.addEventListener('load', function () {
-                  var leafletPanel = document.getElementById('map-panel-leaflet');
-                  if (leafletPanel && !leafletPanel.hidden && window.initLeafletMap) {
-                    window.initLeafletMap();
-                  }
-                }, { once: true });
-              }
-            }, LEAFLET_INIT_DELAY_MS);
-          } else if (tab.dataset.panel === 'leaflet' && leafletInited) {
-            /* Re-show: force Leaflet to re-measure the container. */
-            setTimeout(function () {
-              if (window.leafletMap) { window.leafletMap.invalidateSize(); }
-            }, 50);
-          }
-        }
-
-        tabs.forEach(function (tab) {
-          tab.addEventListener('click', function () { activate(tab); });
-        });
-      }());
       </script>
     </section>
 
