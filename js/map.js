@@ -152,6 +152,9 @@
       addRoutes(map);
       addMarkers(map);
 
+      /* Expose map instance for external invalidateSize calls (tab-switcher). */
+      window.leafletMap = map;
+
       /* Ensure correct map size after any pending layout reflows. */
       setTimeout(function () {
         map.invalidateSize();
@@ -162,9 +165,15 @@
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
+  /* Expose init for manual (tab-triggered) startup. */
+  window.initLeafletMap = init;
+
+  /* Auto-init unless the tab-switcher is managing initialization. */
+  if (!window.LEAFLET_MAP_TAB_MODE) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
   }
 })();

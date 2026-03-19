@@ -542,3 +542,123 @@ html.dark-theme .custom-cursor-ring.is-hovered {
   font-size: 0.78rem;
   color: rgba(255, 255, 255, 0.75);
 }
+
+/* =========================================
+   Map Option Chooser (3-tab switcher)
+   ========================================= */
+
+.map-option-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.map-option-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 22px;
+  background: transparent;
+  border: 2px solid var(--color-border, #dde3ee);
+  border-radius: 40px;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--color-muted, #6c757d);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.map-option-tab:hover {
+  border-color: var(--color-accent, #f5a623);
+  color: var(--color-primary, #0d2b5e);
+}
+
+.map-option-tab--active {
+  background: var(--color-accent, #f5a623);
+  border-color: var(--color-accent, #f5a623);
+  color: var(--color-primary, #0d2b5e);
+}
+
+.map-frame {
+  width: 100%;
+  height: 420px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0d1b3e;
+  position: relative;
+}
+
+/* Override old .route-map-container layout from style.css where #leaflet-map
+   was position:absolute inside a relatively-positioned wrapper.
+   In the new tab layout it IS the .map-frame and must stay in normal flow. */
+#leaflet-map.map-frame {
+  position: relative;
+  inset: auto;
+  height: 420px;
+}
+
+.map-panel {
+  display: none;
+}
+
+.map-panel--active {
+  display: block;
+  min-height: 420px;
+}
+
+/* ---- Stats Grid (Option C) ---- */
+
+.map-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 32px 0;
+}
+
+@media (max-width: 767px) {
+  .map-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+.map-stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 32px 20px;
+  background: var(--color-light, #f4f7fc);
+  border-radius: 16px;
+  border: 1px solid var(--color-border, #dde3ee);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.map-stat-card:hover {
+  box-shadow: 0 8px 24px rgba(13, 43, 94, 0.12);
+  transform: translateY(-2px);
+}
+
+.map-stat-icon {
+  font-size: 2.2rem;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.map-stat-value {
+  display: block;
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--color-primary, #0d2b5e);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.map-stat-label {
+  font-size: 0.88rem;
+  color: var(--color-muted, #6c757d);
+  line-height: 1.4;
+}
