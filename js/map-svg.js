@@ -108,10 +108,10 @@
   /* ---- Build and insert SVG map ---- */
   function buildSVGMap() {
     var geoJson   = window.WORLD_GEOJSON;
-    var container = document.getElementById('leaflet-map');
+    var container = document.getElementById('svg-map-container') || document.getElementById('leaflet-map');
     if (!geoJson || !container) {
       if (!geoJson)   { console.warn('[map-svg.js] window.WORLD_GEOJSON not found — map skipped.'); }
-      if (!container) { console.warn('[map-svg.js] #leaflet-map container not found — map skipped.'); }
+      if (!container) { console.warn('[map-svg.js] #svg-map-container / #leaflet-map container not found — map skipped.'); }
       return;
     }
 

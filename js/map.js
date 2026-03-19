@@ -162,9 +162,15 @@
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
+  /* Expose init for manual (tab-triggered) startup. */
+  window.initLeafletMap = init;
+
+  /* Auto-init only when not in manual mode (no tab switcher present). */
+  if (!window.LEAFLET_MAP_MANUAL_INIT) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
   }
 })();
