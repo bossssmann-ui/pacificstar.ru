@@ -3120,6 +3120,27 @@ select.form-control {
   background: #0d1b3e;
 }
 .route-map-container:focus-within { outline: 2px solid var(--color-accent); }
+.map-frame {
+  position: relative;
+  width: 100%;
+  min-height: 420px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0d1b3e;
+}
+.map-panel {
+  display: none;
+}
+.map-panel--active {
+  display: block;
+  min-height: 420px;
+}
+.svg-route-map {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #0d1b3e;
+}
 .map-legend-note {
   display: flex; align-items: center; justify-content: space-between;
   margin-top: 16px;

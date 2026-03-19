@@ -105,21 +105,70 @@
     return node;
   }
 
-  /* ---- Build and insert SVG map ---- */
-  function buildSVGMap() {
-    var geoJson   = window.WORLD_GEOJSON;
-    var container = document.getElementById('svg-map-container') || document.getElementById('leaflet-map');
-    if (!geoJson || !container) {
-      if (!geoJson)   { console.warn('[map-svg.js] window.WORLD_GEOJSON not found — map skipped.'); }
-      if (!container) { console.warn('[map-svg.js] #svg-map-container / #leaflet-map container not found — map skipped.'); }
+  function getMapContainer() {
+    return document.getElementById('svg-map-container') || document.getElementById('leaflet-map');
+  }
+
+  function prepareContainer(container) {
+    if (!container) { return; }
+    container.style.position = 'relative';
+    container.style.minHeight = '420px';
+    container.style.overflow = 'hidden';
+    if (!container.style.backgroundColor) {
+      container.style.backgroundColor = '#0d1b3e';
+    }
+  }
+
+  function renderFallbackNotice(container, message) {
+    if (!container) { return; }
+    prepareContainer(container);
+    container.innerHTML =
+      '<div style="display:flex;align-items:center;justify-content:center;min-height:420px;padding:24px;' +
+      'text-align:center;color:#eaf4ff;font:500 1rem/1.6 Inter,system-ui,sans-serif;background:#0d1b3e;">' +
+      message +
+      '</div>';
+  }
+
+  function loadGeoJson(onSuccess, onError) {
+    if (window.WORLD_GEOJSON && window.WORLD_GEOJSON.features) {
+      onSuccess(window.WORLD_GEOJSON);
       return;
     }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'data/world-countries.geo.json', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) { return; }
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          var parsed = JSON.parse(xhr.responseText);
+          window.WORLD_GEOJSON = parsed;
+          onSuccess(parsed);
+        } catch (err) {
+          onError(err);
+        }
+        return;
+      }
+      onError(new Error('GeoJSON request failed with status ' + xhr.status));
+    };
+    xhr.onerror = function () {
+      onError(new Error('GeoJSON request failed'));
+    };
+    xhr.send();
+  }
+
+  /* ---- Build and insert SVG map ---- */
+  function buildSVGMap(container, geoJson) {
+    if (!container || !geoJson) { return; }
+    prepareContainer(container);
 
     try {
       /* Root SVG element. */
       var svg = el('svg', {
         viewBox: '0 0 ' + SVG_W + ' ' + SVG_H,
-        xmlns:   NS,
+        width:   SVG_W,
+        height:  SVG_H,
+        preserveAspectRatio: 'xMidYMid meet',
         'class': 'svg-route-map',
         role:    'img',
         'aria-label': 'Карта логистических маршрутов Pacific Star'
@@ -274,9 +323,28 @@
     }
   }
 
+  function initSVGMap() {
+    var container = getMapContainer();
+    if (!container) {
+      console.warn('[map-svg.js] #svg-map-container / #leaflet-map container not found — map skipped.');
+      return;
+    }
+
+    prepareContainer(container);
+    loadGeoJson(
+      function (geoJson) {
+        buildSVGMap(container, geoJson);
+      },
+      function (err) {
+        console.warn('[map-svg.js] GeoJSON load failed: ' + (err && err.message ? err.message : err));
+        renderFallbackNotice(container, 'Карта маршрутов временно загружается. Если она не появилась, обновите страницу через несколько секунд.');
+      }
+    );
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', buildSVGMap);
+    document.addEventListener('DOMContentLoaded', initSVGMap);
   } else {
-    buildSVGMap();
+    initSVGMap();
   }
 })();
