@@ -88,6 +88,7 @@
   function restoreSession() {
     var raw;
     var state;
+    var restored = false;
     var fromSel = document.getElementById('calcFrom');
     var toSel = document.getElementById('calcTo');
     var transSel = document.getElementById('calcTransport');
@@ -113,14 +114,32 @@
       return false;
     }
 
-    if (state.from && hasOptionValue(fromSel, state.from)) fromSel.value = state.from;
-    if (state.to && hasOptionValue(toSel, state.to)) toSel.value = state.to;
-    if (state.transport && hasOptionValue(transSel, state.transport)) transSel.value = state.transport;
-    if (state.cargo && hasOptionValue(cargoSel, state.cargo)) cargoSel.value = state.cargo;
-    if (weightInput && typeof state.weight === 'string') weightInput.value = state.weight;
-    if (volumeInput && typeof state.volume === 'string') volumeInput.value = state.volume;
+    if (state.from && hasOptionValue(fromSel, state.from)) {
+      fromSel.value = state.from;
+      restored = true;
+    }
+    if (state.to && hasOptionValue(toSel, state.to)) {
+      toSel.value = state.to;
+      restored = true;
+    }
+    if (state.transport && hasOptionValue(transSel, state.transport)) {
+      transSel.value = state.transport;
+      restored = true;
+    }
+    if (state.cargo && hasOptionValue(cargoSel, state.cargo)) {
+      cargoSel.value = state.cargo;
+      restored = true;
+    }
+    if (weightInput && typeof state.weight === 'string' && state.weight) {
+      weightInput.value = state.weight;
+      restored = true;
+    }
+    if (volumeInput && typeof state.volume === 'string' && state.volume) {
+      volumeInput.value = state.volume;
+      restored = true;
+    }
 
-    return !!(state.from || state.to || state.weight || state.volume);
+    return restored;
   }
 
   /* ── Build options ── */
@@ -269,7 +288,7 @@
     var form = document.getElementById('calcForm');
     if (!form) return;
     if (!buildOptions()) return;
-    restoreSession();
+    var restored = restoreSession();
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -296,7 +315,15 @@
       });
     });
 
-    if ((getFieldValue('calcFrom') !== getFieldValue('calcTo')) &&
+    var fromValue = getFieldValue('calcFrom');
+    var toValue = getFieldValue('calcTo');
+
+    if (restored &&
+        fromValue &&
+        toValue &&
+        hasOptionValue(document.getElementById('calcFrom'), fromValue) &&
+        hasOptionValue(document.getElementById('calcTo'), toValue) &&
+        fromValue !== toValue &&
         ((parseFloat(getFieldValue('calcWeight')) || 0) > 0 ||
          (parseFloat(getFieldValue('calcVolume')) || 0) > 0)) {
       estimate();
