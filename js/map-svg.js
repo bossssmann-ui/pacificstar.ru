@@ -18,6 +18,39 @@
   var LON_MAX = 200;
   var LAT_MIN = 0;
   var LAT_MAX = 78;
+  var I18N = {
+    ru: {
+      ariaLabel: 'Карта логистических маршрутов Pacific Star',
+      loadingNotice: 'Карта маршрутов временно загружается. Если она не появилась, обновите страницу через несколько секунд.'
+    },
+    en: {
+      ariaLabel: 'Pacific Star logistics routes map',
+      loadingNotice: 'The route map is loading. If it does not appear, refresh the page in a few seconds.'
+    },
+    zh: {
+      ariaLabel: 'Pacific Star 物流路线地图',
+      loadingNotice: '路线地图正在加载中。如果暂时未显示，请几秒后刷新页面。'
+    },
+    ja: {
+      ariaLabel: 'Pacific Star 物流ルートマップ',
+      loadingNotice: 'ルートマップを読み込み中です。表示されない場合は数秒後にページを更新してください。'
+    },
+    ko: {
+      ariaLabel: 'Pacific Star 물류 노선 지도',
+      loadingNotice: '노선 지도를 불러오는 중입니다. 바로 보이지 않으면 몇 초 후 페이지를 새로고침해 주세요.'
+    }
+  };
+
+  function getText(key) {
+    var lang = 'ru';
+    try {
+      lang = window.localStorage && window.localStorage.getItem('ps-lang') || document.documentElement.lang || 'ru';
+    } catch (err) {
+      lang = document.documentElement.lang || 'ru';
+    }
+    var dict = I18N[lang] || I18N.ru;
+    return dict[key] || I18N.ru[key];
+  }
 
   function mercY(lat) {
     var r = lat * Math.PI / 180;
@@ -166,12 +199,10 @@
       /* Root SVG element. */
       var svg = el('svg', {
         viewBox: '0 0 ' + SVG_W + ' ' + SVG_H,
-        width:   SVG_W,
-        height:  SVG_H,
         preserveAspectRatio: 'xMidYMid meet',
         'class': 'svg-route-map',
         role:    'img',
-        'aria-label': 'Карта логистических маршрутов Pacific Star'
+        'aria-label': getText('ariaLabel')
       });
 
       /* Ocean background. */
@@ -337,7 +368,7 @@
       },
       function (err) {
         console.warn('[map-svg.js] GeoJSON load failed: ' + (err && err.message ? err.message : err));
-        renderFallbackNotice(container, 'Карта маршрутов временно загружается. Если она не появилась, обновите страницу через несколько секунд.');
+        renderFallbackNotice(container, getText('loadingNotice'));
       }
     );
   }
