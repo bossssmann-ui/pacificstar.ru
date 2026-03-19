@@ -18,6 +18,39 @@
   var LON_MAX = 200;
   var LAT_MIN = 0;
   var LAT_MAX = 78;
+  var I18N = {
+    ru: {
+      ariaLabel: 'Карта логистических маршрутов Pacific Star',
+      loadingNotice: 'Карта маршрутов временно загружается. Если она не появилась, обновите страницу через несколько секунд.'
+    },
+    en: {
+      ariaLabel: 'Pacific Star logistics routes map',
+      loadingNotice: 'The route map is loading. If it does not appear, refresh the page in a few seconds.'
+    },
+    zh: {
+      ariaLabel: 'Pacific Star 物流路线地图',
+      loadingNotice: '路线地图正在加载中。如果暂时未显示，请几秒后刷新页面。'
+    },
+    ja: {
+      ariaLabel: 'Pacific Star 物流ルートマップ',
+      loadingNotice: 'ルートマップを読み込み中です。表示されない場合は数秒後にページを更新してください。'
+    },
+    ko: {
+      ariaLabel: 'Pacific Star 물류 노선 지도',
+      loadingNotice: '노선 지도를 불러오는 중입니다. 바로 보이지 않으면 몇 초 후 페이지를 새로고침해 주세요.'
+    }
+  };
+
+  function getText(key) {
+    var lang = 'ru';
+    try {
+      lang = window.localStorage && window.localStorage.getItem('ps-lang') || document.documentElement.lang || 'ru';
+    } catch (err) {
+      lang = document.documentElement.lang || 'ru';
+    }
+    var dict = I18N[lang] || I18N.ru;
+    return dict[key] || I18N.ru[key];
+  }
 
   function mercY(lat) {
     var r = lat * Math.PI / 180;
@@ -105,24 +138,71 @@
     return node;
   }
 
-  /* ---- Build and insert SVG map ---- */
-  function buildSVGMap() {
-    var geoJson   = window.WORLD_GEOJSON;
-    var container = document.getElementById('svg-map-container') || document.getElementById('leaflet-map');
-    if (!geoJson || !container) {
-      if (!geoJson)   { console.warn('[map-svg.js] window.WORLD_GEOJSON not found — map skipped.'); }
-      if (!container) { console.warn('[map-svg.js] #svg-map-container / #leaflet-map container not found — map skipped.'); }
+  function getMapContainer() {
+    return document.getElementById('svg-map-container') || document.getElementById('leaflet-map');
+  }
+
+  function prepareContainer(container) {
+    if (!container) { return; }
+    container.style.position = 'relative';
+    container.style.minHeight = '420px';
+    container.style.overflow = 'hidden';
+    if (!container.style.backgroundColor) {
+      container.style.backgroundColor = '#0d1b3e';
+    }
+  }
+
+  function renderFallbackNotice(container, message) {
+    if (!container) { return; }
+    prepareContainer(container);
+    container.innerHTML =
+      '<div style="display:flex;align-items:center;justify-content:center;min-height:420px;padding:24px;' +
+      'text-align:center;color:#eaf4ff;font:500 1rem/1.6 Inter,system-ui,sans-serif;background:#0d1b3e;">' +
+      message +
+      '</div>';
+  }
+
+  function loadGeoJson(onSuccess, onError) {
+    if (window.WORLD_GEOJSON && window.WORLD_GEOJSON.features) {
+      onSuccess(window.WORLD_GEOJSON);
       return;
     }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'data/world-countries.geo.json', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) { return; }
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          var parsed = JSON.parse(xhr.responseText);
+          window.WORLD_GEOJSON = parsed;
+          onSuccess(parsed);
+        } catch (err) {
+          onError(err);
+        }
+        return;
+      }
+      onError(new Error('GeoJSON request failed with status ' + xhr.status));
+    };
+    xhr.onerror = function () {
+      onError(new Error('GeoJSON request failed'));
+    };
+    xhr.send();
+  }
+
+  /* ---- Build and insert SVG map ---- */
+  function buildSVGMap(container, geoJson) {
+    if (!container || !geoJson) { return; }
+    prepareContainer(container);
 
     try {
       /* Root SVG element. */
       var svg = el('svg', {
         viewBox: '0 0 ' + SVG_W + ' ' + SVG_H,
-        xmlns:   NS,
+        preserveAspectRatio: 'xMidYMid meet',
         'class': 'svg-route-map',
         role:    'img',
-        'aria-label': 'Карта логистических маршрутов Pacific Star'
+        'aria-label': getText('ariaLabel')
       });
 
       /* Ocean background. */
@@ -274,9 +354,28 @@
     }
   }
 
+  function initSVGMap() {
+    var container = getMapContainer();
+    if (!container) {
+      console.warn('[map-svg.js] #svg-map-container / #leaflet-map container not found — map skipped.');
+      return;
+    }
+
+    prepareContainer(container);
+    loadGeoJson(
+      function (geoJson) {
+        buildSVGMap(container, geoJson);
+      },
+      function (err) {
+        console.warn('[map-svg.js] GeoJSON load failed: ' + (err && err.message ? err.message : err));
+        renderFallbackNotice(container, getText('loadingNotice'));
+      }
+    );
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', buildSVGMap);
+    document.addEventListener('DOMContentLoaded', initSVGMap);
   } else {
-    buildSVGMap();
+    initSVGMap();
   }
 })();

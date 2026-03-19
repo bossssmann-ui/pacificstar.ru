@@ -3120,6 +3120,27 @@ select.form-control {
   background: #0d1b3e;
 }
 .route-map-container:focus-within { outline: 2px solid var(--color-accent); }
+.map-frame {
+  position: relative;
+  width: 100%;
+  min-height: 420px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0d1b3e;
+}
+.map-panel {
+  display: none;
+}
+.map-panel--active {
+  display: block;
+  min-height: 420px;
+}
+.svg-route-map {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #0d1b3e;
+}
 .map-legend-note {
   display: flex; align-items: center; justify-content: space-between;
   margin-top: 16px;
@@ -3928,6 +3949,67 @@ select.form-control {
 .badge-planned { background: #e8f2ff; color: #1e40af; }
 .badge-future  { background: #f3f0ff; color: #6d28d9; }
 .integration-desc { font-size: 0.875rem; color: var(--color-text); margin: 0; line-height: 1.55; }
+.map-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 20px;
+}
+.map-option-card { gap: 14px; }
+.map-option-card--recommended {
+  border-color: rgba(255, 204, 0, 0.7);
+  box-shadow: 0 18px 40px rgba(255, 204, 0, 0.12);
+}
+.map-option-preview {
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #f8fbff;
+}
+.map-option-preview svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.map-option-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.84rem;
+  color: var(--color-muted);
+}
+.map-option-meta p,
+.map-option-sources {
+  margin: 0;
+  line-height: 1.55;
+}
+.map-option-label {
+  font-weight: 700;
+  color: var(--color-text);
+}
+.map-option-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+}
+.map-option-sources a {
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+.map-option-sources a:hover { text-decoration: underline; }
+.map-options-note {
+  margin-top: 24px;
+  padding: 18px 22px;
+  background: linear-gradient(135deg, #0b2341 0%, #0f3a6d 100%);
+  color: #e9f6ff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+.map-options-note p {
+  margin: 0;
+  line-height: 1.65;
+}
 .comparison-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .comparison-table {
   width: 100%; border-collapse: collapse;
