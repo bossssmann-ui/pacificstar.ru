@@ -140,6 +140,11 @@
         if (!d) { return; }
         landG.appendChild(el('path', {
           d:     d,
+          fill:           isRussia ? '#5d96c3' : '#17345f',
+          'fill-opacity': isRussia ? '0.92'    : '0.82',
+          stroke:         isRussia ? '#9fd5ff'  : 'rgba(255,255,255,0.22)',
+          'stroke-width': isRussia ? '0.9'      : '0.6',
+          'stroke-linejoin': 'round',
           'class': 'svg-map-country' + (isRussia ? ' svg-map-country--russia' : '')
         }));
       });
@@ -163,7 +168,11 @@
           d:     'M' + hx.toFixed(1) + ' ' + hy.toFixed(1) +
                  ' Q' + cpx.toFixed(1) + ' ' + cpy.toFixed(1) +
                  ' ' + tx.toFixed(1) + ' ' + ty.toFixed(1),
-          fill:  'none',
+          fill:           'none',
+          stroke:         '#d4af37',
+          'stroke-width': '1.8',
+          'stroke-opacity': '0.78',
+          'stroke-dasharray': '8 8',
           'class': 'svg-map-route'
         }));
       });
@@ -186,12 +195,16 @@
         g.appendChild(el('circle', {
           cx: cx, cy: cy,
           r:  pt.hub ? '10' : '7',
+          fill:           'none',
+          stroke:         pt.hub ? '#ffffff' : '#d4af37',
+          'stroke-width': '1.5',
           'class': 'svg-map-pulse'
         }));
         /* Solid dot. */
         g.appendChild(el('circle', {
           cx: cx, cy: cy,
           r:  pt.hub ? '5' : '3.5',
+          fill: pt.hub ? '#ffffff' : '#d4af37',
           'class': 'svg-map-dot'
         }));
         markersG.appendChild(g);
