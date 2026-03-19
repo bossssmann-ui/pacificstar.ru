@@ -2,15 +2,18 @@
  * Pacific Star — Interactive Leaflet Map
  * =========================================
  * Premium dark map using local Leaflet assets and
- * bundled GeoJSON land polygons.
+ * bundled GeoJSON land polygons (inline via map-geodata.js).
  * Pulsing markers for key logistics hubs; animated
  * dashed polylines for routes from Vladivostok.
+ *
+ * Fix (2026-03-19): Added CartoDB Dark Matter tile layer —
+ * without a tile layer Leaflet renders only the container
+ * background colour (solid blue screen).
  */
 (function () {
   'use strict';
 
   /* ---- Data ---- */
-  var COUNTRIES_GEOJSON_PATH = 'data/world-countries.geo.json';
   var HUB_LAT = 43.1155;
   var HUB_LON = 131.8855;
   var HUB_COORDS = [HUB_LAT, HUB_LON];
@@ -67,20 +70,20 @@
   }
 
   function addLandLayer(map) {
-    return fetch(COUNTRIES_GEOJSON_PATH)
-      .then(function (response) {
-        if (!response.ok) {
-          throw new Error('Failed to load "' + COUNTRIES_GEOJSON_PATH + '": HTTP ' + response.status + ' - ' + response.statusText);
-        }
-
-        return response.json();
-      })
-      .then(function (geoJson) {
-        L.geoJSON(geoJson, {
-          pane: 'land',
-          style: getFeatureStyle
-        }).addTo(map);
-      });
+    /* Use inline GeoJSON bundled in map-geodata.js (no fetch required). */
+    var geoJson = window.WORLD_GEOJSON;
+    if (!geoJson) {
+      console.warn('[map.js] window.WORLD_GEOJSON not found — land layer skipped.');
+      return;
+    }
+    try {
+      L.geoJSON(geoJson, {
+        pane: 'land',
+        style: getFeatureStyle
+      }).addTo(map);
+    } catch (e) {
+      console.warn('[map.js] Failed to render GeoJSON land layer: ' + (e && e.message ? e.message : e));
+    }
   }
 
   function addRoutes(map) {
@@ -116,34 +119,47 @@
       return;
     }
 
-    var map = L.map('leaflet-map', {
-      center:           [55, 108],
-      zoom:             3,
-      zoomControl:      true,
-      attributionControl: true,
-      minZoom:          2,
-      maxZoom:          10
-    });
+    try {
+      /* Fix default Leaflet marker image path for production environments. */
+      L.Icon.Default.imagePath = 'vendor/images/';
 
-    map.attributionControl.addAttribution('© Natural Earth');
-    map.createPane('land');
-    map.getPane('land').style.zIndex = '250';
+      var map = L.map('leaflet-map', {
+        center:           [55, 110],
+        zoom:             3,
+        zoomControl:      true,
+        attributionControl: true,
+        minZoom:          2,
+        maxZoom:          10
+      });
 
-    /* Add routes and markers immediately — the map must never be blank
-       while waiting for the GeoJSON land layer to download.            */
-    addRoutes(map);
-    addMarkers(map);
+      /* ---- Tile layer (ocean / land base) ---- */
+      /* CartoDB Dark Matter — free, no API key required. */
+      L.tileLayer(
+        'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png',
+        {
+          attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/attributions">CARTO</a>',
+          subdomains: 'abcd',
+          maxZoom: 19,
+          opacity: 0.85
+        }
+      ).addTo(map);
 
-    /* Fit view to cover all route points on every screen size. */
-    var allLatLngs = POINTS.map(function (p) { return [p.lat, p.lon]; });
-    map.fitBounds(L.latLngBounds(allLatLngs), { padding: [10, 10], maxZoom: 4 });
+      map.attributionControl.addAttribution('© Natural Earth');
+      map.createPane('land');
+      map.getPane('land').style.zIndex = '250';
 
-    /* Load land polygons asynchronously — visual enhancement only.
-       Uses .then()/.catch() instead of .finally() for broad browser
-       compatibility (Safari < 12, old Android WebView, etc.).       */
-    addLandLayer(map).catch(function (error) {
-      console.warn('[map.js] Failed to load bundled GeoJSON land layer; routes and markers remain visible. ' + (error && error.message ? error.message : error));
-    });
+      addLandLayer(map);
+      addRoutes(map);
+      addMarkers(map);
+
+      /* Ensure correct map size after any pending layout reflows. */
+      setTimeout(function () {
+        map.invalidateSize();
+      }, 200);
+
+    } catch (e) {
+      console.warn('[map.js] Map initialization failed: ' + (e && e.message ? e.message : e));
+    }
   }
 
   if (document.readyState === 'loading') {
