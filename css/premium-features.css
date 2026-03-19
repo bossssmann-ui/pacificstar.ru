@@ -591,6 +591,15 @@ html.dark-theme .custom-cursor-ring.is-hovered {
   position: relative;
 }
 
+/* Override old .route-map-container layout from style.css where #leaflet-map
+   was position:absolute inside a relatively-positioned wrapper.
+   In the new tab layout it IS the .map-frame and must stay in normal flow. */
+#leaflet-map.map-frame {
+  position: relative;
+  inset: auto;
+  height: 420px;
+}
+
 .map-panel {
   display: none;
 }
