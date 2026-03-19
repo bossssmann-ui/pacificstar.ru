@@ -6,6 +6,8 @@
 (function () {
   'use strict';
 
+  var STORAGE_KEY = 'ps-calculator-session';
+
   /* ── Distance table (km) between major hubs ──────────────────────── */
   var DIST = {
     'Москва-Владивосток':          9240,
@@ -53,6 +55,72 @@
   function isArctic(city) {
     var lc = city.toLowerCase();
     return ARCTIC_KEYWORDS.some(function (k) { return lc.indexOf(k) !== -1; });
+  }
+
+  function getFieldValue(id, fallback) {
+    var el = document.getElementById(id);
+    if (!el || typeof el.value !== 'string') return fallback || '';
+    return el.value;
+  }
+
+  function hasOptionValue(select, value) {
+    if (!select || !select.options || !value) return false;
+    return Array.prototype.some.call(select.options, function (opt) {
+      return opt.value === value;
+    });
+  }
+
+  function saveSession() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        from: getFieldValue('calcFrom'),
+        to: getFieldValue('calcTo'),
+        transport: getFieldValue('calcTransport', 'auto'),
+        cargo: getFieldValue('calcCargo', 'general'),
+        weight: getFieldValue('calcWeight'),
+        volume: getFieldValue('calcVolume')
+      }));
+    } catch (err) {
+      /* Ignore storage failures */
+    }
+  }
+
+  function restoreSession() {
+    var raw;
+    var state;
+    var fromSel = document.getElementById('calcFrom');
+    var toSel = document.getElementById('calcTo');
+    var transSel = document.getElementById('calcTransport');
+    var cargoSel = document.getElementById('calcCargo');
+    var weightInput = document.getElementById('calcWeight');
+    var volumeInput = document.getElementById('calcVolume');
+
+    try {
+      raw = localStorage.getItem(STORAGE_KEY);
+    } catch (err) {
+      return false;
+    }
+    if (!raw) return false;
+
+    try {
+      state = JSON.parse(raw);
+    } catch (err) {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (storageErr) {
+        /* Ignore storage failures */
+      }
+      return false;
+    }
+
+    if (state.from && hasOptionValue(fromSel, state.from)) fromSel.value = state.from;
+    if (state.to && hasOptionValue(toSel, state.to)) toSel.value = state.to;
+    if (state.transport && hasOptionValue(transSel, state.transport)) transSel.value = state.transport;
+    if (state.cargo && hasOptionValue(cargoSel, state.cargo)) cargoSel.value = state.cargo;
+    if (weightInput && typeof state.weight === 'string') weightInput.value = state.weight;
+    if (volumeInput && typeof state.volume === 'string') volumeInput.value = state.volume;
+
+    return !!(state.from || state.to || state.weight || state.volume);
   }
 
   /* ── Build options ── */
@@ -201,9 +269,11 @@
     var form = document.getElementById('calcForm');
     if (!form) return;
     if (!buildOptions()) return;
+    restoreSession();
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      saveSession();
       estimate();
     });
 
@@ -211,10 +281,26 @@
     ['calcFrom','calcTo','calcTransport','calcCargo'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('change', function () {
+        saveSession();
         var res = document.getElementById('calcResult');
         if (res && res.style.display !== 'none') estimate();
       });
     });
+
+    ['calcWeight','calcVolume'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('input', function () {
+        saveSession();
+        var res = document.getElementById('calcResult');
+        if (res && res.style.display !== 'none') estimate();
+      });
+    });
+
+    if ((getFieldValue('calcFrom') !== getFieldValue('calcTo')) &&
+        ((parseFloat(getFieldValue('calcWeight')) || 0) > 0 ||
+         (parseFloat(getFieldValue('calcVolume')) || 0) > 0)) {
+      estimate();
+    }
   }
 
   if (document.readyState === 'loading') {
