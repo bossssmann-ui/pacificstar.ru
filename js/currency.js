@@ -25,6 +25,7 @@
   var selectedCode = 'USD';
   var chartCache   = {};   /* code → [{date, value}] */
   var cardCache    = {};   /* code → { card, rateVal, changeEl } */
+  var _convFrom, _convTo, _convAmount, _convResult;  /* cached converter el refs */
 
   /* Cached DOM refs populated in buildWidget() */
   var _loadingEl = null;
@@ -420,11 +421,12 @@
 
   function selectCard(code) {
     selectedCode = code;
-    var cards = document.querySelectorAll('.currency-card');
-    for (var i = 0; i < cards.length; i++) {
-      cards[i].classList.remove('active');
-    }
-    var active = document.getElementById('rate-' + code);
+    /* Use cached card references instead of re-querying the DOM */
+    CURRENCIES.forEach(function (c) {
+      var cached = cardCache[c.code];
+      if (cached && cached.card) cached.card.classList.remove('active');
+    });
+    var active = cardCache[code] && cardCache[code].card;
     if (active) active.classList.add('active');
 
     showChartLoading(code);
@@ -547,16 +549,20 @@
     var retryBtn = document.getElementById('currencyRetry');
     if (retryBtn) retryBtn.addEventListener('click', function () { fetchRates(function () { updateCards(); }); });
 
-    /* Converter events */
-    if (_convAmount) _convAmount.addEventListener('input', convert);
-    if (_convFrom)   _convFrom.addEventListener('input', convert);
-    if (_convTo)     _convTo.addEventListener('input', convert);
+    /* Converter events — cache refs once after innerHTML is set */
+    _convFrom   = document.getElementById('convFrom');
+    _convTo     = document.getElementById('convTo');
+    _convAmount = document.getElementById('convAmount');
+    _convResult = document.getElementById('convResult');
+    [_convAmount, _convFrom, _convTo].forEach(function (el) {
+      if (el) el.addEventListener('input', convert);
+    });
 
     var swapBtn = document.getElementById('convSwap');
     if (swapBtn) {
       swapBtn.addEventListener('click', function () {
         if (_convFrom && _convTo) {
-          var tmp       = _convFrom.value;
+          var tmp  = _convFrom.value;
           _convFrom.value = _convTo.value;
           _convTo.value   = tmp;
           convert();

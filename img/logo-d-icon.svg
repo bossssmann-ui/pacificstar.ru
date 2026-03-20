@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Pacific Star — ВАРИАНТ D: ЩИТ (The Crest)
+  Concept: A classic heraldic shield — the language of trust, authority and
+  permanence.  Upper field: deep navy with a blazing 4-pointed gold star.
+  Lower field: slightly lighter, bold gold "PS" monogram.  A gold horizontal
+  rule divides the two fields.  Double-line border and tiny corner ornaments.
+  This mark lives on official documents, contracts, stamps and embossed
+  letterheads — the visual weight of a century-old shipping house.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"
+     role="img" aria-label="Pacific Star — Щит">
+  <title>Pacific Star — ЩИТ</title>
+
+  <defs>
+    <!-- Shield upper-field gradient -->
+    <linearGradient id="d-top" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#0d2b5e"/>
+      <stop offset="100%" stop-color="#123c7a"/>
+    </linearGradient>
+    <!-- Shield lower-field gradient -->
+    <linearGradient id="d-bot" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#0f2e6a"/>
+      <stop offset="100%" stop-color="#0a1e4a"/>
+    </linearGradient>
+    <!-- Star gold gradient -->
+    <linearGradient id="d-star" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%"   stop-color="#fff0a0"/>
+      <stop offset="100%" stop-color="#e08c10"/>
+    </linearGradient>
+
+    <!--
+      Shield outline path (traditional heraldic shield, pointed bottom):
+        Top bar : M12,10 → L108,10
+        Sides   : straight to (12,72) and (108,72)
+        Curves  : Q85,98  60,115  Q35,98  12,72
+    -->
+    <clipPath id="d-upper-clip">
+      <rect x="0" y="0" width="120" height="65"/>
+    </clipPath>
+    <clipPath id="d-lower-clip">
+      <rect x="0" y="65" width="120" height="60"/>
+    </clipPath>
+  </defs>
+
+  <!-- Upper field (navy) — clipped to top half -->
+  <path d="M12,10 L108,10 L108,72 Q84,98 60,115 Q36,98 12,72 Z"
+        fill="url(#d-top)" clip-path="url(#d-upper-clip)"/>
+
+  <!-- Lower field (deep navy) — clipped to bottom half -->
+  <path d="M12,10 L108,10 L108,72 Q84,98 60,115 Q36,98 12,72 Z"
+        fill="url(#d-bot)" clip-path="url(#d-lower-clip)"/>
+
+  <!-- Gold horizontal divider -->
+  <line x1="12" y1="65" x2="108" y2="65"
+        stroke="#f5a623" stroke-width="2"/>
+
+  <!-- Gold diamond ornament at divider centre -->
+  <polygon points="60,61 63.5,65 60,69 56.5,65" fill="#f5a623"/>
+
+  <!--
+    4-pointed star in upper field
+    Centre (60, 39), outer r=18, waist r=7.5
+    Tips: N(60,21) · E(78,39) · S(60,57) · W(42,39)
+    Waist NE: (60+5.3, 39-5.3) = (65.3,33.7) — 45° at r=7.5 → 7.5/√2 = 5.3
+  -->
+  <path fill="url(#d-star)"
+    d="M60,21
+       L65.3,33.7  L78,39
+       L65.3,44.3  L60,57
+       L54.7,44.3  L42,39
+       L54.7,33.7
+       Z"/>
+
+  <!-- Star centre ring -->
+  <circle cx="60" cy="39" r="5.5" fill="none"
+          stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+  <circle cx="60" cy="39" r="2.5" fill="white" opacity="0.85"/>
+
+  <!-- PS monogram in lower field -->
+  <text x="60" y="98"
+        font-family="Inter,'Helvetica Neue',Arial,sans-serif"
+        font-size="24" font-weight="900"
+        font-style="italic"
+        fill="#f5a623"
+        text-anchor="middle">PS</text>
+
+  <!-- Shield outer border (main) -->
+  <path d="M12,10 L108,10 L108,72 Q84,98 60,115 Q36,98 12,72 Z"
+        fill="none" stroke="#f5a623" stroke-width="2.5"/>
+
+  <!-- Shield inner border (inset 4px) -->
+  <path d="M16,14 L104,14 L104,70 Q82,93 60,109 Q38,93 16,70 Z"
+        fill="none" stroke="#f5a623" stroke-width="0.8" opacity="0.45"/>
+
+  <!-- Corner ornaments (small gold diamonds at top corners) -->
+  <polygon points="12,10 9,13 12,16 15,13" fill="#f5a623" opacity="0.8"/>
+  <polygon points="108,10 105,13 108,16 111,13" fill="#f5a623" opacity="0.8"/>
+</svg>
