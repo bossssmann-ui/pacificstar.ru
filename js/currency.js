@@ -26,6 +26,9 @@
   var chartCache   = {};   /* code → [{date, value}] */
   var cardCache    = {};   /* code → { card, rateVal, changeEl } */
 
+  /* Converter element refs — populated once in buildWidget() */
+  var convFromEl = null, convToEl = null, convAmountEl = null, convResultEl = null;
+
   /* ── Fetch rates from CBR ── */
   function fetchRates(onDone) {
     if (isLoading) return;
@@ -121,17 +124,13 @@
 
   /* ── Converter ── */
   function convert() {
-    var fromEl   = document.getElementById('convFrom');
-    var toEl     = document.getElementById('convTo');
-    var amountEl = document.getElementById('convAmount');
-    var resultEl = document.getElementById('convResult');
-    if (!fromEl || !toEl || !amountEl || !resultEl) return;
+    if (!convFromEl || !convToEl || !convAmountEl || !convResultEl) return;
 
-    var amount = parseFloat(amountEl.value);
-    if (isNaN(amount) || amount <= 0) { resultEl.value = '—'; return; }
+    var amount = parseFloat(convAmountEl.value);
+    if (isNaN(amount) || amount <= 0) { convResultEl.value = '—'; return; }
 
-    var from = fromEl.value;
-    var to   = toEl.value;
+    var from = convFromEl.value;
+    var to   = convToEl.value;
 
     var rubAmount;
     if (from === 'RUB') {
@@ -139,7 +138,7 @@
     } else if (rates[from]) {
       rubAmount = amount * rates[from];
     } else {
-      resultEl.value = '— (нет курса)';
+      convResultEl.value = '— (нет курса)';
       return;
     }
 
@@ -149,14 +148,14 @@
     } else if (rates[to]) {
       result = rubAmount / rates[to];
     } else {
-      resultEl.value = '— (нет курса)';
+      convResultEl.value = '— (нет курса)';
       return;
     }
 
     var formatted = result >= 100
       ? result.toLocaleString('ru-RU', { maximumFractionDigits: 2 })
       : result.toFixed(4);
-    resultEl.value = formatted + ' ' + (SYMBOLS[to] || to);
+    convResultEl.value = formatted + ' ' + (SYMBOLS[to] || to);
   }
 
   /* ── Chart: fetch archive data for last N work days ── */
@@ -415,12 +414,12 @@
 
   function selectCard(code) {
     selectedCode = code;
-    var cards = document.querySelectorAll('.currency-card');
-    for (var i = 0; i < cards.length; i++) {
-      cards[i].classList.remove('active');
-    }
-    var active = document.getElementById('rate-' + code);
-    if (active) active.classList.add('active');
+    /* Deactivate all cards via cardCache — avoids a live DOM query */
+    Object.keys(cardCache).forEach(function (k) {
+      if (cardCache[k].card) cardCache[k].card.classList.remove('active');
+    });
+    var cached = cardCache[code];
+    if (cached && cached.card) cached.card.classList.add('active');
 
     showChartLoading(code);
     loadChartData(code, function (series) {
@@ -534,6 +533,11 @@
     if (retryBtn) retryBtn.addEventListener('click', function () { fetchRates(function () { updateCards(); }); });
 
     /* Converter events */
+    convAmountEl = document.getElementById('convAmount');
+    convFromEl   = document.getElementById('convFrom');
+    convToEl     = document.getElementById('convTo');
+    convResultEl = document.getElementById('convResult');
+
     ['convAmount', 'convFrom', 'convTo'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', convert);
@@ -542,12 +546,10 @@
     var swapBtn = document.getElementById('convSwap');
     if (swapBtn) {
       swapBtn.addEventListener('click', function () {
-        var from = document.getElementById('convFrom');
-        var to   = document.getElementById('convTo');
-        if (from && to) {
-          var tmp  = from.value;
-          from.value = to.value;
-          to.value   = tmp;
+        if (convFromEl && convToEl) {
+          var tmp      = convFromEl.value;
+          convFromEl.value = convToEl.value;
+          convToEl.value   = tmp;
           convert();
         }
       });
