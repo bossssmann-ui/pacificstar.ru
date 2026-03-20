@@ -544,7 +544,82 @@ html.dark-theme .custom-cursor-ring.is-hovered {
 }
 
 /* =========================================
-   Map Option Chooser (3-tab switcher)
+   Map Theme Picker (3-button variant chooser)
+   ========================================= */
+
+.map-theme-picker {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.map-theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 20px;
+  background: transparent;
+  border: 2px solid rgba(13, 43, 94, 0.22);
+  border-radius: 40px;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-muted, #6c757d);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.map-theme-btn:hover {
+  border-color: var(--color-accent, #f5a623);
+  color: var(--color-primary, #0d2b5e);
+  background: rgba(245, 166, 35, 0.08);
+}
+
+.map-theme-btn--active {
+  background: var(--color-primary, #0d2b5e);
+  border-color: var(--color-primary, #0d2b5e);
+  color: #ffffff;
+  box-shadow: 0 2px 12px rgba(13, 43, 94, 0.3);
+}
+
+.map-theme-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ---- City labels on SVG map ---- */
+.svg-map-label {
+  user-select: none;
+  pointer-events: none;
+  paint-order: stroke;
+  stroke: rgba(0, 0, 0, 0.55);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.svg-map-label--hub {
+  stroke-width: 3;
+}
+
+/* Hide labels on very small screens to avoid clutter. */
+@media (max-width: 480px) {
+  .svg-map-label {
+    display: none;
+  }
+}
+
+/* ---- Map legend ---- */
+.svg-map-legend {
+  pointer-events: none;
+}
+
+/* =========================================
+   Map Option Chooser (legacy 3-tab switcher)
    ========================================= */
 
 .map-option-tabs {
