@@ -1,11 +1,11 @@
 /**
- * Pacific Star — Pure SVG Route Map
- * ====================================
+ * Pacific Star — Pure SVG Route Map  (v6 — directional flow routes)
+ * ======================================================================================
  * Self-contained inline SVG map — no external libraries, no tile requests.
  * Uses Mercator projection + bundled GeoJSON land polygons (map-geodata.js).
- * Animated dashed gold routes from Vladivostok hub; pulsing city markers.
+ * Three design themes: Navy (морская), Sapphire (сапфир), Amber (янтарь).
+ * Animated directional flow routes: Новороссийск → India → China → Russia → cities.
  *
- * Replaces: vendor/leaflet.js + CartoDB tile layer.
  * Requires: window.WORLD_GEOJSON (set by js/map-geodata.js)
  */
 (function () {
@@ -18,26 +18,37 @@
   var LON_MAX = 200;
   var LAT_MIN = 0;
   var LAT_MAX = 78;
+
   var I18N = {
     ru: {
-      ariaLabel: 'Карта логистических маршрутов Pacific Star',
-      loadingNotice: 'Карта маршрутов временно загружается. Если она не появилась, обновите страницу через несколько секунд.'
+      ariaLabel:    'Карта логистических маршрутов Pacific Star',
+      loadingNotice:'Карта маршрутов временно загружается. Если она не появилась, обновите страницу через несколько секунд.',
+      legendSea:    'Морские маршруты',
+      legendLand:   'Сухопутные маршруты'
     },
     en: {
-      ariaLabel: 'Pacific Star logistics routes map',
-      loadingNotice: 'The route map is loading. If it does not appear, refresh the page in a few seconds.'
+      ariaLabel:    'Pacific Star logistics routes map',
+      loadingNotice:'The route map is loading. If it does not appear, refresh the page in a few seconds.',
+      legendSea:    'Sea routes',
+      legendLand:   'Land routes'
     },
     zh: {
-      ariaLabel: 'Pacific Star 物流路线地图',
-      loadingNotice: '路线地图正在加载中。如果暂时未显示，请几秒后刷新页面。'
+      ariaLabel:    'Pacific Star 物流路线地图',
+      loadingNotice:'路线地图正在加载中。如果暂时未显示，请几秒后刷新页面。',
+      legendSea:    '海运航线',
+      legendLand:   '陆路航线'
     },
     ja: {
-      ariaLabel: 'Pacific Star 物流ルートマップ',
-      loadingNotice: 'ルートマップを読み込み中です。表示されない場合は数秒後にページを更新してください。'
+      ariaLabel:    'Pacific Star 物流ルートマップ',
+      loadingNotice:'ルートマップを読み込み中です。表示されない場合は数秒後にページを更新してください。',
+      legendSea:    '海上ルート',
+      legendLand:   '陸上ルート'
     },
     ko: {
-      ariaLabel: 'Pacific Star 물류 노선 지도',
-      loadingNotice: '노선 지도를 불러오는 중입니다. 바로 보이지 않으면 몇 초 후 페이지를 새로고침해 주세요.'
+      ariaLabel:    'Pacific Star 물류 노선 지도',
+      loadingNotice:'노선 지도를 불러오는 중입니다. 바로 보이지 않으면 몇 초 후 페이지를 새로고침해 주세요.',
+      legendSea:    '해상 노선',
+      legendLand:   '육상 노선'
     }
   };
 
@@ -52,6 +63,7 @@
     return dict[key] || I18N.ru[key];
   }
 
+  /* ---- Mercator projection ---- */
   function mercY(lat) {
     var r = lat * Math.PI / 180;
     return Math.log(Math.tan(Math.PI / 4 + r / 2));
@@ -61,7 +73,6 @@
   var MERC_BOT = mercY(LAT_MIN);
 
   function lonToX(lon) {
-    /* Normalise antimeridian-crossing coordinates (lon < 0 in east-Asia). */
     if (lon < 0) { lon += 360; }
     return (lon - LON_MIN) / (LON_MAX - LON_MIN) * SVG_W;
   }
@@ -70,23 +81,236 @@
     return (MERC_TOP - mercY(lat)) / (MERC_TOP - MERC_BOT) * SVG_H;
   }
 
-  /* ---- City data ---- */
+  /* ---- Design themes ---- */
+  var THEMES = {
+    navy: {
+      id: 'navy',
+      ocean: '#0d1b3e',
+      land:  '#17345f', landOpacity: '0.82',
+      russia: '#5d96c3', russiaOpacity: '0.92',
+      border: 'rgba(255,255,255,0.22)', borderRussia: '#9fd5ff',
+      routeSea:  '#d4af37', routeLand: 'rgba(220,235,255,0.60)',
+      dotHub: '#ffffff', dotCity: '#d4af37',
+      pulseHub: '#ffffff', pulseCity: '#d4af37',
+      label: '#d4eeff', labelHub: '#ffffff'
+    },
+    sapphire: {
+      id: 'sapphire',
+      ocean: '#050e1f',
+      land:  '#0c1e38', landOpacity: '0.85',
+      russia: '#1a4478', russiaOpacity: '0.92',
+      border: 'rgba(0,180,255,0.18)', borderRussia: '#4dc8ff',
+      routeSea:  '#00d4ff', routeLand: 'rgba(120,240,192,0.70)',
+      dotHub: '#ffffff', dotCity: '#00d4ff',
+      pulseHub: '#ffffff', pulseCity: '#00d4ff',
+      label: '#b8f0ff', labelHub: '#ffffff'
+    },
+    amber: {
+      id: 'amber',
+      ocean: '#090e1c',
+      land:  '#121f33', landOpacity: '0.88',
+      russia: '#1e3e6a', russiaOpacity: '0.92',
+      border: 'rgba(255,200,50,0.15)', borderRussia: '#ffd060',
+      routeSea:  '#ff9500', routeLand: 'rgba(255,215,0,0.65)',
+      dotHub: '#ff4500', dotCity: '#ff9500',
+      pulseHub: '#ff4500', pulseCity: '#ff9500',
+      label: '#fff0c0', labelHub: '#ffffff'
+    }
+  };
+
+  /* Active theme — default navy; can be changed by theme picker. */
+  var currentThemeId = 'navy';
+  try {
+    var saved = window.localStorage && window.localStorage.getItem('ps-map-theme');
+    if (saved && THEMES[saved]) { currentThemeId = saved; }
+  } catch (e) { /* ignore */ }
+
+  /* ---- City / point data ---- */
+  /* lx/ly: label offset from dot centre (px in SVG space).
+     Positive lx → label to the right (text-anchor: start);
+     Negative lx → label to the left  (text-anchor: end).
+     Negative ly → label above the dot; Positive ly → below. */
   var POINTS = [
-    { name: 'Владивосток', lat: 43.1155, lon: 131.8855, hub: true,
-      desc: 'Главный транспортный хаб' },
-    { name: 'Сахалин',     lat: 50.9,    lon: 142.7,    hub: false,
-      desc: 'Морские грузоперевозки' },
-    { name: 'Магадан',     lat: 59.5635, lon: 150.8135, hub: false,
-      desc: 'Северный завоз' },
-    { name: 'Камчатка',    lat: 53.0,    lon: 158.65,   hub: false,
-      desc: 'Морские перевозки' },
-    { name: 'Чукотка',     lat: 64.7,    lon: 177.5,    hub: false,
-      desc: 'Арктические поставки' },
-    { name: 'Москва',      lat: 55.7558, lon:  37.6173, hub: false,
-      desc: 'Федеральная логистика' }
+    /* ──── Hub ──── */
+    { name: 'Владивосток',      lat: 43.1155, lon: 131.8855, hub: true,  type: 'sea',
+      desc: 'Главный транспортный хаб',              lx:  14, ly: -13 },
+
+    /* ──── Russian Far East — sea / arctic ──── */
+    { name: 'Сахалин',          lat: 50.9,    lon: 142.7,    hub: false, type: 'sea',
+      desc: 'Морские грузоперевозки',                lx:  11, ly:  -8 },
+    { name: 'Магадан',          lat: 59.5635, lon: 150.8135, hub: false, type: 'sea',
+      desc: 'Северный завоз',                        lx:  11, ly:  -8 },
+    { name: 'Камчатка',         lat: 53.0,    lon: 158.65,   hub: false, type: 'sea',
+      desc: 'Морские перевозки',                     lx:  11, ly:  -8 },
+    { name: 'Анадырь',          lat: 64.7338, lon: 177.5215, hub: false, type: 'sea',
+      desc: 'Арктические поставки (Чукотка)',        lx: -11, ly:  -8 },
+    { name: 'Эгвекинот',        lat: 66.3213, lon: -179.176, hub: false, type: 'sea',
+      desc: 'Северный завоз (Чукотка)',              lx: -11, ly:   9 },
+    { name: 'Якутск',           lat: 62.0355, lon: 129.7320, hub: false, type: 'land',
+      desc: 'Северный завоз в Якутию',               lx:  11, ly:  -8 },
+
+    /* ──── Russian Far East — land / rail ──── */
+    { name: 'Хабаровск',        lat: 48.4827, lon: 135.0838, hub: false, type: 'land',
+      desc: 'Транссибирская магистраль',             lx: -11, ly: -10 },
+    { name: 'Благовещенск',     lat: 50.2824, lon: 127.5355, hub: false, type: 'land',
+      desc: 'Трансграничная логистика (Китай)',      lx: -11, ly: -10 },
+    { name: 'Забайкальск',      lat: 49.6527, lon: 117.3273, hub: false, type: 'land',
+      desc: 'Пограничный переход (Китай)',           lx:  11, ly:  13 },
+    { name: 'Чита',             lat: 52.0316, lon: 113.4994, hub: false, type: 'land',
+      desc: 'Транзит Восток–Запад',                  lx: -11, ly: -10 },
+    { name: 'Иркутск',          lat: 52.2978, lon: 104.2965, hub: false, type: 'land',
+      desc: 'Транзитный узел Сибири',                lx: -11, ly:  -8 },
+
+    /* ──── Russia — million-plus cities (land / rail) ──── */
+    { name: 'Красноярск',       lat: 56.0153, lon:  92.8932, hub: false, type: 'land',
+      desc: 'Крупный сибирский центр',               lx:  11, ly:  -8 },
+    { name: 'Новосибирск',      lat: 54.9885, lon:  82.9357, hub: false, type: 'land',
+      desc: 'Транзитный узел',                       lx:  11, ly:   9 },
+    { name: 'Омск',             lat: 54.9885, lon:  73.3686, hub: false, type: 'land',
+      desc: 'Западносибирский узел',                 lx: -11, ly:  -8 },
+    { name: 'Екатеринбург',     lat: 56.8389, lon:  60.6057, hub: false, type: 'land',
+      desc: 'Уральский хаб',                         lx:  11, ly:  -8 },
+    { name: 'Челябинск',        lat: 55.1644, lon:  61.4368, hub: false, type: 'land',
+      desc: 'Промышленный Урал',                     lx:  11, ly:  13 },
+    { name: 'Пермь',            lat: 58.0105, lon:  56.2502, hub: false, type: 'land',
+      desc: 'Уральский центр',                       lx: -11, ly:  -8 },
+    { name: 'Уфа',              lat: 54.7388, lon:  55.9721, hub: false, type: 'land',
+      desc: 'Поволжье–Урал',                         lx: -11, ly:  13 },
+    { name: 'Казань',           lat: 55.7879, lon:  49.1221, hub: false, type: 'land',
+      desc: 'Поволжье',                              lx: -11, ly:  -8 },
+    { name: 'Самара',           lat: 53.1959, lon:  50.1002, hub: false, type: 'land',
+      desc: 'Поволжский центр',                      lx:  11, ly:  13 },
+    { name: 'Нижний Новгород',  lat: 56.3269, lon:  44.0059, hub: false, type: 'land',
+      desc: 'Приволжский центр',                     lx: -11, ly: -10 },
+    { name: 'Волгоград',        lat: 48.7080, lon:  44.5133, hub: false, type: 'land',
+      desc: 'Нижнее Поволжье',                       lx:  11, ly:  13 },
+    { name: 'Воронеж',          lat: 51.6755, lon:  39.2088, hub: false, type: 'land',
+      desc: 'Центральное Черноземье',                lx:  11, ly:  13 },
+    { name: 'Ростов-на-Дону',   lat: 47.2357, lon:  39.7015, hub: false, type: 'land',
+      desc: 'Южный хаб России',                      lx: -11, ly:  13 },
+    { name: 'Москва',           lat: 55.7558, lon:  37.6173, hub: false, type: 'land',
+      desc: 'Федеральная логистика',                 lx:  11, ly:  -8 },
+    { name: 'Санкт-Петербург',  lat: 59.9343, lon:  30.3351, hub: false, type: 'land',
+      desc: 'Балтийский порт',                       lx:  11, ly: -10 },
+    { name: 'Мурманск',         lat: 68.9585, lon:  33.0827, hub: false, type: 'sea',
+      desc: 'Арктический порт России',               lx:  11, ly:  -8 },
+    { name: 'Новороссийск',     lat: 44.7233, lon:  37.7685, hub: false, type: 'sea',
+      desc: 'Черноморский порт России',              lx: -12, ly: -10 },
+
+    /* ──── China — Beijing + major sea ports ──── */
+    { name: 'Пекин',            lat: 39.9042, lon: 116.4074, hub: false, type: 'land',
+      desc: 'Логистический центр (Китай)',           lx: -12, ly: -10 },
+    { name: 'Тяньцзинь',        lat: 39.3434, lon: 117.3616, hub: false, type: 'sea',
+      desc: 'Морской порт (Китай)',                  lx:  11, ly:  13 },
+    { name: 'Далянь',           lat: 38.9140, lon: 121.6147, hub: false, type: 'sea',
+      desc: 'Портовый хаб (Китай)',                  lx:  11, ly:  -8 },
+    { name: 'Циндао',           lat: 36.0671, lon: 120.3826, hub: false, type: 'sea',
+      desc: 'Морской порт (Китай)',                  lx: -12, ly:  -8 },
+    { name: 'Шанхай',           lat: 31.2304, lon: 121.4737, hub: false, type: 'sea',
+      desc: 'Морские перевозки (Китай)',             lx: -12, ly:  -8 },
+    { name: 'Нинбо',            lat: 29.8683, lon: 121.5440, hub: false, type: 'sea',
+      desc: 'Морской порт (Китай)',                  lx:  11, ly:  13 },
+    { name: 'Сямэнь',           lat: 24.4798, lon: 118.0894, hub: false, type: 'sea',
+      desc: 'Морской порт (Китай)',                  lx: -12, ly:  -8 },
+    { name: 'Гуанчжоу',         lat: 23.1291, lon: 113.2644, hub: false, type: 'sea',
+      desc: 'Морской порт (Китай)',                  lx: -12, ly:  -8 },
+    { name: 'Шэньчжэнь',        lat: 22.5431, lon: 114.0579, hub: false, type: 'sea',
+      desc: 'Морской порт (Китай)',                  lx:  11, ly:  13 },
+
+    /* ──── India — major sea ports ──── */
+    { name: 'Калькутта',        lat: 22.5726, lon:  88.3639, hub: false, type: 'sea',
+      desc: 'Морской порт (Индия)',                  lx:  11, ly:  -8 },
+    { name: 'Мумбаи',           lat: 19.0760, lon:  72.8777, hub: false, type: 'sea',
+      desc: 'Крупнейший порт (Индия)',               lx: -12, ly:  -8 },
+    { name: 'Кочи',             lat:  9.9312, lon:  76.2673, hub: false, type: 'sea',
+      desc: 'Морской порт (Индия)',                  lx: -12, ly:  -8 },
+    { name: 'Ченнаи',           lat: 13.0827, lon:  80.2707, hub: false, type: 'sea',
+      desc: 'Морской порт (Индия)',                  lx:  11, ly:  -8 },
+
+    /* ──── International — Sea of Japan / Pacific ──── */
+    { name: 'Сеул',             lat: 37.5665, lon: 126.9780, hub: false, type: 'sea',
+      desc: 'Морские перевозки (Корея)',             lx: -12, ly:  17 },
+    { name: 'Токио',            lat: 35.6762, lon: 139.6503, hub: false, type: 'sea',
+      desc: 'Морские перевозки (Япония)',            lx:  11, ly:  17 }
   ];
 
-  /* ---- GeoJSON → SVG path helper ---- */
+  /* ---- Directional flow routes ----
+     Chains of waypoints showing cargo flow direction.
+     Waypoints are either a city name (matched against POINTS) or
+     an anonymous {lat, lon} object used as a path guide point only.     */
+  var FLOW_ROUTES = [
+    /* ── Route A: International sea corridor
+       Новороссийск → Black Sea exit → Mediterranean → Suez Canal → Gulf of Aden
+       → India ports → Strait of Malacca → China ports → Korea/Japan → Vladivostok */
+    {
+      id: 'intl-sea',
+      type: 'sea',
+      waypoints: [
+        'Новороссийск',
+        { lat: 36.5, lon: 28.5 },   /* Bosphorus / Aegean                */
+        { lat: 27.5, lon: 34.0 },   /* Suez Canal                        */
+        { lat: 12.5, lon: 44.5 },   /* Gulf of Aden / Djibouti           */
+        'Мумбаи',
+        'Кочи',
+        'Ченнаи',
+        'Калькутта',
+        { lat: 5.0,  lon: 100.0 },  /* Strait of Malacca                 */
+        'Гуанчжоу',
+        'Шэньчжэнь',
+        'Сямэнь',
+        'Нинбо',
+        'Шанхай',
+        'Циндао',
+        'Далянь',
+        'Тяньцзинь',
+        'Сеул',
+        'Токио',
+        'Владивосток'
+      ]
+    },
+
+    /* ── Route B: Trans-Siberian Railway
+       Владивосток → Хабаровск → Сибирь → Москва → Санкт-Петербург → Мурманск */
+    {
+      id: 'trans-sib',
+      type: 'land',
+      waypoints: [
+        'Владивосток', 'Хабаровск', 'Чита', 'Иркутск',
+        'Красноярск', 'Новосибирск', 'Омск',
+        'Екатеринбург', 'Пермь', 'Москва',
+        'Санкт-Петербург', 'Мурманск'
+      ]
+    },
+
+    /* ── Route C: Southern Russia corridor → closes loop back to Новороссийск */
+    {
+      id: 'south-ru',
+      type: 'land',
+      waypoints: [
+        'Владивосток', 'Хабаровск', 'Благовещенск', 'Чита',
+        'Иркутск', 'Новосибирск', 'Уфа', 'Казань',
+        'Нижний Новгород', 'Москва', 'Воронеж',
+        'Волгоград', 'Ростов-на-Дону', 'Новороссийск'
+      ]
+    },
+
+    /* ── Route D: Northern land branch — Хабаровск → Якутск → Магадан */
+    {
+      id: 'north-yakutsk',
+      type: 'land',
+      waypoints: [ 'Хабаровск', 'Якутск', 'Магадан' ]
+    }
+  ];
+
+  /* Animation delay per route (negative = start already mid-cycle) */
+  var FLOW_DELAYS = {
+    'intl-sea':       '0s',
+    'trans-sib':      '-1.8s',
+    'south-ru':       '-3.6s',
+    'north-yakutsk':  '-0.9s'
+  };
+
+  /* ---- GeoJSON → SVG path helpers ---- */
   var LON_PAD = 8;
   var LAT_PAD = 5;
 
@@ -96,13 +320,12 @@
     for (var i = 0; i < ring.length; i++) {
       var lon = ring[i][0];
       var lat = ring[i][1];
-      /* Normalise antimeridian longitudes before viewport test. */
       var normLon = lon < 0 ? lon + 360 : lon;
       if (
         lat < LAT_MIN - LAT_PAD || lat > LAT_MAX + LAT_PAD ||
         normLon < LON_MIN - LON_PAD || normLon > LON_MAX + LON_PAD
       ) {
-        first = true; /* lift pen when we skip a point */
+        first = true;
         continue;
       }
       var x = lonToX(lon).toFixed(1);
@@ -162,41 +385,105 @@
       '</div>';
   }
 
-  function loadGeoJson(onSuccess, onError) {
-    if (window.WORLD_GEOJSON && window.WORLD_GEOJSON.features) {
-      onSuccess(window.WORLD_GEOJSON);
-      return;
+  /* ---- Flow route path helpers ---- */
+  function findPointByName(name) {
+    for (var i = 0; i < POINTS.length; i++) {
+      if (POINTS[i].name === name) { return POINTS[i]; }
     }
+    return null;
+  }
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'data/world-countries.geo.json', true);
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState !== 4) { return; }
-      if (xhr.status >= 200 && xhr.status < 300) {
-        try {
-          var parsed = JSON.parse(xhr.responseText);
-          window.WORLD_GEOJSON = parsed;
-          onSuccess(parsed);
-        } catch (err) {
-          onError(err);
-        }
-        return;
+  function getWaypointXY(wp) {
+    if (typeof wp === 'string') {
+      var pt = findPointByName(wp);
+      return pt ? { x: lonToX(pt.lon), y: latToY(pt.lat) } : null;
+    }
+    /* Anonymous {lat, lon} guide point — just coordinates, no marker */
+    return { x: lonToX(wp.lon), y: latToY(wp.lat) };
+  }
+
+  function buildFlowPath(route) {
+    var pts = [];
+    route.waypoints.forEach(function (wp) {
+      var xy = getWaypointXY(wp);
+      if (xy) { pts.push(xy); }
+    });
+    if (pts.length < 2) { return ''; }
+
+    var d = 'M' + pts[0].x.toFixed(1) + ' ' + pts[0].y.toFixed(1);
+    for (var i = 1; i < pts.length; i++) {
+      var x0 = pts[i - 1].x, y0 = pts[i - 1].y;
+      var x1 = pts[i].x,     y1 = pts[i].y;
+      if (route.type === 'land') {
+        /* Straight segments for land / rail routes */
+        d += ' L' + x1.toFixed(1) + ' ' + y1.toFixed(1);
+      } else {
+        /* Quadratic bezier: control point arcs slightly above the chord midpoint */
+        var cpx = (x0 + x1) / 2;
+        var cpy = Math.min(y0, y1) - Math.abs(x1 - x0) * 0.10;
+        d += ' Q' + cpx.toFixed(1) + ' ' + cpy.toFixed(1) +
+             ' ' + x1.toFixed(1)   + ' ' + y1.toFixed(1);
       }
-      onError(new Error('GeoJSON request failed with status ' + xhr.status));
-    };
-    xhr.onerror = function () {
-      onError(new Error('GeoJSON request failed'));
-    };
-    xhr.send();
+    }
+    return d;
+  }
+
+  /* ---- Build the legend (bottom-left corner of SVG) ---- */
+  function buildLegend(svg, theme) {
+    var items = [
+      { color: theme.routeSea,  dash: '16 10', label: getText('legendSea') },
+      { color: theme.routeLand, dash: '8 6',   label: getText('legendLand') }
+    ];
+    var lx = 20;
+    var ly = SVG_H - 60;
+    var LW = 186;
+    var LH = items.length * 22 + 14;
+
+    var legendG = el('g', { 'class': 'svg-map-legend', transform: 'translate(' + lx + ',' + ly + ')' });
+
+    /* Background. */
+    legendG.appendChild(el('rect', {
+      x: -4, y: -14, width: LW, height: LH,
+      rx: '6', ry: '6',
+      fill: 'rgba(0,0,0,0.42)',
+      stroke: 'rgba(255,255,255,0.10)',
+      'stroke-width': '0.5'
+    }));
+
+    items.forEach(function (item, i) {
+      var iy = i * 22;
+      /* Sample dash line. */
+      legendG.appendChild(el('line', {
+        x1: '0', y1: iy.toString(), x2: '26', y2: iy.toString(),
+        stroke: item.color,
+        'stroke-width': '1.8',
+        'stroke-dasharray': item.dash,
+        'stroke-opacity': '0.9'
+      }));
+      /* Label text. */
+      var txt = el('text', {
+        x: '32', y: (iy + 4).toString(),
+        fill: 'rgba(255,255,255,0.78)',
+        'font-size': '9.5',
+        'font-family': 'Inter, system-ui, sans-serif',
+        'font-weight': '400'
+      });
+      txt.textContent = item.label;
+      legendG.appendChild(txt);
+    });
+
+    svg.appendChild(legendG);
   }
 
   /* ---- Build and insert SVG map ---- */
-  function buildSVGMap(container, geoJson) {
+  function buildSVGMap(container, geoJson, themeId) {
     if (!container || !geoJson) { return; }
     prepareContainer(container);
+    var theme = THEMES[themeId] || THEMES.navy;
+    /* Update background colour immediately so there is no flash. */
+    container.style.backgroundColor = theme.ocean;
 
     try {
-      /* Root SVG element. */
       var svg = el('svg', {
         viewBox: '0 0 ' + SVG_W + ' ' + SVG_H,
         preserveAspectRatio: 'xMidYMid meet',
@@ -208,7 +495,7 @@
       /* Ocean background. */
       svg.appendChild(el('rect', {
         width: SVG_W, height: SVG_H,
-        fill: '#0d1b3e'
+        fill: theme.ocean
       }));
 
       /* ---- Land layer ---- */
@@ -219,46 +506,43 @@
         var d        = featureToD(feature);
         if (!d) { return; }
         landG.appendChild(el('path', {
-          d:     d,
-          fill:           isRussia ? '#5d96c3' : '#17345f',
-          'fill-opacity': isRussia ? '0.92'    : '0.82',
-          stroke:         isRussia ? '#9fd5ff'  : 'rgba(255,255,255,0.22)',
-          'stroke-width': isRussia ? '0.9'      : '0.6',
-          'stroke-linejoin': 'round',
+          d: d,
+          style: 'fill:' + (isRussia ? theme.russia : theme.land) +
+                 ';fill-opacity:' + (isRussia ? theme.russiaOpacity : theme.landOpacity) +
+                 ';stroke:' + (isRussia ? theme.borderRussia : theme.border) +
+                 ';stroke-width:' + (isRussia ? '0.9' : '0.6') +
+                 ';stroke-linejoin:round',
           'class': 'svg-map-country' + (isRussia ? ' svg-map-country--russia' : '')
         }));
       });
       svg.appendChild(landG);
 
-      /* ---- Route lines (hub → each city) ---- */
-      var hub = null;
-      POINTS.forEach(function (p) { if (p.hub) { hub = p; } });
-      var hx = lonToX(hub.lon);
-      var hy = latToY(hub.lat);
-
+      /* ---- Flow routes (directional: Новороссийск → India → China → Russia) ---- */
       var routesG = el('g', { 'class': 'svg-map-routes' });
-      POINTS.forEach(function (pt) {
-        if (pt.hub) { return; }
-        var tx = lonToX(pt.lon);
-        var ty = latToY(pt.lat);
-        /* Use a quadratic bezier so routes arc slightly northward. */
-        var cpx = (hx + tx) / 2;
-        var cpy = Math.min(hy, ty) - Math.abs(tx - hx) * 0.12;
-        routesG.appendChild(el('path', {
-          d:     'M' + hx.toFixed(1) + ' ' + hy.toFixed(1) +
-                 ' Q' + cpx.toFixed(1) + ' ' + cpy.toFixed(1) +
-                 ' ' + tx.toFixed(1) + ' ' + ty.toFixed(1),
-          fill:           'none',
-          stroke:         '#d4af37',
-          'stroke-width': '1.8',
-          'stroke-opacity': '0.78',
-          'stroke-dasharray': '8 8',
-          'class': 'svg-map-route'
-        }));
+
+      FLOW_ROUTES.forEach(function (route) {
+        var d = buildFlowPath(route);
+        if (!d) { return; }
+        var routeColor = (route.type === 'land') ? theme.routeLand : theme.routeSea;
+        var strokeW    = (route.type === 'land') ? '1.5' : '2.2';
+        var opacity    = (route.type === 'land') ? '0.75' : '0.90';
+        var pathEl = el('path', {
+          d: d,
+          style: 'fill:none;stroke:' + routeColor +
+                 ';stroke-width:' + strokeW +
+                 ';stroke-opacity:' + opacity +
+                 ';stroke-linecap:round;stroke-linejoin:round',
+          'class': 'svg-map-route svg-map-route--' + route.type
+        });
+        if (FLOW_DELAYS[route.id]) {
+          pathEl.style.animationDelay = FLOW_DELAYS[route.id];
+        }
+        routesG.appendChild(pathEl);
       });
+
       svg.appendChild(routesG);
 
-      /* ---- City markers ---- */
+      /* ---- City markers + labels ---- */
       var markersG = el('g', { 'class': 'svg-map-markers' });
       POINTS.forEach(function (pt) {
         var cx = lonToX(pt.lon).toFixed(1);
@@ -271,32 +555,54 @@
         });
         g.dataset.name = pt.name;
         g.dataset.desc = pt.desc;
+
         /* Pulse ring. */
         g.appendChild(el('circle', {
           cx: cx, cy: cy,
           r:  pt.hub ? '10' : '7',
-          fill:           'none',
-          stroke:         pt.hub ? '#ffffff' : '#d4af37',
-          'stroke-width': '1.5',
+          style: 'fill:none;stroke:' + (pt.hub ? theme.pulseHub : theme.pulseCity) + ';stroke-width:1.5',
           'class': 'svg-map-pulse'
         }));
         /* Solid dot. */
         g.appendChild(el('circle', {
           cx: cx, cy: cy,
           r:  pt.hub ? '5' : '3.5',
-          fill: pt.hub ? '#ffffff' : '#d4af37',
+          style: 'fill:' + (pt.hub ? theme.dotHub : theme.dotCity),
           'class': 'svg-map-dot'
         }));
+
+        /* City name label. */
+        var lx = typeof pt.lx === 'number' ? pt.lx : 11;
+        var ly = typeof pt.ly === 'number' ? pt.ly : -8;
+        var labelEl = el('text', {
+          x:             cx,
+          y:             cy,
+          dx:            lx.toString(),
+          dy:            ly.toString(),
+          style:         'fill:' + (pt.hub ? theme.labelHub : theme.label) +
+                         ';font-size:' + (pt.hub ? '11' : '9.5') + 'px' +
+                         ';font-weight:' + (pt.hub ? '700' : '500') +
+                         ';font-family:Inter,system-ui,sans-serif',
+          'text-anchor': lx < 0 ? 'end' : 'start',
+          'class':       'svg-map-label' + (pt.hub ? ' svg-map-label--hub' : ''),
+          'pointer-events': 'none'
+        });
+        labelEl.textContent = pt.name;
+        g.appendChild(labelEl);
+
         markersG.appendChild(g);
       });
       svg.appendChild(markersG);
+
+      /* ---- Legend ---- */
+      buildLegend(svg, theme);
 
       /* ---- Insert into DOM ---- */
       container.innerHTML = '';
       container.appendChild(svg);
 
       /* ---- Tooltip ---- */
-      var TOOLTIP_WIDTH = 180;
+      var TOOLTIP_WIDTH = 200;
       var tooltip = document.createElement('div');
       tooltip.className = 'svg-map-tooltip';
       container.appendChild(tooltip);
@@ -308,12 +614,11 @@
       }
 
       function showTooltip(markerEl, clientX, clientY) {
-        var rect  = container.getBoundingClientRect();
+        var rect = container.getBoundingClientRect();
         tooltip.innerHTML =
           '<strong class="svg-map-tt-title">' + markerEl.dataset.name + '</strong>' +
           '<span class="svg-map-tt-desc">'    + markerEl.dataset.desc  + '</span>';
         tooltip.style.display = 'flex';
-        /* Prevent tooltip from leaving the right edge. */
         var tx = clientX - rect.left + 14;
         if (tx + TOOLTIP_WIDTH > rect.width) { tx = clientX - rect.left - TOOLTIP_WIDTH - 4; }
         tooltip.style.left = tx + 'px';
@@ -345,16 +650,15 @@
         g.addEventListener('mousemove',  function (e) { scheduleTooltip(g, e.clientX, e.clientY); });
         g.addEventListener('mouseleave', hideTooltip);
         g.addEventListener('focus', function () {
-          var dot          = g.querySelector('.svg-map-dot');
-          var svgRect      = svg.getBoundingClientRect();
-          var containerRect = container.getBoundingClientRect();
-          var scale = svgRect.width / SVG_W;
-          var cxPx  = parseFloat(dot.getAttribute('cx')) * scale + svgRect.left;
-          var cyPx  = parseFloat(dot.getAttribute('cy')) * scale + svgRect.top;
-          showTooltip(g, cxPx, cyPx + containerRect.top - svgRect.top);
+          var dot      = g.querySelector('.svg-map-dot');
+          var svgRect  = svg.getBoundingClientRect();
+          var cRect    = container.getBoundingClientRect();
+          var scale    = svgRect.width / SVG_W;
+          var cxPx     = parseFloat(dot.getAttribute('cx')) * scale + svgRect.left;
+          var cyPx     = parseFloat(dot.getAttribute('cy')) * scale + svgRect.top;
+          showTooltip(g, cxPx, cyPx + cRect.top - svgRect.top);
         });
         g.addEventListener('blur', hideTooltip);
-        /* Touch: toggle on tap. */
         g.addEventListener('click', function (e) {
           if (tooltip.style.display === 'flex') {
             hideTooltip();
@@ -370,17 +674,86 @@
     }
   }
 
+  /* ---- GeoJSON loader ---- */
+  function loadGeoJson(onSuccess, onError) {
+    if (window.WORLD_GEOJSON && window.WORLD_GEOJSON.features) {
+      onSuccess(window.WORLD_GEOJSON);
+      return;
+    }
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'data/world-countries.geo.json', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState !== 4) { return; }
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          var parsed = JSON.parse(xhr.responseText);
+          window.WORLD_GEOJSON = parsed;
+          onSuccess(parsed);
+        } catch (err) {
+          onError(err);
+        }
+        return;
+      }
+      onError(new Error('GeoJSON request failed with status ' + xhr.status));
+    };
+    xhr.onerror = function () { onError(new Error('GeoJSON request failed')); };
+    xhr.send();
+  }
+
+  /* ---- Theme picker wiring ---- */
+  function initThemePicker() {
+    var picker = document.getElementById('map-theme-picker');
+    if (!picker) { return; }
+
+    /* Set initial active state on the saved/default theme button. */
+    var btns = picker.querySelectorAll('[data-theme]');
+    btns.forEach(function (btn) {
+      if (btn.getAttribute('data-theme') === currentThemeId) {
+        btn.classList.add('map-theme-btn--active');
+      } else {
+        btn.classList.remove('map-theme-btn--active');
+      }
+    });
+
+    picker.addEventListener('click', function (e) {
+      var btn = e.target;
+      /* Traverse up in case the click lands on an inner element. */
+      while (btn && btn !== picker && !btn.hasAttribute('data-theme')) {
+        btn = btn.parentNode;
+      }
+      if (!btn || !btn.hasAttribute('data-theme')) { return; }
+      var themeId = btn.getAttribute('data-theme');
+      if (!THEMES[themeId]) { return; }
+
+      currentThemeId = themeId;
+      try { window.localStorage && window.localStorage.setItem('ps-map-theme', themeId); } catch (e) { /* ignore */ }
+
+      /* Update button states. */
+      btns.forEach(function (b) { b.classList.remove('map-theme-btn--active'); });
+      btn.classList.add('map-theme-btn--active');
+
+      /* Re-render map with new theme. */
+      var container = getMapContainer();
+      if (container && window.WORLD_GEOJSON) {
+        buildSVGMap(container, window.WORLD_GEOJSON, currentThemeId);
+      }
+    });
+  }
+
+  /* ---- Entry point ---- */
   function initSVGMap() {
     var container = getMapContainer();
     if (!container) {
-      console.warn('[map-svg.js] #svg-map-container / #leaflet-map container not found — map skipped.');
+      console.warn('[map-svg.js] #svg-map-container not found — map skipped.');
       return;
     }
 
     prepareContainer(container);
+    initThemePicker();
+
     loadGeoJson(
       function (geoJson) {
-        buildSVGMap(container, geoJson);
+        buildSVGMap(container, geoJson, currentThemeId);
       },
       function (err) {
         console.warn('[map-svg.js] GeoJSON load failed: ' + (err && err.message ? err.message : err));

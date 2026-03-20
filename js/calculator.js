@@ -8,6 +8,9 @@
 
   var STORAGE_KEY = 'ps-calculator-session';
 
+  /* ── Cached DOM element references (set in init after buildOptions) ── */
+  var _calcFrom, _calcTo, _calcTransport, _calcCargo, _calcWeight, _calcVolume, _calcResult;
+
   /* ── Distance table (km) between major hubs ──────────────────────── */
   var DIST = {
     'Москва-Владивосток':          9240,
@@ -73,12 +76,12 @@
   function saveSession() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        from: getFieldValue('calcFrom'),
-        to: getFieldValue('calcTo'),
-        transport: getFieldValue('calcTransport', 'auto'),
-        cargo: getFieldValue('calcCargo', 'general'),
-        weight: getFieldValue('calcWeight'),
-        volume: getFieldValue('calcVolume')
+        from:      (_calcFrom      || {}).value || '',
+        to:        (_calcTo        || {}).value || '',
+        transport: (_calcTransport || {}).value || 'auto',
+        cargo:     (_calcCargo     || {}).value || 'general',
+        weight:    (_calcWeight    || {}).value || '',
+        volume:    (_calcVolume    || {}).value || ''
       }));
     } catch (err) {
       /* Ignore storage failures */
@@ -189,14 +192,14 @@
 
   /* ── Estimate ── */
   function estimate() {
-    var from      = (document.getElementById('calcFrom')      || {}).value  || '';
-    var to        = (document.getElementById('calcTo')        || {}).value  || '';
-    var transKey  = (document.getElementById('calcTransport') || {}).value  || 'auto';
-    var cargoKey  = (document.getElementById('calcCargo')     || {}).value  || 'general';
-    var weightVal = parseFloat((document.getElementById('calcWeight') || {}).value) || 0;
-    var volVal    = parseFloat((document.getElementById('calcVolume') || {}).value) || 0;
+    var from      = (_calcFrom      || {}).value || '';
+    var to        = (_calcTo        || {}).value || '';
+    var transKey  = (_calcTransport || {}).value || 'auto';
+    var cargoKey  = (_calcCargo     || {}).value || 'general';
+    var weightVal = parseFloat((_calcWeight || {}).value) || 0;
+    var volVal    = parseFloat((_calcVolume || {}).value) || 0;
 
-    var resultBox = document.getElementById('calcResult');
+    var resultBox = _calcResult;
     if (!resultBox) return;
 
     if (!from || !to || from === to) {
@@ -288,6 +291,16 @@
     var form = document.getElementById('calcForm');
     if (!form) return;
     if (!buildOptions()) return;
+
+    /* Cache element references once after options are built */
+    _calcFrom      = document.getElementById('calcFrom');
+    _calcTo        = document.getElementById('calcTo');
+    _calcTransport = document.getElementById('calcTransport');
+    _calcCargo     = document.getElementById('calcCargo');
+    _calcWeight    = document.getElementById('calcWeight');
+    _calcVolume    = document.getElementById('calcVolume');
+    _calcResult    = document.getElementById('calcResult');
+
     var restored = restoreSession();
 
     form.addEventListener('submit', function (e) {
@@ -297,35 +310,31 @@
     });
 
     /* Live update on input change */
-    ['calcFrom','calcTo','calcTransport','calcCargo'].forEach(function (id) {
-      var el = document.getElementById(id);
+    [_calcFrom, _calcTo, _calcTransport, _calcCargo].forEach(function (el) {
       if (el) el.addEventListener('change', function () {
         saveSession();
-        var res = document.getElementById('calcResult');
-        if (res && res.style.display !== 'none') estimate();
+        if (_calcResult && _calcResult.style.display !== 'none') estimate();
       });
     });
 
-    ['calcWeight','calcVolume'].forEach(function (id) {
-      var el = document.getElementById(id);
+    [_calcWeight, _calcVolume].forEach(function (el) {
       if (el) el.addEventListener('input', function () {
         saveSession();
-        var res = document.getElementById('calcResult');
-        if (res && res.style.display !== 'none') estimate();
+        if (_calcResult && _calcResult.style.display !== 'none') estimate();
       });
     });
 
-    var fromValue = getFieldValue('calcFrom');
-    var toValue = getFieldValue('calcTo');
+    var fromValue = _calcFrom ? _calcFrom.value : '';
+    var toValue   = _calcTo   ? _calcTo.value   : '';
 
     if (restored &&
         fromValue &&
         toValue &&
-        hasOptionValue(document.getElementById('calcFrom'), fromValue) &&
-        hasOptionValue(document.getElementById('calcTo'), toValue) &&
+        hasOptionValue(_calcFrom, fromValue) &&
+        hasOptionValue(_calcTo, toValue) &&
         fromValue !== toValue &&
-        ((parseFloat(getFieldValue('calcWeight')) || 0) > 0 ||
-         (parseFloat(getFieldValue('calcVolume')) || 0) > 0)) {
+        ((parseFloat((_calcWeight || {}).value) || 0) > 0 ||
+         (parseFloat((_calcVolume || {}).value) || 0) > 0)) {
       estimate();
     }
   }

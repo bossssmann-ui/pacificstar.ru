@@ -25,6 +25,7 @@
   var selectedCode = 'USD';
   var chartCache   = {};   /* code → [{date, value}] */
   var cardCache    = {};   /* code → { card, rateVal, changeEl } */
+  var _convFrom, _convTo, _convAmount, _convResult;  /* cached converter el refs */
 
   /* ── Fetch rates from CBR ── */
   function fetchRates(onDone) {
@@ -121,10 +122,10 @@
 
   /* ── Converter ── */
   function convert() {
-    var fromEl   = document.getElementById('convFrom');
-    var toEl     = document.getElementById('convTo');
-    var amountEl = document.getElementById('convAmount');
-    var resultEl = document.getElementById('convResult');
+    var fromEl   = _convFrom;
+    var toEl     = _convTo;
+    var amountEl = _convAmount;
+    var resultEl = _convResult;
     if (!fromEl || !toEl || !amountEl || !resultEl) return;
 
     var amount = parseFloat(amountEl.value);
@@ -415,11 +416,12 @@
 
   function selectCard(code) {
     selectedCode = code;
-    var cards = document.querySelectorAll('.currency-card');
-    for (var i = 0; i < cards.length; i++) {
-      cards[i].classList.remove('active');
-    }
-    var active = document.getElementById('rate-' + code);
+    /* Use cached card references instead of re-querying the DOM */
+    CURRENCIES.forEach(function (c) {
+      var cached = cardCache[c.code];
+      if (cached && cached.card) cached.card.classList.remove('active');
+    });
+    var active = cardCache[code] && cardCache[code].card;
     if (active) active.classList.add('active');
 
     showChartLoading(code);
@@ -533,21 +535,22 @@
     var retryBtn = document.getElementById('currencyRetry');
     if (retryBtn) retryBtn.addEventListener('click', function () { fetchRates(function () { updateCards(); }); });
 
-    /* Converter events */
-    ['convAmount', 'convFrom', 'convTo'].forEach(function (id) {
-      var el = document.getElementById(id);
+    /* Converter events — cache refs once after innerHTML is set */
+    _convFrom   = document.getElementById('convFrom');
+    _convTo     = document.getElementById('convTo');
+    _convAmount = document.getElementById('convAmount');
+    _convResult = document.getElementById('convResult');
+    [_convAmount, _convFrom, _convTo].forEach(function (el) {
       if (el) el.addEventListener('input', convert);
     });
 
     var swapBtn = document.getElementById('convSwap');
     if (swapBtn) {
       swapBtn.addEventListener('click', function () {
-        var from = document.getElementById('convFrom');
-        var to   = document.getElementById('convTo');
-        if (from && to) {
-          var tmp  = from.value;
-          from.value = to.value;
-          to.value   = tmp;
+        if (_convFrom && _convTo) {
+          var tmp  = _convFrom.value;
+          _convFrom.value = _convTo.value;
+          _convTo.value   = tmp;
           convert();
         }
       });

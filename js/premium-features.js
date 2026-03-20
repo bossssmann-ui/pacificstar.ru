@@ -81,32 +81,33 @@
     var mouseX = -100, mouseY = -100;  /* start off-screen */
     var ringX  = -100, ringY  = -100;
     var LERP   = 0.15; /* ring interpolation factor (0=no movement, 1=instant) */
+    var rafPending = false; /* true while an animateRing frame is scheduled */
 
-    /* Move dot instantly — update CSS variable so transform handles positioning
-       (avoids left/top layout triggers; only compositor-layer update needed).
-       Batched to one rAF per frame so rapid mouse events don't queue extra work. */
-    var dotTicking = false;
+    /* Ring follows with lerp — self-terminates when settled, restarts on move */
+    function animateRing() {
+      rafPending = false;
+      ringX += (mouseX - ringX) * LERP;
+      ringY += (mouseY - ringY) * LERP;
+      ring.style.left = Math.round(ringX) + 'px';
+      ring.style.top  = Math.round(ringY) + 'px';
+      /* Keep looping only while the ring hasn't yet reached the cursor */
+      if (Math.abs(mouseX - ringX) > 0.1 || Math.abs(mouseY - ringY) > 0.1) {
+        rafPending = true;
+        requestAnimationFrame(animateRing);
+      }
+    }
+
+    /* Move dot instantly; kick off ring animation if not already running */
     document.addEventListener('mousemove', function (e) {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      if (!dotTicking) {
-        dotTicking = true;
-        requestAnimationFrame(function () {
-          dotTicking = false;
-          dot.style.setProperty('--cx', mouseX + 'px');
-          dot.style.setProperty('--cy', mouseY + 'px');
-        });
+      dot.style.left = mouseX + 'px';
+      dot.style.top  = mouseY + 'px';
+      if (!rafPending) {
+        rafPending = true;
+        requestAnimationFrame(animateRing);
       }
     }, { passive: true });
-
-    /* Ring follows with lerp (smooth lag) */
-    (function animateRing() {
-      ringX += (mouseX - ringX) * LERP;
-      ringY += (mouseY - ringY) * LERP;
-      ring.style.setProperty('--rx', ringX + 'px');
-      ring.style.setProperty('--ry', ringY + 'px');
-      requestAnimationFrame(animateRing);
-    }());
 
     /* Hover effect on interactive elements */
     var hoverTargets = 'a, button, [role="button"], label[for], input[type="submit"], input[type="button"], select, .cursor-pointer';
