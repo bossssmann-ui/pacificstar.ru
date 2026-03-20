@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Pacific Star — White / Reversed Logo
+  Use: vehicle wraps, dark backgrounds, embossed print, screen printing
+  Background is transparent — place on dark navy, black or coloured surfaces.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 120"
+     role="img" aria-label="Pacific Star — Транспорт и Логистика">
+  <title>Pacific Star — Белая версия логотипа</title>
+  <desc>Реверсивный белый логотип компании Pacific Star для тёмных поверхностей</desc>
+
+  <!-- ═══════════════════════════════════ -->
+  <!--  ICON MARK — transparent bg        -->
+  <!-- ═══════════════════════════════════ -->
+
+  <!-- Outer ring (white, low opacity) -->
+  <circle cx="60" cy="60" r="55" fill="none" stroke="white" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Inner ring (compass bezel) -->
+  <circle cx="60" cy="60" r="44" fill="none" stroke="white" stroke-width="0.75" opacity="0.2"/>
+
+  <!-- 4-pointed navigator star — solid white -->
+  <path d="M60,9 L71,49 L111,60 L71,71 L60,111 L49,71 L9,60 L49,49 Z"
+        fill="white"/>
+
+  <!-- Centre disc — subtle dark dot for depth -->
+  <circle cx="60" cy="60" r="7.5" fill="white" opacity="0.9"/>
+  <circle cx="60" cy="60" r="3.5" fill="rgba(0,0,0,0.18)"/>
+
+  <!-- ═══════════════════════════════════ -->
+  <!--  WORDMARK — all white              -->
+  <!-- ═══════════════════════════════════ -->
+
+  <text y="70"
+        font-family="Inter, 'Helvetica Neue', Arial, sans-serif"
+        font-weight="800" font-size="40">
+    <tspan x="138" fill="white" letter-spacing="-1">PACIFIC</tspan>
+    <tspan fill="rgba(255,255,255,0.75)" letter-spacing="-1" dx="11">STAR</tspan>
+  </text>
+
+  <!-- Divider line -->
+  <line x1="138" y1="80" x2="448" y2="80"
+        stroke="white" stroke-width="0.75" opacity="0.25"/>
+
+  <!-- Tagline -->
+  <text x="140" y="97"
+        font-family="Inter, 'Helvetica Neue', Arial, sans-serif"
+        font-weight="500" font-size="11"
+        fill="rgba(255,255,255,0.6)" letter-spacing="4">ЛОГИСТИКА</text>
+
+  <!-- Year -->
+  <text x="290" y="97"
+        font-family="Inter, 'Helvetica Neue', Arial, sans-serif"
+        font-weight="400" font-size="11"
+        fill="rgba(255,255,255,0.35)" letter-spacing="1">· С 2012</text>
+</svg>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Pacific Star — Full Colour Horizontal Logo
+  Variants: logo.svg (colour) · logo-white.svg (reversed) · logo-icon.svg (mark only)
+  Use: website header, email signatures, documents, print
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 120"
+     role="img" aria-label="Pacific Star — Транспорт и Логистика">
+  <title>Pacific Star — Транспорт и Логистика</title>
+  <desc>Логотип транспортно-логистической компании Pacific Star</desc>
+
+  <defs>
+    <radialGradient id="lg-icon-bg" cx="38%" cy="35%" r="70%">
+      <stop offset="0%" stop-color="#1d54ab"/>
+      <stop offset="100%" stop-color="#091e4f"/>
+    </radialGradient>
+    <linearGradient id="lg-star" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#ffe08a"/>
+      <stop offset="50%" stop-color="#f5a623"/>
+      <stop offset="100%" stop-color="#cc8014"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ═══════════════════════════ -->
+  <!--  ICON MARK  (120 × 120)    -->
+  <!-- ═══════════════════════════ -->
+
+  <circle cx="60" cy="60" r="57" fill="url(#lg-icon-bg)"/>
+  <circle cx="60" cy="60" r="55" fill="none" stroke="#f5a623" stroke-width="1.5" opacity="0.35"/>
+  <circle cx="60" cy="60" r="44" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+
+  <!-- 4-pointed navigator star -->
+  <path d="M60,9 L71,49 L111,60 L71,71 L60,111 L49,71 L9,60 L49,49 Z"
+        fill="url(#lg-star)"/>
+
+  <!-- Centre disc -->
+  <circle cx="60" cy="60" r="7.5" fill="white" opacity="0.92"/>
+  <circle cx="60" cy="60" r="3.5" fill="#f5a623"/>
+
+  <!-- ═══════════════════════════ -->
+  <!--  WORDMARK  (x from 138)    -->
+  <!-- ═══════════════════════════ -->
+
+  <!--
+    Two-colour wordmark on one baseline.
+    "PACIFIC" in navy · "STAR" in gold · dx="11" word-space gap.
+  -->
+  <text y="70"
+        font-family="Inter, 'Helvetica Neue', Arial, sans-serif"
+        font-weight="800" font-size="40">
+    <tspan x="138" fill="#0d2b5e" letter-spacing="-1">PACIFIC</tspan>
+    <tspan fill="#f5a623" letter-spacing="-1" dx="11">STAR</tspan>
+  </text>
+
+  <!-- Thin divider line -->
+  <line x1="138" y1="80" x2="448" y2="80"
+        stroke="#0d2b5e" stroke-width="0.75" opacity="0.18"/>
+
+  <!-- Tagline -->
+  <text x="140" y="97"
+        font-family="Inter, 'Helvetica Neue', Arial, sans-serif"
+        font-weight="500" font-size="11"
+        fill="#7a8899" letter-spacing="4">ЛОГИСТИКА</text>
+
+  <!-- Year / founding marker -->
+  <text x="290" y="97"
+        font-family="Inter, 'Helvetica Neue', Arial, sans-serif"
+        font-weight="400" font-size="11"
+        fill="#b0bbc8" letter-spacing="1">· С 2012</text>
+</svg>
