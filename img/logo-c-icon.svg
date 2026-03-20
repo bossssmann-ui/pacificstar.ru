@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Pacific Star — ВАРИАНТ C: КРИСТАЛЛ (The Arctic Crystal)
+  Concept: A six-fold snowflake-compass hybrid — each arm is a precision crystal
+  spike with branching side-arms, like ice forming on a navigator's chart in the
+  Arctic Ocean.  Speaks directly to the company's Northern Delivery (Северный
+  завоз) and Arctic-route specialisation.  Deep midnight-navy background, white
+  crystal structure, gold hexagonal heart.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"
+     role="img" aria-label="Pacific Star — Кристалл">
+  <title>Pacific Star — КРИСТАЛЛ</title>
+
+  <defs>
+    <!-- Gold hexagon fill -->
+    <radialGradient id="c-hex" cx="50%" cy="50%" r="60%">
+      <stop offset="0%"   stop-color="#ffe878"/>
+      <stop offset="100%" stop-color="#f5a623"/>
+    </radialGradient>
+
+    <!--
+      Single crystal arm pointing UPWARD (centre at 60,60):
+        spine    : (60,60) → (60,9)   [51 units long]
+        midpoint : (60,35)  [r=25 from centre]
+        L-branch : (60,35) → (44,25)  [60° left of spine]
+        R-branch : (60,35) → (76,25)  [60° right of spine]
+    -->
+    <g id="c-arm">
+      <!-- Main spine -->
+      <line x1="60" y1="60" x2="60" y2="9"
+            stroke="#dce8f8" stroke-width="2.4" stroke-linecap="round"/>
+      <!-- Left branch -->
+      <line x1="60" y1="35" x2="44" y2="25"
+            stroke="#dce8f8" stroke-width="1.6" stroke-linecap="round"/>
+      <!-- Right branch -->
+      <line x1="60" y1="35" x2="76" y2="25"
+            stroke="#dce8f8" stroke-width="1.6" stroke-linecap="round"/>
+      <!-- Spine tip diamond -->
+      <polygon points="60,6 63,10 60,14 57,10" fill="#f5a623"/>
+      <!-- Branch tip dots -->
+      <circle cx="44" cy="25" r="2.2" fill="#f5a623"/>
+      <circle cx="76" cy="25" r="2.2" fill="#f5a623"/>
+    </g>
+  </defs>
+
+  <!-- Background: deep midnight navy -->
+  <circle cx="60" cy="60" r="57" fill="#091e4f"/>
+
+  <!-- Outer compass ring -->
+  <circle cx="60" cy="60" r="55" fill="none"
+          stroke="#1a4da0" stroke-width="1" opacity="0.5"/>
+
+  <!-- Inner ring -->
+  <circle cx="60" cy="60" r="45" fill="none"
+          stroke="rgba(255,255,255,0.05)" stroke-width="0.8"/>
+
+  <!-- ── 6 CRYSTAL ARMS ── -->
+  <!-- SVG <use> + transform="rotate(N,60,60)" replicates the arm 6× -->
+  <use href="#c-arm"/>
+  <use href="#c-arm" transform="rotate(60,60,60)"/>
+  <use href="#c-arm" transform="rotate(120,60,60)"/>
+  <use href="#c-arm" transform="rotate(180,60,60)"/>
+  <use href="#c-arm" transform="rotate(240,60,60)"/>
+  <use href="#c-arm" transform="rotate(300,60,60)"/>
+
+  <!--
+    Centre hexagon (point-up, r=11):
+    Points: (60,49) · (69.5,54.5) · (69.5,65.5) · (60,71) · (50.5,65.5) · (50.5,54.5)
+  -->
+  <polygon points="60,49 69.5,54.5 69.5,65.5 60,71 50.5,65.5 50.5,54.5"
+           fill="url(#c-hex)"/>
+
+  <!-- Centre dark void -->
+  <circle cx="60" cy="60" r="6.5" fill="#091e4f"/>
+
+  <!-- Centre gold dot -->
+  <circle cx="60" cy="60" r="3.5" fill="#f5a623"/>
+</svg>

@@ -30,8 +30,17 @@
 }
 
 .preloader-icon {
-  font-size: 3rem;
-  line-height: 1;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preloader-icon img {
+  width: 80px;
+  height: 80px;
+  display: block;
 }
 
 .preloader-text {

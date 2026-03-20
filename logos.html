@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Варианты логотипа — Pacific Star</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ── RESET ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* ── DESIGN TOKENS ───────────────────────────────── */
+    :root {
+      --navy:    #0d2b5e;
+      --navy-d:  #091e4f;
+      --navy-m:  #1a4da0;
+      --gold:    #f5a623;
+      --gold-lt: #ffe066;
+      --teal:    #0a8fa3;
+      --bg:      #07101f;
+      --bg2:     #0d1b2e;
+      --bg3:     #112240;
+      --text:    #cdd8ea;
+      --muted:   #718baa;
+      --border:  rgba(255,255,255,0.07);
+      --glow:    rgba(245,166,35,0.18);
+      --radius:  16px;
+      --font:    'Inter', -apple-system, sans-serif;
+    }
+
+    /* ── BASE ─────────────────────────────────────────── */
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── TOP BAR ──────────────────────────────────────── */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background: rgba(7,16,31,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      z-index: 100;
+      gap: 16px;
+    }
+    .topbar-logo { display: flex; align-items: center; gap: 10px; }
+    .topbar-logo img { width: 32px; height: 32px; }
+    .topbar-name {
+      font-size: 0.85rem; font-weight: 700;
+      color: white; letter-spacing: 0.5px;
+    }
+    .topbar-sep { flex: 1; }
+    .topbar-link {
+      font-size: 0.78rem; color: var(--muted);
+      transition: color 0.2s;
+    }
+    .topbar-link:hover { color: var(--gold); }
+
+    /* ── HERO ─────────────────────────────────────────── */
+    .hero {
+      padding: 140px 32px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 60px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse, rgba(245,166,35,0.10) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 24px;
+    }
+    .hero-eyebrow span {
+      display: inline-block; width: 24px; height: 1px;
+      background: var(--gold); opacity: 0.6;
+    }
+    .hero-title {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 900; line-height: 1.05;
+      letter-spacing: -2px;
+      color: white;
+      margin-bottom: 20px;
+    }
+    .hero-title em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--gold-lt), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      max-width: 540px; margin: 0 auto 48px;
+      font-size: 1.05rem; font-weight: 400;
+      color: var(--muted); line-height: 1.65;
+    }
+    .hero-divider {
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+      margin-bottom: 80px;
+    }
+    .hero-divider-line {
+      width: 80px; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(245,166,35,0.4));
+    }
+    .hero-divider-line:last-child {
+      background: linear-gradient(to left, transparent, rgba(245,166,35,0.4));
+    }
+    .hero-divider-diamond {
+      width: 8px; height: 8px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+
+    /* ── GRID ─────────────────────────────────────────── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+    @media (max-width: 700px) {
+      .grid { grid-template-columns: 1fr; padding: 0 16px 80px; }
+    }
+
+    /* ── CARD ─────────────────────────────────────────── */
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1),
+                  box-shadow 0.35s cubic-bezier(0.22,1,0.36,1),
+                  border-color 0.3s;
+      position: relative;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.55),
+                  0 0 0 1px rgba(245,166,35,0.20);
+      border-color: rgba(245,166,35,0.22);
+    }
+
+    /* Label badge (A/B/C/D) */
+    .card-badge {
+      position: absolute;
+      top: 16px; left: 16px; z-index: 10;
+      width: 34px; height: 34px;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(245,166,35,0.4);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+    }
+
+    /* Dark preview area */
+    .card-preview-dark {
+      background: var(--navy-d);
+      height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 28px;
+      position: relative;
+    }
+    .card-preview-dark::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 50%,
+        rgba(245,166,35,0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .card-preview-dark img {
+      max-width: 150px;
+      max-height: 150px;
+      object-fit: contain;
+    }
+
+    /* Blueprint-grid preview for Variant B (transparent-bg mark on tech grid) */
+    .card-preview-blueprint {
+      background-color: #0a1929;
+      background-image:
+        linear-gradient(rgba(10,143,163,0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(10,143,163,0.12) 1px, transparent 1px);
+      background-size: 18px 18px;
+      height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 28px;
+      position: relative;
+    }
+    .card-preview-blueprint::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 50%,
+        rgba(10,143,163,0.10) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .card-preview-blueprint img {
+      max-width: 150px;
+      max-height: 150px;
+      object-fit: contain;
+    }
+
+    /* Light preview area */
+    .card-preview-light {
+      background: #f0f3f8;
+      height: 110px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 18px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .card-preview-light img {
+      max-width: 120px;
+      max-height: 90px;
+      object-fit: contain;
+    }
+
+    /* Card info */
+    .card-info {
+      padding: 24px 24px 28px;
+    }
+    .card-variant {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .card-name {
+      font-size: 1.25rem; font-weight: 800;
+      color: white; letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .card-name em {
+      font-style: normal; color: var(--muted);
+      font-weight: 400; font-size: 1rem; letter-spacing: 0;
+    }
+    .card-desc {
+      font-size: 0.88rem; line-height: 1.65;
+      color: var(--muted); margin-bottom: 20px;
+    }
+    .card-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .card-tag {
+      padding: 4px 10px;
+      background: rgba(26,77,160,0.25);
+      border: 1px solid rgba(26,77,160,0.4);
+      border-radius: 40px;
+      font-size: 0.7rem; font-weight: 500;
+      color: #8aaedd;
+      letter-spacing: 0.3px;
+    }
+    .card-tag.gold {
+      background: rgba(245,166,35,0.12);
+      border-color: rgba(245,166,35,0.35);
+      color: var(--gold);
+    }
+
+    /* ── FULL LOGO PREVIEW ────────────────────────────── */
+    .full-logo-section {
+      max-width: 1080px; margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+    .section-title {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .section-headline {
+      font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800;
+      color: white; letter-spacing: -1px;
+      margin-bottom: 40px;
+    }
+    .logo-previews {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 700px) {
+      .logo-previews { grid-template-columns: 1fr; }
+    }
+    .logo-preview-dark {
+      background: var(--navy-d);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 36px 28px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-preview-dark img { max-width: 100%; height: auto; }
+    .logo-preview-light {
+      background: white;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 12px;
+      padding: 36px 28px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-preview-light img { max-width: 100%; height: auto; }
+
+    /* ── COLOR PALETTE ────────────────────────────────── */
+    .palette-section {
+      max-width: 1080px; margin: 0 auto;
+      padding: 0 28px 100px;
+    }
+    .swatches {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      margin-top: 32px;
+    }
+    .swatch {
+      display: flex; flex-direction: column; gap: 10px;
+      align-items: flex-start;
+    }
+    .swatch-color {
+      width: 72px; height: 72px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    }
+    .swatch-hex {
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--text); font-family: 'Courier New', monospace;
+    }
+    .swatch-name {
+      font-size: 0.68rem; color: var(--muted);
+    }
+
+    /* ── FOOTER ───────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 32px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    footer a { color: var(--gold); }
+    footer a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<!-- ── TOP BAR ──────────────────────────────────────── -->
+<header class="topbar">
+  <div class="topbar-logo">
+    <img src="img/logo-icon.svg" alt="">
+    <span class="topbar-name">Pacific Star</span>
+  </div>
+  <span class="topbar-sep"></span>
+  <a href="index.html" class="topbar-link">← На сайт</a>
+</header>
+
+<!-- ── HERO ─────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span></span>Brand Identity 2024<span></span>
+  </div>
+  <h1 class="hero-title">
+    Выбери лицо<br><em>Pacific Star</em>
+  </h1>
+  <p class="hero-sub">
+    Четыре концепции. Четыре характера. Один — станет голосом компании
+    на сайте, документах, технике и в Арктике.
+  </p>
+  <div class="hero-divider">
+    <div class="hero-divider-line"></div>
+    <div class="hero-divider-diamond"></div>
+    <div class="hero-divider-line"></div>
+  </div>
+</section>
+
+<!-- ── LOGO VARIANT CARDS ────────────────────────────── -->
+<main class="grid" aria-label="Варианты логотипа">
+
+  <!-- CARD A: ПОЛЯРИС -->
+  <article class="card" aria-label="Вариант A — ПОЛЯРИС">
+    <div class="card-badge" aria-hidden="true">A</div>
+
+    <div class="card-preview-dark">
+      <img src="img/logo-icon.svg" alt="Логотип ПОЛЯРИС — тёмный фон"
+           width="150" height="150" loading="eager">
+    </div>
+
+    <div class="card-preview-light">
+      <img src="img/logo-icon.svg" alt="Логотип ПОЛЯРИС — светлый фон"
+           width="110" height="110" loading="lazy">
+    </div>
+
+    <div class="card-info">
+      <p class="card-variant">Вариант A · Текущий выбор ✦</p>
+      <h2 class="card-name">ПОЛЯРИС <em>/ The Navigator Star</em></h2>
+      <p class="card-desc">
+        Восьмилучевая звезда компаса — именно такой знак печатали на старинных
+        морских картах. Четыре длинных кардинальных луча и четыре коротких
+        диагональных. Радиальный градиент горит золотом в сердце и гаснет
+        тёмно-синим на концах, создавая эффект пульсирующего маяка.
+        Работает на любом фоне, идеален на борту транспорта.
+      </p>
+      <div class="card-tags">
+        <span class="card-tag gold">Текущий</span>
+        <span class="card-tag">Универсальный</span>
+        <span class="card-tag">Транспорт</span>
+        <span class="card-tag">Документы</span>
+        <span class="card-tag">Веб</span>
+        <span class="card-tag">Арктика</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- CARD B: МАРШРУТ -->
+  <article class="card" aria-label="Вариант B — МАРШРУТ">
+    <div class="card-badge" aria-hidden="true">B</div>
+
+    <div class="card-preview-blueprint">
+      <img src="img/logo-b-icon.svg" alt="Логотип МАРШРУТ — тёмный фон"
+           width="150" height="150" loading="lazy">
+    </div>
+
+    <div class="card-preview-light">
+      <img src="img/logo-b-icon.svg" alt="Логотип МАРШРУТ — светлый фон"
+           width="110" height="110" loading="lazy">
+    </div>
+
+    <div class="card-info">
+      <p class="card-variant">Вариант B</p>
+      <h2 class="card-name">МАРШРУТ <em>/ The Route</em></h2>
+      <p class="card-desc">
+        Один непрерывный росчерк рассказывает всю историю компании: маленький
+        силуэт порта слева, дугообразный путь через Тихий океан и пятиконечная
+        звезда-назначение справа. Три цвета: тёмный синий → бирюза открытого
+        моря → золото прибытия. Технологичный, лаконичный, нарративный.
+      </p>
+      <div class="card-tags">
+        <span class="card-tag">Современный</span>
+        <span class="card-tag">Технологичный</span>
+        <span class="card-tag">Цифровой</span>
+        <span class="card-tag">Истории о доставке</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- CARD C: КРИСТАЛЛ -->
+  <article class="card" aria-label="Вариант C — КРИСТАЛЛ">
+    <div class="card-badge" aria-hidden="true">C</div>
+
+    <div class="card-preview-dark">
+      <img src="img/logo-c-icon.svg" alt="Логотип КРИСТАЛЛ — тёмный фон"
+           width="150" height="150" loading="lazy">
+    </div>
+
+    <div class="card-preview-light">
+      <img src="img/logo-c-icon.svg" alt="Логотип КРИСТАЛЛ — светлый фон"
+           width="110" height="110" loading="lazy">
+    </div>
+
+    <div class="card-info">
+      <p class="card-variant">Вариант C</p>
+      <h2 class="card-name">КРИСТАЛЛ <em>/ The Arctic Crystal</em></h2>
+      <p class="card-desc">
+        Снежинка-компас с шестикратной симметрией — геометрия арктического льда,
+        встроенная в кристаллическую систему координат. Каждое из шести плеч
+        имеет боковые ответвления под 60°, как у природного кристалла. Белая
+        структура на полуночно-синем, золотые акценты. Прямая отсылка к
+        «Северному завозу» и арктической логистике.
+      </p>
+      <div class="card-tags">
+        <span class="card-tag">Арктика</span>
+        <span class="card-tag">Северный завоз</span>
+        <span class="card-tag">Премиум</span>
+        <span class="card-tag">Уникальный</span>
+      </div>
+    </div>
+  </article>
+
+  <!-- CARD D: ЩИТ -->
+  <article class="card" aria-label="Вариант D — ЩИТ">
+    <div class="card-badge" aria-hidden="true">D</div>
+
+    <div class="card-preview-dark">
+      <img src="img/logo-d-icon.svg" alt="Логотип ЩИТ — тёмный фон"
+           width="130" height="130" loading="lazy">
+    </div>
+
+    <div class="card-preview-light">
+      <img src="img/logo-d-icon.svg" alt="Логотип ЩИТ — светлый фон"
+           width="95" height="95" loading="lazy">
+    </div>
+
+    <div class="card-info">
+      <p class="card-variant">Вариант D</p>
+      <h2 class="card-name">ЩИТ <em>/ The Crest</em></h2>
+      <p class="card-desc">
+        Классический геральдический щит — язык доверия, авторитета и
+        постоянства, которому сотни лет. Верхнее поле: тёмно-синее с золотой
+        четырёхконечной звездой. Нижнее поле: монограмма «PS» золотым курсивом.
+        Двойная золотая рамка и угловые акценты. Незаменим на официальных
+        документах, фирменных конвертах, печатях и гравировке.
+      </p>
+      <div class="card-tags">
+        <span class="card-tag">Официальный</span>
+        <span class="card-tag">Документы</span>
+        <span class="card-tag">Печать/штамп</span>
+        <span class="card-tag">Гравировка</span>
+        <span class="card-tag">Корпоративный</span>
+      </div>
+    </div>
+  </article>
+
+</main>
+
+<!-- ── FULL LOGO PREVIEW ──────────────────────────────── -->
+<section class="full-logo-section" aria-label="Горизонтальный логотип">
+  <p class="section-title">Горизонтальный логотип · Вариант A</p>
+  <h2 class="section-headline">На светлом и тёмном фоне</h2>
+  <div class="logo-previews">
+    <div class="logo-preview-light">
+      <img src="img/logo.svg" alt="Pacific Star полный логотип — светлый фон"
+           width="400" height="104" loading="lazy">
+    </div>
+    <div class="logo-preview-dark">
+      <img src="img/logo-white.svg" alt="Pacific Star полный логотип — тёмный фон"
+           width="400" height="104" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ── COLOUR PALETTE ────────────────────────────────── -->
+<section class="palette-section" aria-label="Цветовая палитра">
+  <p class="section-title">Цветовая палитра бренда</p>
+  <h2 class="section-headline">Три кита айдентики</h2>
+  <div class="swatches">
+    <div class="swatch">
+      <div class="swatch-color" style="background:#091e4f;"></div>
+      <span class="swatch-hex">#091E4F</span>
+      <span class="swatch-name">Полярная ночь</span>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#0d2b5e;"></div>
+      <span class="swatch-hex">#0D2B5E</span>
+      <span class="swatch-name">Тихоокеанский синий</span>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#1a4da0;"></div>
+      <span class="swatch-hex">#1A4DA0</span>
+      <span class="swatch-name">Дальневосточный</span>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#f5a623;"></div>
+      <span class="swatch-hex">#F5A623</span>
+      <span class="swatch-name">Золото навигатора</span>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#ffe066;"></div>
+      <span class="swatch-hex">#FFE066</span>
+      <span class="swatch-name">Полярная звезда</span>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#0a8fa3;"></div>
+      <span class="swatch-hex">#0A8FA3</span>
+      <span class="swatch-name">Открытое море</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────────────── -->
+<footer>
+  <p>
+    Pacific Star · Транспорт и Логистика · Бренд-гайд 2024
+    &nbsp;·&nbsp;
+    <a href="index.html">Вернуться на сайт</a>
+  </p>
+</footer>
+
+</body>
+</html>
