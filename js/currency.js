@@ -36,6 +36,9 @@
   var _convAmount= null;
   var _convResult= null;
 
+  /* Converter element refs — populated once in buildWidget() */
+  var convFromEl = null, convToEl = null, convAmountEl = null, convResultEl = null;
+
   /* ── Fetch rates from CBR ── */
   function fetchRates(onDone) {
     if (isLoading) return;
@@ -133,11 +136,11 @@
     var resultEl = _convResult;
     if (!fromEl || !toEl || !amountEl || !resultEl) return;
 
-    var amount = parseFloat(amountEl.value);
-    if (isNaN(amount) || amount <= 0) { resultEl.value = '—'; return; }
+    var amount = parseFloat(convAmountEl.value);
+    if (isNaN(amount) || amount <= 0) { convResultEl.value = '—'; return; }
 
-    var from = fromEl.value;
-    var to   = toEl.value;
+    var from = convFromEl.value;
+    var to   = convToEl.value;
 
     var rubAmount;
     if (from === 'RUB') {
@@ -145,7 +148,7 @@
     } else if (rates[from]) {
       rubAmount = amount * rates[from];
     } else {
-      resultEl.value = '— (нет курса)';
+      convResultEl.value = '— (нет курса)';
       return;
     }
 
@@ -155,14 +158,14 @@
     } else if (rates[to]) {
       result = rubAmount / rates[to];
     } else {
-      resultEl.value = '— (нет курса)';
+      convResultEl.value = '— (нет курса)';
       return;
     }
 
     var formatted = result >= 100
       ? result.toLocaleString('ru-RU', { maximumFractionDigits: 2 })
       : result.toFixed(4);
-    resultEl.value = formatted + ' ' + (SYMBOLS[to] || to);
+    convResultEl.value = formatted + ' ' + (SYMBOLS[to] || to);
   }
 
   /* ── Chart: fetch archive data for last N work days ── */

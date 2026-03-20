@@ -11,9 +11,12 @@
   const header = document.querySelector('.site-header');
   const scrollTopBtn = document.querySelector('.scroll-top');
 
+  var scrollTicking = false;
+
   function onScroll() {
     if (header) header.classList.toggle('scrolled', window.scrollY > 10);
     if (scrollTopBtn) scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+    scrollTicking = false;
   }
 
   var scrollTicking = false;

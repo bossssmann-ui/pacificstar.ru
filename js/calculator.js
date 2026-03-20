@@ -92,12 +92,12 @@
     var raw;
     var state;
     var restored = false;
-    var fromSel = document.getElementById('calcFrom');
-    var toSel = document.getElementById('calcTo');
-    var transSel = document.getElementById('calcTransport');
-    var cargoSel = document.getElementById('calcCargo');
-    var weightInput = document.getElementById('calcWeight');
-    var volumeInput = document.getElementById('calcVolume');
+    var fromSel     = calcEls.from;
+    var toSel       = calcEls.to;
+    var transSel    = calcEls.transport;
+    var cargoSel    = calcEls.cargo;
+    var weightInput = calcEls.weight;
+    var volumeInput = calcEls.volume;
 
     try {
       raw = localStorage.getItem(STORAGE_KEY);
