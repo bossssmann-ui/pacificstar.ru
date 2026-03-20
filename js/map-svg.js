@@ -324,9 +324,25 @@
         tooltip.style.display = 'none';
       }
 
+      var tooltipTicking = false;
+      var pendingMarker = null, pendingX = 0, pendingY = 0;
+
+      function scheduleTooltip(markerEl, clientX, clientY) {
+        pendingMarker = markerEl;
+        pendingX = clientX;
+        pendingY = clientY;
+        if (!tooltipTicking) {
+          tooltipTicking = true;
+          requestAnimationFrame(function () {
+            showTooltip(pendingMarker, pendingX, pendingY);
+            tooltipTicking = false;
+          });
+        }
+      }
+
       markersG.querySelectorAll('.svg-map-marker').forEach(function (g) {
         g.addEventListener('mouseenter', function (e) { showTooltip(g, e.clientX, e.clientY); });
-        g.addEventListener('mousemove',  function (e) { showTooltip(g, e.clientX, e.clientY); });
+        g.addEventListener('mousemove',  function (e) { scheduleTooltip(g, e.clientX, e.clientY); });
         g.addEventListener('mouseleave', hideTooltip);
         g.addEventListener('focus', function () {
           var dot          = g.querySelector('.svg-map-dot');

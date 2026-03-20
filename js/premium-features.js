@@ -82,20 +82,29 @@
     var ringX  = -100, ringY  = -100;
     var LERP   = 0.15; /* ring interpolation factor (0=no movement, 1=instant) */
 
-    /* Move dot instantly */
+    /* Move dot instantly — update CSS variable so transform handles positioning
+       (avoids left/top layout triggers; only compositor-layer update needed).
+       Batched to one rAF per frame so rapid mouse events don't queue extra work. */
+    var dotTicking = false;
     document.addEventListener('mousemove', function (e) {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      dot.style.left = mouseX + 'px';
-      dot.style.top  = mouseY + 'px';
+      if (!dotTicking) {
+        dotTicking = true;
+        requestAnimationFrame(function () {
+          dotTicking = false;
+          dot.style.setProperty('--cx', mouseX + 'px');
+          dot.style.setProperty('--cy', mouseY + 'px');
+        });
+      }
     }, { passive: true });
 
     /* Ring follows with lerp (smooth lag) */
     (function animateRing() {
       ringX += (mouseX - ringX) * LERP;
       ringY += (mouseY - ringY) * LERP;
-      ring.style.left = ringX + 'px';
-      ring.style.top  = ringY + 'px';
+      ring.style.setProperty('--rx', ringX + 'px');
+      ring.style.setProperty('--ry', ringY + 'px');
       requestAnimationFrame(animateRing);
     }());
 
