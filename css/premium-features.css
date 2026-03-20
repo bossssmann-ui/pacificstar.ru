@@ -452,17 +452,37 @@ html.dark-theme .custom-cursor-ring.is-hovered {
 }
 
 /* ---- Animated route lines ---- */
+
+/* Sea route: long dashes flowing forward (Новороссийск → India → China → Vladivostok) */
+@keyframes svg-flow-sea {
+  from { stroke-dashoffset: 26; }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* Land route: shorter dashes flowing forward (Trans-Siberian, Southern corridor) */
+@keyframes svg-flow-land {
+  from { stroke-dashoffset: 14; }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* Legacy keyframe kept for any older cached refs */
 @keyframes svg-route-flow {
-  from { stroke-dashoffset: 16; }
+  from { stroke-dashoffset: 26; }
   to   { stroke-dashoffset: 0; }
 }
 
 .svg-map-route {
-  stroke: #d4af37;
-  stroke-width: 1.8;
-  stroke-opacity: 0.78;
-  stroke-dasharray: 8 8;
-  animation: svg-route-flow 1.2s linear infinite;
+  fill: none;
+}
+
+.svg-map-route--sea {
+  stroke-dasharray: 16 10;
+  animation: svg-flow-sea 3s linear infinite;
+}
+
+.svg-map-route--land {
+  stroke-dasharray: 8 6;
+  animation: svg-flow-land 2.5s linear infinite;
 }
 
 /* ---- City markers ---- */
@@ -544,7 +564,82 @@ html.dark-theme .custom-cursor-ring.is-hovered {
 }
 
 /* =========================================
-   Map Option Chooser (3-tab switcher)
+   Map Theme Picker (3-button variant chooser)
+   ========================================= */
+
+.map-theme-picker {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.map-theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 20px;
+  background: transparent;
+  border: 2px solid rgba(13, 43, 94, 0.22);
+  border-radius: 40px;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-muted, #6c757d);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.map-theme-btn:hover {
+  border-color: var(--color-accent, #f5a623);
+  color: var(--color-primary, #0d2b5e);
+  background: rgba(245, 166, 35, 0.08);
+}
+
+.map-theme-btn--active {
+  background: var(--color-primary, #0d2b5e);
+  border-color: var(--color-primary, #0d2b5e);
+  color: #ffffff;
+  box-shadow: 0 2px 12px rgba(13, 43, 94, 0.3);
+}
+
+.map-theme-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ---- City labels on SVG map ---- */
+.svg-map-label {
+  user-select: none;
+  pointer-events: none;
+  paint-order: stroke;
+  stroke: rgba(0, 0, 0, 0.55);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.svg-map-label--hub {
+  stroke-width: 3;
+}
+
+/* Hide labels on very small screens to avoid clutter. */
+@media (max-width: 480px) {
+  .svg-map-label {
+    display: none;
+  }
+}
+
+/* ---- Map legend ---- */
+.svg-map-legend {
+  pointer-events: none;
+}
+
+/* =========================================
+   Map Option Chooser (legacy 3-tab switcher)
    ========================================= */
 
 .map-option-tabs {
@@ -607,6 +702,45 @@ html.dark-theme .custom-cursor-ring.is-hovered {
 .map-panel--active {
   display: block;
   min-height: 420px;
+}
+
+/* ── Full-screen route-map layout ──────────────────────────────────────────
+   #routeMap breaks the map out of the .container so it spans 100% page width,
+   and the section grows to fill the viewport height.                          */
+#routeMap {
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#routeMap #map-panel-svg.map-panel--active {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+#routeMap .map-theme-picker {
+  margin-bottom: 12px;
+}
+
+#routeMap #svg-map-container.map-frame {
+  flex: 1;
+  height: calc(100vh - 72px);
+  min-height: 520px;
+  border-radius: 0;
+}
+
+#routeMap #svg-map-container .svg-route-map {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 767px) {
+  #routeMap #svg-map-container.map-frame {
+    height: 70vh;
+    min-height: 360px;
+  }
 }
 
 /* ---- Stats Grid (Option C) ---- */
