@@ -198,6 +198,32 @@
       object-fit: contain;
     }
 
+    /* Blueprint-grid preview for Variant B (transparent-bg mark on tech grid) */
+    .card-preview-blueprint {
+      background-color: #0a1929;
+      background-image:
+        linear-gradient(rgba(10,143,163,0.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(10,143,163,0.12) 1px, transparent 1px);
+      background-size: 18px 18px;
+      height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 28px;
+      position: relative;
+    }
+    .card-preview-blueprint::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 50%,
+        rgba(10,143,163,0.10) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .card-preview-blueprint img {
+      max-width: 150px;
+      max-height: 150px;
+      object-fit: contain;
+    }
+
     /* Light preview area */
     .card-preview-light {
       background: #f0f3f8;
@@ -404,7 +430,7 @@
   <article class="card" aria-label="Вариант B — МАРШРУТ">
     <div class="card-badge" aria-hidden="true">B</div>
 
-    <div class="card-preview-dark">
+    <div class="card-preview-blueprint">
       <img src="img/logo-b-icon.svg" alt="Логотип МАРШРУТ — тёмный фон"
            width="150" height="150" loading="lazy">
     </div>

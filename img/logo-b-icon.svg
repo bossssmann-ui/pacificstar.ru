@@ -12,9 +12,9 @@
   <title>Pacific Star — МАРШРУТ</title>
 
   <defs>
-    <!-- Route colour: navy → teal → gold -->
+    <!-- Route colour: teal origin → open sea → gold destination -->
     <linearGradient id="b-route" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%"   stop-color="#0d2b5e"/>
+      <stop offset="0%"   stop-color="#1a6fb5"/>
       <stop offset="42%"  stop-color="#0a8fa3"/>
       <stop offset="100%" stop-color="#f5a623"/>
     </linearGradient>
@@ -26,9 +26,7 @@
     </radialGradient>
   </defs>
 
-  <!-- Subtle background wash -->
-  <circle cx="60" cy="60" r="57" fill="#f4f7fc" opacity="0.55"/>
-  <circle cx="60" cy="60" r="57" fill="none" stroke="#dde3ee" stroke-width="1"/>
+  <!-- No background fill — this mark is designed for transparent use -->
 
   <!--
     Pacific route arc
@@ -55,10 +53,11 @@
   <!--
     Departure port (left)
     A minimal container-ship silhouette: hull rect + deck rect + funnel
+    Using teal/ocean blue so the ship reads on both dark and light backgrounds.
   -->
-  <rect x="5"  y="78" width="18" height="10" rx="2" fill="#0d2b5e"/>
-  <rect x="8"  y="73" width="12" height="6"  rx="1" fill="#1a4da0"/>
-  <rect x="11" y="70" width="5"  height="4"  rx="1" fill="#0d2b5e"/>
+  <rect x="5"  y="78" width="18" height="10" rx="2" fill="#1a6fb5"/>
+  <rect x="8"  y="73" width="12" height="6"  rx="1" fill="#0a8fa3"/>
+  <rect x="11" y="70" width="5"  height="4"  rx="1" fill="#1a6fb5"/>
 
   <!--
     Destination star — Pacific Star (5-pointed)
@@ -80,11 +79,11 @@
   <circle cx="106" cy="75.5" r="12.5" fill="none"
           stroke="#f5a623" stroke-width="1" opacity="0.35"/>
 
-  <!-- Company name label at bottom -->
+  <!-- Company name label at bottom — neutral mid-blue, readable on light or dark -->
   <text x="60" y="113"
         font-family="Inter,'Helvetica Neue',Arial,sans-serif"
         font-size="8.5" font-weight="700"
-        fill="#0d2b5e" text-anchor="middle" letter-spacing="2.5">
+        fill="#4a90d9" text-anchor="middle" letter-spacing="2.5">
     PACIFIC STAR
   </text>
 </svg>
