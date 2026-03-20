@@ -81,6 +81,8 @@
     var mouseX = -100, mouseY = -100;  /* start off-screen */
     var ringX  = -100, ringY  = -100;
     var LERP   = 0.15; /* ring interpolation factor (0=no movement, 1=instant) */
+    var THRESHOLD = 0.1; /* px — stop animating when this close to target */
+    var rafId  = null;  /* rAF handle so we can avoid duplicate loops */
 
     /* Move dot instantly */
     document.addEventListener('mousemove', function (e) {
@@ -88,16 +90,30 @@
       mouseY = e.clientY;
       dot.style.left = mouseX + 'px';
       dot.style.top  = mouseY + 'px';
+      /* Re-start ring animation if it isn't already running */
+      if (!rafId) { rafId = requestAnimationFrame(animateRing); }
     }, { passive: true });
 
-    /* Ring follows with lerp (smooth lag) */
-    (function animateRing() {
+    /* Ring follows with lerp (smooth lag); stops when it reaches the cursor */
+    function animateRing() {
       ringX += (mouseX - ringX) * LERP;
       ringY += (mouseY - ringY) * LERP;
       ring.style.left = ringX + 'px';
       ring.style.top  = ringY + 'px';
-      requestAnimationFrame(animateRing);
-    }());
+
+      var dx = mouseX - ringX;
+      var dy = mouseY - ringY;
+      if (dx * dx + dy * dy > THRESHOLD * THRESHOLD) {
+        rafId = requestAnimationFrame(animateRing);
+      } else {
+        /* Close enough — snap to target and stop the loop */
+        ring.style.left = mouseX + 'px';
+        ring.style.top  = mouseY + 'px';
+        ringX = mouseX;
+        ringY = mouseY;
+        rafId = null;
+      }
+    }
 
     /* Hover effect on interactive elements */
     var hoverTargets = 'a, button, [role="button"], label[for], input[type="submit"], input[type="button"], select, .cursor-pointer';

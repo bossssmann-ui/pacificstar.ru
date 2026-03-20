@@ -26,15 +26,22 @@
   var chartCache   = {};   /* code → [{date, value}] */
   var cardCache    = {};   /* code → { card, rateVal, changeEl } */
 
+  /* Cached DOM refs populated in buildWidget() */
+  var _loadingEl = null;
+  var _errorEl   = null;
+  var _tsEl      = null;
+  var _convFrom  = null;
+  var _convTo    = null;
+  var _convAmount= null;
+  var _convResult= null;
+
   /* ── Fetch rates from CBR ── */
   function fetchRates(onDone) {
     if (isLoading) return;
     isLoading = true;
 
-    var loadingEl = document.getElementById('currencyLoading');
-    var errorEl   = document.getElementById('currencyError');
-    if (loadingEl) loadingEl.style.display = 'flex';
-    if (errorEl)   errorEl.style.display   = 'none';
+    if (_loadingEl) _loadingEl.style.display = 'flex';
+    if (_errorEl)   _errorEl.style.display   = 'none';
 
     var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
     var timeoutId = setTimeout(function () { if (controller) controller.abort(); }, 8000);
@@ -47,7 +54,7 @@
       })
       .then(function (data) {
         isLoading = false;
-        if (loadingEl) loadingEl.style.display = 'none';
+        if (_loadingEl) _loadingEl.style.display = 'none';
         CURRENCIES.forEach(function (c) {
           var entry = data.Valute && data.Valute[c.code];
           if (entry) {
@@ -61,7 +68,7 @@
       .catch(function () {
         clearTimeout(timeoutId);
         isLoading = false;
-        if (loadingEl) loadingEl.style.display = 'none';
+        if (_loadingEl) _loadingEl.style.display = 'none';
         showError();
       });
   }
@@ -76,11 +83,10 @@
         hasFallback = true;
       }
     });
-    var errorEl = document.getElementById('currencyError');
-    if (errorEl) {
-      errorEl.style.display = 'flex';
+    if (_errorEl) {
+      _errorEl.style.display = 'flex';
       if (hasFallback) {
-        var msgEl = errorEl.querySelector('span');
+        var msgEl = _errorEl.querySelector('span');
         if (msgEl) msgEl.textContent = 'Нет соединения с ЦБ РФ. Показаны ориентировочные курсы.';
         updateCards();
       }
@@ -109,9 +115,8 @@
       }
     });
 
-    var ts = document.getElementById('currencyTimestamp');
-    if (ts && lastUpdate) {
-      ts.textContent = 'Курсы ЦБ РФ на ' + lastUpdate.toLocaleDateString('ru-RU', {
+    if (_tsEl && lastUpdate) {
+      _tsEl.textContent = 'Курсы ЦБ РФ на ' + lastUpdate.toLocaleDateString('ru-RU', {
         day: '2-digit', month: 'long', year: 'numeric'
       });
     }
@@ -121,10 +126,10 @@
 
   /* ── Converter ── */
   function convert() {
-    var fromEl   = document.getElementById('convFrom');
-    var toEl     = document.getElementById('convTo');
-    var amountEl = document.getElementById('convAmount');
-    var resultEl = document.getElementById('convResult');
+    var fromEl   = _convFrom;
+    var toEl     = _convTo;
+    var amountEl = _convAmount;
+    var resultEl = _convResult;
     if (!fromEl || !toEl || !amountEl || !resultEl) return;
 
     var amount = parseFloat(amountEl.value);
@@ -521,6 +526,15 @@
       }
     });
 
+    /* Cache widget-level DOM elements */
+    _loadingEl = document.getElementById('currencyLoading');
+    _errorEl   = document.getElementById('currencyError');
+    _tsEl      = document.getElementById('currencyTimestamp');
+    _convFrom  = document.getElementById('convFrom');
+    _convTo    = document.getElementById('convTo');
+    _convAmount= document.getElementById('convAmount');
+    _convResult= document.getElementById('convResult');
+
     /* Refresh */
     var refreshBtn = document.getElementById('currencyRefresh');
     if (refreshBtn) {
@@ -534,20 +548,17 @@
     if (retryBtn) retryBtn.addEventListener('click', function () { fetchRates(function () { updateCards(); }); });
 
     /* Converter events */
-    ['convAmount', 'convFrom', 'convTo'].forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) el.addEventListener('input', convert);
-    });
+    if (_convAmount) _convAmount.addEventListener('input', convert);
+    if (_convFrom)   _convFrom.addEventListener('input', convert);
+    if (_convTo)     _convTo.addEventListener('input', convert);
 
     var swapBtn = document.getElementById('convSwap');
     if (swapBtn) {
       swapBtn.addEventListener('click', function () {
-        var from = document.getElementById('convFrom');
-        var to   = document.getElementById('convTo');
-        if (from && to) {
-          var tmp  = from.value;
-          from.value = to.value;
-          to.value   = tmp;
+        if (_convFrom && _convTo) {
+          var tmp       = _convFrom.value;
+          _convFrom.value = _convTo.value;
+          _convTo.value   = tmp;
           convert();
         }
       });
