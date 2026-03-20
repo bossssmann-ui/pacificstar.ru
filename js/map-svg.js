@@ -1,5 +1,5 @@
 /**
- * Pacific Star — Pure SVG Route Map  (v4 — multi-theme, 42 cities, Russia/China/India)
+ * Pacific Star — Pure SVG Route Map  (v5 — full-screen, 50m borders, 44 cities)
  * ======================================================================================
  * Self-contained inline SVG map — no external libraries, no tile requests.
  * Uses Mercator projection + bundled GeoJSON land polygons (map-geodata.js).
@@ -192,6 +192,10 @@
       desc: 'Федеральная логистика',                 lx:  11, ly:  -8 },
     { name: 'Санкт-Петербург',  lat: 59.9343, lon:  30.3351, hub: false, type: 'land',
       desc: 'Балтийский порт',                       lx:  11, ly: -10 },
+    { name: 'Мурманск',         lat: 68.9585, lon:  33.0827, hub: false, type: 'sea',
+      desc: 'Арктический порт России',               lx:  11, ly:  -8 },
+    { name: 'Новороссийск',     lat: 44.7233, lon:  37.7685, hub: false, type: 'sea',
+      desc: 'Черноморский порт России',              lx: -12, ly: -10 },
 
     /* ──── China — Beijing + major sea ports ──── */
     { name: 'Пекин',            lat: 39.9042, lon: 116.4074, hub: false, type: 'land',

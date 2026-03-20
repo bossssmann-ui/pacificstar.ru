@@ -684,6 +684,45 @@ html.dark-theme .custom-cursor-ring.is-hovered {
   min-height: 420px;
 }
 
+/* ── Full-screen route-map layout ──────────────────────────────────────────
+   #routeMap breaks the map out of the .container so it spans 100% page width,
+   and the section grows to fill the viewport height.                          */
+#routeMap {
+  padding-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#routeMap #map-panel-svg.map-panel--active {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+#routeMap .map-theme-picker {
+  margin-bottom: 12px;
+}
+
+#routeMap #svg-map-container.map-frame {
+  flex: 1;
+  height: calc(100vh - 72px);
+  min-height: 520px;
+  border-radius: 0;
+}
+
+#routeMap #svg-map-container .svg-route-map {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 767px) {
+  #routeMap #svg-map-container.map-frame {
+    height: 70vh;
+    min-height: 360px;
+  }
+}
+
 /* ---- Stats Grid (Option C) ---- */
 
 .map-stats-grid {
