@@ -190,6 +190,9 @@
     return true;
   }
 
+  /* ── Cached field references (populated in init) ── */
+  var _fromSel, _toSel, _transSel, _cargoSel, _weightInput, _volInput, _resultBox;
+
   /* ── Estimate ── */
   function estimate() {
     var from      = (_calcFrom      || {}).value || '';
