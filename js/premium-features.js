@@ -81,32 +81,30 @@
     var mouseX = -100, mouseY = -100;  /* start off-screen */
     var ringX  = -100, ringY  = -100;
     var LERP   = 0.15; /* ring interpolation factor (0=no movement, 1=instant) */
-    var ringAnimating = false; /* true while rAF loop is running */
+    var rafPending = false; /* true while an animateRing frame is scheduled */
 
-    /* Ring follows with lerp — only runs while ring hasn't converged */
+    /* Ring follows with lerp — self-terminates when settled, restarts on move */
     function animateRing() {
-      var dx = mouseX - ringX;
-      var dy = mouseY - ringY;
-      ringX += dx * LERP;
-      ringY += dy * LERP;
-      ring.style.left = ringX + 'px';
-      ring.style.top  = ringY + 'px';
-      /* Keep looping until the ring settles within 0.5 px of the cursor */
-      if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
+      rafPending = false;
+      ringX += (mouseX - ringX) * LERP;
+      ringY += (mouseY - ringY) * LERP;
+      ring.style.left = Math.round(ringX) + 'px';
+      ring.style.top  = Math.round(ringY) + 'px';
+      /* Keep looping only while the ring hasn't yet reached the cursor */
+      if (Math.abs(mouseX - ringX) > 0.1 || Math.abs(mouseY - ringY) > 0.1) {
+        rafPending = true;
         requestAnimationFrame(animateRing);
-      } else {
-        ringAnimating = false;
       }
     }
 
-    /* Move dot instantly; start ring animation only when needed */
+    /* Move dot instantly; kick off ring animation if not already running */
     document.addEventListener('mousemove', function (e) {
       mouseX = e.clientX;
       mouseY = e.clientY;
       dot.style.left = mouseX + 'px';
       dot.style.top  = mouseY + 'px';
-      if (!ringAnimating) {
-        ringAnimating = true;
+      if (!rafPending) {
+        rafPending = true;
         requestAnimationFrame(animateRing);
       }
     }, { passive: true });

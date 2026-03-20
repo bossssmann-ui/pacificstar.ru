@@ -8,8 +8,8 @@
 
   var STORAGE_KEY = 'ps-calculator-session';
 
-  /* Form element cache — populated in init() after buildOptions() */
-  var calcEls = {};   /* { from, to, transport, cargo, weight, volume, result } */
+  /* ── Cached DOM element references (set in init after buildOptions) ── */
+  var _calcFrom, _calcTo, _calcTransport, _calcCargo, _calcWeight, _calcVolume, _calcResult;
 
   /* ── Distance table (km) between major hubs ──────────────────────── */
   var DIST = {
@@ -76,12 +76,12 @@
   function saveSession() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        from:      (calcEls.from      || {}).value || '',
-        to:        (calcEls.to        || {}).value || '',
-        transport: (calcEls.transport || {}).value || 'auto',
-        cargo:     (calcEls.cargo     || {}).value || 'general',
-        weight:    (calcEls.weight    || {}).value || '',
-        volume:    (calcEls.volume    || {}).value || ''
+        from:      (_calcFrom      || {}).value || '',
+        to:        (_calcTo        || {}).value || '',
+        transport: (_calcTransport || {}).value || 'auto',
+        cargo:     (_calcCargo     || {}).value || 'general',
+        weight:    (_calcWeight    || {}).value || '',
+        volume:    (_calcVolume    || {}).value || ''
       }));
     } catch (err) {
       /* Ignore storage failures */
@@ -190,16 +190,19 @@
     return true;
   }
 
+  /* ── Cached field references (populated in init) ── */
+  var _fromSel, _toSel, _transSel, _cargoSel, _weightInput, _volInput, _resultBox;
+
   /* ── Estimate ── */
   function estimate() {
-    var from      = (calcEls.from      || {}).value || '';
-    var to        = (calcEls.to        || {}).value || '';
-    var transKey  = (calcEls.transport || {}).value || 'auto';
-    var cargoKey  = (calcEls.cargo     || {}).value || 'general';
-    var weightVal = parseFloat((calcEls.weight || {}).value) || 0;
-    var volVal    = parseFloat((calcEls.volume || {}).value) || 0;
+    var from      = (_calcFrom      || {}).value || '';
+    var to        = (_calcTo        || {}).value || '';
+    var transKey  = (_calcTransport || {}).value || 'auto';
+    var cargoKey  = (_calcCargo     || {}).value || 'general';
+    var weightVal = parseFloat((_calcWeight || {}).value) || 0;
+    var volVal    = parseFloat((_calcVolume || {}).value) || 0;
 
-    var resultBox = calcEls.result;
+    var resultBox = _calcResult;
     if (!resultBox) return;
 
     if (!from || !to || from === to) {
@@ -292,14 +295,14 @@
     if (!form) return;
     if (!buildOptions()) return;
 
-    /* Cache element references once, after buildOptions() has populated the selects */
-    calcEls.from      = document.getElementById('calcFrom');
-    calcEls.to        = document.getElementById('calcTo');
-    calcEls.transport = document.getElementById('calcTransport');
-    calcEls.cargo     = document.getElementById('calcCargo');
-    calcEls.weight    = document.getElementById('calcWeight');
-    calcEls.volume    = document.getElementById('calcVolume');
-    calcEls.result    = document.getElementById('calcResult');
+    /* Cache element references once after options are built */
+    _calcFrom      = document.getElementById('calcFrom');
+    _calcTo        = document.getElementById('calcTo');
+    _calcTransport = document.getElementById('calcTransport');
+    _calcCargo     = document.getElementById('calcCargo');
+    _calcWeight    = document.getElementById('calcWeight');
+    _calcVolume    = document.getElementById('calcVolume');
+    _calcResult    = document.getElementById('calcResult');
 
     var restored = restoreSession();
 
@@ -310,31 +313,31 @@
     });
 
     /* Live update on input change */
-    [calcEls.from, calcEls.to, calcEls.transport, calcEls.cargo].forEach(function (el) {
+    [_calcFrom, _calcTo, _calcTransport, _calcCargo].forEach(function (el) {
       if (el) el.addEventListener('change', function () {
         saveSession();
-        if (calcEls.result && calcEls.result.style.display !== 'none') estimate();
+        if (_calcResult && _calcResult.style.display !== 'none') estimate();
       });
     });
 
-    [calcEls.weight, calcEls.volume].forEach(function (el) {
+    [_calcWeight, _calcVolume].forEach(function (el) {
       if (el) el.addEventListener('input', function () {
         saveSession();
-        if (calcEls.result && calcEls.result.style.display !== 'none') estimate();
+        if (_calcResult && _calcResult.style.display !== 'none') estimate();
       });
     });
 
-    var fromValue = (calcEls.from || {}).value || '';
-    var toValue   = (calcEls.to   || {}).value || '';
+    var fromValue = _calcFrom ? _calcFrom.value : '';
+    var toValue   = _calcTo   ? _calcTo.value   : '';
 
     if (restored &&
         fromValue &&
         toValue &&
-        hasOptionValue(calcEls.from, fromValue) &&
-        hasOptionValue(calcEls.to, toValue) &&
+        hasOptionValue(_calcFrom, fromValue) &&
+        hasOptionValue(_calcTo, toValue) &&
         fromValue !== toValue &&
-        ((parseFloat((calcEls.weight || {}).value) || 0) > 0 ||
-         (parseFloat((calcEls.volume || {}).value) || 0) > 0)) {
+        ((parseFloat((_calcWeight || {}).value) || 0) > 0 ||
+         (parseFloat((_calcVolume || {}).value) || 0) > 0)) {
       estimate();
     }
   }

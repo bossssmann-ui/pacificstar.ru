@@ -19,9 +19,10 @@
     scrollTicking = false;
   }
 
+  var scrollTicking = false;
   window.addEventListener('scroll', function () {
     if (!scrollTicking) {
-      requestAnimationFrame(onScroll);
+      requestAnimationFrame(function () { scrollTicking = false; onScroll(); });
       scrollTicking = true;
     }
   }, { passive: true });
@@ -38,10 +39,13 @@
     }
   });
 
+  /* Cache nav-toggle buttons once — used both for active-marking and click handler */
+  var navToggleBtns = document.querySelectorAll('.nav-item .nav-toggle');
+
   /* Also mark parent "Услуги" nav-toggle active when on a sub-page */
   var servicePages = ['services.html', 'truck-delivery.html', 'remote-regions.html'];
   if (servicePages.indexOf(currentPath) !== -1) {
-    document.querySelectorAll('.nav-item .nav-toggle').forEach(function (btn) {
+    navToggleBtns.forEach(function (btn) {
       btn.classList.add('active');
     });
   }
@@ -60,7 +64,7 @@
     }
   }
 
-  document.querySelectorAll('.nav-item .nav-toggle').forEach(function (btn) {
+  navToggleBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
       e.preventDefault();
       var item = btn.closest('.nav-item');
@@ -199,6 +203,8 @@
   /* =======================================
      ANIMATED COUNTERS
      ======================================= */
+  var ruNumFmt = new Intl.NumberFormat('ru-RU');
+
   function animateCounter(el, target, duration, suffix) {
     const start = 0;
     const startTime = performance.now();
@@ -209,7 +215,7 @@
       // ease out quad
       const eased = 1 - (1 - progress) * (1 - progress);
       const current = Math.round(start + (target - start) * eased);
-      el.textContent = current.toLocaleString('ru-RU') + suffix;
+      el.textContent = ruNumFmt.format(current) + suffix;
 
       if (progress < 1) {
         requestAnimationFrame(update);
@@ -354,12 +360,15 @@
     });
 
     /* Live validation: clear error on input */
+    var fieldErrorCache = new Map();
     contactForm.querySelectorAll('.form-control').forEach(function (field) {
+      var grp = field.closest('.form-group');
+      var err = grp && grp.querySelector('.field-error');
+      if (err) fieldErrorCache.set(field, err);
       field.addEventListener('input', function () {
         field.classList.remove('field-invalid');
-        const group = field.closest('.form-group');
-        const error = group && group.querySelector('.field-error');
-        if (error) error.classList.remove('field-error-visible');
+        var cachedErr = fieldErrorCache.get(field);
+        if (cachedErr) cachedErr.classList.remove('field-error-visible');
       });
     });
   }

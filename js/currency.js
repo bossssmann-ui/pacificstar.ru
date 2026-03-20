@@ -25,6 +25,16 @@
   var selectedCode = 'USD';
   var chartCache   = {};   /* code → [{date, value}] */
   var cardCache    = {};   /* code → { card, rateVal, changeEl } */
+  var _convFrom, _convTo, _convAmount, _convResult;  /* cached converter el refs */
+
+  /* Cached DOM refs populated in buildWidget() */
+  var _loadingEl = null;
+  var _errorEl   = null;
+  var _tsEl      = null;
+  var _convFrom  = null;
+  var _convTo    = null;
+  var _convAmount= null;
+  var _convResult= null;
 
   /* Converter element refs — populated once in buildWidget() */
   var convFromEl = null, convToEl = null, convAmountEl = null, convResultEl = null;
@@ -34,10 +44,8 @@
     if (isLoading) return;
     isLoading = true;
 
-    var loadingEl = document.getElementById('currencyLoading');
-    var errorEl   = document.getElementById('currencyError');
-    if (loadingEl) loadingEl.style.display = 'flex';
-    if (errorEl)   errorEl.style.display   = 'none';
+    if (_loadingEl) _loadingEl.style.display = 'flex';
+    if (_errorEl)   _errorEl.style.display   = 'none';
 
     var controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
     var timeoutId = setTimeout(function () { if (controller) controller.abort(); }, 8000);
@@ -50,7 +58,7 @@
       })
       .then(function (data) {
         isLoading = false;
-        if (loadingEl) loadingEl.style.display = 'none';
+        if (_loadingEl) _loadingEl.style.display = 'none';
         CURRENCIES.forEach(function (c) {
           var entry = data.Valute && data.Valute[c.code];
           if (entry) {
@@ -64,7 +72,7 @@
       .catch(function () {
         clearTimeout(timeoutId);
         isLoading = false;
-        if (loadingEl) loadingEl.style.display = 'none';
+        if (_loadingEl) _loadingEl.style.display = 'none';
         showError();
       });
   }
@@ -79,11 +87,10 @@
         hasFallback = true;
       }
     });
-    var errorEl = document.getElementById('currencyError');
-    if (errorEl) {
-      errorEl.style.display = 'flex';
+    if (_errorEl) {
+      _errorEl.style.display = 'flex';
       if (hasFallback) {
-        var msgEl = errorEl.querySelector('span');
+        var msgEl = _errorEl.querySelector('span');
         if (msgEl) msgEl.textContent = 'Нет соединения с ЦБ РФ. Показаны ориентировочные курсы.';
         updateCards();
       }
@@ -112,9 +119,8 @@
       }
     });
 
-    var ts = document.getElementById('currencyTimestamp');
-    if (ts && lastUpdate) {
-      ts.textContent = 'Курсы ЦБ РФ на ' + lastUpdate.toLocaleDateString('ru-RU', {
+    if (_tsEl && lastUpdate) {
+      _tsEl.textContent = 'Курсы ЦБ РФ на ' + lastUpdate.toLocaleDateString('ru-RU', {
         day: '2-digit', month: 'long', year: 'numeric'
       });
     }
@@ -124,7 +130,11 @@
 
   /* ── Converter ── */
   function convert() {
-    if (!convFromEl || !convToEl || !convAmountEl || !convResultEl) return;
+    var fromEl   = _convFrom;
+    var toEl     = _convTo;
+    var amountEl = _convAmount;
+    var resultEl = _convResult;
+    if (!fromEl || !toEl || !amountEl || !resultEl) return;
 
     var amount = parseFloat(convAmountEl.value);
     if (isNaN(amount) || amount <= 0) { convResultEl.value = '—'; return; }
@@ -414,12 +424,13 @@
 
   function selectCard(code) {
     selectedCode = code;
-    /* Deactivate all cards via cardCache — avoids a live DOM query */
-    Object.keys(cardCache).forEach(function (k) {
-      if (cardCache[k].card) cardCache[k].card.classList.remove('active');
+    /* Use cached card references instead of re-querying the DOM */
+    CURRENCIES.forEach(function (c) {
+      var cached = cardCache[c.code];
+      if (cached && cached.card) cached.card.classList.remove('active');
     });
-    var cached = cardCache[code];
-    if (cached && cached.card) cached.card.classList.add('active');
+    var active = cardCache[code] && cardCache[code].card;
+    if (active) active.classList.add('active');
 
     showChartLoading(code);
     loadChartData(code, function (series) {
@@ -520,6 +531,15 @@
       }
     });
 
+    /* Cache widget-level DOM elements */
+    _loadingEl = document.getElementById('currencyLoading');
+    _errorEl   = document.getElementById('currencyError');
+    _tsEl      = document.getElementById('currencyTimestamp');
+    _convFrom  = document.getElementById('convFrom');
+    _convTo    = document.getElementById('convTo');
+    _convAmount= document.getElementById('convAmount');
+    _convResult= document.getElementById('convResult');
+
     /* Refresh */
     var refreshBtn = document.getElementById('currencyRefresh');
     if (refreshBtn) {
@@ -532,24 +552,22 @@
     var retryBtn = document.getElementById('currencyRetry');
     if (retryBtn) retryBtn.addEventListener('click', function () { fetchRates(function () { updateCards(); }); });
 
-    /* Converter events */
-    convAmountEl = document.getElementById('convAmount');
-    convFromEl   = document.getElementById('convFrom');
-    convToEl     = document.getElementById('convTo');
-    convResultEl = document.getElementById('convResult');
-
-    ['convAmount', 'convFrom', 'convTo'].forEach(function (id) {
-      var el = document.getElementById(id);
+    /* Converter events — cache refs once after innerHTML is set */
+    _convFrom   = document.getElementById('convFrom');
+    _convTo     = document.getElementById('convTo');
+    _convAmount = document.getElementById('convAmount');
+    _convResult = document.getElementById('convResult');
+    [_convAmount, _convFrom, _convTo].forEach(function (el) {
       if (el) el.addEventListener('input', convert);
     });
 
     var swapBtn = document.getElementById('convSwap');
     if (swapBtn) {
       swapBtn.addEventListener('click', function () {
-        if (convFromEl && convToEl) {
-          var tmp      = convFromEl.value;
-          convFromEl.value = convToEl.value;
-          convToEl.value   = tmp;
+        if (_convFrom && _convTo) {
+          var tmp  = _convFrom.value;
+          _convFrom.value = _convTo.value;
+          _convTo.value   = tmp;
           convert();
         }
       });
