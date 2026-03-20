@@ -1,10 +1,10 @@
 /**
- * Pacific Star — Pure SVG Route Map  (v5 — full-screen, 50m borders, 44 cities)
+ * Pacific Star — Pure SVG Route Map  (v6 — directional flow routes)
  * ======================================================================================
  * Self-contained inline SVG map — no external libraries, no tile requests.
  * Uses Mercator projection + bundled GeoJSON land polygons (map-geodata.js).
  * Three design themes: Navy (морская), Sapphire (сапфир), Amber (янтарь).
- * Animated dashed routes from Vladivostok hub; pulsing city markers; city labels.
+ * Animated directional flow routes: Новороссийск → India → China → Russia → cities.
  *
  * Requires: window.WORLD_GEOJSON (set by js/map-geodata.js)
  */
@@ -234,6 +234,82 @@
       desc: 'Морские перевозки (Япония)',            lx:  11, ly:  17 }
   ];
 
+  /* ---- Directional flow routes ----
+     Chains of waypoints showing cargo flow direction.
+     Waypoints are either a city name (matched against POINTS) or
+     an anonymous {lat, lon} object used as a path guide point only.     */
+  var FLOW_ROUTES = [
+    /* ── Route A: International sea corridor
+       Новороссийск → Black Sea exit → Mediterranean → Suez Canal → Gulf of Aden
+       → India ports → Strait of Malacca → China ports → Korea/Japan → Vladivostok */
+    {
+      id: 'intl-sea',
+      type: 'sea',
+      waypoints: [
+        'Новороссийск',
+        { lat: 36.5, lon: 28.5 },   /* Bosphorus / Aegean                */
+        { lat: 27.5, lon: 34.0 },   /* Suez Canal                        */
+        { lat: 12.5, lon: 44.5 },   /* Gulf of Aden / Djibouti           */
+        'Мумбаи',
+        'Кочи',
+        'Ченнаи',
+        'Калькутта',
+        { lat: 5.0,  lon: 100.0 },  /* Strait of Malacca                 */
+        'Гуанчжоу',
+        'Шэньчжэнь',
+        'Сямэнь',
+        'Нинбо',
+        'Шанхай',
+        'Циндао',
+        'Далянь',
+        'Тяньцзинь',
+        'Сеул',
+        'Токио',
+        'Владивосток'
+      ]
+    },
+
+    /* ── Route B: Trans-Siberian Railway
+       Владивосток → Хабаровск → Сибирь → Москва → Санкт-Петербург → Мурманск */
+    {
+      id: 'trans-sib',
+      type: 'land',
+      waypoints: [
+        'Владивосток', 'Хабаровск', 'Чита', 'Иркутск',
+        'Красноярск', 'Новосибирск', 'Омск',
+        'Екатеринбург', 'Пермь', 'Москва',
+        'Санкт-Петербург', 'Мурманск'
+      ]
+    },
+
+    /* ── Route C: Southern Russia corridor → closes loop back to Новороссийск */
+    {
+      id: 'south-ru',
+      type: 'land',
+      waypoints: [
+        'Владивосток', 'Хабаровск', 'Благовещенск', 'Чита',
+        'Иркутск', 'Новосибирск', 'Уфа', 'Казань',
+        'Нижний Новгород', 'Москва', 'Воронеж',
+        'Волгоград', 'Ростов-на-Дону', 'Новороссийск'
+      ]
+    },
+
+    /* ── Route D: Northern land branch — Хабаровск → Якутск → Магадан */
+    {
+      id: 'north-yakutsk',
+      type: 'land',
+      waypoints: [ 'Хабаровск', 'Якутск', 'Магадан' ]
+    }
+  ];
+
+  /* Animation delay per route (negative = start already mid-cycle) */
+  var FLOW_DELAYS = {
+    'intl-sea':       '0s',
+    'trans-sib':      '-1.8s',
+    'south-ru':       '-3.6s',
+    'north-yakutsk':  '-0.9s'
+  };
+
   /* ---- GeoJSON → SVG path helpers ---- */
   var LON_PAD = 8;
   var LAT_PAD = 5;
@@ -309,11 +385,54 @@
       '</div>';
   }
 
+  /* ---- Flow route path helpers ---- */
+  function findPointByName(name) {
+    for (var i = 0; i < POINTS.length; i++) {
+      if (POINTS[i].name === name) { return POINTS[i]; }
+    }
+    return null;
+  }
+
+  function getWaypointXY(wp) {
+    if (typeof wp === 'string') {
+      var pt = findPointByName(wp);
+      return pt ? { x: lonToX(pt.lon), y: latToY(pt.lat) } : null;
+    }
+    /* Anonymous {lat, lon} guide point — just coordinates, no marker */
+    return { x: lonToX(wp.lon), y: latToY(wp.lat) };
+  }
+
+  function buildFlowPath(route) {
+    var pts = [];
+    route.waypoints.forEach(function (wp) {
+      var xy = getWaypointXY(wp);
+      if (xy) { pts.push(xy); }
+    });
+    if (pts.length < 2) { return ''; }
+
+    var d = 'M' + pts[0].x.toFixed(1) + ' ' + pts[0].y.toFixed(1);
+    for (var i = 1; i < pts.length; i++) {
+      var x0 = pts[i - 1].x, y0 = pts[i - 1].y;
+      var x1 = pts[i].x,     y1 = pts[i].y;
+      if (route.type === 'land') {
+        /* Straight segments for land / rail routes */
+        d += ' L' + x1.toFixed(1) + ' ' + y1.toFixed(1);
+      } else {
+        /* Quadratic bezier: control point arcs slightly above the chord midpoint */
+        var cpx = (x0 + x1) / 2;
+        var cpy = Math.min(y0, y1) - Math.abs(x1 - x0) * 0.10;
+        d += ' Q' + cpx.toFixed(1) + ' ' + cpy.toFixed(1) +
+             ' ' + x1.toFixed(1)   + ' ' + y1.toFixed(1);
+      }
+    }
+    return d;
+  }
+
   /* ---- Build the legend (bottom-left corner of SVG) ---- */
   function buildLegend(svg, theme) {
     var items = [
-      { color: theme.routeSea,  dash: '8 8', label: getText('legendSea') },
-      { color: theme.routeLand, dash: '5 5', label: getText('legendLand') }
+      { color: theme.routeSea,  dash: '16 10', label: getText('legendSea') },
+      { color: theme.routeLand, dash: '8 6',   label: getText('legendLand') }
     ];
     var lx = 20;
     var ly = SVG_H - 60;
@@ -398,33 +517,29 @@
       });
       svg.appendChild(landG);
 
-      /* ---- Route lines (hub → each destination) ---- */
-      var hub = null;
-      POINTS.forEach(function (p) { if (p.hub) { hub = p; } });
-      var hx = lonToX(hub.lon);
-      var hy = latToY(hub.lat);
-
+      /* ---- Flow routes (directional: Новороссийск → India → China → Russia) ---- */
       var routesG = el('g', { 'class': 'svg-map-routes' });
-      POINTS.forEach(function (pt) {
-        if (pt.hub) { return; }
-        var tx  = lonToX(pt.lon);
-        var ty  = latToY(pt.lat);
-        /* Quadratic bezier arcing slightly northward. */
-        var cpx = (hx + tx) / 2;
-        var cpy = Math.min(hy, ty) - Math.abs(tx - hx) * 0.14;
-        var routeColor = (pt.type === 'land') ? theme.routeLand : theme.routeSea;
-        var dashArray  = (pt.type === 'land') ? '5 5' : '8 8';
-        var strokeW    = (pt.type === 'land') ? '1.5' : '1.8';
-        routesG.appendChild(el('path', {
-          d: 'M' + hx.toFixed(1) + ' ' + hy.toFixed(1) +
-             ' Q' + cpx.toFixed(1) + ' ' + cpy.toFixed(1) +
-             ' ' + tx.toFixed(1) + ' ' + ty.toFixed(1),
+
+      FLOW_ROUTES.forEach(function (route) {
+        var d = buildFlowPath(route);
+        if (!d) { return; }
+        var routeColor = (route.type === 'land') ? theme.routeLand : theme.routeSea;
+        var strokeW    = (route.type === 'land') ? '1.5' : '2.2';
+        var opacity    = (route.type === 'land') ? '0.75' : '0.90';
+        var pathEl = el('path', {
+          d: d,
           style: 'fill:none;stroke:' + routeColor +
                  ';stroke-width:' + strokeW +
-                 ';stroke-opacity:0.82;stroke-dasharray:' + dashArray,
-          'class': 'svg-map-route svg-map-route--' + (pt.type || 'sea')
-        }));
+                 ';stroke-opacity:' + opacity +
+                 ';stroke-linecap:round;stroke-linejoin:round',
+          'class': 'svg-map-route svg-map-route--' + route.type
+        });
+        if (FLOW_DELAYS[route.id]) {
+          pathEl.style.animationDelay = FLOW_DELAYS[route.id];
+        }
+        routesG.appendChild(pathEl);
       });
+
       svg.appendChild(routesG);
 
       /* ---- City markers + labels ---- */

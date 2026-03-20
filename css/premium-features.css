@@ -452,17 +452,37 @@ html.dark-theme .custom-cursor-ring.is-hovered {
 }
 
 /* ---- Animated route lines ---- */
+
+/* Sea route: long dashes flowing forward (Новороссийск → India → China → Vladivostok) */
+@keyframes svg-flow-sea {
+  from { stroke-dashoffset: 26; }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* Land route: shorter dashes flowing forward (Trans-Siberian, Southern corridor) */
+@keyframes svg-flow-land {
+  from { stroke-dashoffset: 14; }
+  to   { stroke-dashoffset: 0; }
+}
+
+/* Legacy keyframe kept for any older cached refs */
 @keyframes svg-route-flow {
-  from { stroke-dashoffset: 16; }
+  from { stroke-dashoffset: 26; }
   to   { stroke-dashoffset: 0; }
 }
 
 .svg-map-route {
-  stroke: #d4af37;
-  stroke-width: 1.8;
-  stroke-opacity: 0.78;
-  stroke-dasharray: 8 8;
-  animation: svg-route-flow 1.2s linear infinite;
+  fill: none;
+}
+
+.svg-map-route--sea {
+  stroke-dasharray: 16 10;
+  animation: svg-flow-sea 3s linear infinite;
+}
+
+.svg-map-route--land {
+  stroke-dasharray: 8 6;
+  animation: svg-flow-land 2.5s linear infinite;
 }
 
 /* ---- City markers ---- */
