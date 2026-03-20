@@ -1,5 +1,5 @@
 /**
- * Pacific Star — Pure SVG Route Map  (v3 — multi-theme, expanded routes, city labels)
+ * Pacific Star — Pure SVG Route Map  (v4 — multi-theme, 42 cities, Russia/China/India)
  * ======================================================================================
  * Self-contained inline SVG map — no external libraries, no tile requests.
  * Uses Mercator projection + bundled GeoJSON land polygons (map-geodata.js).
@@ -131,32 +131,103 @@
      Negative lx → label to the left  (text-anchor: end).
      Negative ly → label above the dot; Positive ly → below. */
   var POINTS = [
-    /* Hub */
-    { name: 'Владивосток', lat: 43.1155, lon: 131.8855, hub: true,   type: 'sea',
-      desc: 'Главный транспортный хаб',     lx:  12, ly: -12 },
-    /* Russian Far East — sea / coastal routes */
-    { name: 'Сахалин',     lat: 50.9,    lon: 142.7,    hub: false,  type: 'sea',
-      desc: 'Морские грузоперевозки',       lx:  11, ly:  -8 },
-    { name: 'Магадан',     lat: 59.5635, lon: 150.8135, hub: false,  type: 'sea',
-      desc: 'Северный завоз',               lx:  11, ly:  -8 },
-    { name: 'Камчатка',    lat: 53.0,    lon: 158.65,   hub: false,  type: 'sea',
-      desc: 'Морские перевозки',            lx:  11, ly:  -8 },
-    { name: 'Чукотка',     lat: 64.7,    lon: 177.5,    hub: false,  type: 'sea',
-      desc: 'Арктические поставки',         lx: -11, ly:  -8 },
-    /* Russia mainland — land / rail routes */
-    { name: 'Хабаровск',   lat: 48.4827, lon: 135.0838, hub: false, type: 'land',
-      desc: 'Транссибирская магистраль',    lx: -11, ly: -10 },
-    { name: 'Новосибирск', lat: 54.9885, lon:  82.9357, hub: false, type: 'land',
-      desc: 'Транзитный узел',              lx:  11, ly:  -8 },
-    { name: 'Москва',      lat: 55.7558, lon:  37.6173, hub: false, type: 'land',
-      desc: 'Федеральная логистика',        lx:  11, ly:  -8 },
-    /* International — sea routes across Sea of Japan / Pacific */
-    { name: 'Шанхай',      lat: 31.2304, lon: 121.4737, hub: false, type: 'sea',
-      desc: 'Морские перевозки (Китай)',    lx: -12, ly:  -8 },
-    { name: 'Сеул',        lat: 37.5665, lon: 126.9780, hub: false, type: 'sea',
-      desc: 'Морские перевозки (Корея)',    lx: -12, ly:  17 },
-    { name: 'Токио',       lat: 35.6762, lon: 139.6503, hub: false, type: 'sea',
-      desc: 'Морские перевозки (Япония)',   lx:  11, ly:  17 }
+    /* ──── Hub ──── */
+    { name: 'Владивосток',      lat: 43.1155, lon: 131.8855, hub: true,  type: 'sea',
+      desc: 'Главный транспортный хаб',              lx:  14, ly: -13 },
+
+    /* ──── Russian Far East — sea / arctic ──── */
+    { name: 'Сахалин',          lat: 50.9,    lon: 142.7,    hub: false, type: 'sea',
+      desc: 'Морские грузоперевозки',                lx:  11, ly:  -8 },
+    { name: 'Магадан',          lat: 59.5635, lon: 150.8135, hub: false, type: 'sea',
+      desc: 'Северный завоз',                        lx:  11, ly:  -8 },
+    { name: 'Камчатка',         lat: 53.0,    lon: 158.65,   hub: false, type: 'sea',
+      desc: 'Морские перевозки',                     lx:  11, ly:  -8 },
+    { name: 'Анадырь',          lat: 64.7338, lon: 177.5215, hub: false, type: 'sea',
+      desc: 'Арктические поставки (Чукотка)',        lx: -11, ly:  -8 },
+    { name: 'Эгвекинот',        lat: 66.3213, lon: -179.176, hub: false, type: 'sea',
+      desc: 'Северный завоз (Чукотка)',              lx: -11, ly:   9 },
+    { name: 'Якутск',           lat: 62.0355, lon: 129.7320, hub: false, type: 'land',
+      desc: 'Северный завоз в Якутию',               lx:  11, ly:  -8 },
+
+    /* ──── Russian Far East — land / rail ──── */
+    { name: 'Хабаровск',        lat: 48.4827, lon: 135.0838, hub: false, type: 'land',
+      desc: 'Транссибирская магистраль',             lx: -11, ly: -10 },
+    { name: 'Благовещенск',     lat: 50.2824, lon: 127.5355, hub: false, type: 'land',
+      desc: 'Трансграничная логистика (Китай)',      lx: -11, ly: -10 },
+    { name: 'Забайкальск',      lat: 49.6527, lon: 117.3273, hub: false, type: 'land',
+      desc: 'Пограничный переход (Китай)',           lx:  11, ly:  13 },
+    { name: 'Чита',             lat: 52.0316, lon: 113.4994, hub: false, type: 'land',
+      desc: 'Транзит Восток–Запад',                  lx: -11, ly: -10 },
+    { name: 'Иркутск',          lat: 52.2978, lon: 104.2965, hub: false, type: 'land',
+      desc: 'Транзитный узел Сибири',                lx: -11, ly:  -8 },
+
+    /* ──── Russia — million-plus cities (land / rail) ──── */
+    { name: 'Красноярск',       lat: 56.0153, lon:  92.8932, hub: false, type: 'land',
+      desc: 'Крупный сибирский центр',               lx:  11, ly:  -8 },
+    { name: 'Новосибирск',      lat: 54.9885, lon:  82.9357, hub: false, type: 'land',
+      desc: 'Транзитный узел',                       lx:  11, ly:   9 },
+    { name: 'Омск',             lat: 54.9885, lon:  73.3686, hub: false, type: 'land',
+      desc: 'Западносибирский узел',                 lx: -11, ly:  -8 },
+    { name: 'Екатеринбург',     lat: 56.8389, lon:  60.6057, hub: false, type: 'land',
+      desc: 'Уральский хаб',                         lx:  11, ly:  -8 },
+    { name: 'Челябинск',        lat: 55.1644, lon:  61.4368, hub: false, type: 'land',
+      desc: 'Промышленный Урал',                     lx:  11, ly:  13 },
+    { name: 'Пермь',            lat: 58.0105, lon:  56.2502, hub: false, type: 'land',
+      desc: 'Уральский центр',                       lx: -11, ly:  -8 },
+    { name: 'Уфа',              lat: 54.7388, lon:  55.9721, hub: false, type: 'land',
+      desc: 'Поволжье–Урал',                         lx: -11, ly:  13 },
+    { name: 'Казань',           lat: 55.7879, lon:  49.1221, hub: false, type: 'land',
+      desc: 'Поволжье',                              lx: -11, ly:  -8 },
+    { name: 'Самара',           lat: 53.1959, lon:  50.1002, hub: false, type: 'land',
+      desc: 'Поволжский центр',                      lx:  11, ly:  13 },
+    { name: 'Нижний Новгород',  lat: 56.3269, lon:  44.0059, hub: false, type: 'land',
+      desc: 'Приволжский центр',                     lx: -11, ly: -10 },
+    { name: 'Волгоград',        lat: 48.7080, lon:  44.5133, hub: false, type: 'land',
+      desc: 'Нижнее Поволжье',                       lx:  11, ly:  13 },
+    { name: 'Воронеж',          lat: 51.6755, lon:  39.2088, hub: false, type: 'land',
+      desc: 'Центральное Черноземье',                lx:  11, ly:  13 },
+    { name: 'Ростов-на-Дону',   lat: 47.2357, lon:  39.7015, hub: false, type: 'land',
+      desc: 'Южный хаб России',                      lx: -11, ly:  13 },
+    { name: 'Москва',           lat: 55.7558, lon:  37.6173, hub: false, type: 'land',
+      desc: 'Федеральная логистика',                 lx:  11, ly:  -8 },
+    { name: 'Санкт-Петербург',  lat: 59.9343, lon:  30.3351, hub: false, type: 'land',
+      desc: 'Балтийский порт',                       lx:  11, ly: -10 },
+
+    /* ──── China — Beijing + major sea ports ──── */
+    { name: 'Пекин',            lat: 39.9042, lon: 116.4074, hub: false, type: 'land',
+      desc: 'Логистический центр (Китай)',           lx: -12, ly: -10 },
+    { name: 'Тяньцзинь',        lat: 39.3434, lon: 117.3616, hub: false, type: 'sea',
+      desc: 'Морской порт (Китай)',                  lx:  11, ly:  13 },
+    { name: 'Далянь',           lat: 38.9140, lon: 121.6147, hub: false, type: 'sea',
+      desc: 'Портовый хаб (Китай)',                  lx:  11, ly:  -8 },
+    { name: 'Циндао',           lat: 36.0671, lon: 120.3826, hub: false, type: 'sea',
+      desc: 'Морской порт (Китай)',                  lx: -12, ly:  -8 },
+    { name: 'Шанхай',           lat: 31.2304, lon: 121.4737, hub: false, type: 'sea',
+      desc: 'Морские перевозки (Китай)',             lx: -12, ly:  -8 },
+    { name: 'Нинбо',            lat: 29.8683, lon: 121.5440, hub: false, type: 'sea',
+      desc: 'Морской порт (Китай)',                  lx:  11, ly:  13 },
+    { name: 'Сямэнь',           lat: 24.4798, lon: 118.0894, hub: false, type: 'sea',
+      desc: 'Морской порт (Китай)',                  lx: -12, ly:  -8 },
+    { name: 'Гуанчжоу',         lat: 23.1291, lon: 113.2644, hub: false, type: 'sea',
+      desc: 'Морской порт (Китай)',                  lx: -12, ly:  -8 },
+    { name: 'Шэньчжэнь',        lat: 22.5431, lon: 114.0579, hub: false, type: 'sea',
+      desc: 'Морской порт (Китай)',                  lx:  11, ly:  13 },
+
+    /* ──── India — major sea ports ──── */
+    { name: 'Калькутта',        lat: 22.5726, lon:  88.3639, hub: false, type: 'sea',
+      desc: 'Морской порт (Индия)',                  lx:  11, ly:  -8 },
+    { name: 'Мумбаи',           lat: 19.0760, lon:  72.8777, hub: false, type: 'sea',
+      desc: 'Крупнейший порт (Индия)',               lx: -12, ly:  -8 },
+    { name: 'Кочи',             lat:  9.9312, lon:  76.2673, hub: false, type: 'sea',
+      desc: 'Морской порт (Индия)',                  lx: -12, ly:  -8 },
+    { name: 'Ченнаи',           lat: 13.0827, lon:  80.2707, hub: false, type: 'sea',
+      desc: 'Морской порт (Индия)',                  lx:  11, ly:  -8 },
+
+    /* ──── International — Sea of Japan / Pacific ──── */
+    { name: 'Сеул',             lat: 37.5665, lon: 126.9780, hub: false, type: 'sea',
+      desc: 'Морские перевозки (Корея)',             lx: -12, ly:  17 },
+    { name: 'Токио',            lat: 35.6762, lon: 139.6503, hub: false, type: 'sea',
+      desc: 'Морские перевозки (Япония)',            lx:  11, ly:  17 }
   ];
 
   /* ---- GeoJSON → SVG path helpers ---- */
