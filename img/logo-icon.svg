@@ -1,38 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Pacific Star">
-  <title>Pacific Star</title>
+<!--
+  Pacific Star — ВАРИАНТ A: ПОЛЯРИС (The Navigator Star)
+  Concept: An 8-pointed Polaris / compass star. Four long cardinal rays (N/E/S/W)
+  and four shorter diagonal rays — exactly like the rose de vents on old navigation
+  charts. The radial gradient burns gold at the heart and fades to deep navy at the
+  tips. Works on any background; scales perfectly from 16 px favicon to billboard.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"
+     role="img" aria-label="Pacific Star">
+  <title>Pacific Star — ПОЛЯРИС</title>
+
   <defs>
-    <radialGradient id="ps-icon-bg" cx="38%" cy="35%" r="70%">
-      <stop offset="0%" stop-color="#1d54ab"/>
+    <!-- Soft glow halo behind the star -->
+    <radialGradient id="a-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#f5a623" stop-opacity="0.22"/>
+      <stop offset="50%"  stop-color="#1a4da0" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#0d2b5e" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Star body: brilliant gold centre → deep navy tips -->
+    <radialGradient id="a-star" cx="50%" cy="50%" r="50%">
+      <stop offset="0%"   stop-color="#fff8e1"/>
+      <stop offset="22%"  stop-color="#ffe066"/>
+      <stop offset="45%"  stop-color="#f5a623"/>
+      <stop offset="72%"  stop-color="#1d54ab"/>
       <stop offset="100%" stop-color="#091e4f"/>
     </radialGradient>
-    <linearGradient id="ps-star" x1="20%" y1="0%" x2="80%" y2="100%">
-      <stop offset="0%" stop-color="#ffe08a"/>
-      <stop offset="50%" stop-color="#f5a623"/>
-      <stop offset="100%" stop-color="#cc8014"/>
-    </linearGradient>
+
+    <!-- Background circle gradient -->
+    <radialGradient id="a-bg" cx="38%" cy="32%" r="68%">
+      <stop offset="0%"   stop-color="#1d54ab"/>
+      <stop offset="100%" stop-color="#091e4f"/>
+    </radialGradient>
   </defs>
 
   <!-- Background circle -->
-  <circle cx="60" cy="60" r="57" fill="url(#ps-icon-bg)"/>
+  <circle cx="60" cy="60" r="57" fill="url(#a-bg)"/>
 
-  <!-- Decorative outer ring -->
-  <circle cx="60" cy="60" r="55" fill="none" stroke="#f5a623" stroke-width="1.5" opacity="0.4"/>
+  <!-- Outer ring (thin compass bezel) -->
+  <circle cx="60" cy="60" r="55" fill="none" stroke="#f5a623"
+          stroke-width="1.2" opacity="0.35"/>
 
-  <!-- Subtle inner ring (compass bezel) -->
-  <circle cx="60" cy="60" r="44" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <!-- Inner ring -->
+  <circle cx="60" cy="60" r="45" fill="none"
+          stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+
+  <!-- Glow halo (sits behind the star) -->
+  <circle cx="60" cy="60" r="57" fill="url(#a-glow)"/>
 
   <!--
-    4-pointed navigator star (compass rose style)
-    Tips:  N(60,9) · E(111,60) · S(60,111) · W(9,60)   r_outer = 51
-    Waist: NE(71,49) · SE(71,71) · SW(49,71) · NW(49,49)  r_inner = 15 → 15/√2 ≈ 10.6
+    8-pointed Polaris star (compass rose geometry):
+    Cardinal tips  r=50 :  N(60,10) · E(110,60) · S(60,110) · W(10,60)
+    Diagonal tips  r=32 :  NE(82.6,37.4) · SE(82.6,82.6)
+                           SW(37.4,82.6) · NW(37.4,37.4)
+    Inner notches  r=15 :  16 notch points at every 22.5°
   -->
-  <path d="M60,9 L71,49 L111,60 L71,71 L60,111 L49,71 L9,60 L49,49 Z"
-        fill="url(#ps-star)"/>
+  <path fill="url(#a-star)"
+    d="M60,10
+       L65.7,46.2  L82.6,37.4  L73.9,54.3
+       L110,60
+       L73.9,65.7  L82.6,82.6  L65.7,73.8
+       L60,110
+       L54.3,73.8  L37.4,82.6  L46.1,65.7
+       L10,60
+       L46.1,54.3  L37.4,37.4  L54.3,46.2
+       Z"/>
 
-  <!-- Center white disc -->
-  <circle cx="60" cy="60" r="7.5" fill="white" opacity="0.92"/>
+  <!-- Compass bezel tick marks (8 cardinal/intercardinal) -->
+  <g stroke="#f5a623" stroke-width="0.8" opacity="0.55">
+    <line x1="60" y1="5"  x2="60" y2="8"/>   <!-- N  -->
+    <line x1="60" y1="112" x2="60" y2="115"/> <!-- S  -->
+    <line x1="5"  y1="60" x2="8"  y2="60"/>   <!-- W  -->
+    <line x1="112" y1="60" x2="115" y2="60"/> <!-- E  -->
+  </g>
 
-  <!-- Gold centre accent -->
-  <circle cx="60" cy="60" r="3.5" fill="#f5a623"/>
+  <!-- Centre: white pearl + gold dot -->
+  <circle cx="60" cy="60" r="9" fill="white" opacity="0.18"/>
+  <circle cx="60" cy="60" r="6" fill="white" opacity="0.9"/>
+  <circle cx="60" cy="60" r="3" fill="#f5a623"/>
 </svg>
+
