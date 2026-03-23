@@ -130,130 +130,249 @@
   } catch (e) { /* ignore */ }
 
   /* ---- City / point data ---- */
-  /* lx/ly: label offset from dot centre (px in SVG space).
-     Positive lx → label to the right (text-anchor: start);
-     Negative lx → label to the left  (text-anchor: end).
-     Negative ly → label above the dot; Positive ly → below. */
+  /* Fields:
+     name     — display label
+     lat/lon  — geographic coordinates (WGS-84)
+     hub      — true = main hub (larger dot + pulse)
+     type     — 'sea' | 'land'  (dot colour)
+     nodeType — 'hub' | 'port' | 'city' | 'region'  (semantic type)
+     country  — country name for data consumers
+     desc     — tooltip description (service info)
+     mobile   — false = hide on small screens (default: true)
+     lx/ly    — label offset from dot centre (px in SVG space).
+                 Positive lx → right (text-anchor: start);
+                 Negative lx → left  (text-anchor: end).
+                 Negative ly → above dot; Positive ly → below.
+     To add a new city: push an entry here.
+     To adjust position: edit lat/lon. */
   var POINTS = [
     /* ──── Hub ──── */
     { name: 'Владивосток',      lat: 43.1155, lon: 131.8855, hub: true,  type: 'sea',
-      desc: 'Главный транспортный хаб',              lx:  14, ly: -13 },
+      nodeType: 'hub',   country: 'Russia',
+      desc: 'Главный хаб Дальнего Востока. Морские линии в Азию, Северный завоз, Транссибирские перевозки.',
+      lx:  14, ly: -13 },
 
     /* ──── Russian Far East — sea / arctic ──── */
     { name: 'Сахалин',          lat: 50.9,    lon: 142.7,    hub: false, type: 'sea',
-      desc: 'Морские грузоперевозки',                lx:  11, ly:  -8 },
+      nodeType: 'port',  country: 'Russia', mobile: false,
+      desc: 'Морские грузоперевозки и нефтегазовая логистика Сахалинского шельфа.',
+      lx:  11, ly:  -8 },
     { name: 'Магадан',          lat: 59.5635, lon: 150.8135, hub: false, type: 'sea',
-      desc: 'Северный завоз',                        lx:  11, ly:  -8 },
+      nodeType: 'port',  country: 'Russia',
+      desc: 'Ключевой порт Охотского моря. Северный завоз в Магаданскую область и Чукотку.',
+      lx:  11, ly:  -8 },
     { name: 'Петропавловск-Камчатский', lat: 53.0121, lon: 158.6561, hub: false, type: 'sea',
-      desc: 'Морские перевозки (Камчатка)',          lx:  11, ly:  -8 },
+      nodeType: 'port',  country: 'Russia',
+      desc: 'Морские перевозки на Камчатку. Северный завоз, рыбная и промышленная логистика.',
+      lx:  11, ly:  -8 },
     { name: 'Анадырь',          lat: 64.7338, lon: 177.5215, hub: false, type: 'sea',
-      desc: 'Арктические поставки (Чукотка)',        lx: -11, ly:  -8 },
+      nodeType: 'port',  country: 'Russia',
+      desc: 'Столица Чукотского АО. Арктические морские поставки, Северный завоз.',
+      lx: -11, ly:  -8 },
     { name: 'Певек',            lat: 69.7027, lon: 170.2738, hub: false, type: 'sea',
-      desc: 'Ключевой порт Северного морского пути', lx: -11, ly:  -8 },
+      nodeType: 'port',  country: 'Russia',
+      desc: 'Самый северный порт России. Ключевой узел Северного морского пути (СМП), арктический завоз.',
+      lx: -11, ly:  -8 },
     { name: 'Эгвекинот',        lat: 66.3213, lon: -179.176, hub: false, type: 'sea',
-      desc: 'Северный завоз (Чукотка)',              lx: -11, ly:   9 },
+      nodeType: 'port',  country: 'Russia', mobile: false,
+      desc: 'Морской порт Чукотки. Северный завоз, поставки в труднодоступные районы.',
+      lx: -11, ly:   9 },
+    { name: 'Чукотка',          lat: 66.8,    lon: 172.5,   hub: false, type: 'sea',
+      /* nodeType 'region': regional area label — renders as a standard non-hub marker.
+         To display without a dot, add a special branch in the marker rendering loop. */
+      nodeType: 'region', country: 'Russia',
+      desc: 'Чукотский автономный округ. Арктические маршруты, Северный завоз, СМП.',
+      lx:  11, ly: -10 },
     { name: 'Якутск',           lat: 62.0355, lon: 129.7320, hub: false, type: 'land',
-      desc: 'Северный завоз в Якутию',               lx:  11, ly:  -8 },
+      nodeType: 'city',  country: 'Russia',
+      desc: 'Центр Северного завоза в Якутию. Автодоставка вглубь арктических районов.',
+      lx:  11, ly:  -8 },
 
     /* ──── Russian Far East — land / rail ──── */
     { name: 'Хабаровск',        lat: 48.4827, lon: 135.0838, hub: false, type: 'land',
-      desc: 'Транссибирская магистраль',             lx: -11, ly: -10 },
+      nodeType: 'city',  country: 'Russia',
+      desc: 'Крупный транспортный узел Дальнего Востока. Транссибирская магистраль, автокоридоры.',
+      lx: -11, ly: -10 },
     { name: 'Благовещенск',     lat: 50.2824, lon: 127.5355, hub: false, type: 'land',
-      desc: 'Трансграничная логистика (Китай)',      lx: -11, ly: -10 },
+      nodeType: 'city',  country: 'Russia', mobile: false,
+      desc: 'Приграничный переход с Китаем (Хэйхэ). Трансграничная логистика и автодоставка.',
+      lx: -11, ly: -10 },
     { name: 'Забайкальск',      lat: 49.6527, lon: 117.3273, hub: false, type: 'land',
-      desc: 'Пограничный переход (Китай)',           lx:  11, ly:  13 },
+      nodeType: 'city',  country: 'Russia', mobile: false,
+      desc: 'Главный пограничный переход в Китай. Контейнерные ж/д перевозки (Маньчжурия).',
+      lx:  11, ly:  13 },
     { name: 'Чита',             lat: 52.0316, lon: 113.4994, hub: false, type: 'land',
-      desc: 'Транзит Восток–Запад',                  lx: -11, ly: -10 },
+      nodeType: 'city',  country: 'Russia', mobile: false,
+      desc: 'Транзитный узел Восток–Запад. Ж/д перевозки, автокоридор.',
+      lx: -11, ly: -10 },
     { name: 'Иркутск',          lat: 52.2978, lon: 104.2965, hub: false, type: 'land',
-      desc: 'Транзитный узел Сибири',                lx: -11, ly:  -8 },
+      nodeType: 'city',  country: 'Russia',
+      desc: 'Транзитный узел Сибири. Ж/д и автодоставка, перевалка грузов.',
+      lx: -11, ly:  -8 },
 
     /* ──── Russia — million-plus cities (land / rail) ──── */
     { name: 'Красноярск',       lat: 56.0153, lon:  92.8932, hub: false, type: 'land',
-      desc: 'Крупный сибирский центр',               lx:  11, ly:  -8 },
+      nodeType: 'city',  country: 'Russia', mobile: false,
+      desc: 'Крупный сибирский центр. Авиа- и ж/д перевалка, региональная логистика.',
+      lx:  11, ly:  -8 },
     { name: 'Новосибирск',      lat: 54.9885, lon:  82.9357, hub: false, type: 'land',
-      desc: 'Транзитный узел',                       lx:  11, ly:   9 },
+      nodeType: 'city',  country: 'Russia',
+      desc: 'Крупнейший транзитный узел Сибири. Ж/д, авто и авиаперевозки.',
+      lx:  11, ly:   9 },
     { name: 'Омск',             lat: 54.9885, lon:  73.3686, hub: false, type: 'land',
-      desc: 'Западносибирский узел',                 lx: -11, ly:  -8 },
+      nodeType: 'city',  country: 'Russia', mobile: false,
+      desc: 'Западносибирский логистический узел. Ж/д перевозки.',
+      lx: -11, ly:  -8 },
     { name: 'Екатеринбург',     lat: 56.8389, lon:  60.6057, hub: false, type: 'land',
-      desc: 'Уральский хаб',                         lx:  11, ly:  -8 },
+      nodeType: 'city',  country: 'Russia',
+      desc: 'Уральский хаб. Перевалка грузов Восток–Запад, промышленная логистика.',
+      lx:  11, ly:  -8 },
     { name: 'Челябинск',        lat: 55.1644, lon:  61.4368, hub: false, type: 'land',
-      desc: 'Промышленный Урал',                     lx:  11, ly:  13 },
+      nodeType: 'city',  country: 'Russia', mobile: false,
+      desc: 'Промышленный Урал. Ж/д и автодоставка.',
+      lx:  11, ly:  13 },
     { name: 'Пермь',            lat: 58.0105, lon:  56.2502, hub: false, type: 'land',
-      desc: 'Уральский центр',                       lx: -11, ly:  -8 },
+      nodeType: 'city',  country: 'Russia', mobile: false,
+      desc: 'Уральский центр. Ж/д и речная логистика.',
+      lx: -11, ly:  -8 },
     { name: 'Уфа',              lat: 54.7388, lon:  55.9721, hub: false, type: 'land',
-      desc: 'Поволжье–Урал',                         lx: -11, ly:  13 },
+      nodeType: 'city',  country: 'Russia', mobile: false,
+      desc: 'Поволжье–Урал. Транзитный коридор Восток–Запад.',
+      lx: -11, ly:  13 },
     { name: 'Казань',           lat: 55.7879, lon:  49.1221, hub: false, type: 'land',
-      desc: 'Поволжье',                              lx: -11, ly:  -8 },
+      nodeType: 'city',  country: 'Russia', mobile: false,
+      desc: 'Поволжье. Логистика в Центральную Россию, ж/д и автоперевозки.',
+      lx: -11, ly:  -8 },
     { name: 'Самара',           lat: 53.1959, lon:  50.1002, hub: false, type: 'land',
-      desc: 'Поволжский центр',                      lx:  11, ly:  13 },
+      nodeType: 'city',  country: 'Russia', mobile: false,
+      desc: 'Поволжский центр. Транзит на юг и запад России.',
+      lx:  11, ly:  13 },
     { name: 'Нижний Новгород',  lat: 56.3269, lon:  44.0059, hub: false, type: 'land',
-      desc: 'Приволжский центр',                     lx: -11, ly: -10 },
+      nodeType: 'city',  country: 'Russia', mobile: false,
+      desc: 'Приволжский центр. Автомобильная и ж/д логистика.',
+      lx: -11, ly: -10 },
     { name: 'Волгоград',        lat: 48.7080, lon:  44.5133, hub: false, type: 'land',
-      desc: 'Нижнее Поволжье',                       lx:  11, ly:  13 },
+      nodeType: 'city',  country: 'Russia', mobile: false,
+      desc: 'Нижнее Поволжье. Транзит на юг к черноморским портам.',
+      lx:  11, ly:  13 },
     { name: 'Воронеж',          lat: 51.6755, lon:  39.2088, hub: false, type: 'land',
-      desc: 'Центральное Черноземье',                lx:  11, ly:  13 },
+      nodeType: 'city',  country: 'Russia', mobile: false,
+      desc: 'Центральное Черноземье. Транзит в южном направлении.',
+      lx:  11, ly:  13 },
     { name: 'Ростов-на-Дону',   lat: 47.2357, lon:  39.7015, hub: false, type: 'land',
-      desc: 'Южный хаб России',                      lx: -11, ly:  13 },
+      nodeType: 'city',  country: 'Russia',
+      desc: 'Южный хаб России. Автодоставка, ж/д, выход к черноморским портам.',
+      lx: -11, ly:  13 },
     { name: 'Москва',           lat: 55.7558, lon:  37.6173, hub: false, type: 'land',
-      desc: 'Федеральная логистика',                 lx:  11, ly:  -8 },
-    { name: 'Санкт-Петербург',  lat: 59.9343, lon:  30.3351, hub: false, type: 'land',
-      desc: 'Балтийский порт',                       lx:  11, ly: -10 },
+      nodeType: 'city',  country: 'Russia',
+      desc: 'Федеральный логистический центр. Распределение грузов по всей России.',
+      lx:  11, ly:  -8 },
+    { name: 'Санкт-Петербург',  lat: 59.9343, lon:  30.3351, hub: false, type: 'sea',
+      nodeType: 'port',  country: 'Russia',
+      desc: 'Балтийский портовый хаб. Паромное и морское сообщение, экспорт-импорт.',
+      lx:  11, ly: -10 },
     { name: 'Находка',          lat: 42.8206, lon: 132.8731, hub: false, type: 'sea',
-      desc: 'Порт в Приморском крае',                lx:  11, ly:  13 },
+      nodeType: 'port',  country: 'Russia',
+      desc: 'Крупный контейнерный и угольный порт Приморского края.',
+      lx:  11, ly:  13 },
     { name: 'Мурманск',         lat: 68.9585, lon:  33.0827, hub: false, type: 'sea',
-      desc: 'Арктический порт России',               lx:  11, ly:  -8 },
+      nodeType: 'port',  country: 'Russia',
+      desc: 'Незамерзающий арктический порт. Западная точка входа на СМП, арктический завоз.',
+      lx:  11, ly:  -8 },
     { name: 'Новороссийск',     lat: 44.7233, lon:  37.7685, hub: false, type: 'sea',
-      desc: 'Черноморский порт России',              lx: -12, ly: -10 },
+      nodeType: 'port',  country: 'Russia',
+      desc: 'Черноморский торговый порт. Нефтеналивные и контейнерные перевозки, выход в Средиземноморье.',
+      lx: -12, ly: -10 },
     { name: 'Калининград',      lat: 54.7065, lon:  20.5109, hub: false, type: 'sea',
-      desc: 'Балтийский порт (Калининградский эксклав)', lx: 11, ly: -8 },
+      nodeType: 'port',  country: 'Russia',
+      desc: 'Балтийский порт в Калининградском эксклаве. Паромное и морское сообщение с материковой Россией.',
+      lx: 11, ly: -8 },
     { name: 'Севастополь',      lat: 44.6166, lon:  33.5254, hub: false, type: 'sea',
-      desc: 'Черноморский порт (Крым, Россия)',      lx:  11, ly:  13 },
+      nodeType: 'port',  country: 'Russia', mobile: false,
+      desc: 'Черноморский порт (Крым, Россия). Военно-морская и гражданская логистика.',
+      lx:  11, ly:  13 },
 
     /* ──── China — Beijing + major sea ports ──── */
     { name: 'Пекин',            lat: 39.9042, lon: 116.4074, hub: false, type: 'land',
-      desc: 'Логистический центр (Китай)',           lx: -12, ly: -10 },
+      nodeType: 'city',  country: 'China',
+      desc: 'Логистический центр Китая. Ж/д коридоры в Россию, транзитные перевозки.',
+      lx: -12, ly: -10 },
     { name: 'Тяньцзинь',        lat: 39.3434, lon: 117.3616, hub: false, type: 'sea',
-      desc: 'Морской порт (Китай)',                  lx:  11, ly:  13 },
+      nodeType: 'port',  country: 'China', mobile: false,
+      desc: 'Морской порт Пекинского региона (Китай). Контейнерные перевозки.',
+      lx:  11, ly:  13 },
     { name: 'Далянь',           lat: 38.9140, lon: 121.6147, hub: false, type: 'sea',
-      desc: 'Портовый хаб (Китай)',                  lx:  11, ly:  -8 },
+      nodeType: 'port',  country: 'China', mobile: false,
+      desc: 'Портовый хаб Северного Китая. Контейнерные и навалочные грузы.',
+      lx:  11, ly:  -8 },
     { name: 'Циндао',           lat: 36.0671, lon: 120.3826, hub: false, type: 'sea',
-      desc: 'Морской порт (Китай)',                  lx: -12, ly:  -8 },
+      nodeType: 'port',  country: 'China', mobile: false,
+      desc: 'Крупный контейнерный порт (Китай). Экспортные перевозки.',
+      lx: -12, ly:  -8 },
     { name: 'Шанхай',           lat: 31.2304, lon: 121.4737, hub: false, type: 'sea',
-      desc: 'Морские перевозки (Китай)',             lx: -12, ly:  -8 },
+      nodeType: 'port',  country: 'China',
+      desc: 'Крупнейший морской порт Китая. Контейнерные линии во Владивосток и Россию.',
+      lx: -12, ly:  -8 },
     { name: 'Нинбо',            lat: 29.8683, lon: 121.5440, hub: false, type: 'sea',
-      desc: 'Морской порт (Китай)',                  lx:  11, ly:  13 },
+      nodeType: 'port',  country: 'China', mobile: false,
+      desc: 'Один из ведущих контейнерных портов Китая.',
+      lx:  11, ly:  13 },
     { name: 'Сямэнь',           lat: 24.4798, lon: 118.0894, hub: false, type: 'sea',
-      desc: 'Морской порт (Китай)',                  lx: -12, ly:  -8 },
+      nodeType: 'port',  country: 'China', mobile: false,
+      desc: 'Морской порт Юго-Восточного Китая. Контейнерные перевозки.',
+      lx: -12, ly:  -8 },
     { name: 'Гуанчжоу',         lat: 23.1291, lon: 113.2644, hub: false, type: 'sea',
-      desc: 'Морской порт (Китай)',                  lx: -12, ly:  -8 },
+      nodeType: 'port',  country: 'China',
+      desc: 'Портовый мегахаб Юга Китая. Контейнерные линии в Россию и СНГ.',
+      lx: -12, ly:  -8 },
     { name: 'Шэньчжэнь',        lat: 22.5431, lon: 114.0579, hub: false, type: 'sea',
-      desc: 'Морской порт (Китай)',                  lx:  11, ly:  13 },
+      nodeType: 'port',  country: 'China', mobile: false,
+      desc: 'Крупнейший контейнерный порт Юга Китая (порт Яньтянь).',
+      lx:  11, ly:  13 },
 
     /* ──── India — major sea ports ──── */
     { name: 'Калькутта',        lat: 22.5726, lon:  88.3639, hub: false, type: 'sea',
-      desc: 'Морской порт (Индия)',                  lx:  11, ly:  -8 },
+      nodeType: 'port',  country: 'India',
+      desc: 'Крупнейший порт Восточной Индии. Бенгальский залив, морские линии в Россию.',
+      lx:  11, ly:  -8 },
     { name: 'Мумбаи',           lat: 19.0760, lon:  72.8777, hub: false, type: 'sea',
-      desc: 'Крупнейший порт (Индия)',               lx: -12, ly:  -8 },
+      nodeType: 'port',  country: 'India',
+      desc: 'Главный торговый порт Индии. Транзит через Аравийское море в Россию.',
+      lx: -12, ly:  -8 },
     { name: 'Кочи',             lat:  9.9312, lon:  76.2673, hub: false, type: 'sea',
-      desc: 'Морской порт (Индия)',                  lx: -12, ly:  -8 },
+      nodeType: 'port',  country: 'India', mobile: false,
+      desc: 'Южный порт Индии (Малабарское побережье). Контейнерные перевозки.',
+      lx: -12, ly:  -8 },
     { name: 'Ченнаи',           lat: 13.0827, lon:  80.2707, hub: false, type: 'sea',
-      desc: 'Морской порт (Индия)',                  lx:  11, ly:  -8 },
+      nodeType: 'port',  country: 'India',
+      desc: 'Крупнейший порт Восточного побережья Индии. Морские линии в Азию.',
+      lx:  11, ly:  -8 },
 
     /* ──── International — Sea of Japan / Pacific ──── */
     { name: 'Сеул',             lat: 37.5665, lon: 126.9780, hub: false, type: 'sea',
-      desc: 'Морские перевозки (Корея)',             lx: -12, ly:  17 },
+      nodeType: 'city',  country: 'Korea', mobile: false,
+      desc: 'Морские перевозки (Корея). Транзит через Японское море.',
+      lx: -12, ly:  17 },
     { name: 'Токио',            lat: 35.6762, lon: 139.6503, hub: false, type: 'sea',
-      desc: 'Морские перевозки (Япония)',            lx:  11, ly:  17 }
+      nodeType: 'city',  country: 'Japan', mobile: false,
+      desc: 'Морские перевозки (Япония). Транзит через Тихий океан.',
+      lx:  11, ly:  17 }
   ];
 
   /* ---- Directional flow routes ----
      Chains of waypoints showing cargo flow direction.
      Waypoints are either a city name (matched against POINTS) or
      an anonymous {lat, lon} object used as a path guide point only.
-     • label: short route title shown in hover tooltip
-     • desc:  one-line description shown below the title
+     Fields:
+       id       — unique route identifier
+       type     — 'sea' | 'land'
+       label    — short route title shown in hover tooltip
+       desc     — service description shown in tooltip (one line)
+       mobile   — false = hide route on small screens (default: true)
+       waypoints — ordered list of city names and/or {lat, lon} guide points
      To add a new route: push an entry here and in FLOW_DELAYS.
-     To adjust a sea route's path, edit or insert {lat, lon} guide points. */
+     To adjust a sea route's path: edit or insert {lat, lon} guide points.
+     To adjust a land route corridor: reorder or add city-name stops. */
   var FLOW_ROUTES = [
     /* ── Route A: International sea corridor
        Waypoints are placed so every quadratic-bezier segment stays in open water.
@@ -271,7 +390,7 @@
       id: 'intl-sea',
       type: 'sea',
       label: 'Международный морской коридор',
-      desc:  'Новороссийск → Индия → Китай → Владивосток',
+      desc:  'Новороссийск → Индия → Китай → Владивосток. Контейнерные перевозки, морской экспорт/импорт.',
       waypoints: [
         'Новороссийск',
         { lat: 43.0, lon: 34.0 },   /* Чёрное море — идём на запад          */
@@ -331,7 +450,7 @@
       id: 'trans-sib',
       type: 'land',
       label: 'Транссибирская магистраль',
-      desc:  'Владивосток → Хабаровск → Сибирь → Москва → Мурманск',
+      desc:  'Владивосток → Хабаровск → Иркутск → Москва → Мурманск. Ж/д перевозки, сборные и контейнерные грузы.',
       waypoints: [
         'Владивосток', 'Хабаровск', 'Чита', 'Иркутск',
         'Красноярск', 'Новосибирск', 'Омск',
@@ -345,7 +464,8 @@
       id: 'south-ru',
       type: 'land',
       label: 'Южный транспортный коридор',
-      desc:  'Владивосток → Сибирь → Москва → Новороссийск',
+      desc:  'Владивосток → Сибирь → Москва → Ростов-на-Дону → Новороссийск. Автомобильная и ж/д доставка.',
+      mobile: false,
       waypoints: [
         'Владивосток', 'Хабаровск', 'Благовещенск', 'Чита',
         'Иркутск', 'Новосибирск', 'Уфа', 'Казань',
@@ -359,7 +479,7 @@
       id: 'north-yakutsk',
       type: 'land',
       label: 'Северный завоз — Якутия',
-      desc:  'Хабаровск → Якутск → Магадан',
+      desc:  'Хабаровск → Якутск → Магадан. Автодоставка вглубь арктических районов, сезонные поставки.',
       waypoints: [ 'Хабаровск', 'Якутск', 'Магадан' ]
     },
 
@@ -371,7 +491,7 @@
       id: 'nsm-route',
       type: 'sea',
       label: 'Северный морской путь',
-      desc:  'Мурманск → Певек → Чукотка → Владивосток',
+      desc:  'Мурманск → Певек → Анадырь → Владивосток. Арктический завоз, СМП, снабжение районов Крайнего Севера.',
       waypoints: [
         'Мурманск',
         { lat: 72.0, lon: 38.0 },   /* Barents Sea, open water            */
@@ -397,7 +517,7 @@
       id: 'baltic-sea',
       type: 'sea',
       label: 'Балтийский морской маршрут',
-      desc:  'Санкт-Петербург → Балтийское море → Калининград',
+      desc:  'Санкт-Петербург → Балтийское море → Калининград. Паромное и морское сообщение с Калининградским эксклавом.',
       waypoints: [
         'Санкт-Петербург',
         { lat: 60.0, lon: 27.0 },   /* Gulf of Finland, near Tallinn      */
@@ -689,6 +809,8 @@
         var routeColor = (route.type === 'land') ? theme.routeLand : theme.routeSea;
         var strokeW    = (route.type === 'land') ? '1.5' : '2.2';
         var opacity    = (route.type === 'land') ? '0.75' : '0.90';
+        /* mobile: false → hide on small screens via CSS media query */
+        var isMobileHide = (route.mobile === false);
 
         /* Animated visible route line. */
         var pathEl = el('path', {
@@ -697,7 +819,8 @@
                  ';stroke-width:' + strokeW +
                  ';stroke-opacity:' + opacity +
                  ';stroke-linecap:round;stroke-linejoin:round',
-          'class': 'svg-map-route svg-map-route--' + route.type,
+          'class': 'svg-map-route svg-map-route--' + route.type +
+                   (isMobileHide ? ' svg-map-minor' : ''),
           'data-route-id': route.id
         });
         if (FLOW_DELAYS[route.id]) {
@@ -711,7 +834,7 @@
         var hitEl = el('path', {
           d: d,
           style: 'fill:none;stroke:transparent;stroke-width:14;stroke-linecap:round;stroke-linejoin:round',
-          'class': 'svg-map-route-hit',
+          'class': 'svg-map-route-hit' + (isMobileHide ? ' svg-map-minor' : ''),
           'data-route-id':    route.id,
           'data-route-label': route.label || '',
           'data-route-desc':  route.desc  || '',
@@ -727,14 +850,23 @@
       POINTS.forEach(function (pt) {
         var cx = lonToX(pt.lon).toFixed(1);
         var cy = latToY(pt.lat).toFixed(1);
+        /* mobile: false → hide on small screens via CSS media query */
+        var isMobileHide = (pt.mobile === false);
         var g  = el('g', {
-          'class':      'svg-map-marker' + (pt.hub ? ' svg-map-marker--hub' : ''),
+          'class':      'svg-map-marker' + (pt.hub ? ' svg-map-marker--hub' : '') +
+                        (isMobileHide ? ' svg-map-minor' : ''),
           tabindex:     '0',
           role:         'button',
           'aria-label': pt.name + ' — ' + pt.desc
         });
-        g.dataset.name = pt.name;
-        g.dataset.desc = pt.desc;
+        g.dataset.name     = pt.name;
+        g.dataset.desc     = pt.desc;
+        g.dataset.nodeType = pt.nodeType || '';
+        g.dataset.country  = pt.country  || '';
+
+        /* Store base dot colour for route-highlight restore. */
+        var baseDotColor = pt.hub ? theme.dotHub : theme.dotCity;
+        g.dataset.baseDotColor = baseDotColor;
 
         /* Pulse ring. */
         g.appendChild(el('circle', {
@@ -747,7 +879,7 @@
         g.appendChild(el('circle', {
           cx: cx, cy: cy,
           r:  pt.hub ? '5' : '3.5',
-          style: 'fill:' + (pt.hub ? theme.dotHub : theme.dotCity),
+          style: 'fill:' + baseDotColor,
           'class': 'svg-map-dot'
         }));
 
@@ -784,6 +916,7 @@
       container.appendChild(svg);
 
       /* ---- Tooltip ---- */
+      /* TOOLTIP_WIDTH must match max-width of .svg-map-tooltip in premium-features.css */
       var TOOLTIP_WIDTH = 220;
       var tooltip = document.createElement('div');
       tooltip.className = 'svg-map-tooltip';
@@ -877,6 +1010,29 @@
             p.style.strokeOpacity = '1';
             p.style.strokeWidth   = (hitEl.dataset.routeType === 'land') ? '2.5' : '3.2';
           });
+          /* Highlight all named city nodes on the hovered route.
+             We preserve the original dot fill colour and only add a stronger glow
+             so hub nodes remain visually distinct from regular city nodes. */
+          var routeDef = null;
+          for (var ri = 0; ri < FLOW_ROUTES.length; ri++) {
+            if (FLOW_ROUTES[ri].id === routeId) { routeDef = FLOW_ROUTES[ri]; break; }
+          }
+          if (routeDef) {
+            routeDef.waypoints.forEach(function (wp) {
+              if (typeof wp !== 'string') { return; }
+              var markerEl = markersG.querySelector('[data-name="' + wp + '"]');
+              if (!markerEl) { return; }
+              markerEl.classList.add('svg-map-marker--route-active');
+              /* Add a glow halo using the node's own pulse colour so
+                 hub nodes stay white and city nodes keep their theme colour. */
+              var dotEl = markerEl.querySelector('.svg-map-dot');
+              if (dotEl) {
+                var glowColor = markerEl.classList.contains('svg-map-marker--hub')
+                  ? theme.pulseHub : theme.pulseCity;
+                dotEl.style.filter = 'drop-shadow(0 0 8px ' + glowColor + ')';
+              }
+            });
+          }
           showRouteTooltip(hitEl, e.clientX, e.clientY);
         });
         hitEl.addEventListener('mousemove', function (e) {
@@ -887,6 +1043,12 @@
           routesG.querySelectorAll('.svg-map-route').forEach(function (p) {
             p.style.strokeOpacity = '';
             p.style.strokeWidth   = '';
+          });
+          /* Restore node dot colours. */
+          markersG.querySelectorAll('.svg-map-marker--route-active').forEach(function (g) {
+            g.classList.remove('svg-map-marker--route-active');
+            var dotEl = g.querySelector('.svg-map-dot');
+            if (dotEl) { dotEl.style.filter = ''; }
           });
           hideTooltip();
         });
