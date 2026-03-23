@@ -499,6 +499,24 @@ html.dark-theme .custom-cursor-ring.is-hovered {
   animation: svg-flow-land 2.5s linear infinite;
 }
 
+/* Invisible hit-area path for route hover (wide transparent stroke). */
+.svg-map-route-hit {
+  fill: none;
+  cursor: pointer;
+}
+
+/* Grab-cursor for pan/zoom SVG. */
+.svg-route-map {
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.svg-route-map:active {
+  cursor: grabbing;
+}
+
 /* ---- City markers ---- */
 .svg-map-dot {
   fill: #d4af37;
