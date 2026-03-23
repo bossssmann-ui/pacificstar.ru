@@ -1,5 +1,5 @@
 /**
- * Pacific Star — Pure SVG Route Map  (v7 — realistic sea-route waypoints)
+ * Pacific Star — Pure SVG Route Map  (v8 — full NSR chain + Arctic ports)
  * ======================================================================================
  * Self-contained inline SVG map — no external libraries, no tile requests.
  * Uses Mercator projection + bundled GeoJSON land polygons (map-geodata.js).
@@ -279,6 +279,26 @@
       nodeType: 'port',  country: 'Russia',
       desc: 'Незамерзающий арктический порт. Западная точка входа на СМП, арктический завоз.',
       lx:  11, ly:  -8 },
+    { name: 'Архангельск',     lat: 64.5401, lon:  40.5433, hub: false, type: 'sea',
+      nodeType: 'port',  country: 'Russia',
+      desc: 'Порт Белого моря. Арктический завоз, лесная и промышленная логистика.',
+      lx:  11, ly:  -8 },
+    { name: 'Сабетта',         lat: 71.2700, lon:  72.0700, hub: false, type: 'sea',
+      nodeType: 'port',  country: 'Russia',
+      desc: 'СПГ-терминал на Ямале. Карское море, Северный морской путь.',
+      lx:  11, ly:  -8 },
+    { name: 'Дудинка',         lat: 69.4044, lon:  86.1725, hub: false, type: 'sea',
+      nodeType: 'port',  country: 'Russia',
+      desc: 'Речной порт на Енисее. Обслуживает Норильск, ключевой пункт Северного завоза.',
+      lx:  11, ly:  -8 },
+    { name: 'Тикси',           lat: 71.6439, lon: 128.8672, hub: false, type: 'sea',
+      nodeType: 'port',  country: 'Russia',
+      desc: 'Арктический порт на море Лаптевых. Северный завоз в Якутию, СМП.',
+      lx:  11, ly:  -8 },
+    { name: 'Провидения',      lat: 64.4200, lon: 173.2300, hub: false, type: 'sea',
+      nodeType: 'port',  country: 'Russia',
+      desc: 'Порт на Беринговом море, бухта Провидения. Арктический завоз, снабжение Чукотки.',
+      lx: -11, ly:  -8 },
     { name: 'Новороссийск',     lat: 44.7233, lon:  37.7685, hub: false, type: 'sea',
       nodeType: 'port',  country: 'Russia',
       desc: 'Черноморский торговый порт. Нефтеналивные и контейнерные перевозки, выход в Средиземноморье.',
@@ -484,28 +504,63 @@
     },
 
     /* ── Route E: Северный морской путь (NSR / Arctic Sea Route)
-       Sea waypoints carefully placed in Arctic Ocean north of Russian coast.
-       Adjust {lat, lon} guide points to fine-tune the Arctic arc.
-       Key latitudes: Siberian north coast ≈ 70-73°N — stay above that. */
+       Full chain: Мурманск → Архангельск → Сабетта → Дудинка → Тикси
+       → Певек → Провидения → Анадырь → Магадан → Владивосток.
+       Every waypoint stays in Arctic/Pacific open water:
+         - White Sea approach via Gorlo strait (lat ~67N)
+         - Сабетта approached from Kara Sea to avoid Yamal land
+         - Дудинка reached via Yenisei Gulf estuary
+         - Провидения reached through Gulf of Anadyr (Bering Sea)
+         - Sea of Okhotsk + Tatar Strait for Магадан → Владивосток */
     {
       id: 'nsm-route',
       type: 'sea',
       label: 'Северный морской путь',
-      desc:  'Мурманск → Певек → Анадырь → Владивосток. Арктический завоз, СМП, снабжение районов Крайнего Севера.',
+      desc:  'Мурманск → Архангельск → Сабетта → Дудинка → Тикси → Певек → Анадырь → Магадан → Владивосток. Арктический завоз, СМП.',
       waypoints: [
         'Мурманск',
-        { lat: 72.0, lon: 38.0 },   /* Barents Sea, open water            */
-        { lat: 74.5, lon: 57.0 },   /* East of Novaya Zemlya              */
-        { lat: 73.5, lon: 80.0 },   /* Kara Sea                           */
-        { lat: 75.0, lon: 102.0 },  /* North of Siberian coast            */
-        { lat: 74.0, lon: 126.0 },  /* Laptev Sea                         */
-        { lat: 72.0, lon: 145.0 },  /* East Siberian Sea                  */
-        { lat: 68.5, lon: 163.0 },  /* Approaching Chukotka               */
+        { lat: 72.0, lon: 36.0 },   /* Баренцево море — к северу              */
+        { lat: 71.0, lon: 40.5 },   /* подход к Горлу Белого моря             */
+        { lat: 67.0, lon: 38.5 },   /* пролив Горло (Белое море — вход)       */
+        'Архангельск',
+        { lat: 67.0, lon: 39.0 },   /* выход из Белого моря через Горло       */
+        { lat: 70.5, lon: 41.0 },   /* Баренцево море                         */
+        { lat: 73.5, lon: 48.0 },   /* Баренцево — севернее Колгуева          */
+        { lat: 76.5, lon: 58.0 },   /* севернее Новой Земли (открытая вода)   */
+        { lat: 74.0, lon: 68.0 },   /* Карское море — вход                    */
+        { lat: 72.5, lon: 71.5 },   /* Карское — подход к Ямалу с севера      */
+        'Сабетта',
+        { lat: 73.0, lon: 73.0 },   /* Карское — отход от Сабетты             */
+        { lat: 74.5, lon: 80.0 },   /* Карское — к северо-востоку             */
+        { lat: 73.5, lon: 84.0 },   /* Енисейский залив (вход с Карского)     */
+        { lat: 72.0, lon: 83.0 },   /* Енисейский залив — к югу               */
+        { lat: 71.0, lon: 82.5 },   /* устье Енисея                           */
+        'Дудинка',
+        { lat: 72.0, lon: 90.0 },   /* Карское — восточнее Таймыра            */
+        { lat: 76.0, lon: 100.0 },  /* севернее Таймыра                       */
+        { lat: 76.5, lon: 114.0 },  /* море Лаптевых (запад)                  */
+        { lat: 74.0, lon: 126.0 },  /* море Лаптевых                          */
+        'Тикси',
+        { lat: 73.5, lon: 136.0 },  /* Восточно-Сибирское море (запад)        */
+        { lat: 74.5, lon: 150.0 },  /* Восточно-Сибирское (центр)             */
+        { lat: 72.0, lon: 163.0 },  /* Восточно-Сибирское (восток)            */
         'Певек',
-        { lat: 66.0, lon: 177.0 },  /* Bering Sea approach                */
+        { lat: 71.0, lon: 172.0 },  /* Чукотское — к северо-востоку           */
+        { lat: 72.0, lon: 176.0 },  /* Чукотское — открытая вода              */
+        { lat: 68.0, lon: 177.0 },  /* Анадырский залив (северный вход)       */
+        { lat: 65.5, lon: 175.5 },  /* Анадырский залив                       */
+        'Провидения',
+        { lat: 65.0, lon: 175.0 },  /* Анадырский залив — к востоку           */
         'Анадырь',
-        'Петропавловск-Камчатский',
-        { lat: 46.0, lon: 152.0 },  /* North Pacific, south of Kuril Is.  */
+        { lat: 62.0, lon: 175.0 },  /* Берингово море                         */
+        { lat: 58.0, lon: 167.0 },  /* Берингово — юго-запад                  */
+        { lat: 56.0, lon: 153.0 },  /* Охотское (восток Камчатки)             */
+        { lat: 57.5, lon: 151.5 },  /* Охотское — подход к Магадану           */
+        'Магадан',
+        { lat: 56.0, lon: 148.0 },  /* Охотское (центр)                       */
+        { lat: 52.5, lon: 143.0 },  /* Охотское — Татарский пролив            */
+        { lat: 49.0, lon: 141.5 },  /* Татарский пролив                       */
+        { lat: 46.0, lon: 135.5 },  /* Японское море                          */
         'Владивосток'
       ]
     },
