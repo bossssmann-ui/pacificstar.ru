@@ -563,7 +563,24 @@ html.dark-theme .custom-cursor-ring.is-hovered {
   stroke-width: 2;
 }
 
+/* Route-hover: connected node highlight state.
+   The inline fill/filter are set via JS; this class provides the pulse boost. */
+.svg-map-marker--route-active .svg-map-pulse {
+  animation: svg-pulse-hub 1.4s ease-out infinite !important;
+  stroke-opacity: 0.9 !important;
+}
+
+/* ---- Minor items: hidden on small screens ---- */
+/* Add class svg-map-minor to low-priority markers and routes in map-svg.js.
+   To change which items are hidden: set mobile: false on the POINTS / FLOW_ROUTES entry. */
+@media (max-width: 767px) {
+  .svg-map-minor {
+    display: none;
+  }
+}
+
 /* ---- Tooltip ---- */
+/* max-width must match TOOLTIP_WIDTH constant in js/map-svg.js */
 .svg-map-tooltip {
   position: absolute;
   display: none;
@@ -571,7 +588,7 @@ html.dark-theme .custom-cursor-ring.is-hovered {
   gap: 3px;
   padding: 9px 13px;
   min-width: 140px;
-  max-width: 200px;
+  max-width: 220px;
   background: rgba(13, 27, 62, 0.93);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -593,6 +610,7 @@ html.dark-theme .custom-cursor-ring.is-hovered {
 .svg-map-tt-desc {
   font-size: 0.78rem;
   color: rgba(255, 255, 255, 0.75);
+  line-height: 1.45;
 }
 
 /* =========================================
