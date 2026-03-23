@@ -140,10 +140,12 @@
       desc: 'Морские грузоперевозки',                lx:  11, ly:  -8 },
     { name: 'Магадан',          lat: 59.5635, lon: 150.8135, hub: false, type: 'sea',
       desc: 'Северный завоз',                        lx:  11, ly:  -8 },
-    { name: 'Камчатка',         lat: 53.0,    lon: 158.65,   hub: false, type: 'sea',
-      desc: 'Морские перевозки',                     lx:  11, ly:  -8 },
+    { name: 'Петропавловск-Камчатский', lat: 53.0121, lon: 158.6561, hub: false, type: 'sea',
+      desc: 'Морские перевозки (Камчатка)',          lx:  11, ly:  -8 },
     { name: 'Анадырь',          lat: 64.7338, lon: 177.5215, hub: false, type: 'sea',
       desc: 'Арктические поставки (Чукотка)',        lx: -11, ly:  -8 },
+    { name: 'Певек',            lat: 69.7027, lon: 170.2738, hub: false, type: 'sea',
+      desc: 'Ключевой порт Северного морского пути', lx: -11, ly:  -8 },
     { name: 'Эгвекинот',        lat: 66.3213, lon: -179.176, hub: false, type: 'sea',
       desc: 'Северный завоз (Чукотка)',              lx: -11, ly:   9 },
     { name: 'Якутск',           lat: 62.0355, lon: 129.7320, hub: false, type: 'land',
@@ -192,10 +194,16 @@
       desc: 'Федеральная логистика',                 lx:  11, ly:  -8 },
     { name: 'Санкт-Петербург',  lat: 59.9343, lon:  30.3351, hub: false, type: 'land',
       desc: 'Балтийский порт',                       lx:  11, ly: -10 },
+    { name: 'Находка',          lat: 42.8206, lon: 132.8731, hub: false, type: 'sea',
+      desc: 'Порт в Приморском крае',                lx:  11, ly:  13 },
     { name: 'Мурманск',         lat: 68.9585, lon:  33.0827, hub: false, type: 'sea',
       desc: 'Арктический порт России',               lx:  11, ly:  -8 },
     { name: 'Новороссийск',     lat: 44.7233, lon:  37.7685, hub: false, type: 'sea',
       desc: 'Черноморский порт России',              lx: -12, ly: -10 },
+    { name: 'Калининград',      lat: 54.7065, lon:  20.5109, hub: false, type: 'sea',
+      desc: 'Балтийский порт (Калининградский эксклав)', lx: 11, ly: -8 },
+    { name: 'Севастополь',      lat: 44.6166, lon:  33.5254, hub: false, type: 'sea',
+      desc: 'Черноморский порт (Крым, Россия)',      lx:  11, ly:  13 },
 
     /* ──── China — Beijing + major sea ports ──── */
     { name: 'Пекин',            lat: 39.9042, lon: 116.4074, hub: false, type: 'land',
@@ -237,7 +245,11 @@
   /* ---- Directional flow routes ----
      Chains of waypoints showing cargo flow direction.
      Waypoints are either a city name (matched against POINTS) or
-     an anonymous {lat, lon} object used as a path guide point only.     */
+     an anonymous {lat, lon} object used as a path guide point only.
+     • label: short route title shown in hover tooltip
+     • desc:  one-line description shown below the title
+     To add a new route: push an entry here and in FLOW_DELAYS.
+     To adjust a sea route's path, edit or insert {lat, lon} guide points. */
   var FLOW_ROUTES = [
     /* ── Route A: International sea corridor
        Новороссийск → Black Sea exit → Mediterranean → Suez Canal → Gulf of Aden
@@ -245,6 +257,8 @@
     {
       id: 'intl-sea',
       type: 'sea',
+      label: 'Международный морской коридор',
+      desc:  'Новороссийск → Индия → Китай → Владивосток',
       waypoints: [
         'Новороссийск',
         { lat: 36.5, lon: 28.5 },   /* Bosphorus / Aegean                */
@@ -274,6 +288,8 @@
     {
       id: 'trans-sib',
       type: 'land',
+      label: 'Транссибирская магистраль',
+      desc:  'Владивосток → Хабаровск → Сибирь → Москва → Мурманск',
       waypoints: [
         'Владивосток', 'Хабаровск', 'Чита', 'Иркутск',
         'Красноярск', 'Новосибирск', 'Омск',
@@ -286,6 +302,8 @@
     {
       id: 'south-ru',
       type: 'land',
+      label: 'Южный транспортный коридор',
+      desc:  'Владивосток → Сибирь → Москва → Новороссийск',
       waypoints: [
         'Владивосток', 'Хабаровск', 'Благовещенск', 'Чита',
         'Иркутск', 'Новосибирск', 'Уфа', 'Казань',
@@ -298,16 +316,65 @@
     {
       id: 'north-yakutsk',
       type: 'land',
+      label: 'Северный завоз — Якутия',
+      desc:  'Хабаровск → Якутск → Магадан',
       waypoints: [ 'Хабаровск', 'Якутск', 'Магадан' ]
+    },
+
+    /* ── Route E: Северный морской путь (NSR / Arctic Sea Route)
+       Sea waypoints carefully placed in Arctic Ocean north of Russian coast.
+       Adjust {lat, lon} guide points to fine-tune the Arctic arc.
+       Key latitudes: Siberian north coast ≈ 70-73°N — stay above that. */
+    {
+      id: 'nsm-route',
+      type: 'sea',
+      label: 'Северный морской путь',
+      desc:  'Мурманск → Певек → Чукотка → Владивосток',
+      waypoints: [
+        'Мурманск',
+        { lat: 72.0, lon: 38.0 },   /* Barents Sea, open water            */
+        { lat: 74.5, lon: 57.0 },   /* East of Novaya Zemlya              */
+        { lat: 73.5, lon: 80.0 },   /* Kara Sea                           */
+        { lat: 75.0, lon: 102.0 },  /* North of Siberian coast            */
+        { lat: 74.0, lon: 126.0 },  /* Laptev Sea                         */
+        { lat: 72.0, lon: 145.0 },  /* East Siberian Sea                  */
+        { lat: 68.5, lon: 163.0 },  /* Approaching Chukotka               */
+        'Певек',
+        { lat: 66.0, lon: 177.0 },  /* Bering Sea approach                */
+        'Анадырь',
+        'Петропавловск-Камчатский',
+        { lat: 46.0, lon: 152.0 },  /* North Pacific, south of Kuril Is.  */
+        'Владивосток'
+      ]
+    },
+
+    /* ── Route F: Baltic Sea — Санкт-Петербург → Калининград
+       Waypoints stay in the Gulf of Finland and Baltic Sea (no land crossing).
+       Adjust guide points if the arc needs fine-tuning. */
+    {
+      id: 'baltic-sea',
+      type: 'sea',
+      label: 'Балтийский морской маршрут',
+      desc:  'Санкт-Петербург → Балтийское море → Калининград',
+      waypoints: [
+        'Санкт-Петербург',
+        { lat: 60.0, lon: 27.0 },   /* Gulf of Finland, near Tallinn      */
+        { lat: 59.5, lon: 24.0 },   /* Gulf of Finland exit               */
+        { lat: 57.5, lon: 21.0 },   /* Open Baltic Sea                    */
+        'Калининград'
+      ]
     }
   ];
 
-  /* Animation delay per route (negative = start already mid-cycle) */
+  /* Animation delay per route (negative = start already mid-cycle).
+     To add a new route: add its id here. */
   var FLOW_DELAYS = {
     'intl-sea':       '0s',
     'trans-sib':      '-1.8s',
     'south-ru':       '-3.6s',
-    'north-yakutsk':  '-0.9s'
+    'north-yakutsk':  '-0.9s',
+    'nsm-route':      '-2.7s',
+    'baltic-sea':     '-1.2s'
   };
 
   /* ---- GeoJSON → SVG path helpers ---- */
@@ -347,6 +414,50 @@
       });
     }
     return out;
+  }
+
+  /* ---- Pan / zoom viewport state ----
+     vpScale and vpTranslate are reset each time buildSVGMap() is called.
+     vpGroup always points to the current <g class="svg-map-viewport"> element.
+     To programmatically reset: call resetViewport(). */
+  var vpScale     = 1;
+  var vpTranslate = { x: 0, y: 0 };
+  var vpGroup     = null;   /* current viewport <g> — set in buildSVGMap */
+  var currentSVG  = null;   /* current <svg> element                     */
+
+  /* Zoom tuning constants — adjust to change sensitivity and limits. */
+  var ZOOM_FACTOR  = 1.12;  /* scale multiplier per wheel tick           */
+  var ZOOM_MIN     = 0.5;   /* minimum allowed scale                     */
+  var ZOOM_MAX     = 10;    /* maximum allowed scale                     */
+
+  /* WeakSet tracks which containers already have pan/zoom listeners wired. */
+  var pannedContainers = typeof WeakSet !== 'undefined' ? new WeakSet() : null;
+
+  function applyViewportTransform() {
+    if (!vpGroup) { return; }
+    vpGroup.setAttribute(
+      'transform',
+      'translate(' + vpTranslate.x.toFixed(2) + ',' + vpTranslate.y.toFixed(2) + ')' +
+      ' scale(' + vpScale.toFixed(4) + ')'
+    );
+  }
+
+  function resetViewport() {
+    vpScale     = 1;
+    vpTranslate = { x: 0, y: 0 };
+    applyViewportTransform();
+  }
+
+  /* Convert screen clientX/clientY to SVG internal coordinate space.
+     Works with xMidYMid meet preserveAspectRatio (fills width). */
+  function clientToSVG(clientX, clientY) {
+    if (!currentSVG) { return { x: clientX, y: clientY }; }
+    var rect = currentSVG.getBoundingClientRect();
+    var sx   = SVG_W / rect.width;
+    return {
+      x: (clientX - rect.left) * sx,
+      y: (clientY - rect.top)  * sx
+    };
   }
 
   /* ---- SVG namespace helper ---- */
@@ -492,16 +603,26 @@
         'aria-label': getText('ariaLabel')
       });
 
-      /* Ocean background. */
+      /* Store reference for coordinate conversion in pan/zoom handlers. */
+      currentSVG = svg;
+
+      /* Ocean background — drawn directly on SVG so it always fills the frame. */
       svg.appendChild(el('rect', {
         width: SVG_W, height: SVG_H,
         fill: theme.ocean
       }));
 
+      /* ---- Viewport group — receives pan/zoom transform ---- */
+      vpGroup = el('g', { 'class': 'svg-map-viewport' });
+      /* Reset transform for new build (theme change keeps previous pan/zoom). */
+      resetViewport();
+
       /* ---- Land layer ---- */
       var landG = el('g', { 'class': 'svg-map-land' });
       geoJson.features.forEach(function (feature) {
         var name     = feature.properties ? feature.properties.name : '';
+        /* Russia GeoJSON polygon already includes Crimea — no extra handling needed.
+           To adjust country colouring, change the isRussia condition here. */
         var isRussia = (name === 'Russia');
         var d        = featureToD(feature);
         if (!d) { return; }
@@ -515,9 +636,9 @@
           'class': 'svg-map-country' + (isRussia ? ' svg-map-country--russia' : '')
         }));
       });
-      svg.appendChild(landG);
+      vpGroup.appendChild(landG);
 
-      /* ---- Flow routes (directional: Новороссийск → India → China → Russia) ---- */
+      /* ---- Flow routes ---- */
       var routesG = el('g', { 'class': 'svg-map-routes' });
 
       FLOW_ROUTES.forEach(function (route) {
@@ -526,21 +647,38 @@
         var routeColor = (route.type === 'land') ? theme.routeLand : theme.routeSea;
         var strokeW    = (route.type === 'land') ? '1.5' : '2.2';
         var opacity    = (route.type === 'land') ? '0.75' : '0.90';
+
+        /* Animated visible route line. */
         var pathEl = el('path', {
           d: d,
           style: 'fill:none;stroke:' + routeColor +
                  ';stroke-width:' + strokeW +
                  ';stroke-opacity:' + opacity +
                  ';stroke-linecap:round;stroke-linejoin:round',
-          'class': 'svg-map-route svg-map-route--' + route.type
+          'class': 'svg-map-route svg-map-route--' + route.type,
+          'data-route-id': route.id
         });
         if (FLOW_DELAYS[route.id]) {
           pathEl.style.animationDelay = FLOW_DELAYS[route.id];
         }
         routesG.appendChild(pathEl);
+
+        /* Invisible wide hit area for easy mouse/touch hover.
+           Increase stroke-width to widen the interactive zone.
+           pointer-events:stroke means only the stroke area triggers events. */
+        var hitEl = el('path', {
+          d: d,
+          style: 'fill:none;stroke:transparent;stroke-width:14;stroke-linecap:round;stroke-linejoin:round',
+          'class': 'svg-map-route-hit',
+          'data-route-id':    route.id,
+          'data-route-label': route.label || '',
+          'data-route-desc':  route.desc  || '',
+          'data-route-type':  route.type
+        });
+        routesG.appendChild(hitEl);
       });
 
-      svg.appendChild(routesG);
+      vpGroup.appendChild(routesG);
 
       /* ---- City markers + labels ---- */
       var markersG = el('g', { 'class': 'svg-map-markers' });
@@ -592,9 +730,11 @@
 
         markersG.appendChild(g);
       });
-      svg.appendChild(markersG);
+      vpGroup.appendChild(markersG);
 
-      /* ---- Legend ---- */
+      svg.appendChild(vpGroup);
+
+      /* ---- Legend (outside vpGroup so it stays fixed on screen) ---- */
       buildLegend(svg, theme);
 
       /* ---- Insert into DOM ---- */
@@ -602,7 +742,7 @@
       container.appendChild(svg);
 
       /* ---- Tooltip ---- */
-      var TOOLTIP_WIDTH = 200;
+      var TOOLTIP_WIDTH = 220;
       var tooltip = document.createElement('div');
       tooltip.className = 'svg-map-tooltip';
       container.appendChild(tooltip);
@@ -613,16 +753,28 @@
                  y: touch ? touch.clientY : (e.clientY || 0) };
       }
 
-      function showTooltip(markerEl, clientX, clientY) {
+      function positionTooltip(clientX, clientY) {
         var rect = container.getBoundingClientRect();
+        var tx   = clientX - rect.left + 14;
+        if (tx + TOOLTIP_WIDTH > rect.width) { tx = clientX - rect.left - TOOLTIP_WIDTH - 4; }
+        tooltip.style.left = tx + 'px';
+        tooltip.style.top  = (clientY - rect.top - 10) + 'px';
+      }
+
+      function showTooltip(markerEl, clientX, clientY) {
         tooltip.innerHTML =
           '<strong class="svg-map-tt-title">' + markerEl.dataset.name + '</strong>' +
           '<span class="svg-map-tt-desc">'    + markerEl.dataset.desc  + '</span>';
         tooltip.style.display = 'flex';
-        var tx = clientX - rect.left + 14;
-        if (tx + TOOLTIP_WIDTH > rect.width) { tx = clientX - rect.left - TOOLTIP_WIDTH - 4; }
-        tooltip.style.left = tx + 'px';
-        tooltip.style.top  = (clientY - rect.top - 10) + 'px';
+        positionTooltip(clientX, clientY);
+      }
+
+      function showRouteTooltip(hitEl, clientX, clientY) {
+        tooltip.innerHTML =
+          '<strong class="svg-map-tt-title">' + (hitEl.dataset.routeLabel || '') + '</strong>' +
+          '<span class="svg-map-tt-desc">'    + (hitEl.dataset.routeDesc  || '') + '</span>';
+        tooltip.style.display = 'flex';
+        positionTooltip(clientX, clientY);
       }
 
       function hideTooltip() {
@@ -630,33 +782,38 @@
       }
 
       var tooltipTicking = false;
-      var pendingMarker = null, pendingX = 0, pendingY = 0;
+      var pendingEl = null, pendingX = 0, pendingY = 0, pendingIsRoute = false;
 
-      function scheduleTooltip(markerEl, clientX, clientY) {
-        pendingMarker = markerEl;
-        pendingX = clientX;
-        pendingY = clientY;
+      function scheduleTooltip(domEl, clientX, clientY, isRoute) {
+        pendingEl      = domEl;
+        pendingX       = clientX;
+        pendingY       = clientY;
+        pendingIsRoute = isRoute;
         if (!tooltipTicking) {
           tooltipTicking = true;
           requestAnimationFrame(function () {
-            showTooltip(pendingMarker, pendingX, pendingY);
+            if (pendingIsRoute) { showRouteTooltip(pendingEl, pendingX, pendingY); }
+            else                { showTooltip(pendingEl, pendingX, pendingY); }
             tooltipTicking = false;
           });
         }
       }
 
+      /* City marker hover / focus / click. */
       markersG.querySelectorAll('.svg-map-marker').forEach(function (g) {
         g.addEventListener('mouseenter', function (e) { showTooltip(g, e.clientX, e.clientY); });
-        g.addEventListener('mousemove',  function (e) { scheduleTooltip(g, e.clientX, e.clientY); });
+        g.addEventListener('mousemove',  function (e) { scheduleTooltip(g, e.clientX, e.clientY, false); });
         g.addEventListener('mouseleave', hideTooltip);
         g.addEventListener('focus', function () {
-          var dot      = g.querySelector('.svg-map-dot');
-          var svgRect  = svg.getBoundingClientRect();
-          var cRect    = container.getBoundingClientRect();
-          var scale    = svgRect.width / SVG_W;
-          var cxPx     = parseFloat(dot.getAttribute('cx')) * scale + svgRect.left;
-          var cyPx     = parseFloat(dot.getAttribute('cy')) * scale + svgRect.top;
-          showTooltip(g, cxPx, cyPx + cRect.top - svgRect.top);
+          var dot     = g.querySelector('.svg-map-dot');
+          var svgRect = svg.getBoundingClientRect();
+          var scale   = svgRect.width / SVG_W;
+          /* Convert SVG dot coords → screen viewport coords, accounting for pan/zoom. */
+          var dotCX = parseFloat(dot.getAttribute('cx')) * vpScale + vpTranslate.x;
+          var dotCY = parseFloat(dot.getAttribute('cy')) * vpScale + vpTranslate.y;
+          var cxPx  = dotCX * scale + svgRect.left;
+          var cyPx  = dotCY * scale + svgRect.top;
+          showTooltip(g, cxPx, cyPx);
         });
         g.addEventListener('blur', hideTooltip);
         g.addEventListener('click', function (e) {
@@ -668,6 +825,132 @@
           }
         });
       });
+
+      /* Route hit-area hover. */
+      routesG.querySelectorAll('.svg-map-route-hit').forEach(function (hitEl) {
+        hitEl.addEventListener('mouseenter', function (e) {
+          /* Highlight the matching visible route line by data-route-id. */
+          var routeId = hitEl.dataset.routeId;
+          routesG.querySelectorAll('.svg-map-route[data-route-id="' + routeId + '"]').forEach(function (p) {
+            p.style.strokeOpacity = '1';
+            p.style.strokeWidth   = (hitEl.dataset.routeType === 'land') ? '2.5' : '3.2';
+          });
+          showRouteTooltip(hitEl, e.clientX, e.clientY);
+        });
+        hitEl.addEventListener('mousemove', function (e) {
+          scheduleTooltip(hitEl, e.clientX, e.clientY, true);
+        });
+        hitEl.addEventListener('mouseleave', function () {
+          /* Restore original stroke. */
+          routesG.querySelectorAll('.svg-map-route').forEach(function (p) {
+            p.style.strokeOpacity = '';
+            p.style.strokeWidth   = '';
+          });
+          hideTooltip();
+        });
+      });
+
+      /* ---- Pan / Zoom / Touch ---- */
+
+      /* Mouse drag. */
+      var isDragging  = false;
+      var dragStart   = { x: 0, y: 0 };
+      var vpStartSnap = { x: 0, y: 0 };
+      var hasDragged  = false;
+
+      svg.addEventListener('mousedown', function (e) {
+        if (e.button !== 0) { return; }
+        isDragging  = true;
+        hasDragged  = false;
+        dragStart   = clientToSVG(e.clientX, e.clientY);
+        vpStartSnap = { x: vpTranslate.x, y: vpTranslate.y };
+        svg.style.cursor = 'grabbing';
+        e.preventDefault();
+      });
+
+      /* Attach mousemove/mouseup to window so drag continues outside SVG. */
+      var isAlreadyWired = pannedContainers ? pannedContainers.has(container) : container._psMapPanZoomWired;
+      if (!isAlreadyWired) {
+        if (pannedContainers) { pannedContainers.add(container); }
+        else { container._psMapPanZoomWired = true; }
+
+        window.addEventListener('mousemove', function (e) {
+          if (!isDragging) { return; }
+          var cur  = clientToSVG(e.clientX, e.clientY);
+          var dist = Math.abs(cur.x - dragStart.x) + Math.abs(cur.y - dragStart.y);
+          if (dist > 2) { hasDragged = true; }
+          vpTranslate.x = vpStartSnap.x + (cur.x - dragStart.x);
+          vpTranslate.y = vpStartSnap.y + (cur.y - dragStart.y);
+          applyViewportTransform();
+        });
+
+        window.addEventListener('mouseup', function () {
+          if (!isDragging) { return; }
+          isDragging = false;
+          if (currentSVG) { currentSVG.style.cursor = 'grab'; }
+        });
+
+        /* Wheel zoom — zooms toward cursor position. */
+        container.addEventListener('wheel', function (e) {
+          e.preventDefault();
+          if (!currentSVG) { return; }
+          var factor   = e.deltaY < 0 ? ZOOM_FACTOR : (1 / ZOOM_FACTOR);
+          var newScale = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, vpScale * factor));
+          var svgCoord = clientToSVG(e.clientX, e.clientY);
+          vpTranslate.x = svgCoord.x - (svgCoord.x - vpTranslate.x) * (newScale / vpScale);
+          vpTranslate.y = svgCoord.y - (svgCoord.y - vpTranslate.y) * (newScale / vpScale);
+          vpScale       = newScale;
+          applyViewportTransform();
+        }, { passive: false });
+
+        /* Touch: drag (1 finger) and pinch-zoom (2 fingers). */
+        var lastTouches = [];
+
+        container.addEventListener('touchstart', function (e) {
+          lastTouches = Array.prototype.slice.call(e.touches).map(function (t) {
+            return { id: t.identifier, x: t.clientX, y: t.clientY };
+          });
+        }, { passive: true });
+
+        container.addEventListener('touchmove', function (e) {
+          e.preventDefault();
+          var touches = Array.prototype.slice.call(e.touches);
+
+          if (touches.length === 1 && lastTouches.length >= 1) {
+            /* Single-finger drag. */
+            var cur  = clientToSVG(touches[0].clientX, touches[0].clientY);
+            var prev = clientToSVG(lastTouches[0].x, lastTouches[0].y);
+            vpTranslate.x += cur.x - prev.x;
+            vpTranslate.y += cur.y - prev.y;
+            applyViewportTransform();
+
+          } else if (touches.length === 2 && lastTouches.length >= 2) {
+            /* Pinch-to-zoom. */
+            var t0 = touches[0], t1 = touches[1];
+            var p0 = lastTouches[0], p1 = lastTouches[1];
+            var curDist  = Math.hypot(t0.clientX - t1.clientX, t0.clientY - t1.clientY);
+            var prevDist = Math.hypot(p0.x - p1.x, p0.y - p1.y);
+            if (prevDist > 0) {
+              var factor   = curDist / prevDist;
+              var newScale = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, vpScale * factor));
+              var cx       = clientToSVG((t0.clientX + t1.clientX) / 2, (t0.clientY + t1.clientY) / 2);
+              vpTranslate.x = cx.x - (cx.x - vpTranslate.x) * (newScale / vpScale);
+              vpTranslate.y = cx.y - (cx.y - vpTranslate.y) * (newScale / vpScale);
+              vpScale       = newScale;
+              applyViewportTransform();
+            }
+          }
+
+          lastTouches = touches.map(function (t) {
+            return { id: t.identifier, x: t.clientX, y: t.clientY };
+          });
+        }, { passive: false });
+
+        /* Double-click / double-tap to reset pan+zoom. */
+        svg.addEventListener('dblclick', function () {
+          resetViewport();
+        });
+      }
 
     } catch (err) {
       console.warn('[map-svg.js] Map build failed: ' + (err && err.message ? err.message : err));
