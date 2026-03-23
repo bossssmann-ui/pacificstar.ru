@@ -1,10 +1,14 @@
 /**
- * Pacific Star — Pure SVG Route Map  (v6 — directional flow routes)
+ * Pacific Star — Pure SVG Route Map  (v7 — realistic sea-route waypoints)
  * ======================================================================================
  * Self-contained inline SVG map — no external libraries, no tile requests.
  * Uses Mercator projection + bundled GeoJSON land polygons (map-geodata.js).
  * Three design themes: Navy (морская), Sapphire (сапфир), Amber (янтарь).
  * Animated directional flow routes: Новороссийск → India → China → Russia → cities.
+ *
+ * Sea route waypoints are chosen so that every bezier arc segment stays in open water.
+ * Intermediate {lat, lon} guide points are placed to steer arcs around coastlines and
+ * through the correct straits (Bosphorus, Malacca, Korea Strait, etc.).
  *
  * Requires: window.WORLD_GEOJSON (set by js/map-geodata.js)
  */
@@ -252,8 +256,17 @@
      To adjust a sea route's path, edit or insert {lat, lon} guide points. */
   var FLOW_ROUTES = [
     /* ── Route A: International sea corridor
-       Новороссийск → Black Sea exit → Mediterranean → Suez Canal → Gulf of Aden
-       → India ports → Strait of Malacca → China ports → Korea/Japan → Vladivostok */
+       Waypoints are placed so every quadratic-bezier segment stays in open water.
+       The arc formula lifts each segment slightly northward, so guide points are
+       chosen to steer arcs through straits and around coastlines.
+
+       Черное море → Босфор → Мраморное море → Дарданеллы → Эгейское → Средиземное
+       → Суэцкий канал → Красное море → Аденский залив → Аравийское море
+       → Индийские порты → Малаккский пролив → Южно-Китайское море → Китай
+       → Японское море → Владивосток
+
+       To adjust a segment: edit or insert a {lat, lon} guide point.
+       Keep sea waypoints in open water; use the comments as reference. */
     {
       id: 'intl-sea',
       type: 'sea',
@@ -261,24 +274,53 @@
       desc:  'Новороссийск → Индия → Китай → Владивосток',
       waypoints: [
         'Новороссийск',
-        { lat: 36.5, lon: 28.5 },   /* Bosphorus / Aegean                */
-        { lat: 27.5, lon: 34.0 },   /* Suez Canal                        */
-        { lat: 12.5, lon: 44.5 },   /* Gulf of Aden / Djibouti           */
+        { lat: 43.0, lon: 34.0 },   /* Чёрное море — идём на запад          */
+        { lat: 41.8, lon: 31.5 },   /* Зап. Чёрное море (подход к Босфору)  */
+        { lat: 41.2, lon: 29.0 },   /* Вход в Босфор (со стороны Ч. моря)   */
+        { lat: 40.7, lon: 26.5 },   /* Мраморное море / выход из Дарданелл  */
+        { lat: 38.5, lon: 25.0 },   /* Эгейское море                        */
+        { lat: 35.0, lon: 26.5 },   /* ЮВ Эгейское / В. Средиземноморье     */
+        { lat: 34.2, lon: 30.5 },   /* Средиземноморье, к югу от Кипра      */
+        { lat: 30.5, lon: 32.5 },   /* Суэцкий канал (порт Саид)            */
+        { lat: 27.5, lon: 34.0 },   /* Красное море (середина)              */
+        { lat: 12.5, lon: 43.5 },   /* Баб-эль-Мандеб / Аденский залив      */
+        { lat: 12.0, lon: 52.0 },   /* Аравийское море (зап., ю. Йемена)    */
+        { lat: 15.0, lon: 61.0 },   /* Аравийское море (ю. Омана)           */
         'Мумбаи',
+        { lat: 13.5, lon: 74.0 },   /* Аравийское море вост. (Гоа/Керала)   */
         'Кочи',
+        { lat: 7.0,  lon: 78.5 },   /* Ю. Индия / С. Шри-Ланки             */
         'Ченнаи',
+        { lat: 14.5, lon: 83.0 },   /* Бенг. залив зап. (у берегов Андхры) */
+        { lat: 18.0, lon: 86.5 },   /* Бенг. залив (у берегов Одиши)        */
         'Калькутта',
-        { lat: 5.0,  lon: 100.0 },  /* Strait of Malacca                 */
+        { lat: 15.0, lon: 91.5 },   /* ЮВ Бенг. залива / Андаманское море   */
+        { lat: 8.0,  lon: 97.5 },   /* Андаманское море (Андаманские о-ва)  */
+        { lat: 4.0,  lon: 100.5 },  /* Малаккский пролив (юж. вход)         */
+        { lat: 9.0,  lon: 108.0 },  /* Южно-Китайское море (запад)          */
+        { lat: 16.5, lon: 112.0 },  /* Южно-Китайское море (центр)          */
+        { lat: 20.5, lon: 114.5 },  /* Южно-Китайское море (сев., у Гонконга)*/
         'Гуанчжоу',
         'Шэньчжэнь',
+        { lat: 21.0, lon: 118.5 },  /* Вост. от устья Жемчужной реки        */
         'Сямэнь',
+        { lat: 27.5, lon: 122.5 },  /* Восточно-Китайское море (Чжэцзян)    */
         'Нинбо',
         'Шанхай',
+        { lat: 33.0, lon: 122.5 },  /* Жёлтое море (юг)                     */
+        { lat: 36.0, lon: 122.5 },  /* Жёлтое море (центр)                  */
         'Циндао',
+        { lat: 37.5, lon: 122.0 },  /* Жёлтое море (север)                  */
         'Далянь',
+        { lat: 38.5, lon: 120.5 },  /* Бохайский залив (подход)             */
         'Тяньцзинь',
+        { lat: 36.5, lon: 124.0 },  /* Подход к Корейскому проливу          */
         'Сеул',
+        { lat: 34.0, lon: 129.5 },  /* Корейский пролив                     */
+        { lat: 33.5, lon: 135.0 },  /* Тихий океан / Внутреннее море Японии */
         'Токио',
+        { lat: 39.5, lon: 142.5 },  /* Тихий океан восточнее Хонсю          */
+        { lat: 42.5, lon: 139.0 },  /* Японское море / Хоккайдо             */
         'Владивосток'
       ]
     },
