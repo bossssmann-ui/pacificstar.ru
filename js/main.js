@@ -18,11 +18,9 @@
     if (scrollTopBtn) scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
     scrollTicking = false;
   }
-
-  var scrollTicking = false;
   window.addEventListener('scroll', function () {
     if (!scrollTicking) {
-      requestAnimationFrame(function () { scrollTicking = false; onScroll(); });
+      requestAnimationFrame(onScroll);
       scrollTicking = true;
     }
   }, { passive: true });

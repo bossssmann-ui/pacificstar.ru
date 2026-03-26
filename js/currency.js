@@ -25,8 +25,6 @@
   var selectedCode = 'USD';
   var chartCache   = {};   /* code → [{date, value}] */
   var cardCache    = {};   /* code → { card, rateVal, changeEl } */
-  var _convFrom, _convTo, _convAmount, _convResult;  /* cached converter el refs */
-
   /* Cached DOM refs populated in buildWidget() */
   var _loadingEl = null;
   var _errorEl   = null;
@@ -35,9 +33,6 @@
   var _convTo    = null;
   var _convAmount= null;
   var _convResult= null;
-
-  /* Converter element refs — populated once in buildWidget() */
-  var convFromEl = null, convToEl = null, convAmountEl = null, convResultEl = null;
 
   /* ── Fetch rates from CBR ── */
   function fetchRates(onDone) {
@@ -130,17 +125,13 @@
 
   /* ── Converter ── */
   function convert() {
-    var fromEl   = _convFrom;
-    var toEl     = _convTo;
-    var amountEl = _convAmount;
-    var resultEl = _convResult;
-    if (!fromEl || !toEl || !amountEl || !resultEl) return;
+    if (!_convFrom || !_convTo || !_convAmount || !_convResult) return;
 
-    var amount = parseFloat(convAmountEl.value);
-    if (isNaN(amount) || amount <= 0) { convResultEl.value = '—'; return; }
+    var amount = parseFloat(_convAmount.value);
+    if (isNaN(amount) || amount <= 0) { _convResult.value = '—'; return; }
 
-    var from = convFromEl.value;
-    var to   = convToEl.value;
+    var from = _convFrom.value;
+    var to   = _convTo.value;
 
     var rubAmount;
     if (from === 'RUB') {
@@ -148,7 +139,7 @@
     } else if (rates[from]) {
       rubAmount = amount * rates[from];
     } else {
-      convResultEl.value = '— (нет курса)';
+      _convResult.value = '— (нет курса)';
       return;
     }
 
@@ -158,14 +149,14 @@
     } else if (rates[to]) {
       result = rubAmount / rates[to];
     } else {
-      convResultEl.value = '— (нет курса)';
+      _convResult.value = '— (нет курса)';
       return;
     }
 
     var formatted = result >= 100
       ? result.toLocaleString('ru-RU', { maximumFractionDigits: 2 })
       : result.toFixed(4);
-    convResultEl.value = formatted + ' ' + (SYMBOLS[to] || to);
+    _convResult.value = formatted + ' ' + (SYMBOLS[to] || to);
   }
 
   /* ── Chart: fetch archive data for last N work days ── */
@@ -532,13 +523,13 @@
     });
 
     /* Cache widget-level DOM elements */
-    _loadingEl = document.getElementById('currencyLoading');
-    _errorEl   = document.getElementById('currencyError');
-    _tsEl      = document.getElementById('currencyTimestamp');
-    _convFrom  = document.getElementById('convFrom');
-    _convTo    = document.getElementById('convTo');
-    _convAmount= document.getElementById('convAmount');
-    _convResult= document.getElementById('convResult');
+    _loadingEl  = document.getElementById('currencyLoading');
+    _errorEl    = document.getElementById('currencyError');
+    _tsEl       = document.getElementById('currencyTimestamp');
+    _convFrom   = document.getElementById('convFrom');
+    _convTo     = document.getElementById('convTo');
+    _convAmount = document.getElementById('convAmount');
+    _convResult = document.getElementById('convResult');
 
     /* Refresh */
     var refreshBtn = document.getElementById('currencyRefresh');
@@ -551,12 +542,6 @@
     /* Retry */
     var retryBtn = document.getElementById('currencyRetry');
     if (retryBtn) retryBtn.addEventListener('click', function () { fetchRates(function () { updateCards(); }); });
-
-    /* Converter events — cache refs once after innerHTML is set */
-    _convFrom   = document.getElementById('convFrom');
-    _convTo     = document.getElementById('convTo');
-    _convAmount = document.getElementById('convAmount');
-    _convResult = document.getElementById('convResult');
     [_convAmount, _convFrom, _convTo].forEach(function (el) {
       if (el) el.addEventListener('input', convert);
     });

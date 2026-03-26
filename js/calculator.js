@@ -92,12 +92,12 @@
     var raw;
     var state;
     var restored = false;
-    var fromSel     = calcEls.from;
-    var toSel       = calcEls.to;
-    var transSel    = calcEls.transport;
-    var cargoSel    = calcEls.cargo;
-    var weightInput = calcEls.weight;
-    var volumeInput = calcEls.volume;
+    var fromSel     = _calcFrom;
+    var toSel       = _calcTo;
+    var transSel    = _calcTransport;
+    var cargoSel    = _calcCargo;
+    var weightInput = _calcWeight;
+    var volumeInput = _calcVolume;
 
     try {
       raw = localStorage.getItem(STORAGE_KEY);
@@ -189,9 +189,6 @@
 
     return true;
   }
-
-  /* ── Cached field references (populated in init) ── */
-  var _fromSel, _toSel, _transSel, _cargoSel, _weightInput, _volInput, _resultBox;
 
   /* ── Estimate ── */
   function estimate() {
