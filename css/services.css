@@ -403,13 +403,207 @@
   background: var(--color-bg, #0f172a);
 }
 
+/* ─── Hero Actions ─── */
+.service-hero-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.service-hero-actions .btn {
+  font-size: 1rem;
+  padding: 14px 28px;
+  font-weight: 700;
+  border-radius: var(--radius);
+  transition: background var(--transition), transform var(--transition);
+}
+
+.service-hero-actions .btn-white {
+  background: #fff;
+  color: var(--color-primary);
+  border: none;
+}
+
+.service-hero-actions .btn-white:hover {
+  background: #f0f4f8;
+  transform: translateY(-1px);
+}
+
+.btn-outline-light {
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-outline-light:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Season Grid ─── */
+.season-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  padding: 48px 0;
+}
+
+.season-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  transition: box-shadow 0.25s ease;
+}
+
+.season-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.season-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 10px;
+  color: var(--color-heading);
+}
+
+.season-card p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+/* ─── Cases Grid ─── */
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  padding: 48px 0;
+}
+
+.case-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  transition: box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.case-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.case-card-header {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.case-card-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--color-light);
+  border-radius: var(--radius);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-primary);
+}
+
+.case-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 14px;
+  color: var(--color-heading);
+}
+
+.case-card-details {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.case-card-details > div {
+  display: flex;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.case-card-details > div:last-child {
+  border-bottom: none;
+}
+
+.case-card-details dt {
+  font-weight: 600;
+  color: var(--color-heading);
+  flex-shrink: 0;
+  min-width: 80px;
+}
+
+.case-card-details dd {
+  margin: 0;
+  color: var(--color-text-light);
+}
+
+.case-card > p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 767px) {
+  .service-hero-actions {
+    flex-direction: column;
+  }
+
+  .service-hero-actions .btn {
+    text-align: center;
+  }
+
+  .season-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 32px 0;
+  }
+
+  .cases-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 32px 0;
+  }
+}
+
+/* ─── Dark mode — new components ─── */
+[data-theme="dark"] .season-card,
+[data-theme="dark"] .case-card {
+  background: var(--color-bg-alt, #1e293b);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .case-card-tag {
+  background: rgba(255, 255, 255, 0.08);
+}
+
 /* ─── Reduced motion ─── */
 @media (prefers-reduced-motion: reduce) {
   .feature-card:hover {
     transform: none;
   }
 
-  .service-cta .btn-white:hover {
+  .service-cta .btn-white:hover,
+  .service-hero-actions .btn-white:hover {
+    transform: none;
+  }
+
+  .case-card:hover {
     transform: none;
   }
 }
