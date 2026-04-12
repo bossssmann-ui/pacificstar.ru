@@ -228,9 +228,11 @@
       '</div></div></div>' +
       '<div class="footer-bottom">' +
       '<p class="footer-bottom-text">\u00a9 2012\u20132026 ООО \u00abPacific Star\u00bb. Все права защищены.</p>' +
+      /* TODO: replace placeholder INN/OGRN with real values */
       '<p class="footer-bottom-text footer-legal">ИНН\u00a0XXXXXXXXXX / ОГРН\u00a0XXXXXXXXXXXXX</p>' +
       '<div class="footer-bottom-links">' +
       '<a href="privacy.html">Политика конфиденциальности</a>' +
+      /* TODO: create dedicated terms.html page and update this link */
       '<a href="privacy.html">Условия использования</a>' +
       '</div></div></div></footer>'
     );
