@@ -14,6 +14,16 @@
   --color-surface-alt:   #f1f5f9;  /* alternate section background        */
   --color-ink:           #1e293b;  /* near-black for body text            */
 
+  /* ── Semantic colours ── */
+  --color-success:       #16734a;
+  --color-success-bg:    #e6f9ee;
+  --color-warning:       #92400e;
+  --color-warning-bg:    #fff7e0;
+  --color-error:         #b91c1c;
+  --color-error-bg:      #fee2e2;
+  --color-info:          #1e40af;
+  --color-info-bg:       #e8f2ff;
+
   /* ── Spacing scale (4px base) ── */
   --space-1:  4px;
   --space-2:  8px;
@@ -30,9 +40,32 @@
 
   /* ── Typography ── */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Type scale */
+  --text-xs:   0.75rem;   /* 12px */
+  --text-sm:   0.875rem;  /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-md:   1.05rem;   /* ~17px */
+  --text-lg:   1.125rem;  /* 18px */
+  --text-xl:   1.25rem;   /* 20px */
+  --text-2xl:  1.5rem;    /* 24px */
+  --text-3xl:  1.875rem;  /* 30px */
+  --text-4xl:  2.25rem;   /* 36px */
+
+  /* Font weights */
+  --weight-normal:   400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+  --weight-black:    800;
+
+  /* Line-height */
   --leading-tight:   1.25;
+  --leading-snug:    1.35;
   --leading-normal:  1.6;
   --leading-relaxed: 1.75;
+
+  /* Letter-spacing */
   --tracking-tight:  -0.01em;
   --tracking-normal: 0;
   --tracking-wide:   0.04em;
@@ -46,19 +79,28 @@
   --shadow-md:  0 4px 16px rgba(13, 43, 94, 0.10);
   --shadow-lg:  0 8px 32px rgba(13, 43, 94, 0.13);
   --shadow-xl:  0 12px 48px rgba(13, 43, 94, 0.16);
+
+  /* ── Transition tokens ── */
+  --ease-out:  cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in:   cubic-bezier(0.4, 0, 1, 1);
+  --duration-fast: 0.15s;
+  --duration-base: 0.25s;
+  --duration-slow: 0.4s;
 }
 
 /* --- Card surface (solid, no blur/transparency) --- */
 .premium-card {
   background: var(--color-white);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: transform var(--duration-base) var(--ease-out),
+              box-shadow var(--duration-base) var(--ease-out),
+              border-color var(--duration-base) var(--ease-out);
 }
 
 .premium-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
   border-color: var(--color-secondary);
 }
@@ -67,7 +109,7 @@
 .animate-on-scroll {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.6s ease-out, transform 0.6s var(--ease-out);
   will-change: opacity, transform;
 }
 
@@ -87,7 +129,7 @@
 /* --- Heading refinement --- */
 .section-title {
   font-family: var(--font-sans);
-  font-weight: 700;
+  font-weight: var(--weight-bold);
   letter-spacing: var(--tracking-tight);
 }
 
@@ -96,10 +138,35 @@
   content: '';
   display: block;
   width: var(--space-10);
-  height: var(--space-1);
+  height: 3px;
   background: var(--color-accent);
   margin: var(--space-3) auto 0;
   border-radius: 2px;
+}
+
+/* Left-aligned variant */
+.section-title--left::after {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/* --- Button size variants --- */
+.btn-sm {
+  padding: 8px 20px;
+  font-size: var(--text-sm);
+}
+
+.btn-lg {
+  padding: 16px 40px;
+  font-size: var(--text-lg);
+}
+
+/* Disabled state for buttons */
+.btn[disabled],
+.btn.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 /* --- Focus-visible for interactive elements --- */
@@ -116,6 +183,15 @@ select:focus-visible {
 /* Buttons keep their border-radius when focused */
 .btn:focus-visible {
   box-shadow: var(--focus-ring);
+}
+
+/* --- Form field disabled state --- */
+.form-control[disabled],
+.form-control[readonly] {
+  background: var(--color-surface-alt);
+  color: var(--color-steel);
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 /* --- Reduced-motion safety net --- */

@@ -25,8 +25,11 @@
   --shadow-md:       0 4px 16px rgba(13, 43, 94, 0.10);
   --shadow-lg:       0 8px 32px rgba(13, 43, 94, 0.13);
   --radius:          6px;
-  --radius-lg:       10px;
+  --radius-lg:       8px;
   --container-max-width: 1180px;
+  --color-heading:   var(--color-primary);
+  --color-text-light: #5a6a7e;
+  --color-border-hover: #b8c4d6;
 }
 
 html {
@@ -103,11 +106,16 @@ p { margin-bottom: 1rem; }
   border: 2px solid transparent;
   transition: background var(--transition), color var(--transition),
               border-color var(--transition), box-shadow var(--transition),
-              transform var(--transition);
+              transform 0.15s ease;
 }
 
 .btn:hover {
   transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 .btn-primary {
@@ -122,6 +130,11 @@ p { margin-bottom: 1rem; }
   box-shadow: 0 4px 14px rgba(245, 166, 35, 0.3);
 }
 
+.btn-primary:active {
+  background: #c07816;
+  border-color: #c07816;
+}
+
 .btn-secondary {
   background: transparent;
   color: var(--color-white);
@@ -133,6 +146,11 @@ p { margin-bottom: 1rem; }
   color: var(--color-primary);
 }
 
+.btn-secondary:active {
+  background: var(--color-surface-alt, #f1f5f9);
+  color: var(--color-primary);
+}
+
 .btn-outline {
   background: transparent;
   color: var(--color-primary);
@@ -141,6 +159,11 @@ p { margin-bottom: 1rem; }
 
 .btn-outline:hover {
   background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.btn-outline:active {
+  background: #0a2048;
   color: var(--color-white);
 }
 
@@ -932,25 +955,25 @@ p { margin-bottom: 1rem; }
   border-radius: var(--radius-lg);
   padding: 36px 28px;
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition), box-shadow var(--transition);
-  border-top: 4px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.25s ease;
+  border-top: 3px solid transparent;
 }
 
 .advantage-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
   border-top-color: var(--color-accent);
 }
 
 .advantage-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
   background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   margin-bottom: 20px;
 }
 
@@ -978,13 +1001,13 @@ p { margin-bottom: 1rem; }
   overflow: hidden;
   background: var(--color-white);
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition: transform 0.2s ease, box-shadow 0.25s ease;
   display: flex;
   flex-direction: column;
 }
 
 .service-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
@@ -1163,12 +1186,12 @@ p { margin-bottom: 1rem; }
   border-radius: var(--radius-lg);
   padding: 32px 28px;
   position: relative;
-  transition: box-shadow var(--transition), transform var(--transition);
+  transition: box-shadow 0.25s ease, transform 0.2s ease;
 }
 
 .review-card:hover {
   box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
+  transform: translateY(-2px);
 }
 
 .review-quote {
@@ -1627,12 +1650,12 @@ p { margin-bottom: 1rem; }
   padding: 32px 24px;
   text-align: center;
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition), box-shadow var(--transition);
-  border-bottom: 4px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.25s ease;
+  border-bottom: 3px solid transparent;
 }
 
 .value-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
   border-bottom-color: var(--color-accent);
 }
@@ -1665,11 +1688,11 @@ p { margin-bottom: 1rem; }
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   text-align: center;
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition: transform 0.2s ease, box-shadow 0.25s ease;
 }
 
 .team-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
@@ -1711,11 +1734,11 @@ p { margin-bottom: 1rem; }
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition: transform 0.2s ease, box-shadow 0.25s ease;
 }
 
 .service-full-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
@@ -1793,12 +1816,12 @@ p { margin-bottom: 1rem; }
   box-shadow: var(--shadow-sm);
   text-align: center;
   border: 2px solid transparent;
-  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  transition: transform 0.2s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   position: relative;
 }
 
 .tariff-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
@@ -1997,8 +2020,12 @@ p { margin-bottom: 1rem; }
   font-family: var(--font-sans);
   color: var(--color-text);
   background: var(--color-white);
-  transition: border-color var(--transition), box-shadow var(--transition);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
   outline: none;
+}
+
+.form-control:hover:not(:focus):not([disabled]) {
+  border-color: var(--color-border-hover);
 }
 
 .form-control:focus {
@@ -2574,11 +2601,11 @@ select.form-control {
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition: transform 0.2s ease, box-shadow 0.25s ease;
 }
 
 .region-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
@@ -4542,12 +4569,12 @@ select.form-control {
   border-radius: var(--radius-lg);
   text-decoration: none;
   color: var(--color-text);
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition: transform 0.2s ease, box-shadow 0.25s ease;
   border: 1px solid transparent;
 }
 
 .see-also-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
   border-color: var(--color-accent);
 }
