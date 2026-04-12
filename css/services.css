@@ -1,0 +1,415 @@
+/* =====================================================================
+   services.css — Shared layout components for individual service pages
+   (severnyy-zavoz, kabotazh, negabarit, avto-dfo, rail, ved, cases)
+   ===================================================================== */
+
+/* ─── Service Hero ─── */
+.service-hero {
+  position: relative;
+  padding: 100px 0 60px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #1a365d 100%);
+  color: #fff;
+  overflow: hidden;
+}
+
+.service-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><circle cx="40" cy="40" r="1" fill="rgba(255,255,255,0.04)"/></svg>') repeat;
+  pointer-events: none;
+}
+
+.service-hero .container {
+  position: relative;
+  z-index: 1;
+}
+
+.service-hero-label {
+  display: inline-block;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.service-hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0 0 16px;
+  color: #fff;
+}
+
+.service-hero p {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  line-height: 1.6;
+  max-width: 640px;
+  margin: 0 0 24px;
+  opacity: 0.9;
+}
+
+.service-hero .breadcrumb {
+  margin-top: 24px;
+}
+
+.service-hero .breadcrumb a {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.service-hero .breadcrumb a:hover {
+  color: #fff;
+}
+
+.service-hero .breadcrumb span[aria-current] {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ─── Stat Bar ─── */
+.stat-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 24px;
+  padding: 32px 0;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1.2;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin-top: 4px;
+}
+
+/* ─── Feature Grid ─── */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 48px 0;
+}
+
+.feature-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.feature-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius);
+  background: var(--color-light);
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+}
+
+.feature-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--color-heading);
+}
+
+.feature-card p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+/* ─── Process / Timeline ─── */
+.process-section {
+  padding: 64px 0;
+  background: var(--color-light);
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px;
+  counter-reset: process-step;
+}
+
+.process-step {
+  position: relative;
+  padding: 24px;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  counter-increment: process-step;
+}
+
+.process-step::before {
+  content: counter(process-step);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+}
+
+.process-step h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--color-heading);
+}
+
+.process-step p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+/* ─── Geography / Destinations Grid ─── */
+.geo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  padding: 48px 0;
+}
+
+.geo-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.geo-card-icon {
+  flex-shrink: 0;
+  font-size: 1.5rem;
+}
+
+.geo-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.geo-card p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+/* ─── FAQ Accordion ─── */
+.faq-section {
+  padding: 64px 0;
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-heading);
+  line-height: 1.4;
+  gap: 16px;
+}
+
+.faq-question:hover {
+  color: var(--color-primary);
+}
+
+.faq-arrow {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.25s;
+}
+
+.faq-item.open .faq-arrow {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  display: none;
+  padding: 0 0 20px;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--color-text-light);
+}
+
+.faq-item.open .faq-answer {
+  display: block;
+}
+
+/* ─── Service CTA Block ─── */
+.service-cta {
+  padding: 64px 0;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #1a365d 100%);
+  color: #fff;
+  text-align: center;
+}
+
+.service-cta h2 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 800;
+  margin: 0 0 12px;
+  color: #fff;
+}
+
+.service-cta p {
+  font-size: 1.05rem;
+  opacity: 0.9;
+  margin: 0 0 24px;
+}
+
+.service-cta .btn {
+  font-size: 1rem;
+  padding: 14px 32px;
+}
+
+.service-cta .btn-white {
+  background: #fff;
+  color: var(--color-primary);
+  border: none;
+  font-weight: 700;
+  border-radius: var(--radius);
+  transition: background var(--transition), transform var(--transition);
+}
+
+.service-cta .btn-white:hover {
+  background: #f0f4f8;
+  transform: translateY(-1px);
+}
+
+/* ─── Section helpers ─── */
+.section-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 40px;
+}
+
+.section-header h2 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 800;
+  margin: 0 0 12px;
+  color: var(--color-heading);
+}
+
+.section-header p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 767px) {
+  .service-hero {
+    padding: 80px 0 40px;
+  }
+
+  .stat-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 32px 0;
+  }
+
+  .process-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .geo-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 32px 0;
+  }
+
+  .service-cta {
+    padding: 40px 0;
+  }
+
+  .faq-section {
+    padding: 40px 0;
+  }
+}
+
+/* ─── Dark mode overrides ─── */
+[data-theme="dark"] .feature-card,
+[data-theme="dark"] .process-step,
+[data-theme="dark"] .geo-card {
+  background: var(--color-bg-alt, #1e293b);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .feature-icon {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .process-section {
+  background: var(--color-bg, #0f172a);
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .feature-card:hover {
+    transform: none;
+  }
+
+  .service-cta .btn-white:hover {
+    transform: none;
+  }
+}
