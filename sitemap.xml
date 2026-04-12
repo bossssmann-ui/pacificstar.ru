@@ -49,6 +49,13 @@
     <changefreq>monthly</changefreq>
   </url>
 
+  <!-- Автоперевозки в труднодоступные районы -->
+  <url>
+    <loc>https://pacificstar.ru/truck-delivery.html</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
   <!-- Ж/Д перевозки -->
   <url>
     <loc>https://pacificstar.ru/rail.html</loc>
@@ -59,6 +66,13 @@
   <!-- ВЭД логистика -->
   <url>
     <loc>https://pacificstar.ru/ved.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Морские перевозки в труднодоступные районы -->
+  <url>
+    <loc>https://pacificstar.ru/remote-regions.html</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
