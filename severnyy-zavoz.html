@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" >
   <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-  <meta name="description" content="Свяжитесь с Pacific Star: телефон, электронная почта, адрес офиса. Форма обратной связи. Рассчитаем стоимость перевозки бесплатно за 15 минут." >
-  <meta property="og:title" content="Контакты — Pacific Star" >
-  <meta property="og:description" content="Контактная информация компании Pacific Star. Оставьте заявку на расчёт стоимости грузоперевозки." >
+  <meta name="robots" content="index, follow" >
+  <meta name="description" content="Северный завоз по Федеральному закону 411-ФЗ. Доставка грузов в Арктику: Анадырь, Певек, Эгвекинот, Тикси. Контейнеры, генеральные, навалочные грузы. Навигация 2026." >
+  <meta property="og:title" content="Северный завоз по 411-ФЗ — Pacific Star" >
+  <meta property="og:description" content="Организуем доставку грузов Северного завоза в арктические порты. Контейнеры, генгруз, навалочные и сыпучие грузы по 411-ФЗ." >
   <meta property="og:type" content="website" >
-  <meta property="og:url" content="https://pacificstar.ru/contacts.html" >
-  <link rel="canonical" href="https://pacificstar.ru/contacts.html" >
-  <title>Контакты — Pacific Star</title>
+  <meta property="og:url" content="https://pacificstar.ru/severnyy-zavoz.html" >
+  <link rel="canonical" href="https://pacificstar.ru/severnyy-zavoz.html" >
+  <title>Северный завоз по 411-ФЗ — доставка в Арктику | Pacific Star</title>
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <noscript><style>.fade-in{opacity:1!important;transform:none!important;animation:none!important}</style></noscript>
   <link rel="preconnect" href="https://fonts.googleapis.com" >
@@ -18,9 +19,68 @@
   <link rel="stylesheet" href="css/style.css?v=20260412" >
   <link rel="stylesheet" href="css/premium-theme.css?v=20260412" >
   <link rel="stylesheet" href="css/premium-features.css?v=20260412" >
+  <link rel="stylesheet" href="css/services.css?v=20260412" >
+
+  <!-- JSON-LD: Service + FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": "https://pacificstar.ru/severnyy-zavoz.html#service",
+        "name": "Северный завоз по 411-ФЗ",
+        "description": "Организация доставки грузов Северного завоза в арктические порты России в соответствии с Федеральным законом № 411-ФЗ.",
+        "provider": { "@id": "https://pacificstar.ru/#organization" },
+        "areaServed": [
+          { "@type": "Place", "name": "Чукотский автономный округ" },
+          { "@type": "Place", "name": "Арктическая зона России" }
+        ],
+        "serviceType": ["Северный завоз", "Арктическая логистика"]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://pacificstar.ru/" },
+          { "@type": "ListItem", "position": 2, "name": "Услуги", "item": "https://pacificstar.ru/services.html" },
+          { "@type": "ListItem", "position": 3, "name": "Северный завоз", "item": "https://pacificstar.ru/severnyy-zavoz.html" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://pacificstar.ru/severnyy-zavoz.html#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Что такое Северный завоз и как он работает?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Северный завоз — государственная программа обеспечения жизненно важными товарами труднодоступных территорий Арктики и Дальнего Востока России. Регулируется Федеральным законом № 411-ФЗ от 13.06.2023. Pacific Star специализируется на контейнерных, генеральных, навалочных и сыпучих грузах в рамках этой программы."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Когда начинается навигация на Чукотку?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Морская навигация в порты Чукотского автономного округа (Анадырь, Певек, Эгвекинот) открывается в июне и продолжается до октября включительно. В период ледовой обстановки используется ледокольная проводка."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Какие грузы относятся к Северному завозу по 411-ФЗ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Продовольственные товары первой необходимости, уголь и твёрдое топливо, медикаменты, товары для нужд коммунального хозяйства, строительные материалы для социальных объектов, промышленные товары для жизнеобеспечения населения."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
-
 
   <!-- ========== PRELOADER ========== -->
   <div class="preloader" id="preloader" aria-hidden="true">
@@ -141,229 +201,194 @@
     <a href="contacts.html#contactForm" class="btn btn-primary header-btn">Оставить заявку</a>
   </nav>
 
+
   <main>
 
-    <!-- ========== PAGE HERO ========== -->
-    <section class="page-hero" aria-label="Контакты">
-      <div class="container" style="position:relative;z-index:1;">
-        <span class="page-hero-label">Свяжитесь с нами</span>
-        <h1>Контакты</h1>
-        <p>Ответим в течение 15 минут в рабочее время.<br>Горячая линия работает круглосуточно.</p>
+    <!-- ========== HERO ========== -->
+    <section class="service-hero" aria-label="Северный завоз">
+      <div class="container">
+        <span class="service-hero-label">411-ФЗ · Арктика</span>
+        <h1>Северный завоз по 411-ФЗ</h1>
+        <p>Доставляем грузы Северного завоза в арктические порты России: Анадырь, Певек, Эгвекинот, Тикси. Контейнеры, генеральные, навалочные и сыпучие грузы в рамках федеральной программы.</p>
         <nav class="breadcrumb" aria-label="Хлебные крошки">
           <a href="index.html">Главная</a>
           <span class="breadcrumb-sep" aria-hidden="true">›</span>
-          <span aria-current="page">Контакты</span>
+          <a href="services.html">Услуги</a>
+          <span class="breadcrumb-sep" aria-hidden="true">›</span>
+          <span aria-current="page">Северный завоз</span>
         </nav>
       </div>
     </section>
 
-    <!-- ========== CONTACTS SECTION ========== -->
-    <section class="section" aria-labelledby="contacts-title">
+    <!-- ========== KEY STATS ========== -->
+    <section class="section" aria-label="Ключевые цифры">
       <div class="container">
-        <div class="contacts-grid">
-
-          <!-- Contact info -->
-          <div>
-            <h2 id="contacts-title" style="margin-bottom:24px;font-size:1.5rem;">Наши контакты</h2>
-
-            <div class="contacts-info-block">
-              <div class="contact-info-item">
-                <div class="contact-info-icon" aria-hidden="true">📍</div>
-                <div>
-                  <p class="contact-info-label">Адрес офиса</p>
-                  <p class="contact-info-value">
-                    Приморский край, г. Находка, ул. Северный проспект, 47с2<br>
-                    <small style="color:var(--color-muted);font-weight:400;font-size:0.85rem;">
-                      Приморский край
-                    </small>
-                  </p>
-                </div>
-              </div>
-              <div class="contact-info-item">
-                <div class="contact-info-icon" aria-hidden="true">📞</div>
-                <div>
-                  <p class="contact-info-label">Контактный телефон</p>
-                  <p class="contact-info-value">
-                    <a href="tel:+79147285880">+7&nbsp;(914)&nbsp;728&#8209;58&#8209;80</a>
-                  </p>
-                </div>
-              </div>
-              <div class="contact-info-item">
-                <div class="contact-info-icon" aria-hidden="true">✉️</div>
-                <div>
-                  <p class="contact-info-label">Электронная почта</p>
-                  <p class="contact-info-value">
-                    <a href="mailto:info@pacificstar.ru">info@pacificstar.ru</a>
-                    <small style="display:block;color:var(--color-muted);font-weight:400;font-size:0.85rem;">
-                      Ответим в течение 2 часов
-                    </small>
-                  </p>
-                </div>
-              </div>
-              <div class="contact-info-item">
-                <div class="contact-info-icon" aria-hidden="true">💬</div>
-                <div>
-                  <p class="contact-info-label">Мессенджеры</p>
-                  <p class="contact-info-value">
-                    <a href="https://t.me/KhmelRoman" target="_blank" rel="noopener noreferrer">Telegram</a> &nbsp;|&nbsp;
-                    <a href="https://wa.me/79147285880" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="work-hours" style="margin-top:24px;">
-              <p class="work-hours-title">Режим работы</p>
-              <div class="work-hours-row">
-                <span class="day">Понедельник — пятница</span>
-                <span class="time open">09:00 — 18:00</span>
-              </div>
-              <div class="work-hours-row">
-                <span class="day">Суббота</span>
-                <span class="time open">10:00 — 15:00</span>
-              </div>
-              <div class="work-hours-row">
-                <span class="day">Воскресенье</span>
-                <span class="time">Выходной</span>
-              </div>
-              <div class="work-hours-row">
-                <span class="day">Горячая линия</span>
-                <span class="time open">Круглосуточно</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Contact form -->
-          <div class="contact-form-wrap fade-in">
-            <h3>Оставьте заявку</h3>
-            <p class="subtitle">Рассчитаем стоимость перевозки бесплатно за 15 минут</p>
-
-            <form id="contactForm" novalidate aria-label="Форма обратной связи">
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="name" class="form-label">
-                    Имя <span class="required" aria-hidden="true">*</span>
-                  </label>
-                  <input type="text" id="name" name="name" class="form-control"
-                         placeholder="Иван Иванов" required autocomplete="name" >
-                  <small class="field-error" style="color:#e74c3c;font-size:0.82rem;">
-                    Укажите ваше имя
-                  </small>
-                </div>
-                <div class="form-group">
-                  <label for="company" class="form-label">Компания</label>
-                  <input type="text" id="company" name="company" class="form-control"
-                         placeholder="ООО «Название»" autocomplete="organization" >
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="phone" class="form-label">
-                    Телефон <span class="required" aria-hidden="true">*</span>
-                  </label>
-                  <input type="tel" id="phone" name="phone" class="form-control"
-                         placeholder="+7 (___) ___-__-__" required autocomplete="tel" >
-                  <small class="field-error" style="color:#e74c3c;font-size:0.82rem;">
-                    Укажите корректный телефон
-                  </small>
-                </div>
-                <div class="form-group">
-                  <label for="email" class="form-label">
-                    Электронная почта <span class="required" aria-hidden="true">*</span>
-                  </label>
-                  <input type="email" id="email" name="email" class="form-control"
-                         placeholder="ivan@example.com" required autocomplete="email" >
-                  <small class="field-error" style="color:#e74c3c;font-size:0.82rem;">
-                    Укажите корректный e-mail
-                  </small>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label for="service" class="form-label">Интересующая услуга</label>
-                <select id="service" name="service" class="form-control">
-                  <option value="">— Выберите услугу —</option>
-                  <option value="auto">Автомобильные грузоперевозки</option>
-                  <option value="rail">Железнодорожные перевозки</option>
-                  <option value="air">Авиационные перевозки</option>
-                  <option value="warehouse">Складские услуги</option>
-                  <option value="forwarding">Экспедирование</option>
-                  <option value="international">Международные перевозки</option>
-                  <option value="other">Другое</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="route" class="form-label">Маршрут</label>
-                <input type="text" id="route" name="route" class="form-control"
-                       placeholder="Откуда → Куда (например, Москва → Владивосток)" >
-              </div>
-
-              <div class="form-group">
-                <label for="message" class="form-label">Сообщение</label>
-                <textarea id="message" name="message" class="form-control"
-                          placeholder="Опишите груз: вес, объём, вид товара, желаемые сроки доставки..."></textarea>
-              </div>
-
-              <div class="form-check">
-                <input type="checkbox" id="privacy" name="privacy" required >
-                <label for="privacy">
-                  Я даю согласие на
-                  <a href="privacy.html" target="_blank" rel="noopener noreferrer">
-                    обработку персональных данных
-                  </a>
-                  в соответствии с Политикой конфиденциальности
-                </label>
-              </div>
-
-              <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;font-size:1rem;padding:16px;">
-                Отправить заявку
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                     fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-                  <line x1="5" y1="12" x2="19" y2="12"/>
-                  <polyline points="12 5 19 12 12 19"/>
-                </svg>
-              </button>
-
-              <div id="formSuccess" class="form-success" role="alert">
-                <span aria-hidden="true" style="font-size:1.2rem;">✅</span>
-                Заявка отправлена! Мы свяжемся с вами в течение 15 минут.
-                <div class="form-success-links">
-                  <a href="services.html">Посмотреть все услуги</a>
-                  <span aria-hidden="true">·</span>
-                  <a href="account.html">Личный кабинет</a>
-                </div>
-              </div>
-            </form>
-          </div>
-
+        <div class="stat-bar fade-in">
+          <div class="stat-item"><span class="stat-value">10+</span><span class="stat-label">лет в арктической логистике</span></div>
+          <div class="stat-item"><span class="stat-value">411-ФЗ</span><span class="stat-label">работаем по федеральному закону</span></div>
+          <div class="stat-item"><span class="stat-value">5</span><span class="stat-label">арктических портов</span></div>
+          <div class="stat-item"><span class="stat-value">24ч</span><span class="stat-label">расчёт стоимости</span></div>
         </div>
       </div>
     </section>
 
-    <!-- ========== MAP ========== -->
-    <section class="map-section" aria-label="Карта расположения офиса">
+    <!-- ========== WHAT WE DELIVER ========== -->
+    <section class="section" aria-labelledby="sz-features-title">
       <div class="container">
-        <h2 style="margin-bottom:20px;font-size:1.4rem;">Как нас найти</h2>
-        <div class="map-wrap">
-          <!-- OpenStreetMap embed (universally accessible, no API key required) -->
-          <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=132.877%2C42.830%2C132.958%2C42.870&amp;layer=mapnik&amp;marker=42.850025%2C132.917523"
-                  width="1200" height="600" loading="lazy" allowfullscreen
-                  title="Карта расположения офиса Pacific Star — Приморский край, г. Находка, ул. Северный проспект, 47с2"></iframe>
+        <div class="section-header">
+          <h2 id="sz-features-title">Что мы перевозим</h2>
+          <p>Полный спектр грузов Северного завоза в соответствии с 411-ФЗ</p>
         </div>
-        <p style="margin-top:10px;font-size:0.85rem;color:var(--color-text-muted);">
-          <a href="https://yandex.ru/maps/?ll=132.917523,42.850025&z=16&pt=132.917523,42.850025,pm2rdm"
-             target="_blank" rel="noopener noreferrer">Открыть в Яндекс Картах →</a>
-          &nbsp;·&nbsp;
-          <a href="https://www.openstreetmap.org/?mlat=42.850025&mlon=132.917523#map=16/42.850025/132.917523"
-             target="_blank" rel="noopener noreferrer">Открыть в OpenStreetMap →</a>
-        </p>
+        <div class="feature-grid">
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">📦</div>
+            <h3>Контейнерные грузы</h3>
+            <p>Перевозка 20- и 40-футовых контейнеров, включая рефрижераторные. Продовольствие, промышленные товары, оборудование.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🏗️</div>
+            <h3>Генеральные грузы</h3>
+            <p>Строительные материалы, техника, металлоконструкции. Крупногабаритные и тяжеловесные отправки.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">⛏️</div>
+            <h3>Навалочные и сыпучие</h3>
+            <p>Уголь, щебень, песок, цемент. Доставка топлива для нужд коммунального хозяйства арктических посёлков.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">💊</div>
+            <h3>Социально значимые</h3>
+            <p>Медикаменты, продовольствие первой необходимости, товары для жизнеобеспечения. Приоритетная обработка.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== DESTINATIONS ========== -->
+    <section class="section" style="background:var(--color-light);" aria-labelledby="sz-geo-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="sz-geo-title">Порты назначения</h2>
+          <p>Доставляем в ключевые порты Арктической зоны России</p>
+        </div>
+        <div class="geo-grid">
+          <div class="geo-card fade-in">
+            <div class="geo-card-icon" aria-hidden="true">🏔️</div>
+            <div>
+              <h3>Анадырь</h3>
+              <p>Столица Чукотки. Навигация: июнь–октябрь. Расстояние от Владивостока — около 4 000 км. Время в пути 10–14 суток.</p>
+            </div>
+          </div>
+          <div class="geo-card fade-in">
+            <div class="geo-card-icon" aria-hidden="true">❄️</div>
+            <div>
+              <h3>Певек</h3>
+              <p>Самый северный город России. Арктический порт, ледокольная проводка. Расстояние от Владивостока — ~4 200 км.</p>
+            </div>
+          </div>
+          <div class="geo-card fade-in">
+            <div class="geo-card-icon" aria-hidden="true">⛵</div>
+            <div>
+              <h3>Эгвекинот</h3>
+              <p>Порт в заливе Креста, Чукотка. Важный пункт Северного завоза. Навигация: июнь–октябрь.</p>
+            </div>
+          </div>
+          <div class="geo-card fade-in">
+            <div class="geo-card-icon" aria-hidden="true">🧊</div>
+            <div>
+              <h3>Тикси</h3>
+              <p>Порт в Якутии на берегу моря Лаптевых. Ключевой хаб Северного морского пути. Навигация: июль–октябрь.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PROCESS ========== -->
+    <section class="process-section" aria-labelledby="sz-process-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="sz-process-title">Как мы работаем</h2>
+          <p>От заявки до доставки — прозрачный процесс на каждом этапе</p>
+        </div>
+        <div class="process-grid">
+          <div class="process-step fade-in">
+            <h4>Заявка и расчёт</h4>
+            <p>Вы оставляете заявку — мы рассчитываем стоимость в течение 24 часов с учётом навигации и ледовой обстановки.</p>
+          </div>
+          <div class="process-step fade-in">
+            <h4>Документы 411-ФЗ</h4>
+            <p>Оформляем статус груза Северного завоза, готовим товаросопроводительные документы и заявки на субсидирование.</p>
+          </div>
+          <div class="process-step fade-in">
+            <h4>Погрузка и отправка</h4>
+            <p>Формируем партию во Владивостоке, организуем погрузку на судно. GPS-контроль на всём маршруте.</p>
+          </div>
+          <div class="process-step fade-in">
+            <h4>Доставка и выгрузка</h4>
+            <p>Груз прибывает в порт назначения. Организуем выгрузку и, при необходимости, доставку до конечного получателя.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== FAQ ========== -->
+    <section class="faq-section" aria-labelledby="sz-faq-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="sz-faq-title">Частые вопросы</h2>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Что такое Северный завоз и как он работает?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Северный завоз — государственная программа обеспечения жизненно важными товарами труднодоступных территорий Арктики и Дальнего Востока России. Регулируется Федеральным законом № 411-ФЗ от 13.06.2023 «О северном завозе». Предусматривает доставку продовольствия, медикаментов, строительных материалов, топлива и промышленных товаров. С 2025 года предусмотрено субсидирование перевозчиков.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Когда начинается навигация на Чукотку?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Морская навигация в порты Чукотского автономного округа открывается в июне и продолжается до октября включительно. В период ледовой обстановки используется ледокольная проводка атомными ледоколами ФГУП «Атомфлот» по Северному морскому пути.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Какие грузы относятся к Северному завозу по 411-ФЗ?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Продовольственные товары первой необходимости; уголь и твёрдое топливо; медикаменты и медицинские изделия; товары для нужд коммунального хозяйства; строительные материалы для социальных объектов; промышленные товары для жизнеобеспечения населения.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Как рассчитать стоимость доставки в Певек?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Стоимость зависит от типа и объёма груза, типа контейнера, даты отправления в навигационный сезон, необходимости ледокольной проводки. Ориентировочно: от Владивостока расстояние ~4 200 км, время в пути 12–15 суток. Оставьте заявку — рассчитаем в течение 24 часов.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CTA ========== -->
+    <section class="service-cta" aria-label="Оставить заявку">
+      <div class="container">
+        <h2>Нужна доставка по Северному завозу?</h2>
+        <p>Рассчитаем стоимость и сроки за 24 часа. Работаем по 411-ФЗ с полным документальным сопровождением.</p>
+        <a href="contacts.html#contactForm" class="btn btn-white">Оставить заявку</a>
       </div>
     </section>
 
   </main>
-
 
   <!-- ========== FOOTER ========== -->
   <footer class="site-footer">
@@ -523,15 +548,6 @@
   <script defer src="js/main.js?v=20260412"></script>
   <script defer src="js/animations.js?v=20260412"></script>
   <script defer src="js/premium-features.js?v=20260412"></script>
-  <script>
-    if (window.location.hash === '#contactForm') {
-      var form = document.getElementById('contactForm');
-      if (form) {
-        setTimeout(function() {
-          form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
-      }
-    }
-  </script>
+
 </body>
 </html>
