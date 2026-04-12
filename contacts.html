@@ -32,7 +32,7 @@
         "name": "Pacific Star",
         "legalName": "ООО «Pacific Star»",
         "url": "https://pacificstar.ru",
-        "logo": "https://pacificstar.ru/img/logo-icon.svg",
+        "logo": "https://pacificstar.ru/img/logo.png",
         "telephone": "+79147285880",
         "email": "info@pacificstar.ru",
         "address": {
@@ -47,12 +47,20 @@
           "latitude": 42.8236,
           "longitude": 132.8835
         },
-        "openingHoursSpecification": {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-          "opens": "09:00",
-          "closes": "18:00"
-        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "09:00",
+            "closes": "18:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": "Saturday",
+            "opens": "10:00",
+            "closes": "15:00"
+          }
+        ],
         "sameAs": []
       },
       {
