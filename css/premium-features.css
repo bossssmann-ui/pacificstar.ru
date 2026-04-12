@@ -322,125 +322,7 @@ html.dark-theme .custom-cursor-ring.is-hovered {
 }
 
 /* =========================================
-   Leaflet Premium Map Styles
-   ========================================= */
-
-/* ---- Pulsing markers ---- */
-.leaflet-ps-marker {
-  position: relative;
-  width: 14px;
-  height: 14px;
-  background: #d4af37;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.7);
-}
-
-.leaflet-ps-marker--hub {
-  width: 22px;
-  height: 22px;
-  background: #ffffff;
-  border: 2.5px solid #d4af37;
-  box-shadow: 0 0 14px rgba(212, 175, 55, 0.9);
-}
-
-.leaflet-ps-marker__pulse {
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 2px solid #d4af37;
-  opacity: 0;
-  animation: ps-pulse 2.4s ease-out infinite;
-}
-
-.leaflet-ps-marker--hub .leaflet-ps-marker__pulse {
-  inset: -8px;
-  border-color: #ffffff;
-  animation-duration: 2s;
-}
-
-@keyframes ps-pulse {
-  0%   { opacity: 0.8; transform: scale(1); }
-  100% { opacity: 0;   transform: scale(2.4); }
-}
-
-/* ---- Animated route lines ---- */
-@keyframes ps-route-flow {
-  from { stroke-dashoffset: 16; }
-  to   { stroke-dashoffset: 0; }
-}
-
-.leaflet-ps-route {
-  animation: ps-route-flow 1.2s linear infinite;
-}
-
-/* ---- Custom popup ---- */
-.leaflet-ps-popup-wrap .leaflet-popup-content-wrapper {
-  background: rgba(13, 27, 62, 0.92);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(212, 175, 55, 0.4);
-  border-radius: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  color: #ffffff;
-  padding: 0;
-}
-
-.leaflet-ps-popup-wrap .leaflet-popup-tip {
-  background: rgba(13, 27, 62, 0.92);
-}
-
-.leaflet-ps-popup-wrap .leaflet-popup-close-button {
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.leaflet-ps-popup-wrap .leaflet-popup-close-button:hover {
-  color: #d4af37;
-}
-
-.leaflet-ps-popup {
-  padding: 10px 14px;
-  min-width: 140px;
-}
-
-.leaflet-ps-popup__title {
-  display: block;
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  font-weight: 600;
-  color: #d4af37;
-  margin-bottom: 4px;
-}
-
-.leaflet-ps-popup__desc {
-  display: block;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.75);
-}
-
-/* ---- Leaflet control overrides for dark theme ---- */
-#routeMapContainer .leaflet-bar a {
-  background-color: rgba(13, 27, 62, 0.9);
-  border-color: rgba(212, 175, 55, 0.35);
-  color: #d4af37;
-}
-
-#routeMapContainer .leaflet-bar a:hover {
-  background-color: rgba(212, 175, 55, 0.15);
-}
-
-#routeMapContainer .leaflet-control-attribution {
-  background: rgba(0, 0, 0, 0.55);
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.7rem;
-}
-
-#routeMapContainer .leaflet-control-attribution a {
-  color: rgba(212, 175, 55, 0.8);
-}
-
-/* =========================================
-   SVG Route Map Styles  (replaces Leaflet)
+   SVG Route Map Styles
    ========================================= */
 
 .svg-route-map {
@@ -734,15 +616,6 @@ html.dark-theme .custom-cursor-ring.is-hovered {
   overflow: hidden;
   background: #0d1b3e;
   position: relative;
-}
-
-/* Override old .route-map-container layout from style.css where #leaflet-map
-   was position:absolute inside a relatively-positioned wrapper.
-   In the new tab layout it IS the .map-frame and must stay in normal flow. */
-#leaflet-map.map-frame {
-  position: relative;
-  inset: auto;
-  height: 420px;
 }
 
 .map-panel {

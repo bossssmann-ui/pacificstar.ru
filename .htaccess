@@ -2,7 +2,21 @@
 Options -Indexes
 DirectoryIndex index.html index.php
 
-# Отключить кэш для разработки
+# ── Caching ────────────────────────────────────────────────────────────
+# Versioned assets (?v=…) are safe to cache long-term.
+# HTML pages get a short TTL so visitors always see the latest content.
+
 <IfModule mod_headers.c>
-    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    # Default: HTML and other documents — short TTL
+    Header set Cache-Control "public, max-age=600"
+
+    # Versioned static assets (JS, CSS, images, fonts) — 1 year
+    <FilesMatch "\.(js|css|svg|png|jpg|jpeg|gif|webp|ico|woff|woff2|ttf|otf)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+</IfModule>
+
+# ── Compression ────────────────────────────────────────────────────────
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml
 </IfModule>

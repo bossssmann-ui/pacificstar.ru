@@ -550,4 +550,14 @@
   }
 
   initParallax();
+
+  /* ── Hash-based scroll to form ──────────────────────────────────────── */
+  if (window.location.hash) {
+    var hashTarget = document.getElementById(window.location.hash.slice(1));
+    if (hashTarget) {
+      setTimeout(function () {
+        hashTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }
 }());

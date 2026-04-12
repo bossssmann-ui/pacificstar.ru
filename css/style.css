@@ -3112,15 +3112,6 @@ select.form-control {
   background: #1a1a2e;
   line-height: 0;
 }
-#leaflet-map {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-}
-/* Override Leaflet's default grey (#ddd) ocean background to match the dark map theme. */
-#leaflet-map.leaflet-container {
   background: #0d1b3e;
 }
 .route-map-container:focus-within { outline: 2px solid var(--color-accent); }
