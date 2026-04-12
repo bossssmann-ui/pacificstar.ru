@@ -736,6 +736,208 @@ p { margin-bottom: 1rem; }
 }
 
 /* =========================================
+   HERO BULLETS (trust facts row)
+   ========================================= */
+.hero-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hero-bullet {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255,255,255,0.88);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.hero-bullet-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* =========================================
+   HERO LEAD FORM
+   ========================================= */
+.hero-form-wrap {
+  display: flex;
+  align-items: flex-start;
+}
+
+.hero-form-card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 420px;
+}
+
+.hero-form-title {
+  color: var(--color-primary);
+  font-size: 1.25rem;
+  margin-bottom: 4px;
+}
+
+.hero-form-subtitle {
+  font-size: 0.88rem;
+  color: var(--color-muted);
+  margin-bottom: 20px;
+}
+
+.hero-form-card .form-group {
+  margin-bottom: 14px;
+}
+
+.hero-form-card .form-label {
+  font-size: 0.82rem;
+  margin-bottom: 4px;
+}
+
+.hero-form-card .form-control {
+  padding: 10px 14px;
+  font-size: 0.92rem;
+}
+
+.hero-form-submit {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.hero-form-note {
+  font-size: 0.76rem;
+  color: var(--color-muted);
+  text-align: center;
+  margin: 10px 0 0;
+}
+
+.hero-form-note a {
+  color: var(--color-secondary);
+  transition: color var(--transition);
+}
+
+.hero-form-note a:hover {
+  color: var(--color-accent-dark);
+  text-decoration: underline;
+}
+
+/* =========================================
+   CASES PREVIEW
+   ========================================= */
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.case-card {
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.case-card-tag {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-white);
+  background: var(--color-secondary);
+  padding: 4px 12px;
+  border-radius: 50px;
+  margin-bottom: 16px;
+  align-self: flex-start;
+}
+
+.case-card-title {
+  font-size: 1.1rem;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+}
+
+.case-card-route {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-accent-dark);
+  margin-bottom: 12px;
+}
+
+.case-card-desc {
+  font-size: 0.93rem;
+  color: var(--color-muted);
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.case-card-facts {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid var(--color-border);
+  padding-top: 14px;
+}
+
+.case-card-facts li {
+  font-size: 0.86rem;
+  color: var(--color-text);
+  padding: 3px 0;
+}
+
+.case-card-facts li strong {
+  color: var(--color-primary);
+}
+
+/* =========================================
+   CARGO TYPES
+   ========================================= */
+.cargo-types-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.cargo-type-card {
+  background: var(--color-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  text-align: center;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.cargo-type-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+  border-color: var(--color-secondary);
+}
+
+.cargo-type-icon {
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.cargo-type-name {
+  font-size: 1rem;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+}
+
+.cargo-type-desc {
+  font-size: 0.86rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* =========================================
    ADVANTAGES SECTION
    ========================================= */
 .advantages {
@@ -1051,7 +1253,7 @@ p { margin-bottom: 1rem; }
    CTA SECTION
    ========================================= */
 .cta-section {
-  background: var(--color-light);
+  background: var(--color-primary);
   padding: 80px 0;
   text-align: center;
   position: relative;
@@ -1064,12 +1266,12 @@ p { margin-bottom: 1rem; }
 }
 
 .cta-title {
-  color: var(--color-text);
+  color: var(--color-white);
   margin-bottom: 16px;
 }
 
 .cta-desc {
-  color: var(--color-muted);
+  color: rgba(255,255,255,0.8);
   font-size: 1.05rem;
   margin-bottom: 40px;
   max-width: 520px;
@@ -2121,8 +2323,13 @@ select.form-control {
 @media (max-width: 1024px) {
   .advantages-grid,
   .services-grid,
-  .reviews-grid {
+  .reviews-grid,
+  .cases-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cargo-types-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .stats-grid {
@@ -2193,7 +2400,7 @@ select.form-control {
   /* Hero */
   .hero-inner {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 32px;
     padding: 60px 0;
   }
 
@@ -2205,14 +2412,25 @@ select.form-control {
     gap: 20px;
   }
 
+  .hero-form-card {
+    max-width: 100%;
+    padding: 24px 20px;
+  }
+
   /* Grids */
   .advantages-grid,
   .services-grid,
   .reviews-grid,
+  .cases-grid,
   .values-grid,
   .team-grid,
   .services-full-grid {
     grid-template-columns: 1fr;
+  }
+
+  .cargo-types-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 
   .stats-grid {
@@ -2268,6 +2486,10 @@ select.form-control {
   .hero-stats {
     flex-direction: column;
     gap: 12px;
+  }
+
+  .cargo-types-grid {
+    grid-template-columns: 1fr;
   }
 
   .scroll-top {
