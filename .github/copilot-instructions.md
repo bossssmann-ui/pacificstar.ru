@@ -61,7 +61,7 @@ There is **no build step, no bundler, no framework**. The repo is served as-is.
 
 - **Do**: industrial, maritime, northern, structured, trustworthy — deep navy, steel-blue, muted amber accents, clean whitespace.
 - **Don't**: neon gradients, glassmorphism, startup clichés, excessive animations, SaaS-style hero illustrations.
-- Keep transitions ≤ 0.3 s. Prefer `opacity` + `transform` for animations. Respect `prefers-reduced-motion`.
+- Keep transitions ≤ 0.3 s. Prefer `opacity` + `transform` for animations. Disable all non-essential motion when `prefers-reduced-motion: reduce` is active.
 - Photography and icons should evoke cargo ships, containers, snow-covered ports, northern routes — not generic stock photos.
 
 ## Code change guidelines
