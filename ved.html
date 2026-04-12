@@ -29,9 +29,15 @@
         "@type": "Service",
         "@id": "https://pacificstar.ru/ved.html#service",
         "name": "Внешнеэкономическая логистика",
-        "description": "Международные грузоперевозки в страны АТР и СНГ. Таможенное оформление, морской фрахт.",
+        "description": "Международные грузоперевозки из Китая, Японии, Кореи и стран СНГ. Таможенное сопровождение, морской фрахт, мультимодальные маршруты.",
         "provider": { "@id": "https://pacificstar.ru/#organization" },
-        "areaServed": ["Китай", "Япония", "Республика Корея", "СНГ"]
+        "areaServed": [
+          { "@type": "Place", "name": "Китай" },
+          { "@type": "Place", "name": "Япония" },
+          { "@type": "Place", "name": "Республика Корея" },
+          { "@type": "Place", "name": "СНГ" }
+        ],
+        "serviceType": ["Международные грузоперевозки", "Таможенное оформление", "ВЭД логистика"]
       },
       {
         "@type": "BreadcrumbList",
@@ -39,6 +45,52 @@
           { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://pacificstar.ru/" },
           { "@type": "ListItem", "position": 2, "name": "Услуги", "item": "https://pacificstar.ru/services.html" },
           { "@type": "ListItem", "position": 3, "name": "ВЭД логистика", "item": "https://pacificstar.ru/ved.html" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://pacificstar.ru/ved.html#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Сколько стоит доставка контейнера из Китая?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Стоимость зависит от порта отправления, типа контейнера и текущих ставок фрахта. Ориентировочно: 20' контейнер из Шанхая или Нинбо во Владивосток — от 800 USD, из Циндао — от 650 USD. Точный расчёт — в течение суток после заявки."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Какие сроки доставки из Азии?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Морем из Китая (Шанхай, Нинбо, Циндао) — 7–14 дней до Владивостока. Из Пусана (Корея) — 3–5 дней. Из Японии (Иокогама, Кобе) — 3–7 дней. Срок зависит от расписания линии и необходимости перевалки."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Помогаете ли вы с таможенным оформлением?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Да, координируем таможенное оформление: помогаем подготовить документы, подобрать код ТН ВЭД, рассчитать пошлины и сборы. Работаем с проверенными таможенными брокерами в портах Владивостока и Находки."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Есть ли минимальный объём для перевозки?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Минимального объёма нет. Для небольших партий используем сборные контейнеры (LCL): ваш груз едет вместе с другими отправлениями, что снижает стоимость. Для крупных партий — целые контейнеры (FCL) на регулярных линиях."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Как начать работу?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Оставьте заявку или позвоните. Опишите, что нужно привезти и откуда — мы рассчитаем стоимость, предложим маршрут и объясним порядок действий. Первичная консультация бесплатна."
+            }
+          }
         ]
       }
     ]
@@ -169,12 +221,12 @@
 
   <main>
 
-    <!-- ========== HERO ========== -->
+    <!-- ========== 1. HERO ========== -->
     <section class="service-hero" aria-label="ВЭД логистика">
       <div class="container">
         <span class="service-hero-label">Международные · АТР · СНГ</span>
         <h1>Внешнеэкономическая логистика</h1>
-        <p>Организуем международные грузоперевозки из Китая, Японии, Кореи и стран СНГ. Полное таможенное сопровождение, морской фрахт, мультимодальные маршруты.</p>
+        <p>Развиваем международное направление, опираясь на практический опыт работы в портах Дальнего Востока. Помогаем организовать доставку грузов из Китая, Кореи, Японии и стран СНГ — от подбора маршрута до координации таможенного оформления.</p>
         <nav class="breadcrumb" aria-label="Хлебные крошки">
           <a href="index.html">Главная</a>
           <span class="breadcrumb-sep" aria-hidden="true">›</span>
@@ -185,96 +237,227 @@
       </div>
     </section>
 
-    <!-- ========== KEY STATS ========== -->
-    <section class="section" aria-label="Ключевые цифры">
-      <div class="container">
-        <div class="stat-bar fade-in">
-          <div class="stat-item"><span class="stat-value">10+</span><span class="stat-label">стран-партнёров</span></div>
-          <div class="stat-item"><span class="stat-value">100%</span><span class="stat-label">таможенное сопровождение</span></div>
-          <div class="stat-item"><span class="stat-value">7-14</span><span class="stat-label">дней из Китая</span></div>
-          <div class="stat-item"><span class="stat-value">24/7</span><span class="stat-label">отслеживание грузов</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========== SERVICES ========== -->
-    <section class="section" aria-labelledby="ved-services-title">
+    <!-- ========== 2. WHAT TASKS WE SUPPORT ========== -->
+    <section class="section" aria-labelledby="ved-tasks-title">
       <div class="container">
         <div class="section-header">
-          <h2 id="ved-services-title">Наши услуги</h2>
-          <p>Полный цикл внешнеэкономической логистики</p>
+          <h2 id="ved-tasks-title">Какие задачи помогаем решать</h2>
+          <p>Международная логистика — это не только фрахт. Мы берём на себя координацию процесса на каждом этапе</p>
         </div>
         <div class="feature-grid">
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">🚢</div>
-            <h3>Морской фрахт</h3>
-            <p>FCL и LCL перевозки из портов Китая, Японии, Кореи. Регулярные линии, конкурентные ставки.</p>
+            <h3>Морской фрахт из Азии</h3>
+            <p>Организуем доставку контейнеров (FCL) и сборных грузов (LCL) из портов Китая, Кореи и Японии. Подбираем линию, согласуем букинг, контролируем погрузку.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">📋</div>
-            <h3>Таможенное оформление</h3>
-            <p>Полный цикл: декларирование, классификация, сертификация. Работаем с ФТС напрямую.</p>
+            <h3>Координация таможенного оформления</h3>
+            <p>Помогаем подготовить документы для импорта: подбор кода ТН ВЭД, расчёт пошлин, взаимодействие с таможенным брокером. Сопровождаем до выпуска груза.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">🔄</div>
             <h3>Мультимодальные маршруты</h3>
-            <p>Море + ж/д + авто. Оптимизация стоимости и сроков. Доставка «от двери до двери».</p>
+            <p>Выстраиваем цепочки «море + ж/д + авто» для доставки от порта отправления до склада получателя в любом регионе России. Особенно эффективно для Дальнего Востока и Сибири.</p>
           </div>
           <div class="feature-card fade-in">
-            <div class="feature-icon" aria-hidden="true">💱</div>
-            <h3>Валютный контроль</h3>
-            <p>Сопровождение валютных операций. Консультации по курсам и условиям оплаты.</p>
+            <div class="feature-icon" aria-hidden="true">📦</div>
+            <h3>Консолидация грузов</h3>
+            <p>Собираем грузы от нескольких поставщиков на складе в Китае или Корее и отправляем единой партией. Это снижает стоимость для небольших заказов.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== COUNTRIES ========== -->
+    <!-- ========== 3. HOW THIS CONNECTS TO EXISTING EXPERTISE ========== -->
+    <section class="process-section" aria-labelledby="ved-expertise-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="ved-expertise-title">На чём основан наш опыт</h2>
+          <p>Международная логистика — естественное продолжение работы, которую мы ведём на Дальнем Востоке с 2012 года</p>
+        </div>
+        <div class="process-grid">
+          <div class="process-step fade-in">
+            <h4>Порты Приморья</h4>
+            <p>Базируемся в Находке. Знаем портовую инфраструктуру Владивостока, Находки, Восточного — где принимают импорт, как устроена перевалка, с кем работать на месте.</p>
+          </div>
+          <div class="process-step fade-in">
+            <h4>Мультимодальные цепочки</h4>
+            <p>Ежедневно строим маршруты «море + ж/д + авто» для каботажа и северного завоза. Те же принципы работают для международных грузов: от порта до конечного получателя.</p>
+          </div>
+          <div class="process-step fade-in">
+            <h4>Работа с перевозчиками</h4>
+            <p>Прямые контракты с морскими линиями, автоперевозчиками и железнодорожными операторами. Можем быстро подобрать транспорт на внутреннее плечо после таможни.</p>
+          </div>
+          <div class="process-step fade-in">
+            <h4>Документооборот</h4>
+            <p>Опыт работы с коносаментами, транспортными накладными, страховыми документами на каботажных и внутренних перевозках. Этот навык переносится на ВЭД без потери качества.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 4. ASIA-PACIFIC DIRECTIONS ========== -->
     <section class="section" style="background:var(--color-light);" aria-labelledby="ved-geo-title">
       <div class="container">
         <div class="section-header">
-          <h2 id="ved-geo-title">География перевозок</h2>
-          <p>Работаем с ключевыми торговыми партнёрами России в АТР</p>
+          <h2 id="ved-geo-title">Направления перевозок</h2>
+          <p>Работаем с основными торговыми партнёрами России в Азиатско-Тихоокеанском регионе</p>
         </div>
         <div class="geo-grid">
           <div class="geo-card fade-in">
             <div class="geo-card-icon" aria-hidden="true">🇨🇳</div>
             <div>
               <h3>Китай</h3>
-              <p>Шанхай, Нинбо, Циндао, Далянь, Гуанчжоу. Морской фрахт 7–14 дней. FCL/LCL.</p>
-            </div>
-          </div>
-          <div class="geo-card fade-in">
-            <div class="geo-card-icon" aria-hidden="true">🇯🇵</div>
-            <div>
-              <h3>Япония</h3>
-              <p>Токио, Иокогама, Осака, Кобе. Контейнерные линии, автотехника, оборудование.</p>
+              <p>Основное направление. Шанхай, Нинбо, Циндао, Далянь — регулярные контейнерные линии до Владивостока и Находки. Срок 7–14 дней. Оборудование, комплектующие, товары народного потребления.</p>
             </div>
           </div>
           <div class="geo-card fade-in">
             <div class="geo-card-icon" aria-hidden="true">🇰🇷</div>
             <div>
               <h3>Республика Корея</h3>
-              <p>Пусан, Инчхон. Регулярные рейсы, 3–5 дней. Электроника, автозапчасти, оборудование.</p>
+              <p>Пусан — ближайший крупный порт, 3–5 дней до Владивостока. Автозапчасти, электроника, промышленное оборудование. Высокая частота рейсов.</p>
+            </div>
+          </div>
+          <div class="geo-card fade-in">
+            <div class="geo-card-icon" aria-hidden="true">🇯🇵</div>
+            <div>
+              <h3>Япония</h3>
+              <p>Иокогама, Кобе, Осака. Автотехника, запчасти, промышленное оборудование. 3–7 дней до портов Приморья. Прямые линии и с перевалкой в Пусане.</p>
             </div>
           </div>
           <div class="geo-card fade-in">
             <div class="geo-card-icon" aria-hidden="true">🌏</div>
             <div>
               <h3>СНГ и ЕАЭС</h3>
-              <p>Казахстан, Узбекистан, Кыргызстан. Автомобильные и ж/д перевозки. Упрощённое таможенное оформление.</p>
+              <p>Казахстан, Узбекистан, Кыргызстан — автомобильные и ж/д перевозки. Упрощённое оформление в рамках ЕАЭС. Направление развиваем совместно с партнёрами.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== CTA ========== -->
+    <!-- ========== 5. DOCUMENTATION AND COORDINATION ========== -->
+    <section class="section" aria-labelledby="ved-docs-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="ved-docs-title">Документы и сопровождение</h2>
+          <p>Помогаем разобраться в требованиях и подготовить всё необходимое для импорта</p>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">📝</div>
+            <h3>Таможенная декларация</h3>
+            <p>Координируем подготовку декларации на товары: классификация по ТН ВЭД, расчёт пошлин и НДС, подача через проверенных брокеров в портах Приморья.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">📄</div>
+            <h3>Сертификаты и разрешения</h3>
+            <p>Консультируем по необходимым сертификатам: декларация соответствия, фитосанитарный или ветеринарный сертификат, сертификат происхождения. Помогаем с получением.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">💱</div>
+            <h3>Валютный контроль</h3>
+            <p>Подсказываем, какие документы нужны для валютных операций. Помогаем корректно оформить контракт с учётом требований банковского валютного контроля.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">📊</div>
+            <h3>Условия поставки (Инкотермс)</h3>
+            <p>Объясняем разницу между FOB, CIF, EXW и другими условиями. Рекомендуем оптимальный базис поставки с учётом маршрута и ваших возможностей.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 6. PRACTICAL EXAMPLES ========== -->
+    <section class="section" style="background:var(--color-light);" aria-labelledby="ved-cases-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="ved-cases-title">Примеры из практики</h2>
+          <p>Несколько реализованных задач, которые отражают наш подход к международной логистике</p>
+        </div>
+        <div class="feature-grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
+          <article class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🏭</div>
+            <h3>Оборудование из Циндао</h3>
+            <p>Промышленное оборудование для предприятия в Хабаровске. Два 40-футовых контейнера, морское плечо Циндао — Владивосток (12 дней), затем ж/д до Хабаровска. Координация таможенного оформления, страхование груза. Общий срок — 24 дня.</p>
+          </article>
+          <article class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">📦</div>
+            <h3>Сборный груз из Пусана</h3>
+            <p>Консолидация запчастей от трёх корейских поставщиков. Сборный контейнер (LCL) Пусан — Владивосток, 4 дня на морское плечо. Автодоставка до склада в Находке. Экономия клиенту — около 40% по сравнению с тремя отдельными отправками.</p>
+          </article>
+          <article class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🚛</div>
+            <h3>Стройматериалы из Китая на Сахалин</h3>
+            <p>Мультимодальная доставка: море из Шанхая до Владивостока, перевалка, каботажное плечо до Корсакова. 5 контейнеров строительных материалов. Использовали опыт каботажных перевозок для стыковки международного и внутреннего плеча.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 7. FAQ ========== -->
+    <section class="faq-section" aria-labelledby="ved-faq-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="ved-faq-title">Частые вопросы</h2>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Сколько стоит доставка контейнера из Китая?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Стоимость зависит от порта отправления, типа контейнера и текущих ставок фрахта. Ориентировочно: 20' контейнер из Шанхая или Нинбо во Владивосток — от 800 USD, из Циндао — от 650 USD. Точный расчёт — в течение суток после заявки.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Какие сроки доставки из Азии?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Морем из Китая (Шанхай, Нинбо, Циндао) — 7–14 дней до Владивостока. Из Пусана (Корея) — 3–5 дней. Из Японии (Иокогама, Кобе) — 3–7 дней. Срок зависит от расписания линии и необходимости перевалки.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Помогаете ли вы с таможенным оформлением?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Да, координируем таможенное оформление: помогаем подготовить документы, подобрать код ТН ВЭД, рассчитать пошлины и сборы. Работаем с проверенными таможенными брокерами в портах Владивостока и Находки.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Есть ли минимальный объём для перевозки?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Минимального объёма нет. Для небольших партий используем сборные контейнеры (LCL): ваш груз едет вместе с другими отправлениями, что снижает стоимость. Для крупных партий — целые контейнеры (FCL) на регулярных линиях.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Как начать работу?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Оставьте заявку или позвоните. Опишите, что нужно привезти и откуда — мы рассчитаем стоимость, предложим маршрут и объясним порядок действий. Первичная консультация бесплатна.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 8. CTA ========== -->
     <section class="service-cta" aria-label="Оставить заявку">
       <div class="container">
-        <h2>Нужна международная доставка?</h2>
-        <p>Рассчитаем стоимость импорта/экспорта с учётом таможенных платежей. Работаем «под ключ».</p>
-        <a href="contacts.html#contactForm" class="btn btn-white">Запросить расчёт</a>
+        <h2>Есть задача по международной логистике?</h2>
+        <p>Расскажите, что нужно привезти — рассчитаем стоимость и предложим маршрут. Консультация бесплатна, отвечаем в течение рабочего дня.</p>
+        <a href="contacts.html#contactForm" class="btn btn-white">Обсудить задачу</a>
       </div>
     </section>
 
