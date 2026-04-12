@@ -89,6 +89,37 @@
 
   /* ── Header ─────────────────────────────────────────────────────────── */
 
+  /* Inline SVGs for messenger links in header */
+  var WA_SVG_16 =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"' +
+    ' fill="currentColor" aria-hidden="true">' +
+    '<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15' +
+    '-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475' +
+    '-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52' +
+    '.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207' +
+    '-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297' +
+    '-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487' +
+    '.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413' +
+    '.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>' +
+    '<path d="M12 0C5.373 0 0 5.373 0 12c0 2.135.559 4.14 1.535 5.878L0 24l6.273-1.508A11.955' +
+    ' 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.896 0-3.678-.513-5.2-1.408' +
+    'l-.368-.224-3.85.924.999-3.77-.248-.386A9.955 9.955 0 012 12C2 6.486 6.486 2 12 2s10' +
+    ' 4.486 10 10-4.486 10-10 10z"/></svg>';
+
+  var TG_SVG_16 =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"' +
+    ' fill="currentColor" aria-hidden="true">' +
+    '<path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894' +
+    ' 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295' +
+    '-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.26 13.593l-2.95-.924c-.64' +
+    '-.203-.658-.64.135-.954l11.566-4.458c.537-.194 1.006.131.883.964z"/></svg>';
+
+  /* Nav dropdown chevron */
+  var NAV_CHEVRON =
+    '<svg class="nav-chevron" width="12" height="12" viewBox="0 0 24 24"' +
+    ' fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">' +
+    '<polyline points="6 9 12 15 18 9"/></svg>';
+
   function buildHeader(showThemeToggle) {
     return (
       '<header class="site-header"><div class="container"><div class="header-inner">' +
@@ -98,16 +129,24 @@
       '<nav class="nav-menu" aria-label="Основное меню">' +
       '<a href="index.html" class="nav-link">Главная</a>' +
       '<a href="about.html" class="nav-link">О нас</a>' +
-      '<a href="services.html" class="nav-link">Услуги</a>' +
-      '<a href="remote-regions.html" class="nav-link">Северный завоз</a>' +
+      '<div class="nav-item">' +
+      '<button type="button" class="nav-toggle" aria-expanded="false" aria-haspopup="true">Услуги ' + NAV_CHEVRON + '</button>' +
+      '<div class="nav-dropdown" role="menu">' +
+      '<a href="services.html" class="nav-dropdown-link" role="menuitem">Все услуги и тарифы</a>' +
+      '<a href="remote-regions.html" class="nav-dropdown-link" role="menuitem">Северный завоз</a>' +
+      '<a href="truck-delivery.html" class="nav-dropdown-link" role="menuitem">Автодоставка на Север</a>' +
+      '</div></div>' +
       '<a href="contacts.html" class="nav-link">Контакты</a></nav>' +
       '<div class="header-cta">' +
       '<a href="tel:+79147285880" class="header-phone" aria-label="Позвонить нам">' +
       PHONE_SVG_16 + ' +7\u00a0(914)\u00a0728\u201158\u201180</a>' +
+      '<a href="https://wa.me/79147285880" class="header-messenger" aria-label="WhatsApp"' +
+      ' target="_blank" rel="noopener noreferrer">' + WA_SVG_16 + '</a>' +
+      '<a href="https://t.me/KhmelRoman" class="header-messenger" aria-label="Telegram"' +
+      ' target="_blank" rel="noopener noreferrer">' + TG_SVG_16 + '</a>' +
       (showThemeToggle ? THEME_TOGGLE : '') +
       LANG_SWITCHER +
-      '<a href="contacts.html#contactForm" class="btn btn-outline header-btn" style="padding:8px 14px;">Оставить заявку</a>' +
-      '<a href="account.html" class="btn btn-primary header-btn">Кабинет</a></div>' +
+      '<a href="contacts.html#contactForm" class="btn btn-primary header-btn">Запросить расчёт</a></div>' +
       '<button class="burger" aria-label="Открыть меню" aria-expanded="false" type="button">' +
       '<span class="burger-line"></span><span class="burger-line"></span><span class="burger-line"></span></button>' +
       '</div></div></header>'
@@ -120,13 +159,22 @@
     '<nav class="mobile-nav" aria-label="Мобильное меню">' +
     '<a href="index.html" class="nav-link">Главная</a>' +
     '<a href="about.html" class="nav-link">О нас</a>' +
-    '<a href="services.html" class="nav-link">Услуги</a>' +
+    '<div class="mobile-nav-group">' +
+    '<button type="button" class="mobile-nav-toggle nav-link">Услуги <span class="mobile-nav-arrow" aria-hidden="true">\u203A</span></button>' +
+    '<div class="mobile-nav-sub">' +
+    '<a href="services.html" class="nav-link">Все услуги и тарифы</a>' +
     '<a href="remote-regions.html" class="nav-link">Северный завоз</a>' +
+    '<a href="truck-delivery.html" class="nav-link">Автодоставка на Север</a>' +
+    '</div></div>' +
     '<a href="contacts.html" class="nav-link">Контакты</a>' +
     '<a href="tel:+79147285880" class="header-phone">' +
     PHONE_SVG_18 + ' +7\u00a0(914)\u00a0728\u201158\u201180</a>' +
-    '<a href="contacts.html#contactForm" class="btn btn-primary header-btn">Оставить заявку</a>' +
-    '<a href="account.html" class="btn btn-outline header-btn">Кабинет</a></nav>';
+    '<div class="mobile-nav-messengers">' +
+    '<a href="https://wa.me/79147285880" class="mobile-nav-msg" aria-label="WhatsApp"' +
+    ' target="_blank" rel="noopener noreferrer">' + WA_SVG_16 + ' WhatsApp</a>' +
+    '<a href="https://t.me/KhmelRoman" class="mobile-nav-msg" aria-label="Telegram"' +
+    ' target="_blank" rel="noopener noreferrer">' + TG_SVG_16 + ' Telegram</a></div>' +
+    '<a href="contacts.html#contactForm" class="btn btn-primary header-btn">Запросить расчёт</a></nav>';
 
   /* ── Footer ─────────────────────────────────────────────────────────── */
 
@@ -164,9 +212,9 @@
       '<nav class="footer-nav" aria-label="Услуги">' +
       '<a href="services.html">Грузоперевозки</a>' +
       '<a href="services.html">Складские услуги</a>' +
-      '<a href="services.html">Экспедирование</a>' +
       '<a href="remote-regions.html">Северный завоз</a>' +
-      '<a href="services.html">Тарифы</a></nav></div>' +
+      '<a href="truck-delivery.html">Автодоставка на Север</a>' +
+      '<a href="services.html">Экспедирование</a></nav></div>' +
       '<div><p class="footer-col-title">Контакты</p>' +
       '<div class="footer-contacts">' +
       '<div class="footer-contact-item"><span aria-hidden="true">\u{1F4CD}</span>' +
@@ -180,8 +228,11 @@
       '</div></div></div>' +
       '<div class="footer-bottom">' +
       '<p class="footer-bottom-text">\u00a9 2012\u20132026 ООО \u00abPacific Star\u00bb. Все права защищены.</p>' +
-      '<div class="footer-bottom-links"><a href="privacy.html">Политика конфиденциальности</a></div>' +
-      '</div></div></footer>'
+      '<p class="footer-bottom-text footer-legal">ИНН\u00a0XXXXXXXXXX / ОГРН\u00a0XXXXXXXXXXXXX</p>' +
+      '<div class="footer-bottom-links">' +
+      '<a href="privacy.html">Политика конфиденциальности</a>' +
+      '<a href="privacy.html">Условия использования</a>' +
+      '</div></div></div></footer>'
     );
   }
 
