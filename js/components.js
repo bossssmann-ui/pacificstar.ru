@@ -146,7 +146,7 @@
       ' target="_blank" rel="noopener noreferrer">' + TG_SVG_16 + '</a>' +
       (showThemeToggle ? THEME_TOGGLE : '') +
       LANG_SWITCHER +
-      '<a href="contacts.html#contactForm" class="btn btn-primary header-btn">Запросить расчёт</a></div>' +
+      '<a href="contacts.html#contactForm" class="btn btn-primary header-btn" data-track="cta_click" data-track-label="header_cta">Запросить расчёт</a></div>' +
       '<button class="burger" aria-label="Открыть меню" aria-expanded="false" type="button">' +
       '<span class="burger-line"></span><span class="burger-line"></span><span class="burger-line"></span></button>' +
       '</div></div></header>'
@@ -174,7 +174,7 @@
     ' target="_blank" rel="noopener noreferrer">' + WA_SVG_16 + ' WhatsApp</a>' +
     '<a href="https://t.me/KhmelRoman" class="mobile-nav-msg" aria-label="Telegram"' +
     ' target="_blank" rel="noopener noreferrer">' + TG_SVG_16 + ' Telegram</a></div>' +
-    '<a href="contacts.html#contactForm" class="btn btn-primary header-btn">Запросить расчёт</a></nav>';
+    '<a href="contacts.html#contactForm" class="btn btn-primary header-btn" data-track="cta_click" data-track-label="mobile_nav_cta">Запросить расчёт</a></nav>';
 
   /* ── Footer ─────────────────────────────────────────────────────────── */
 
@@ -256,7 +256,7 @@
     '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
     '<path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.26 13.593l-2.95-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.537-.194 1.006.131.883.964z"/></svg>' +
     '<span>Telegram</span></a>' +
-    '<button type="button" class="floating-item floating-cb" id="openCallback" role="menuitem">' +
+    '<button type="button" class="floating-item floating-cb" id="openCallback" role="menuitem" data-track="cta_click" data-track-label="floating_callback">' +
     '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"' +
     ' fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">' +
     '<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 11.2 19.79 19.79 0 010 2.57 2 2 0 012 .38h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.26a16 16 0 006.29 6.29l1.25-1.25a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>' +
