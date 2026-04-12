@@ -575,6 +575,12 @@
     var cards = grid.querySelectorAll('.case-card');
     var buttons = filterBar.querySelectorAll('.cases-filter-btn');
 
+    function pluralProjects(n) {
+      if (n === 1) return 'проект';
+      if (n >= 2 && n <= 4) return 'проекта';
+      return 'проектов';
+    }
+
     function applyFilter(category) {
       var visible = 0;
 
@@ -595,8 +601,7 @@
         if (category === 'all') {
           counter.textContent = '';
         } else {
-          var word = visible === 1 ? 'проект' : (visible >= 2 && visible <= 4 ? 'проекта' : 'проектов');
-          counter.textContent = 'Найдено: ' + visible + ' ' + word;
+          counter.textContent = 'Найдено: ' + visible + ' ' + pluralProjects(visible);
         }
       }
 
