@@ -190,5 +190,4 @@ preconnected
 geodata
 Metrika
 lftp
-colours
 tilda

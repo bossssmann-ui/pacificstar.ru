@@ -52,7 +52,6 @@ pacificstar.ru/
 ├── remote-regions.html       — Sea delivery to remote regions
 ├── cases.html                — Case studies / completed projects
 ├── contacts.html             — Contact form + office map
-├── about.html                — Company info, team, fleet
 ├── privacy.html              — Privacy policy
 ├── account.html              — Personal account (internal, not indexed)
 ├── integrations.html         — Integrations page (internal, not indexed)
@@ -97,7 +96,7 @@ All CSS lives in `css/`. No preprocessor.
 
 | File | Purpose |
 |------|---------|
-| `premium-theme.css` | Design tokens — colours (`--color-primary`, `--color-accent`), typography (`--font-sans`), radii, shadows. Edit here to change the global palette. |
+| `premium-theme.css` | Design tokens — colors (`--color-primary`, `--color-accent`), typography (`--font-sans`), radii, shadows. Edit here to change the global palette. |
 | `style.css` | Global layout, header, footer, navigation, typography, form components, responsive breakpoints. |
 | `premium-features.css` | SVG map styles, animation keyframes, preloader, callback panel, dark-theme overrides, widget-level components. |
 | `services.css` | Styles specific to individual service pages (hero, case cards, feature grids). |
