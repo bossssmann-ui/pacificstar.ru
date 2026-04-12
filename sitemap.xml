@@ -21,23 +21,51 @@
     <changefreq>weekly</changefreq>
   </url>
 
-  <!-- Автомобильная доставка (подраздел Услуг) -->
+  <!-- Северный завоз по 411-ФЗ -->
   <url>
-    <loc>https://pacificstar.ru/truck-delivery.html</loc>
+    <loc>https://pacificstar.ru/severnyy-zavoz.html</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Каботажные перевозки -->
+  <url>
+    <loc>https://pacificstar.ru/kabotazh.html</loc>
+    <priority>0.9</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Негабаритные перевозки -->
+  <url>
+    <loc>https://pacificstar.ru/negabarit.html</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 
-  <!-- Северный завоз (подраздел Услуг) -->
+  <!-- Автодоставка ДФО -->
   <url>
-    <loc>https://pacificstar.ru/remote-regions.html</loc>
+    <loc>https://pacificstar.ru/avto-dfo.html</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
 
-  <!-- Цифровые инструменты и интеграции -->
+  <!-- Ж/Д перевозки -->
   <url>
-    <loc>https://pacificstar.ru/integrations.html</loc>
+    <loc>https://pacificstar.ru/rail.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- ВЭД логистика -->
+  <url>
+    <loc>https://pacificstar.ru/ved.html</loc>
+    <priority>0.8</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+
+  <!-- Кейсы -->
+  <url>
+    <loc>https://pacificstar.ru/cases.html</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
@@ -46,13 +74,6 @@
   <url>
     <loc>https://pacificstar.ru/contacts.html</loc>
     <priority>0.8</priority>
-    <changefreq>monthly</changefreq>
-  </url>
-
-  <!-- Личный кабинет -->
-  <url>
-    <loc>https://pacificstar.ru/account.html</loc>
-    <priority>0.6</priority>
     <changefreq>monthly</changefreq>
   </url>
 

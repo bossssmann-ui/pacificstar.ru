@@ -134,3 +134,14 @@ Prospekt
 Severny
 Деплой
 деплоя
+
+# Service page filenames (transliterated Russian)
+severnyy
+zavoz
+kabotazh
+negabarit
+avto
+Transsib
+спецразрешения
+Транссиб
+генгрузом
