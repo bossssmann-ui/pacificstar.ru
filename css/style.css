@@ -3450,6 +3450,7 @@ select.form-control {
   display: flex;
   align-items: center;
   justify-content: center;
+  contain: layout style;
 }
 
 .partner-logo-wrap {

@@ -82,6 +82,12 @@
   100% { left: 100%; }
 }
 
+/* Respect reduced-motion for preloader animations */
+@media (prefers-reduced-motion: reduce) {
+  .preloader-logo { animation: none; }
+  .preloader-bar::after { animation: none; left: 0; }
+}
+
 /* ---- 2. DARK / LIGHT MODE ---- */
 
 /* Dark theme variable overrides */
@@ -433,6 +439,17 @@ html.dark-theme .custom-cursor-ring.is-hovered {
 .svg-map-marker--route-active .svg-map-pulse {
   animation: svg-pulse-hub 1.4s ease-out infinite !important;
   stroke-opacity: 0.9 !important;
+}
+
+/* Respect reduced-motion for SVG map animations */
+@media (prefers-reduced-motion: reduce) {
+  .svg-map-route--sea,
+  .svg-map-route--land,
+  .svg-map-pulse,
+  .svg-map-marker--hub .svg-map-pulse,
+  .svg-map-marker--route-active .svg-map-pulse {
+    animation: none !important;
+  }
 }
 
 /* ---- Minor items: hidden on small screens ---- */
