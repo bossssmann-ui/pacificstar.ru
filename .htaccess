@@ -6,6 +6,7 @@ DirectoryIndex index.html index.php
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteRule ^truck-delivery\.html$ /avto-dfo.html [R=301,L]
+  RewriteRule ^remote-regions\.html$ /severnyy-zavoz.html [R=301,L]
 </IfModule>
 
 # Отключить кэш для разработки

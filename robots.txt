@@ -3,5 +3,8 @@ Allow: /
 
 Disallow: /START.html
 Disallow: /hello.html
+Disallow: /logos.html
+Disallow: /account.html
+Disallow: /integrations.html
 
 Sitemap: https://pacificstar.ru/sitemap.xml
