@@ -551,27 +551,13 @@
 
   initParallax();
 
-  /* ============================
-     FAQ Accordion
-     ============================ */
-  document.querySelectorAll('.faq-question').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var item = btn.closest('.faq-item');
-      var isOpen = item.classList.contains('open');
-      // Close all siblings
-      var list = item.parentNode;
-      if (list) {
-        list.querySelectorAll('.faq-item.open').forEach(function (openItem) {
-          openItem.classList.remove('open');
-          var ob = openItem.querySelector('.faq-question');
-          if (ob) ob.setAttribute('aria-expanded', 'false');
-        });
-      }
-      // Toggle current
-      if (!isOpen) {
-        item.classList.add('open');
-        btn.setAttribute('aria-expanded', 'true');
-      }
-    });
-  });
+  /* ── Hash-based scroll to form ──────────────────────────────────────── */
+  if (window.location.hash) {
+    var hashTarget = document.getElementById(window.location.hash.slice(1));
+    if (hashTarget) {
+      setTimeout(function () {
+        hashTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }
 }());
