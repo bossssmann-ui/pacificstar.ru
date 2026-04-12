@@ -49,7 +49,7 @@
   font-weight: 300;
   letter-spacing: 6px;
   text-transform: uppercase;
-  color: #d4af37;
+  color: #f5a623;
 }
 
 .preloader-bar {
@@ -68,7 +68,7 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background: #d4af37;
+  background: #f5a623;
   animation: preloader-bar-sweep 1.2s ease-in-out infinite;
 }
 
@@ -96,11 +96,10 @@ html.dark-theme {
   --color-muted:     #8899aa;
   --color-border:    #232e42;
   --shadow-sm:       0 2px 8px rgba(0, 0, 0, 0.35);
-  --shadow-md:       0 4px 20px rgba(0, 0, 0, 0.45);
-  --shadow-lg:       0 8px 40px rgba(0, 0, 0, 0.55);
-  --premium-glass-bg:     rgba(22, 30, 46, 0.75);
-  --premium-glass-border: rgba(255, 255, 255, 0.07);
-  --premium-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --shadow-md:       0 4px 16px rgba(0, 0, 0, 0.45);
+  --shadow-lg:       0 8px 32px rgba(0, 0, 0, 0.55);
+  --color-surface:   #111620;
+  --color-surface-alt:#161c2a;
 }
 
 html.dark-theme body {
@@ -227,25 +226,7 @@ html.dark-theme .theme-toggle .icon-moon { display: none; }
 
 /* ---- 3. CUSTOM CURSOR ---- */
 
-/* Only apply on pointer-fine devices (mouse, not touch) */
-@media (pointer: fine) {
-  body {
-    cursor: none;
-  }
-
-  a,
-  button,
-  [role="button"],
-  label[for],
-  select,
-  input[type="submit"],
-  input[type="button"],
-  input[type="checkbox"],
-  input[type="radio"],
-  .cursor-pointer {
-    cursor: none;
-  }
-}
+/* Custom cursor dot/ring are decorative overlays only — native cursor is preserved */
 
 .custom-cursor {
   position: fixed;

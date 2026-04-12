@@ -1,52 +1,73 @@
 /* =========================================
-   Pacific Star — Premium Theme Overlay
+   Pacific Star — Design System Tokens
+   =========================================
+   Industrial / maritime / northern visual language.
+   Complements --color-* base tokens in style.css.
    ========================================= */
 
-/* --- Premium CSS Variables --- */
+/* --- Design System Variables --- */
 :root {
-  /* Premium accent colours (complement existing blue palette) */
-  --premium-gold:        #d4af37;
-  --premium-gold-hover:  #f3ce56;
-  --premium-silver:      #c0c0c0;
+  /* ── Extended palette ── */
+  --color-graphite:      #3a4555;  /* dark mid-tone for secondary text   */
+  --color-steel:         #64748b;  /* steel grey for meta / captions      */
+  --color-surface:       #f8fafc;  /* cold light background               */
+  --color-surface-alt:   #f1f5f9;  /* alternate section background        */
+  --color-ink:           #1e293b;  /* near-black for body text            */
 
-  /* Glassmorphism card surface */
-  --premium-glass-bg:    rgba(255, 255, 255, 0.55);
-  --premium-glass-border: rgba(255, 255, 255, 0.35);
-  --premium-glass-shadow: 0 8px 32px rgba(13, 43, 94, 0.12);
+  /* ── Spacing scale (4px base) ── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-7:  32px;
+  --space-8:  40px;
+  --space-9:  48px;
+  --space-10: 56px;
+  --space-11: 64px;
+  --space-12: 80px;
 
-  /* Premium typography */
+  /* ── Typography ── */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --leading-tight:   1.25;
+  --leading-normal:  1.6;
+  --leading-relaxed: 1.75;
+  --tracking-tight:  -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.04em;
 
-  /* Smooth transitions */
-  --transition-premium: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  /* ── Focus ring ── */
+  --focus-ring: 0 0 0 3px rgba(26, 77, 160, 0.35);
 
-  /* Soft premium shadow */
-  --shadow-premium: 0 10px 40px rgba(13, 43, 94, 0.14);
+  /* ── Elevation ── */
+  --shadow-xs:  0 1px 3px rgba(13, 43, 94, 0.06);
+  --shadow-sm:  0 2px 8px rgba(13, 43, 94, 0.08);
+  --shadow-md:  0 4px 16px rgba(13, 43, 94, 0.10);
+  --shadow-lg:  0 8px 32px rgba(13, 43, 94, 0.13);
+  --shadow-xl:  0 12px 48px rgba(13, 43, 94, 0.16);
 }
 
-/* --- Premium card (glassmorphism) --- */
+/* --- Card surface (solid, no blur/transparency) --- */
 .premium-card {
-  background: var(--premium-glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--premium-glass-border);
-  border-radius: 16px;
-  box-shadow: var(--premium-glass-shadow);
-  transition: var(--transition-premium);
-  will-change: transform, box-shadow;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .premium-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-premium);
-  border-color: rgba(212, 175, 55, 0.35);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-secondary);
 }
 
 /* --- Scroll animation base state --- */
 .animate-on-scroll {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.75s ease-out, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity, transform;
 }
 
@@ -57,41 +78,58 @@
 }
 
 /* Stagger delay helpers */
-.delay-100 { transition-delay: 100ms; }
-.delay-200 { transition-delay: 200ms; }
-.delay-300 { transition-delay: 300ms; }
-.delay-400 { transition-delay: 400ms; }
-.delay-500 { transition-delay: 500ms; }
+.delay-100 { transition-delay: 80ms; }
+.delay-200 { transition-delay: 160ms; }
+.delay-300 { transition-delay: 240ms; }
+.delay-400 { transition-delay: 320ms; }
+.delay-500 { transition-delay: 400ms; }
 
-/* --- Premium heading font applied to all headings --- */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sans);
-}
-
-/* --- Premium heading accent --- */
+/* --- Heading refinement --- */
 .section-title {
   font-family: var(--font-sans);
-  font-weight: 400;
-  letter-spacing: 0.3px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-tight);
 }
 
-/* Gold underline accent on section headings */
+/* Subtle accent line under section headings */
 .section-title::after {
   content: '';
   display: block;
-  width: 48px;
-  height: 2px;
-  background: var(--premium-gold);
-  margin: 10px auto 0;
+  width: 40px;
+  height: 3px;
+  background: var(--color-accent);
+  margin: 12px auto 0;
   border-radius: 2px;
-  transition: width 0.4s ease;
 }
 
-.section-title:hover::after {
-  width: 80px;
+/* --- Focus-visible for interactive elements --- */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 
-/* --- Refined body font --- */
-body {
-  font-family: var(--font-sans);
+/* Buttons keep their border-radius when focused */
+.btn:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+/* --- Reduced-motion safety net --- */
+@media (prefers-reduced-motion: reduce) {
+  .animate-on-scroll,
+  .animate-on-scroll.is-visible,
+  .premium-card,
+  .premium-card:hover {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .animate-on-scroll {
+    opacity: 1 !important;
+  }
 }
