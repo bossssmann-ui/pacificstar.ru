@@ -74,9 +74,9 @@
   document.addEventListener('click', function (e) {
     var el = e.target;
 
-    /* Walk up to find the nearest trackable element (max 5 levels) */
+    /* Walk up to find the nearest trackable element (max 10 levels) */
     var i = 0;
-    while (el && el !== document && i < 5) {
+    while (el && el !== document && i < 10) {
       var explicit = el.getAttribute && el.getAttribute('data-track');
       if (explicit) {
         track(explicit, {
@@ -87,7 +87,7 @@
       }
 
       /* Auto-detect links */
-      if (el.tagName === 'A') {
+      if (el.tagName && el.tagName.toUpperCase() === 'A') {
         var href = el.getAttribute('href') || '';
         var goal = detectGoal(href);
         if (goal) {
@@ -108,7 +108,7 @@
 
   document.addEventListener('submit', function (e) {
     var form = e.target;
-    if (!form || form.tagName !== 'FORM') return;
+    if (!form || !form.tagName || form.tagName.toUpperCase() !== 'FORM') return;
 
     var formId = form.id || form.getAttribute('name') || 'unknown';
     var label = form.getAttribute('data-track-label') || formId;
