@@ -169,12 +169,6 @@
   pointer-events: none;
 }
 
-/* Active/pressed state */
-.btn:active:not([disabled]) {
-  transform: translateY(0);
-  box-shadow: none;
-}
-
 /* --- Focus-visible for interactive elements --- */
 a:focus-visible,
 button:focus-visible,

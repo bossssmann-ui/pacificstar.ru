@@ -29,6 +29,7 @@
   --container-max-width: 1180px;
   --color-heading:   var(--color-primary);
   --color-text-light: #5a6a7e;
+  --color-border-hover: #b8c4d6;
 }
 
 html {
@@ -1822,7 +1823,7 @@ p { margin-bottom: 1rem; }
 }
 
 .form-control:hover:not(:focus):not([disabled]) {
-  border-color: #b8c4d6;
+  border-color: var(--color-border-hover);
 }
 
 .form-control:focus {
