@@ -78,11 +78,11 @@
 }
 
 /* Stagger delay helpers */
-.delay-100 { transition-delay: 80ms; }
-.delay-200 { transition-delay: 160ms; }
-.delay-300 { transition-delay: 240ms; }
-.delay-400 { transition-delay: 320ms; }
-.delay-500 { transition-delay: 400ms; }
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
 
 /* --- Heading refinement --- */
 .section-title {
@@ -95,10 +95,10 @@
 .section-title::after {
   content: '';
   display: block;
-  width: 40px;
-  height: 3px;
+  width: var(--space-10);
+  height: var(--space-1);
   background: var(--color-accent);
-  margin: 12px auto 0;
+  margin: var(--space-3) auto 0;
   border-radius: 2px;
 }
 
