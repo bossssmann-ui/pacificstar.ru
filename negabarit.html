@@ -4,9 +4,9 @@
   <meta charset="UTF-8" >
   <meta name="viewport" content="width=device-width, initial-scale=1.0" >
   <meta name="robots" content="index, follow" >
-  <meta name="description" content="Перевозка негабаритных и тяжеловесных грузов. Проектная логистика: тралы до 100 т, платформы, сопровождение. Дальний Восток, вся Россия." >
-  <meta property="og:title" content="Негабаритные перевозки — Pacific Star" >
-  <meta property="og:description" content="Проектные перевозки негабаритных и тяжеловесных грузов. Тралы, платформы, спецразрешения, сопровождение." >
+  <meta name="description" content="Перевозка негабаритных и тяжеловесных грузов по России. Проектная логистика: тралы до 100 т, платформы, спецразрешения, сопровождение. Маршрутное проектирование, согласования, мультимодальные решения. Дальний Восток, вся Россия." >
+  <meta property="og:title" content="Негабаритные и проектные перевозки — Pacific Star" >
+  <meta property="og:description" content="Проектные перевозки негабаритных и тяжеловесных грузов. Маршрутное проектирование, согласования, спецразрешения, мультимодальные решения. Дальний Восток, вся Россия." >
   <meta property="og:type" content="website" >
   <meta property="og:url" content="https://pacificstar.ru/negabarit.html" >
   <link rel="canonical" href="https://pacificstar.ru/negabarit.html" >
@@ -16,11 +16,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" >
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" >
-  <link rel="stylesheet" href="css/style.css?v=20260412c" >
-  <link rel="stylesheet" href="css/premium-theme.css?v=20260412c" >
-  <link rel="stylesheet" href="css/premium-features.css?v=20260412c" >
-  <link rel="stylesheet" href="css/services.css?v=20260412c" >
+  <link rel="stylesheet" href="css/style.css?v=20260412d" >
+  <link rel="stylesheet" href="css/premium-theme.css?v=20260412d" >
+  <link rel="stylesheet" href="css/premium-features.css?v=20260412d" >
+  <link rel="stylesheet" href="css/services.css?v=20260412d" >
 
+  <!-- JSON-LD: Service + BreadcrumbList + FAQPage -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -29,8 +30,16 @@
         "@type": "Service",
         "@id": "https://pacificstar.ru/negabarit.html#service",
         "name": "Негабаритные и проектные перевозки",
-        "description": "Перевозка негабаритных и тяжеловесных грузов. Проектная логистика: тралы, платформы, спецразрешения.",
-        "provider": { "@id": "https://pacificstar.ru/#organization" }
+        "description": "Перевозка негабаритных и тяжеловесных грузов по России. Проектная логистика: маршрутное проектирование, согласования, спецразрешения, мультимодальные решения.",
+        "provider": { "@id": "https://pacificstar.ru/#organization" },
+        "areaServed": [
+          { "@type": "Place", "name": "Дальний Восток России" },
+          { "@type": "Place", "name": "Приморский край" },
+          { "@type": "Place", "name": "Сахалинская область" },
+          { "@type": "Place", "name": "Республика Саха (Якутия)" },
+          { "@type": "Place", "name": "Россия" }
+        ],
+        "serviceType": ["Негабаритные перевозки", "Проектная логистика", "Тяжеловесные грузы", "Спецразрешения"]
       },
       {
         "@type": "BreadcrumbList",
@@ -38,6 +47,60 @@
           { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://pacificstar.ru/" },
           { "@type": "ListItem", "position": 2, "name": "Услуги", "item": "https://pacificstar.ru/services.html" },
           { "@type": "ListItem", "position": 3, "name": "Негабаритные перевозки", "item": "https://pacificstar.ru/negabarit.html" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://pacificstar.ru/negabarit.html#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Что считается негабаритным грузом?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Негабаритным считается груз, превышающий стандартные транспортные габариты: ширина более 2,55 м, высота более 4 м, длина более 20 м или масса более 44 тонн (с учётом транспортного средства). Такие грузы требуют специального разрешения, разработки маршрута и, как правило, сопровождения."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Как проектируется маршрут для негабаритного груза?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Маршрут проектируется на основе габаритов и массы груза. Инженер анализирует грузоподъёмность мостов и путепроводов, высоту линий электропередач, радиусы поворотов, состояние дорожного покрытия. При необходимости выезжает на участок для замеров. Результат — детальная карта маршрута с указанием точек согласования."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Какие разрешения нужны для перевозки негабарита?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Требуется специальное разрешение на перевозку тяжеловесных и крупногабаритных грузов (выдаётся Росавтодором или региональными органами). При необходимости согласовываются проезд через мосты, пересечение ж/д путей, снятие/подъём ЛЭП, перекрытие участков дороги. Pacific Star оформляет все разрешения «под ключ»."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Сколько времени занимает получение спецразрешения?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Стандартный срок — от 3 до 10 рабочих дней в зависимости от категории дороги и количества согласующих инстанций. В штатном режиме Pacific Star оформляет разрешение за 48 часов для маршрутов по федеральным дорогам. Для маршрутов с участием региональных и муниципальных дорог срок может увеличиться."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Можно ли перевезти негабаритный груз морем или по железной дороге?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Да, мы организуем мультимодальные перевозки: автомобильный транспорт + железнодорожные платформы + морские суда. Это особенно актуально для доставки на Сахалин, Камчатку, в отдалённые районы Якутии и Дальнего Востока. Подбираем оптимальную схему исходя из габаритов и сроков."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Как рассчитывается стоимость негабаритной перевозки?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Стоимость зависит от габаритов и массы груза, расстояния, сложности маршрута, количества согласований, необходимости сопровождения и спецтехники для погрузки/разгрузки. Пришлите фото и размеры груза — рассчитаем стоимость в течение 24 часов."
+            }
+          }
         ]
       }
     ]
@@ -168,12 +231,16 @@
 
   <main>
 
-    <!-- ========== HERO ========== -->
+    <!-- ========== 1. HERO ========== -->
     <section class="service-hero" aria-label="Негабаритные перевозки">
       <div class="container">
         <span class="service-hero-label">Проектная логистика</span>
-        <h1>Негабаритные и проектные перевозки</h1>
-        <p>Перевозим тяжеловесные и крупногабаритные грузы по всей России. Собственный парк тралов и платформ. Получение спецразрешений, разработка маршрутов, сопровождение.</p>
+        <h1>Негабаритные и&nbsp;проектные перевозки</h1>
+        <p>Перевозим тяжеловесные и&nbsp;крупногабаритные грузы по&nbsp;всей России. Маршрутное проектирование, получение спецразрешений, погрузка-разгрузка, сопровождение. Мультимодальные решения для&nbsp;объектов промышленности, энергетики и&nbsp;строительства.</p>
+        <div class="service-hero-actions">
+          <a href="contacts.html#contactForm" class="btn btn-white">Рассчитать перевозку</a>
+          <a href="#ng-cargo-title" class="btn btn-outline-light">Подробнее об&nbsp;услуге</a>
+        </div>
         <nav class="breadcrumb" aria-label="Хлебные крошки">
           <a href="index.html">Главная</a>
           <span class="breadcrumb-sep" aria-hidden="true">›</span>
@@ -190,78 +257,333 @@
         <div class="stat-bar fade-in">
           <div class="stat-item"><span class="stat-value">100 т</span><span class="stat-label">грузоподъёмность тралов</span></div>
           <div class="stat-item"><span class="stat-value">20+</span><span class="stat-label">единиц спецтехники</span></div>
-          <div class="stat-item"><span class="stat-value">48ч</span><span class="stat-label">получение спецразрешений</span></div>
-          <div class="stat-item"><span class="stat-value">0</span><span class="stat-label">повреждений за 2025 год</span></div>
+          <div class="stat-item"><span class="stat-value">48&nbsp;ч</span><span class="stat-label">получение спецразрешений</span></div>
+          <div class="stat-item"><span class="stat-value">0</span><span class="stat-label">повреждений за&nbsp;2025 год</span></div>
         </div>
       </div>
     </section>
 
-    <!-- ========== WHAT WE TRANSPORT ========== -->
-    <section class="section" aria-labelledby="ng-features-title">
+    <!-- ========== 2. CARGO TYPES ========== -->
+    <section class="section" aria-labelledby="ng-cargo-title">
       <div class="container">
         <div class="section-header">
-          <h2 id="ng-features-title">Что перевозим</h2>
-          <p>Специализируемся на нестандартных грузах</p>
+          <h2 id="ng-cargo-title">Что относится к&nbsp;негабаритным грузам</h2>
+          <p>Перевозим всё, что не&nbsp;вписывается в&nbsp;стандартные габариты: по&nbsp;ширине, высоте, длине или&nbsp;массе</p>
         </div>
         <div class="feature-grid">
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">🏗️</div>
             <h3>Строительная техника</h3>
-            <p>Экскаваторы, бульдозеры, краны, погрузчики. Перевозка на тралах с низкой платформой.</p>
+            <p>Экскаваторы, бульдозеры, автокраны, погрузчики, буровые установки. Перевозка на&nbsp;низкорамных тралах грузоподъёмностью до&nbsp;100&nbsp;тонн.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">⚙️</div>
             <h3>Промышленное оборудование</h3>
-            <p>Генераторы, трансформаторы, котлы, производственные линии. Разработка индивидуальных креплений.</p>
+            <p>Генераторы, силовые трансформаторы, котлы, производственные линии, компрессорные станции. Разработка индивидуальных схем крепления.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">🏠</div>
             <h3>Модульные конструкции</h3>
-            <p>Блок-контейнеры, вахтовые городки, модульные здания. Негабарит по высоте и ширине.</p>
+            <p>Блок-контейнеры, вахтовые городки, модульные здания, бытовки. Негабарит по&nbsp;высоте и&nbsp;ширине — требуют спецразрешений и&nbsp;сопровождения.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">🔧</div>
             <h3>Металлоконструкции</h3>
-            <p>Балки, фермы, трубы большого диаметра, резервуары. Длинномерные грузы до 24 м.</p>
+            <p>Балки, фермы, трубы большого диаметра, резервуары, ёмкости. Длинномерные грузы до&nbsp;24&nbsp;м и&nbsp;более — на&nbsp;специализированных площадках-раздвижках.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">⚡</div>
+            <h3>Энергетическая инфраструктура</h3>
+            <p>Турбины, секции ветрогенераторов, опоры ЛЭП, подстанции, распределительные устройства. Комплексная доставка на&nbsp;объекты энергетики.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">⛏️</div>
+            <h3>Горнодобывающее оборудование</h3>
+            <p>Дробилки, мельницы, конвейерные системы, самосвалы карьерного класса. Доставка на&nbsp;месторождения, включая труднодоступные участки.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== PROCESS ========== -->
+    <!-- ========== 3. ROUTE ENGINEERING ========== -->
+    <section class="section" style="background:var(--color-light);" aria-labelledby="ng-route-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="ng-route-title">Маршрутное проектирование</h2>
+          <p>Каждый маршрут проектируется индивидуально — с&nbsp;учётом массогабаритных характеристик груза и&nbsp;ограничений дорожной инфраструктуры</p>
+        </div>
+        <div class="geo-grid">
+          <div class="geo-card fade-in">
+            <div class="geo-card-icon" aria-hidden="true">🌉</div>
+            <div>
+              <h3>Мосты и&nbsp;путепроводы</h3>
+              <p>Проверяем грузоподъёмность каждого моста на&nbsp;маршруте. При&nbsp;необходимости прорабатываем объезды или&nbsp;согласуем усиление конструкций.</p>
+            </div>
+          </div>
+          <div class="geo-card fade-in">
+            <div class="geo-card-icon" aria-hidden="true">📏</div>
+            <div>
+              <h3>Габаритные ограничения</h3>
+              <p>Высота линий электропередач, ширина проезжей части, радиусы поворотов, тоннели — каждый участок анализируется на&nbsp;проходимость.</p>
+            </div>
+          </div>
+          <div class="geo-card fade-in">
+            <div class="geo-card-icon" aria-hidden="true">🛣️</div>
+            <div>
+              <h3>Состояние дорог</h3>
+              <p>Оцениваем качество покрытия, несущую способность участков, наличие ограничений по&nbsp;осевой нагрузке. Для&nbsp;критичных участков — выезд инженера.</p>
+            </div>
+          </div>
+          <div class="geo-card fade-in">
+            <div class="geo-card-icon" aria-hidden="true">🗺️</div>
+            <div>
+              <h3>Альтернативные маршруты</h3>
+              <p>Прорабатываем 2–3&nbsp;варианта маршрута для&nbsp;снижения рисков. Учитываем сезонность, ремонтные работы, погодные условия.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 4. PROJECT STAGES ========== -->
     <section class="process-section" aria-labelledby="ng-process-title">
       <div class="container">
         <div class="section-header">
-          <h2 id="ng-process-title">Этапы работы</h2>
-          <p>Полный цикл проектной перевозки</p>
+          <h2 id="ng-process-title">Этапы проектной перевозки</h2>
+          <p>Полный цикл — от&nbsp;обследования груза до&nbsp;сдачи на&nbsp;объекте</p>
         </div>
         <div class="process-grid">
           <div class="process-step fade-in">
             <h4>Обследование груза</h4>
-            <p>Выезд инженера, замеры, определение массогабаритных характеристик, фотофиксация.</p>
+            <p>Выезд инженера на&nbsp;площадку. Замеры массы, длины, ширины, высоты. Фотофиксация, определение центра тяжести и&nbsp;точек строповки.</p>
           </div>
           <div class="process-step fade-in">
-            <h4>Разработка маршрута</h4>
-            <p>Анализ дорожной инфраструктуры, мостов, путепроводов. Согласование с ГИБДД и владельцами дорог.</p>
+            <h4>Техническая проработка</h4>
+            <p>Маршрутное проектирование, расчёт нагрузок, подбор транспорта и&nbsp;крепёжных систем. Оценка технической реализуемости перевозки.</p>
           </div>
           <div class="process-step fade-in">
             <h4>Получение разрешений</h4>
-            <p>Спецразрешение на перевозку негабарита. Оформление за 48 часов в штатном режиме.</p>
+            <p>Оформление спецразрешений в&nbsp;Росавтодоре. Согласование с&nbsp;ГИБДД, владельцами дорог, операторами ЛЭП. Штатный режим — 48&nbsp;часов.</p>
           </div>
           <div class="process-step fade-in">
-            <h4>Перевозка и сопровождение</h4>
-            <p>Погрузка, крепление, транспортировка с автомобилями прикрытия. GPS-мониторинг.</p>
+            <h4>Погрузка и&nbsp;крепление</h4>
+            <p>Контроль погрузочных работ. Разработка схемы крепления для&nbsp;каждого груза. Использование цепей, стяжных ремней, специальных упоров.</p>
+          </div>
+          <div class="process-step fade-in">
+            <h4>Транспортировка</h4>
+            <p>Перевозка с&nbsp;автомобилями сопровождения. GPS-мониторинг в&nbsp;реальном времени. Координация с&nbsp;дорожными службами на&nbsp;маршруте.</p>
+          </div>
+          <div class="process-step fade-in">
+            <h4>Выгрузка и&nbsp;сдача</h4>
+            <p>Контроль разгрузочных работ на&nbsp;объекте. Акт приёма-передачи. При&nbsp;необходимости — организация хранения и&nbsp;доставки «последней мили».</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== CTA ========== -->
-    <section class="service-cta" aria-label="Оставить заявку">
+    <!-- ========== 5. COORDINATION AND APPROVALS ========== -->
+    <section class="section" aria-labelledby="ng-coord-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="ng-coord-title">Согласования и&nbsp;разрешения</h2>
+          <p>Берём на&nbsp;себя все взаимодействия с&nbsp;контролирующими органами и&nbsp;собственниками инфраструктуры</p>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🚔</div>
+            <h3>ГИБДД</h3>
+            <p>Согласование маршрута, получение разрешения на&nbsp;движение с&nbsp;автомобилями прикрытия. Организация перекрытия участков дороги при&nbsp;необходимости.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🏛️</div>
+            <h3>Росавтодор и&nbsp;владельцы дорог</h3>
+            <p>Спецразрешение на&nbsp;перевозку тяжеловесных и&nbsp;крупногабаритных грузов. Расчёт компенсации ущерба дорожному покрытию.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">⚡</div>
+            <h3>Электросетевые компании</h3>
+            <p>Согласование проезда под&nbsp;линиями электропередач. Организация подъёма или&nbsp;отключения проводов при&nbsp;высотном негабарите.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🚂</div>
+            <h3>Железнодорожные переезды</h3>
+            <p>Согласование пересечения ж/д&nbsp;путей с&nbsp;ОАО «РЖД». Обеспечение безопасного проезда тяжеловесных транспортных средств.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 6. EXECUTION CONTROL ========== -->
+    <section class="section" style="background:var(--color-light);" aria-labelledby="ng-control-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="ng-control-title">Контроль исполнения</h2>
+          <p>Каждая перевозка — под&nbsp;персональным управлением проектного менеджера</p>
+        </div>
+        <div class="geo-grid">
+          <div class="geo-card fade-in">
+            <div class="geo-card-icon" aria-hidden="true">📡</div>
+            <div>
+              <h3>GPS-мониторинг</h3>
+              <p>Отслеживание транспорта в&nbsp;реальном времени. Клиент получает доступ к&nbsp;треку и&nbsp;статусу перевозки через личное уведомление.</p>
+            </div>
+          </div>
+          <div class="geo-card fade-in">
+            <div class="geo-card-icon" aria-hidden="true">🚗</div>
+            <div>
+              <h3>Автомобили сопровождения</h3>
+              <p>Машины прикрытия спереди и&nbsp;сзади с&nbsp;проблесковыми маячками. Обеспечение безопасности на&nbsp;узких участках, поворотах, перекрёстках.</p>
+            </div>
+          </div>
+          <div class="geo-card fade-in">
+            <div class="geo-card-icon" aria-hidden="true">🔗</div>
+            <div>
+              <h3>Контроль крепления</h3>
+              <p>Проверка крепёжных элементов на&nbsp;каждой остановке. Документирование состояния груза на&nbsp;всех этапах транспортировки.</p>
+            </div>
+          </div>
+          <div class="geo-card fade-in">
+            <div class="geo-card-icon" aria-hidden="true">🚢</div>
+            <div>
+              <h3>Мультимодальные решения</h3>
+              <p>Комбинация автомобильного, железнодорожного и&nbsp;морского транспорта. Оптимальная схема для&nbsp;доставки на&nbsp;Сахалин, Камчатку, в&nbsp;Якутию.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== MID-PAGE CTA ========== -->
+    <section class="service-cta" aria-label="Запросить расчёт">
       <div class="container">
         <h2>Нестандартный груз? Справимся.</h2>
-        <p>Пришлите фото и габариты — рассчитаем стоимость и подберём оптимальный маршрут.</p>
-        <a href="contacts.html#contactForm" class="btn btn-white">Рассчитать перевозку</a>
+        <p>Пришлите фото и&nbsp;габариты — рассчитаем стоимость, спроектируем маршрут и&nbsp;организуем перевозку «под&nbsp;ключ».</p>
+        <a href="contacts.html#contactForm" class="btn btn-white">Запросить расчёт</a>
+      </div>
+    </section>
+
+    <!-- ========== 7. CASES ========== -->
+    <section class="section" aria-labelledby="ng-cases-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="ng-cases-title">Примеры перевозок</h2>
+          <p>Реальные проекты, которые мы&nbsp;реализовали для&nbsp;клиентов</p>
+        </div>
+        <div class="cases-grid">
+          <article class="case-card fade-in">
+            <div class="case-card-header">
+              <span class="case-card-tag">Приморье</span>
+              <span class="case-card-tag">Энергетика</span>
+            </div>
+            <h3>Силовой трансформатор на&nbsp;подстанцию — 64&nbsp;тонны</h3>
+            <dl class="case-card-details">
+              <div><dt>Маршрут</dt><dd>Владивосток → подстанция 220&nbsp;кВ, Приморский край</dd></div>
+              <div><dt>Груз</dt><dd>Силовой трансформатор 64&nbsp;т, габариты 6,2&nbsp;× 3,4&nbsp;× 4,1&nbsp;м</dd></div>
+              <div><dt>Срок</dt><dd>5&nbsp;суток (включая согласования)</dd></div>
+            </dl>
+            <p>Спроектировали маршрут с&nbsp;объездом двух мостов с&nbsp;ограничением по&nbsp;грузоподъёмности. Согласовали подъём ЛЭП на&nbsp;трёх участках. Доставили с&nbsp;сопровождением ГИБДД, выгрузили краном 130&nbsp;т на&nbsp;фундамент подстанции.</p>
+          </article>
+          <article class="case-card fade-in">
+            <div class="case-card-header">
+              <span class="case-card-tag">Сахалин</span>
+              <span class="case-card-tag">Строительство</span>
+            </div>
+            <h3>Модульный комплекс для&nbsp;вахтового посёлка — 12&nbsp;модулей</h3>
+            <dl class="case-card-details">
+              <div><dt>Маршрут</dt><dd>Находка → Корсаков (море) → объект (авто)</dd></div>
+              <div><dt>Груз</dt><dd>12&nbsp;модульных блоков 12&nbsp;× 3,2&nbsp;× 3,5&nbsp;м каждый</dd></div>
+              <div><dt>Срок</dt><dd>10&nbsp;суток (мультимодальная доставка)</dd></div>
+            </dl>
+            <p>Мультимодальная перевозка: автодоставка в&nbsp;порт Находка, погрузка на&nbsp;судно, морской переход до&nbsp;Корсакова, выгрузка и&nbsp;автодоставка до&nbsp;объекта строительства. Разработали схему размещения модулей на&nbsp;палубе.</p>
+          </article>
+          <article class="case-card fade-in">
+            <div class="case-card-header">
+              <span class="case-card-tag">Якутия</span>
+              <span class="case-card-tag">Горнодобыча</span>
+            </div>
+            <h3>Дробильная установка на&nbsp;месторождение — 82&nbsp;тонны</h3>
+            <dl class="case-card-details">
+              <div><dt>Маршрут</dt><dd>Нерюнгри → золотодобывающее месторождение, Якутия</dd></div>
+              <div><dt>Груз</dt><dd>Щёковая дробилка 82&nbsp;т, конвейерные секции</dd></div>
+              <div><dt>Срок</dt><dd>8&nbsp;суток (включая зимник 140&nbsp;км)</dd></div>
+            </dl>
+            <p>Доставка по&nbsp;федеральной трассе и&nbsp;автозимнику до&nbsp;месторождения. Получили спецразрешение за&nbsp;48&nbsp;часов. Организовали выгрузку двумя кранами на&nbsp;подготовленную площадку. Температура при&nbsp;доставке: до&nbsp;−42°C.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 8. FAQ ========== -->
+    <section class="faq-section" aria-labelledby="ng-faq-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="ng-faq-title">Частые вопросы</h2>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Что считается негабаритным грузом?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Негабаритным считается груз, превышающий стандартные транспортные габариты: ширина более 2,55&nbsp;м, высота более 4&nbsp;м, длина более 20&nbsp;м или&nbsp;масса более 44&nbsp;тонн (с&nbsp;учётом транспортного средства). Такие грузы требуют специального разрешения, разработки маршрута и, как&nbsp;правило, сопровождения.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Как проектируется маршрут для негабаритного груза?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Маршрут проектируется на&nbsp;основе габаритов и&nbsp;массы груза. Инженер анализирует грузоподъёмность мостов и&nbsp;путепроводов, высоту линий электропередач, радиусы поворотов, состояние дорожного покрытия. При&nbsp;необходимости выезжает на&nbsp;участок для&nbsp;замеров. Результат — детальная карта маршрута с&nbsp;указанием точек согласования.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Какие разрешения нужны для перевозки негабарита?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Требуется специальное разрешение на&nbsp;перевозку тяжеловесных и&nbsp;крупногабаритных грузов (выдаётся Росавтодором или&nbsp;региональными органами). При&nbsp;необходимости согласовываются: проезд через мосты, пересечение ж/д&nbsp;путей, снятие или&nbsp;подъём ЛЭП, перекрытие участков дороги. Pacific Star оформляет все разрешения «под&nbsp;ключ».</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Сколько времени занимает получение спецразрешения?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Стандартный срок — от&nbsp;3 до&nbsp;10 рабочих дней в&nbsp;зависимости от&nbsp;категории дороги и&nbsp;количества согласующих инстанций. В&nbsp;штатном режиме Pacific Star оформляет разрешение за&nbsp;48&nbsp;часов для&nbsp;маршрутов по&nbsp;федеральным дорогам. Для&nbsp;маршрутов с&nbsp;участием региональных и&nbsp;муниципальных дорог срок может увеличиться.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Можно ли перевезти негабаритный груз морем или по железной дороге?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Да, мы организуем мультимодальные перевозки: автомобильный транспорт + железнодорожные платформы + морские суда. Это особенно актуально для&nbsp;доставки на&nbsp;Сахалин, Камчатку, в&nbsp;отдалённые районы Якутии и&nbsp;Дальнего Востока. Подбираем оптимальную комбинацию исходя из&nbsp;габаритов, массы и&nbsp;сроков.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Как рассчитывается стоимость негабаритной перевозки?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Стоимость зависит от&nbsp;габаритов и&nbsp;массы груза, расстояния, сложности маршрута, количества согласований, необходимости автомобилей сопровождения и&nbsp;спецтехники для&nbsp;погрузки-разгрузки. Пришлите фото и&nbsp;размеры груза — рассчитаем стоимость в&nbsp;течение 24&nbsp;часов.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 9. CTA / LEAD FORM ========== -->
+    <section class="service-cta" aria-label="Оставить заявку">
+      <div class="container">
+        <h2>Есть негабаритный груз? Обсудим задачу.</h2>
+        <p>Рассчитаем стоимость, спроектируем маршрут и&nbsp;организуем перевозку «под&nbsp;ключ». Пришлите фото, габариты и&nbsp;массу груза — ответим в&nbsp;течение 24&nbsp;часов.</p>
+        <a href="contacts.html#contactForm" class="btn btn-white">Оставить заявку</a>
       </div>
     </section>
 
