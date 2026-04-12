@@ -29,14 +29,15 @@
         "@type": "Service",
         "@id": "https://pacificstar.ru/kabotazh.html#service",
         "name": "Каботажные морские перевозки",
-        "description": "Морские грузоперевозки в каботаже по Дальнему Востоку: Сахалин, Магадан, Камчатка, Чукотка.",
+        "description": "Морские грузоперевозки в каботаже по Дальнему Востоку: Сахалин, Магадан, Камчатка, Чукотка. Контейнеры, генеральные грузы, Ro-Ro.",
         "provider": { "@id": "https://pacificstar.ru/#organization" },
         "areaServed": [
           { "@type": "Place", "name": "Сахалинская область" },
           { "@type": "Place", "name": "Магаданская область" },
           { "@type": "Place", "name": "Камчатский край" },
           { "@type": "Place", "name": "Чукотский автономный округ" }
-        ]
+        ],
+        "serviceType": ["Каботажные перевозки", "Морская логистика"]
       },
       {
         "@type": "BreadcrumbList",
@@ -44,6 +45,52 @@
           { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://pacificstar.ru/" },
           { "@type": "ListItem", "position": 2, "name": "Услуги", "item": "https://pacificstar.ru/services.html" },
           { "@type": "ListItem", "position": 3, "name": "Каботажные перевозки", "item": "https://pacificstar.ru/kabotazh.html" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://pacificstar.ru/kabotazh.html#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Сколько стоит каботажная перевозка контейнера?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Стоимость зависит от направления, типа контейнера (20' или 40', сухой или рефрижераторный) и сезона. Ориентировочно: Владивосток — Петропавловск-Камчатский от 85 000 ₽ за 20', Владивосток — Магадан от 95 000 ₽. Точный расчёт — в течение 24 часов после заявки."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Какие сроки доставки в порты Дальнего Востока?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Сахалин (Корсаков, Холмск): 2–3 суток. Камчатка (Петропавловск-Камчатский): 4–5 суток. Магадан: 5–7 суток. Чукотка (Анадырь, Певек): 8–14 суток в навигационный период."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Работает ли навигация круглый год?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Камчатка и Магадан — незамерзающие порты, навигация круглогодичная. Сахалин (паром Ванино — Холмск) — круглогодично. Чукотка (Анадырь, Певек, Эгвекинот) — навигация с июня по октябрь, при необходимости с ледокольной проводкой."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Какие документы нужны для отправки груза?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Договор на перевозку, заявка с описанием груза (наименование, масса, объём, количество мест), товаросопроводительные документы. Для опасных грузов — дополнительные разрешения и паспорта безопасности. Мы помогаем с оформлением."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Можно ли отправить технику накатом (Ro-Ro)?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Да, перевозим автомобили, спецтехнику, колёсную и гусеничную технику накатом (Ro-Ro). Погрузка своим ходом или с помощью портовой техники. Направления: Владивосток — Корсаков, Петропавловск-Камчатский, Магадан."
+            }
+          }
         ]
       }
     ]
@@ -174,12 +221,12 @@
 
   <main>
 
-    <!-- ========== HERO ========== -->
+    <!-- ========== 1. HERO ========== -->
     <section class="service-hero" aria-label="Каботажные перевозки">
       <div class="container">
         <span class="service-hero-label">Дальний Восток · Морские</span>
-        <h1>Каботажные перевозки</h1>
-        <p>Морские грузоперевозки в порты Дальнего Востока: Сахалин, Магадан, Камчатка, Чукотка. Контейнеры, генеральные грузы, накатная техника (Ro-Ro). Круглогодичная навигация на основных направлениях.</p>
+        <h1>Каботажные морские перевозки</h1>
+        <p>Доставляем грузы морем между портами России на Дальнем Востоке: Сахалин, Магадан, Камчатка, Чукотка. Контейнеры, генеральные грузы, накатная техника. Круглогодичная навигация на основных направлениях, регулярные рейсы из Владивостока.</p>
         <nav class="breadcrumb" aria-label="Хлебные крошки">
           <a href="index.html">Главная</a>
           <span class="breadcrumb-sep" aria-hidden="true">›</span>
@@ -197,16 +244,80 @@
           <div class="stat-item"><span class="stat-value">4</span><span class="stat-label">региона ДФО</span></div>
           <div class="stat-item"><span class="stat-value">12+</span><span class="stat-label">портов назначения</span></div>
           <div class="stat-item"><span class="stat-value">365</span><span class="stat-label">дней навигация (Камчатка, Магадан)</span></div>
-          <div class="stat-item"><span class="stat-value">2-7</span><span class="stat-label">суток в пути</span></div>
+          <div class="stat-item"><span class="stat-value">2–7</span><span class="stat-label">суток в пути</span></div>
         </div>
       </div>
     </section>
 
-    <!-- ========== DESTINATIONS ========== -->
+    <!-- ========== 2. WHEN CABOTAGE IS THE RIGHT SOLUTION ========== -->
+    <section class="section" aria-labelledby="kb-when-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="kb-when-title">Когда каботаж — оптимальное решение</h2>
+          <p>Морская перевозка между портами России выгоднее авиа- и автоперевозок в большинстве сценариев</p>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🚫</div>
+            <h3>Нет наземной альтернативы</h3>
+            <p>До Камчатки, Магадана, Чукотки и островов Сахалина нет железной дороги. Автодорога до Магадана — сезонная и дорогая. Море — единственный надёжный маршрут.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">📊</div>
+            <h3>Большие объёмы</h3>
+            <p>Контейнерные линии позволяют отправлять десятки и сотни тонн за рейс. Стоимость за тонну значительно ниже, чем у авиа- или автоперевозки.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🔄</div>
+            <h3>Регулярное снабжение</h3>
+            <p>Еженедельные рейсы на основных направлениях. Предсказуемые сроки и стабильный график для планирования логистики вашего предприятия.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">💰</div>
+            <h3>Экономическая эффективность</h3>
+            <p>Морской каботаж — в 3–5 раз дешевле авиадоставки и в 1,5–2 раза дешевле автоперевозки по грунтовым дорогам Дальнего Востока.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 3. CARGO TYPES ========== -->
+    <section class="section" style="background:var(--color-light);" aria-labelledby="kb-cargo-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="kb-cargo-title">Типы грузов</h2>
+          <p>Перевозим все виды морских грузов на регулярных и чартерных рейсах</p>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">📦</div>
+            <h3>Контейнерные</h3>
+            <p>20- и 40-футовые контейнеры, рефрижераторные контейнеры. Регулярные линии с еженедельными отправлениями на Камчатку, Сахалин, в Магадан.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🏗️</div>
+            <h3>Генеральные</h3>
+            <p>Металлоконструкции, промышленное оборудование, строительные материалы, техника. Отправки по накоплению или индивидуальным графиком.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🚗</div>
+            <h3>Накатные (Ro-Ro)</h3>
+            <p>Легковые автомобили, грузовики, спецтехника, колёсная и гусеничная техника. Погрузка своим ходом или портовой техникой.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">⛏️</div>
+            <h3>Навалочные</h3>
+            <p>Уголь, щебень, песок, руда, цемент. Доставка в порты с подходящей инфраструктурой разгрузки навалочных грузов.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 4. PORTS AND ROUTE GEOGRAPHY ========== -->
     <section class="section" aria-labelledby="kb-geo-title">
       <div class="container">
         <div class="section-header">
-          <h2 id="kb-geo-title">Направления доставки</h2>
+          <h2 id="kb-geo-title">Порты и география маршрутов</h2>
           <p>Доставляем грузы из Владивостока во все ключевые порты Дальнего Востока</p>
         </div>
         <div class="geo-grid">
@@ -214,71 +325,182 @@
             <div class="geo-card-icon" aria-hidden="true">🏝️</div>
             <div>
               <h3>Сахалин</h3>
-              <p>Порты Корсаков и Холмск. Паром Ванино—Холмск работает круглогодично. Прямые рейсы Владивосток—Корсаков: 2–3 суток.</p>
+              <p>Порты Корсаков и Холмск. Паром Ванино — Холмск работает круглогодично. Прямые рейсы Владивосток — Корсаков: 2–3 суток. Основные грузы: продовольствие, стройматериалы, техника.</p>
             </div>
           </div>
           <div class="geo-card fade-in">
             <div class="geo-card-icon" aria-hidden="true">⛰️</div>
             <div>
               <h3>Магадан</h3>
-              <p>Незамерзающий порт. Круглогодичная навигация. Расстояние от Владивостока ~2 300 км, 5–7 суток в пути.</p>
+              <p>Незамерзающий порт, круглогодичная навигация. Расстояние от Владивостока ~2 300 км, 5–7 суток в пути. Еженедельные контейнерные рейсы.</p>
             </div>
           </div>
           <div class="geo-card fade-in">
             <div class="geo-card-icon" aria-hidden="true">🌋</div>
             <div>
               <h3>Камчатка</h3>
-              <p>Петропавловск-Камчатский — незамерзающий порт. Еженедельные рейсы из Владивостока, 4–5 суток.</p>
+              <p>Петропавловск-Камчатский — незамерзающий порт. Еженедельные рейсы из Владивостока, 4–5 суток. Контейнеры, генгруз, техника Ro-Ro.</p>
             </div>
           </div>
           <div class="geo-card fade-in">
             <div class="geo-card-icon" aria-hidden="true">🏔️</div>
             <div>
               <h3>Чукотка</h3>
-              <p>Анадырь, Певек, Эгвекинот, Провидения. Навигация июнь–октябрь. Северный морской путь.</p>
+              <p>Анадырь, Певек, Эгвекинот, Провидения. Навигация июнь — октябрь. 8–14 суток в пути. Северный морской путь, возможна ледокольная проводка.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== CARGO TYPES ========== -->
-    <section class="section" style="background:var(--color-light);" aria-labelledby="kb-cargo-title">
+    <!-- ========== 5. HOW THE PROCESS WORKS ========== -->
+    <section class="process-section" aria-labelledby="kb-process-title">
       <div class="container">
         <div class="section-header">
-          <h2 id="kb-cargo-title">Типы грузов</h2>
-          <p>Перевозим все виды морских грузов</p>
+          <h2 id="kb-process-title">Как мы работаем</h2>
+          <p>От заявки до выгрузки в порту назначения — прозрачный процесс на каждом этапе</p>
         </div>
-        <div class="feature-grid">
-          <div class="feature-card fade-in">
-            <div class="feature-icon" aria-hidden="true">📦</div>
-            <h3>Контейнерные</h3>
-            <p>20- и 40-футовые контейнеры, рефрижераторные контейнеры. Регулярные линии с еженедельными отправлениями.</p>
+        <div class="process-grid">
+          <div class="process-step fade-in">
+            <h4>Заявка и расчёт</h4>
+            <p>Вы описываете груз и направление — мы рассчитываем стоимость, подбираем ближайший рейс и согласуем условия в течение 24 часов.</p>
           </div>
-          <div class="feature-card fade-in">
-            <div class="feature-icon" aria-hidden="true">🏗️</div>
-            <h3>Генеральные</h3>
-            <p>Металлоконструкции, оборудование, строительные материалы, техника. Отправки по накоплению.</p>
+          <div class="process-step fade-in">
+            <h4>Подготовка и документы</h4>
+            <p>Оформляем договор, готовим коносамент и товаросопроводительные документы. При необходимости организуем доставку груза в порт Владивостока.</p>
           </div>
-          <div class="feature-card fade-in">
-            <div class="feature-icon" aria-hidden="true">🚗</div>
-            <h3>Накатные (Ro-Ro)</h3>
-            <p>Автомобили, спецтехника, колёсная и гусеничная техника. Погрузка своим ходом.</p>
+          <div class="process-step fade-in">
+            <h4>Погрузка и отправка</h4>
+            <p>Формируем партию, организуем погрузку на судно. Контроль состояния груза, крепление по морским стандартам. GPS-мониторинг на маршруте.</p>
           </div>
-          <div class="feature-card fade-in">
-            <div class="feature-icon" aria-hidden="true">⛏️</div>
-            <h3>Навалочные</h3>
-            <p>Уголь, щебень, песок, руда. Доставка в порты с подходящей инфраструктурой выгрузки.</p>
+          <div class="process-step fade-in">
+            <h4>Доставка и выгрузка</h4>
+            <p>Груз прибывает в порт назначения. Организуем выгрузку и, при необходимости, доставку автотранспортом до склада или объекта получателя.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ========== CTA ========== -->
+    <!-- ========== 6. WHY BUSINESSES CHOOSE THIS MODEL ========== -->
+    <section class="section" aria-labelledby="kb-why-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="kb-why-title">Почему выбирают нас</h2>
+          <p>Работаем на маршрутах Дальнего Востока с 2012 года</p>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🤝</div>
+            <h3>Прямые договоры с линиями</h3>
+            <p>Прямые контракты с судоходными компаниями — без посредников. Гарантированные слоты на судах в высокий сезон.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🗺️</div>
+            <h3>Знание региона</h3>
+            <p>Базируемся в Находке. Знаем специфику каждого порта ДФО: глубины, причалы, ограничения, местных стивидоров. Минимизируем простои.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">📋</div>
+            <h3>Полный цикл</h3>
+            <p>Забираем груз от отправителя, доставляем в порт, фрахтуем судно, организуем выгрузку и довоз до склада получателя — «от двери до двери».</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">📡</div>
+            <h3>Контроль и отчётность</h3>
+            <p>GPS-трекинг судна, оперативные уведомления о статусе, фотоотчёты при погрузке и выгрузке. Персональный менеджер на связи.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 7. CASES ========== -->
+    <section class="section" style="background:var(--color-light);" aria-labelledby="kb-cases-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="kb-cases-title">Примеры перевозок</h2>
+          <p>Реализованные проекты по каботажным направлениям</p>
+        </div>
+        <div class="feature-grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr));">
+          <article class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🌋</div>
+            <h3>Контейнерная линия — Камчатка</h3>
+            <p>Регулярные перевозки Владивосток — Петропавловск-Камчатский для сети розничной торговли. 200+ контейнеров в месяц, полный цикл: погрузка, фрахт, выгрузка, доставка до склада.</p>
+          </article>
+          <article class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🏝️</div>
+            <h3>Оборудование — Сахалин</h3>
+            <p>Доставка бурового оборудования массой 85 т из Находки в Корсаков. Морское плечо + автодоставка на площадку. Индивидуальное крепление, страхование груза.</p>
+          </article>
+          <article class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">⛰️</div>
+            <h3>Стройматериалы — Магадан</h3>
+            <p>Мультимодальная доставка: ж/д Москва — Владивосток, затем морское плечо до Магадана. 40 контейнеров со строительными материалами, общий вес 800 т. Срок — 22 дня.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 8. FAQ ========== -->
+    <section class="faq-section" aria-labelledby="kb-faq-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="kb-faq-title">Частые вопросы</h2>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Сколько стоит каботажная перевозка контейнера?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Стоимость зависит от направления, типа контейнера (20' или 40', сухой или рефрижераторный) и сезона. Ориентировочно: Владивосток — Петропавловск-Камчатский от 85 000 ₽ за 20', Владивосток — Магадан от 95 000 ₽. Точный расчёт — в течение 24 часов после заявки.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Какие сроки доставки в порты Дальнего Востока?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Сахалин (Корсаков, Холмск): 2–3 суток. Камчатка (Петропавловск-Камчатский): 4–5 суток. Магадан: 5–7 суток. Чукотка (Анадырь, Певек): 8–14 суток в навигационный период.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Работает ли навигация круглый год?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Камчатка и Магадан — незамерзающие порты, навигация круглогодичная. Сахалин (паром Ванино — Холмск) — круглогодично. Чукотка (Анадырь, Певек, Эгвекинот) — навигация с июня по октябрь, при необходимости с ледокольной проводкой.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Какие документы нужны для отправки груза?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Договор на перевозку, заявка с описанием груза (наименование, масса, объём, количество мест), товаросопроводительные документы. Для опасных грузов — дополнительные разрешения и паспорта безопасности. Мы помогаем с оформлением всех документов.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Можно ли отправить технику накатом (Ro-Ro)?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Да, перевозим автомобили, спецтехнику, колёсную и гусеничную технику накатом (Ro-Ro). Погрузка своим ходом или с помощью портовой техники. Направления: Владивосток — Корсаков, Петропавловск-Камчатский, Магадан.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 9. CTA ========== -->
     <section class="service-cta" aria-label="Оставить заявку">
       <div class="container">
         <h2>Нужна морская доставка на Дальний Восток?</h2>
-        <p>Рассчитаем стоимость и подберём оптимальный маршрут. Работаем с контейнерами, генгрузом и Ro-Ro.</p>
+        <p>Рассчитаем стоимость, подберём ближайший рейс и организуем доставку «от двери до двери». Работаем с контейнерами, генгрузом и Ro-Ro.</p>
         <a href="contacts.html#contactForm" class="btn btn-white">Рассчитать стоимость</a>
       </div>
     </section>
