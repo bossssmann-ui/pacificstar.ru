@@ -16,10 +16,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" >
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" >
-  <link rel="stylesheet" href="css/style.css?v=20260412c" >
-  <link rel="stylesheet" href="css/premium-theme.css?v=20260412c" >
-  <link rel="stylesheet" href="css/premium-features.css?v=20260412c" >
-  <link rel="stylesheet" href="css/services.css?v=20260412c" >
+  <link rel="stylesheet" href="css/style.css?v=20260412d" >
+  <link rel="stylesheet" href="css/premium-theme.css?v=20260412d" >
+  <link rel="stylesheet" href="css/premium-features.css?v=20260412d" >
+  <link rel="stylesheet" href="css/services.css?v=20260412d" >
 
   <script type="application/ld+json">
   {
@@ -161,7 +161,7 @@
       <div class="container">
         <span class="service-hero-label">Наш опыт</span>
         <h1>Кейсы и реализованные проекты</h1>
-        <p>Каждый проект — это уникальная логистическая задача. Вот несколько примеров того, как мы решаем сложные задачи для наших клиентов.</p>
+        <p>Реальные логистические задачи, которые мы решили для наших клиентов. Каждый кейс — конкретный маршрут, груз и результат.</p>
         <nav class="breadcrumb" aria-label="Хлебные крошки">
           <a href="index.html">Главная</a>
           <span class="breadcrumb-sep" aria-hidden="true">›</span>
@@ -170,53 +170,227 @@
       </div>
     </section>
 
-    <!-- ========== CASE STUDIES ========== -->
+    <!-- ========== FILTER + CASES ========== -->
     <section class="section" aria-labelledby="cases-title">
       <div class="container">
         <div class="section-header">
           <h2 id="cases-title">Реализованные проекты</h2>
-          <p>Подборка ключевых проектов из разных направлений</p>
+          <p>Подборка ключевых проектов из разных направлений нашей работы</p>
         </div>
 
-        <div class="feature-grid" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));">
+        <!-- Category filter -->
+        <div class="cases-filter" role="toolbar" aria-label="Фильтр по категориям">
+          <button type="button" class="cases-filter-btn active" data-filter="all">Все</button>
+          <button type="button" class="cases-filter-btn" data-filter="northern">Северный завоз</button>
+          <button type="button" class="cases-filter-btn" data-filter="cabotage">Каботаж</button>
+          <button type="button" class="cases-filter-btn" data-filter="oversized">Негабарит</button>
+          <button type="button" class="cases-filter-btn" data-filter="truck">Автодоставка</button>
+          <button type="button" class="cases-filter-btn" data-filter="rail">Ж/Д</button>
+          <button type="button" class="cases-filter-btn" data-filter="foreign">ВЭД</button>
+        </div>
 
-          <article class="feature-card fade-in">
-            <div class="feature-icon" aria-hidden="true">❄️</div>
-            <h3>Северный завоз — Певек</h3>
-            <p>Доставка 120 контейнеров с продовольствием и строительными материалами в порт Певек в рамках навигации 2025. Ледокольная проводка по СМП, общий тоннаж — 2 400 т.</p>
+        <!-- Cases grid -->
+        <div class="cases-grid" id="casesGrid">
+
+          <!-- Case 1 — Northern Delivery -->
+          <article class="case-card fade-in" data-category="northern">
+            <div class="case-card-header">
+              <span class="case-card-tag">Северный завоз</span>
+            </div>
+            <h3>Снабжение Певека в навигацию 2025</h3>
+            <dl class="case-card-details">
+              <div><dt>Маршрут</dt><dd>Владивосток → Певек (СМП)</dd></div>
+              <div><dt>Груз</dt><dd>Продовольствие, стройматериалы — 2 400 т, 120 контейнеров</dd></div>
+              <div><dt>Задача</dt><dd>Доставить в короткое навигационное окно (июль–сентябрь) с ледокольной проводкой по СМП</dd></div>
+              <div><dt>Решение</dt><dd>Фрахт судна ледового класса Arc4, координация с ФГУП «Атомфлот», предварительная консолидация груза на складе во Владивостоке</dd></div>
+              <div><dt>Результат</dt><dd>Доставка выполнена за 18 суток, без потерь и повреждений. Клиент продлил контракт на навигацию 2026</dd></div>
+            </dl>
           </article>
 
-          <article class="feature-card fade-in">
-            <div class="feature-icon" aria-hidden="true">🏗️</div>
-            <h3>Негабаритная техника — Сахалин</h3>
-            <p>Перевозка бурового оборудования массой 85 т из Находки на Сахалин. Морское плечо + автодоставка на площадку. Разработка индивидуальных креплений.</p>
+          <!-- Case 2 — Northern Delivery -->
+          <article class="case-card fade-in" data-category="northern">
+            <div class="case-card-header">
+              <span class="case-card-tag">Северный завоз</span>
+            </div>
+            <h3>Топливо и генгруз — Тикси</h3>
+            <dl class="case-card-details">
+              <div><dt>Маршрут</dt><dd>Архангельск → Тикси (СМП)</dd></div>
+              <div><dt>Груз</dt><dd>Дизельное топливо, ГСМ, генеральный груз — 3 100 т</dd></div>
+              <div><dt>Задача</dt><dd>Обеспечить зимний запас топлива до закрытия навигации. Жёсткие сроки по 411-ФЗ</dd></div>
+              <div><dt>Решение</dt><dd>Наливной танкер + сухогруз, оформление документов по реестру грузов Северного завоза, взаимодействие с оператором</dd></div>
+              <div><dt>Результат</dt><dd>Груз доставлен за 22 суток. Полное соответствие требованиям 411-ФЗ, отчётность представлена в срок</dd></div>
+            </dl>
           </article>
 
-          <article class="feature-card fade-in">
-            <div class="feature-icon" aria-hidden="true">🚢</div>
-            <h3>Каботаж — Камчатка</h3>
-            <p>Регулярные контейнерные перевозки Владивосток — Петропавловск-Камчатский. 200+ контейнеров в месяц. Полный цикл: погрузка, фрахт, выгрузка, доставка до склада.</p>
+          <!-- Case 3 — Cabotage -->
+          <article class="case-card fade-in" data-category="cabotage">
+            <div class="case-card-header">
+              <span class="case-card-tag">Каботаж</span>
+            </div>
+            <h3>Контейнерная линия — Камчатка</h3>
+            <dl class="case-card-details">
+              <div><dt>Маршрут</dt><dd>Владивосток → Петропавловск-Камчатский</dd></div>
+              <div><dt>Груз</dt><dd>Сборные контейнерные грузы — 200+ TEU/мес.</dd></div>
+              <div><dt>Задача</dt><dd>Организовать регулярную линию с фиксированным расписанием для 12 постоянных грузоотправителей</dd></div>
+              <div><dt>Решение</dt><dd>Каботажная линия с еженедельным отправлением, полный цикл: приём на складе, погрузка, фрахт, выгрузка, автодоставка получателю</dd></div>
+              <div><dt>Результат</dt><dd>Линия работает непрерывно более 3 лет. Среднее транзитное время — 5 суток. Потери — 0%</dd></div>
+            </dl>
           </article>
 
-          <article class="feature-card fade-in">
-            <div class="feature-icon" aria-hidden="true">🌏</div>
-            <h3>Импорт оборудования — Китай</h3>
-            <p>Доставка производственной линии из Шанхая во Владивосток. 12 контейнеров, таможенное оформление, ж/д до Хабаровска. Срок: 21 день «от двери до двери».</p>
+          <!-- Case 4 — Cabotage -->
+          <article class="case-card fade-in" data-category="cabotage">
+            <div class="case-card-header">
+              <span class="case-card-tag">Каботаж</span>
+            </div>
+            <h3>Сахалин — генеральные грузы</h3>
+            <dl class="case-card-details">
+              <div><dt>Маршрут</dt><dd>Владивосток → Корсаков (о. Сахалин)</dd></div>
+              <div><dt>Груз</dt><dd>Оборудование для нефтегазового сектора, запчасти — 860 т</dd></div>
+              <div><dt>Задача</dt><dd>Мультимодальная доставка с перевалкой в порту и автодоставкой на объект. Требования к креплению нестандартных грузовых мест</dd></div>
+              <div><dt>Решение</dt><dd>Морское плечо на ро-ро судне, разработка схемы крепления, экспедирование на всех этапах</dd></div>
+              <div><dt>Результат</dt><dd>Доставка за 8 суток. Все грузовые места — без повреждений. Экономия 15% по сравнению с прямым авто через паром</dd></div>
+            </dl>
           </article>
 
-          <article class="feature-card fade-in">
-            <div class="feature-icon" aria-hidden="true">🚛</div>
-            <h3>Автодоставка — Якутия</h3>
-            <p>Перевозка генераторного оборудования по зимнику Якутск—Тикси. 6 единиц техники, общий вес 48 т. Сопровождение колонны, GPS-мониторинг.</p>
+          <!-- Case 5 — Oversized -->
+          <article class="case-card fade-in" data-category="oversized">
+            <div class="case-card-header">
+              <span class="case-card-tag">Негабарит</span>
+            </div>
+            <h3>Буровое оборудование — Сахалин</h3>
+            <dl class="case-card-details">
+              <div><dt>Маршрут</dt><dd>Находка → Холмск → площадка (о. Сахалин)</dd></div>
+              <div><dt>Груз</dt><dd>Буровая установка и компоненты — 85 т, макс. габарит 14×4×4,5 м</dd></div>
+              <div><dt>Задача</dt><dd>Перевезти сверхтяжёлый негабаритный груз морем и доставить автотранспортом на промышленную площадку по грунтовой дороге</dd></div>
+              <div><dt>Решение</dt><dd>Проектирование индивидуальных креплений, фрахт площадки на судне, 6-осный трал для последней мили, согласование маршрута с ГИБДД</dd></div>
+              <div><dt>Результат</dt><dd>Доставка без происшествий за 12 суток. Все разрешительные документы оформлены Pacific Star</dd></div>
+            </dl>
           </article>
 
-          <article class="feature-card fade-in">
-            <div class="feature-icon" aria-hidden="true">🚂</div>
-            <h3>Ж/Д + море — Магадан</h3>
-            <p>Мультимодальная доставка стройматериалов: ж/д Москва—Владивосток (14 суток) + морское плечо до Магадана (6 суток). 40 вагонов, 2 800 т.</p>
+          <!-- Case 6 — Oversized -->
+          <article class="case-card fade-in" data-category="oversized">
+            <div class="case-card-header">
+              <span class="case-card-tag">Негабарит</span>
+            </div>
+            <h3>Трансформаторы для подстанции — Магадан</h3>
+            <dl class="case-card-details">
+              <div><dt>Маршрут</dt><dd>Санкт-Петербург → Владивосток (ж/д) → Магадан (море) → площадка (авто)</dd></div>
+              <div><dt>Груз</dt><dd>2 силовых трансформатора по 62 т, габариты 6,5×3,2×4,1 м</dd></div>
+              <div><dt>Задача</dt><dd>Мультимодальная перевозка негабаритного электрооборудования через 3 вида транспорта с требованиями к антивибрационной защите</dd></div>
+              <div><dt>Решение</dt><dd>Транспортёры-платформы на ж/д, морской фрахт с разработкой крепежа, спецтрал с сопровождением на автоплече</dd></div>
+              <div><dt>Результат</dt><dd>Доставка за 28 суток. Все параметры электрооборудования подтверждены входным контролем на объекте</dd></div>
+            </dl>
+          </article>
+
+          <!-- Case 7 — Truck delivery -->
+          <article class="case-card fade-in" data-category="truck">
+            <div class="case-card-header">
+              <span class="case-card-tag">Автодоставка</span>
+            </div>
+            <h3>Генераторы по зимнику — Тикси</h3>
+            <dl class="case-card-details">
+              <div><dt>Маршрут</dt><dd>Якутск → Тикси (зимник, 1 850 км)</dd></div>
+              <div><dt>Груз</dt><dd>Дизель-генераторные установки — 6 ед., общий вес 48 т</dd></div>
+              <div><dt>Задача</dt><dd>Доставить тяжёлое оборудование по зимнику при температуре до −50°C, с ограниченным окном проезда (январь–март)</dd></div>
+              <div><dt>Решение</dt><dd>Колонна из 6 тягачей с полуприцепами, сопровождение техпомощью, GPS-мониторинг, промежуточные базы для отдыха экипажей</dd></div>
+              <div><dt>Результат</dt><dd>Все 6 единиц доставлены за 14 суток без поломок. Оборудование введено в эксплуатацию в срок</dd></div>
+            </dl>
+          </article>
+
+          <!-- Case 8 — Truck delivery -->
+          <article class="case-card fade-in" data-category="truck">
+            <div class="case-card-header">
+              <span class="case-card-tag">Автодоставка</span>
+            </div>
+            <h3>Снабжение удалённых посёлков — Чукотка</h3>
+            <dl class="case-card-details">
+              <div><dt>Маршрут</dt><dd>Анадырь → Билибино → Певек (грунтовые дороги, 900 км)</dd></div>
+              <div><dt>Груз</dt><dd>Продовольствие, медикаменты, стройматериалы — 120 т</dd></div>
+              <div><dt>Задача</dt><dd>Обеспечить доставку социально значимых грузов в межнавигационный период по бездорожью</dd></div>
+              <div><dt>Решение</dt><dd>Вездеходная техника повышенной проходимости, деление на партии по грузоподъёмности, точки дозаправки</dd></div>
+              <div><dt>Результат</dt><dd>Завоз выполнен за 3 рейса в течение 21 суток. Все грузы — в полной сохранности</dd></div>
+            </dl>
+          </article>
+
+          <!-- Case 9 — Rail -->
+          <article class="case-card fade-in" data-category="rail">
+            <div class="case-card-header">
+              <span class="case-card-tag">Ж/Д</span>
+            </div>
+            <h3>Стройматериалы — Магадан (мультимодал)</h3>
+            <dl class="case-card-details">
+              <div><dt>Маршрут</dt><dd>Москва → Владивосток (ж/д) → Магадан (море)</dd></div>
+              <div><dt>Груз</dt><dd>Цемент, арматура, металлоконструкции — 2 800 т, 40 вагонов</dd></div>
+              <div><dt>Задача</dt><dd>Мультимодальная доставка крупной партии стройматериалов с перевалкой в порту Владивосток без задержек</dd></div>
+              <div><dt>Решение</dt><dd>Маршрутный поезд по расписанию, бесшовная перевалка вагон→склад→судно, морское плечо контейнеровозом</dd></div>
+              <div><dt>Результат</dt><dd>Полный цикл — 20 суток (14 ж/д + 6 море). Груз принят без потерь. Стоимость на 22% ниже прямого автовоза</dd></div>
+            </dl>
+          </article>
+
+          <!-- Case 10 — Rail -->
+          <article class="case-card fade-in" data-category="rail">
+            <div class="case-card-header">
+              <span class="case-card-tag">Ж/Д</span>
+            </div>
+            <h3>Контейнерный транзит — Хабаровск</h3>
+            <dl class="case-card-details">
+              <div><dt>Маршрут</dt><dd>Новосибирск → Хабаровск (Транссиб)</dd></div>
+              <div><dt>Груз</dt><dd>Промышленные комплектующие — 60 TEU</dd></div>
+              <div><dt>Задача</dt><dd>Регулярный ж/д транзит контейнеров по Транссибу для промышленного заказчика с гарантированными сроками</dd></div>
+              <div><dt>Решение</dt><dd>Контейнерный поезд с фиксированным расписанием, слот-бронирование на терминале, отслеживание в реальном времени</dd></div>
+              <div><dt>Результат</dt><dd>Среднее транзитное время — 7 суток. Срывов графика — 0 за 6 месяцев. Заказчик перевёл 100% объёма на ж/д</dd></div>
+            </dl>
+          </article>
+
+          <!-- Case 11 — Foreign trade -->
+          <article class="case-card fade-in" data-category="foreign">
+            <div class="case-card-header">
+              <span class="case-card-tag">ВЭД</span>
+            </div>
+            <h3>Импорт производственной линии — Китай</h3>
+            <dl class="case-card-details">
+              <div><dt>Маршрут</dt><dd>Шанхай → Владивосток (море) → Хабаровск (ж/д)</dd></div>
+              <div><dt>Груз</dt><dd>Производственная линия — 12 контейнеров, 240 т</dd></div>
+              <div><dt>Задача</dt><dd>Импорт сложного промышленного оборудования: морская доставка, таможенное оформление, внутрироссийская доставка до завода</dd></div>
+              <div><dt>Решение</dt><dd>Агентирование в порту Шанхай, контейнерная морская линия, таможенный брокер Pacific Star, ж/д до Хабаровска</dd></div>
+              <div><dt>Результат</dt><dd>Полный цикл «от двери до двери» — 21 день. Таможня — за 1 рабочий день. Экономия 18% на логистике относительно прямого автоимпорта</dd></div>
+            </dl>
+          </article>
+
+          <!-- Case 12 — Foreign trade -->
+          <article class="case-card fade-in" data-category="foreign">
+            <div class="case-card-header">
+              <span class="case-card-tag">ВЭД</span>
+            </div>
+            <h3>Экспорт пиломатериалов — Южная Корея</h3>
+            <dl class="case-card-details">
+              <div><dt>Маршрут</dt><dd>Хабаровск → Владивосток (авто) → Пусан (море)</dd></div>
+              <div><dt>Груз</dt><dd>Пиломатериалы хвойных пород — 1 200 м³, 40 контейнеров</dd></div>
+              <div><dt>Задача</dt><dd>Организовать экспортную поставку с фитосанитарным контролем, таможенным оформлением и погрузкой на судно в сжатые сроки</dd></div>
+              <div><dt>Решение</dt><dd>Автовывоз с лесосклада, контейнеризация в порту, фитосанитарный сертификат, таможня, букинг на линию до Пусана</dd></div>
+              <div><dt>Результат</dt><dd>Отгрузка за 10 дней от заявки. Корейский покупатель подтвердил качество и сроки, заключён годовой контракт</dd></div>
+            </dl>
           </article>
 
         </div>
+
+        <!-- No results state -->
+        <div class="cases-empty" id="casesEmpty" style="display:none;" aria-live="polite">
+          <div class="cases-empty-icon" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+          <p class="cases-empty-title">Кейсов в этой категории пока нет</p>
+          <p class="cases-empty-text">Попробуйте выбрать другую категорию или посмотрите все проекты</p>
+          <button type="button" class="btn btn-outline cases-empty-reset">Показать все кейсы</button>
+        </div>
+
+        <!-- Counter -->
+        <div class="cases-count" id="casesCount" aria-live="polite"></div>
+
       </div>
     </section>
 
@@ -384,6 +558,83 @@
       <polyline points="18 15 12 9 6 15"/>
     </svg>
   </button>
+
+  <!-- Cases filter logic -->
+  <script>
+  (function () {
+    'use strict';
+
+    var grid = document.getElementById('casesGrid');
+    var empty = document.getElementById('casesEmpty');
+    var counter = document.getElementById('casesCount');
+    var filterBar = document.querySelector('.cases-filter');
+    var resetBtn = document.querySelector('.cases-empty-reset');
+
+    if (!grid || !filterBar) return;
+
+    var cards = grid.querySelectorAll('.case-card');
+    var buttons = filterBar.querySelectorAll('.cases-filter-btn');
+
+    function pluralProjects(n) {
+      if (n === 1) return 'проект';
+      if (n >= 2 && n <= 4) return 'проекта';
+      return 'проектов';
+    }
+
+    function applyFilter(category) {
+      var visible = 0;
+
+      for (var i = 0; i < cards.length; i++) {
+        var card = cards[i];
+        var match = category === 'all' || card.getAttribute('data-category') === category;
+        card.style.display = match ? '' : 'none';
+        if (match) visible++;
+      }
+
+      /* Toggle empty state */
+      if (empty) {
+        empty.style.display = visible === 0 ? '' : 'none';
+      }
+
+      /* Update counter */
+      if (counter) {
+        if (category === 'all') {
+          counter.textContent = '';
+        } else {
+          counter.textContent = 'Найдено: ' + visible + ' ' + pluralProjects(visible);
+        }
+      }
+
+      /* Update active button */
+      for (var j = 0; j < buttons.length; j++) {
+        var btn = buttons[j];
+        var isActive = btn.getAttribute('data-filter') === category;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      }
+    }
+
+    /* Bind click events */
+    for (var k = 0; k < buttons.length; k++) {
+      buttons[k].addEventListener('click', function () {
+        applyFilter(this.getAttribute('data-filter'));
+      });
+    }
+
+    /* Reset button in empty state */
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        applyFilter('all');
+      });
+    }
+
+    /* Set initial ARIA states */
+    for (var m = 0; m < buttons.length; m++) {
+      buttons[m].setAttribute('aria-pressed',
+        buttons[m].classList.contains('active') ? 'true' : 'false');
+    }
+  })();
+  </script>
 
   <script defer src="js/i18n.js?v=20260412"></script>
   <script defer src="js/main.js?v=20260412"></script>

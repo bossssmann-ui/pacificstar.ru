@@ -558,6 +558,79 @@
   margin: 0;
 }
 
+/* ─── Cases Filter Bar ─── */
+.cases-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  padding: 0 0 8px;
+}
+
+.cases-filter-btn {
+  display: inline-block;
+  padding: 8px 18px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-light);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.cases-filter-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.cases-filter-btn.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+/* ─── Cases Empty State ─── */
+.cases-empty {
+  text-align: center;
+  padding: 64px 24px;
+}
+
+.cases-empty-icon {
+  color: var(--color-text-light);
+  opacity: 0.4;
+  margin-bottom: 16px;
+}
+
+.cases-empty-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin: 0 0 8px;
+}
+
+.cases-empty-text {
+  font-size: 0.95rem;
+  color: var(--color-text-light);
+  margin: 0 0 20px;
+}
+
+.cases-empty-reset {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* ─── Cases Counter ─── */
+.cases-count {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-text-light);
+  min-height: 1.4em;
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 767px) {
   .service-hero-actions {
@@ -579,6 +652,19 @@
     gap: 16px;
     padding: 32px 0;
   }
+
+  .cases-filter {
+    gap: 6px;
+  }
+
+  .cases-filter-btn {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+  }
+
+  .cases-empty {
+    padding: 40px 16px;
+  }
 }
 
 /* ─── Dark mode — new components ─── */
@@ -590,6 +676,23 @@
 
 [data-theme="dark"] .case-card-tag {
   background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .cases-filter-btn {
+  background: var(--color-bg-alt, #1e293b);
+  border-color: var(--color-border);
+  color: var(--color-text-light);
+}
+
+[data-theme="dark"] .cases-filter-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+[data-theme="dark"] .cases-filter-btn.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
 }
 
 /* ─── Reduced motion ─── */
