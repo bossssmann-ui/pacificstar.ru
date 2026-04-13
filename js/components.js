@@ -136,6 +136,9 @@
       '<a href="severnyy-zavoz.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.northern_supply">Северный завоз</a>' +
       '<a href="kabotazh.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.cabotage">Каботажные перевозки</a>' +
       '<a href="avto-dfo.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.truck_dfo">Автодоставка ДФО</a>' +
+      '<a href="negabarit.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.negabarit">Негабаритные грузы</a>' +
+      '<a href="rail.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.rail">Ж/Д перевозки</a>' +
+      '<a href="ved.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.ved">ВЭД логистика</a>' +
       '</div></div></div>' +
       '<a href="contacts.html" class="nav-link" data-i18n="nav.contacts">Контакты</a></nav>' +
       '<div class="header-cta">' +
@@ -167,6 +170,9 @@
     '<a href="severnyy-zavoz.html" class="nav-link" data-i18n="nav.northern_supply">Северный завоз</a>' +
     '<a href="kabotazh.html" class="nav-link" data-i18n="nav.cabotage">Каботажные перевозки</a>' +
     '<a href="avto-dfo.html" class="nav-link" data-i18n="nav.truck_dfo">Автодоставка ДФО</a>' +
+    '<a href="negabarit.html" class="nav-link" data-i18n="nav.negabarit">Негабаритные грузы</a>' +
+    '<a href="rail.html" class="nav-link" data-i18n="nav.rail">Ж/Д перевозки</a>' +
+    '<a href="ved.html" class="nav-link" data-i18n="nav.ved">ВЭД логистика</a>' +
     '</div></div>' +
     '<a href="contacts.html" class="nav-link" data-i18n="nav.contacts">Контакты</a>' +
     '<a href="tel:+79147285880" class="header-phone">' +
