@@ -19,7 +19,6 @@
     scrollTicking = false;
   }
 
-  var scrollTicking = false;
   window.addEventListener('scroll', function () {
     if (!scrollTicking) {
       requestAnimationFrame(function () { scrollTicking = false; onScroll(); });
