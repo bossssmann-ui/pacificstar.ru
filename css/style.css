@@ -2340,6 +2340,7 @@ select.form-control {
   border-radius: var(--radius-lg);
   padding: 32px;
   box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
 }
 
 .legal-details-heading {
@@ -2381,6 +2382,13 @@ select.form-control {
   color: var(--color-primary);
   text-align: right;
   margin: 0;
+  word-break: break-word;
+}
+
+.legal-detail-numeric {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
 }
 
 .legal-detail-row dd a {
