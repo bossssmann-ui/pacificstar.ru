@@ -195,6 +195,7 @@ IMDG
 Metrica
 rekvizity
 kompanii
+svedeniya
 registratsionnye
 bankovskie
 raschyotnyy
