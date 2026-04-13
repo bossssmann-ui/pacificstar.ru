@@ -42,7 +42,7 @@
   var navToggleBtns = document.querySelectorAll('.nav-item .nav-toggle');
 
   /* Also mark parent "Услуги" nav-toggle active when on a sub-page */
-  var servicePages = ['services.html', 'truck-delivery.html', 'remote-regions.html'];
+  var servicePages = ['services.html', 'severnyy-zavoz.html', 'kabotazh.html', 'avto-dfo.html', 'negabarit.html', 'rail.html', 'ved.html', 'remote-regions.html', 'truck-delivery.html'];
   if (servicePages.indexOf(currentPath) !== -1) {
     navToggleBtns.forEach(function (btn) {
       btn.classList.add('active');
@@ -50,9 +50,10 @@
   }
 
   /* =======================================
-     DESKTOP NAV DROPDOWN: click to toggle
+     DESKTOP NAV DROPDOWN: hover + click with delay buffer
      ======================================= */
   var openNavItem = null; /* track currently open dropdown item */
+  var hoverCloseTimer = null;
 
   function closeOpenNavItem() {
     if (openNavItem) {
@@ -63,6 +64,41 @@
     }
   }
 
+  function cancelCloseTimer() {
+    if (hoverCloseTimer) {
+      clearTimeout(hoverCloseTimer);
+      hoverCloseTimer = null;
+    }
+  }
+
+  function scheduleClose() {
+    cancelCloseTimer();
+    /* 350ms buffer lets users move diagonally from trigger to dropdown */
+    hoverCloseTimer = setTimeout(function () {
+      closeOpenNavItem();
+    }, 350);
+  }
+
+  /* Wire hover enter/leave on each .nav-item that contains a dropdown */
+  var navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(function (item) {
+    item.addEventListener('mouseenter', function () {
+      cancelCloseTimer();
+      if (openNavItem && openNavItem !== item) {
+        closeOpenNavItem();
+      }
+      item.classList.add('open');
+      var toggle = item.querySelector('.nav-toggle');
+      if (toggle) toggle.setAttribute('aria-expanded', 'true');
+      openNavItem = item;
+    });
+
+    item.addEventListener('mouseleave', function () {
+      scheduleClose();
+    });
+  });
+
+  /* Click toggle (for keyboard / tap users) */
   navToggleBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
       e.preventDefault();
@@ -82,6 +118,15 @@
   /* Close desktop dropdown on outside click */
   document.addEventListener('click', function (e) {
     if (!e.target.closest('.nav-item')) {
+      cancelCloseTimer();
+      closeOpenNavItem();
+    }
+  });
+
+  /* Close on Escape key */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && openNavItem) {
+      cancelCloseTimer();
       closeOpenNavItem();
     }
   });

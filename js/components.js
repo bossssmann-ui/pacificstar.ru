@@ -131,11 +131,12 @@
       '<a href="about.html" class="nav-link" data-i18n="nav.about">О нас</a>' +
       '<div class="nav-item">' +
       '<button type="button" class="nav-toggle" aria-expanded="false" aria-haspopup="true" data-i18n="nav.services">Услуги ' + NAV_CHEVRON + '</button>' +
-      '<div class="nav-dropdown" role="menu">' +
+      '<div class="nav-dropdown" role="menu"><div class="nav-dropdown-inner">' +
       '<a href="services.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.all_services_rates">Все услуги и тарифы</a>' +
-      '<a href="remote-regions.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.northern_supply">Северный завоз</a>' +
-      '<a href="truck-delivery.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.truck_north">Автодоставка на Север</a>' +
-      '</div></div>' +
+      '<a href="severnyy-zavoz.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.northern_supply">Северный завоз</a>' +
+      '<a href="kabotazh.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.cabotage">Каботажные перевозки</a>' +
+      '<a href="avto-dfo.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.truck_dfo">Автодоставка ДФО</a>' +
+      '</div></div></div>' +
       '<a href="contacts.html" class="nav-link" data-i18n="nav.contacts">Контакты</a></nav>' +
       '<div class="header-cta">' +
       '<a href="tel:+79147285880" class="header-phone" aria-label="Позвонить нам" data-i18n-aria-label="comp.header.call_aria">' +
@@ -163,8 +164,9 @@
     '<button type="button" class="mobile-nav-toggle nav-link" data-i18n="nav.services">Услуги <span class="mobile-nav-arrow" aria-hidden="true">\u203A</span></button>' +
     '<div class="mobile-nav-sub">' +
     '<a href="services.html" class="nav-link" data-i18n="nav.all_services_rates">Все услуги и тарифы</a>' +
-    '<a href="remote-regions.html" class="nav-link" data-i18n="nav.northern_supply">Северный завоз</a>' +
-    '<a href="truck-delivery.html" class="nav-link" data-i18n="nav.truck_north">Автодоставка на Север</a>' +
+    '<a href="severnyy-zavoz.html" class="nav-link" data-i18n="nav.northern_supply">Северный завоз</a>' +
+    '<a href="kabotazh.html" class="nav-link" data-i18n="nav.cabotage">Каботажные перевозки</a>' +
+    '<a href="avto-dfo.html" class="nav-link" data-i18n="nav.truck_dfo">Автодоставка ДФО</a>' +
     '</div></div>' +
     '<a href="contacts.html" class="nav-link" data-i18n="nav.contacts">Контакты</a>' +
     '<a href="tel:+79147285880" class="header-phone">' +
@@ -204,16 +206,17 @@
       '<a href="index.html" data-i18n="nav.home">Главная</a>' +
       '<a href="about.html" data-i18n="footer.about">О компании</a>' +
       '<a href="services.html" data-i18n="nav.services">Услуги</a>' +
-      '<a href="remote-regions.html" data-i18n="nav.northern_supply">Северный завоз</a>' +
-      '<a href="truck-delivery.html" data-i18n="nav.truck_north">Автодоставка на Север</a>' +
+      '<a href="severnyy-zavoz.html" data-i18n="nav.northern_supply">Северный завоз</a>' +
+      '<a href="kabotazh.html" data-i18n="nav.cabotage">Каботажные перевозки</a>' +
+      '<a href="avto-dfo.html" data-i18n="nav.truck_dfo">Автодоставка ДФО</a>' +
       '<a href="contacts.html" data-i18n="nav.contacts">Контакты</a>' +
       '<a href="integrations.html" data-i18n="comp.footer.integrations">Интеграции</a></nav></div>' +
       '<div><p class="footer-col-title" data-i18n="comp.footer.services_title">Услуги</p>' +
       '<nav class="footer-nav" aria-label="Услуги">' +
       '<a href="services.html" data-i18n="comp.footer.freight">Грузоперевозки</a>' +
-      '<a href="services.html" data-i18n="comp.footer.warehousing">Складские услуги</a>' +
-      '<a href="remote-regions.html" data-i18n="nav.northern_supply">Северный завоз</a>' +
-      '<a href="truck-delivery.html" data-i18n="nav.truck_north">Автодоставка на Север</a>' +
+      '<a href="severnyy-zavoz.html" data-i18n="nav.northern_supply">Северный завоз</a>' +
+      '<a href="kabotazh.html" data-i18n="nav.cabotage">Каботажные перевозки</a>' +
+      '<a href="avto-dfo.html" data-i18n="nav.truck_dfo">Автодоставка ДФО</a>' +
       '<a href="services.html" data-i18n="comp.footer.forwarding">Экспедирование</a></nav></div>' +
       '<div><p class="footer-col-title" data-i18n="comp.footer.contacts_title">Контакты</p>' +
       '<div class="footer-contacts">' +
