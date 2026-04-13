@@ -1,14 +1,14 @@
 /**
- * Pacific Star — Pure SVG Route Map  (v8 — full NSR chain + Arctic ports)
+ * Pacific Star — Pure SVG Route Map  (v9 — realistic route geometry + cabotage)
  * ======================================================================================
  * Self-contained inline SVG map — no external libraries, no tile requests.
  * Uses Mercator projection + bundled GeoJSON land polygons (map-geodata.js).
  * Three design themes: Navy (морская), Sapphire (сапфир), Amber (янтарь).
- * Animated directional flow routes: Новороссийск → India → China → Russia → cities.
+ * Animated directional flow routes: international, cabotage, NSR, rail, road.
  *
- * Sea route waypoints are chosen so that every bezier arc segment stays in open water.
- * Intermediate {lat, lon} guide points are placed to steer arcs around coastlines and
- * through the correct straits (Bosphorus, Malacca, Korea Strait, etc.).
+ * Sea route rendering uses Catmull-Rom → cubic bezier splines that pass through
+ * every waypoint without systematic directional bias (no land-crossing).
+ * Land route waypoints follow actual highway corridors (A360, R504, M58, etc.).
  *
  * Requires: window.WORLD_GEOJSON (set by js/map-geodata.js)
  */
@@ -472,10 +472,19 @@
       label: 'Транссибирская магистраль',
       desc:  'Владивосток → Хабаровск → Иркутск → Москва → Мурманск. Ж/д перевозки, сборные и контейнерные грузы.',
       waypoints: [
-        'Владивосток', 'Хабаровск', 'Чита', 'Иркутск',
+        'Владивосток',
+        { lat: 45.5, lon: 133.5 },   /* Уссурийская ж/д — к северу           */
+        'Хабаровск',
+        { lat: 49.5, lon: 131.5 },   /* Амурская ж/д — запад                 */
+        { lat: 50.5, lon: 128.0 },   /* Биробиджан / Облучье                 */
+        'Чита', 'Иркутск',
         'Красноярск', 'Новосибирск', 'Омск',
-        'Екатеринбург', 'Пермь', 'Москва',
-        'Санкт-Петербург', 'Мурманск'
+        'Екатеринбург', 'Пермь',
+        { lat: 57.0, lon: 47.0 },    /* Кировская обл. (перегон Пермь–Москва)*/
+        'Москва',
+        'Санкт-Петербург',
+        { lat: 64.0, lon: 33.0 },    /* Карелия (перегон СПб–Мурманск)       */
+        'Мурманск'
       ]
     },
 
@@ -487,20 +496,49 @@
       desc:  'Владивосток → Сибирь → Москва → Ростов-на-Дону → Новороссийск. Автомобильная и ж/д доставка.',
       mobile: false,
       waypoints: [
-        'Владивосток', 'Хабаровск', 'Благовещенск', 'Чита',
-        'Иркутск', 'Новосибирск', 'Уфа', 'Казань',
+        'Владивосток',
+        { lat: 45.5, lon: 133.5 },   /* к северу вдоль Уссурийской ж/д       */
+        'Хабаровск',
+        { lat: 49.5, lon: 131.5 },   /* на запад по Амурской ж/д             */
+        'Благовещенск',
+        { lat: 51.0, lon: 122.0 },   /* М58 — перегон Благовещенск–Чита      */
+        'Чита',
+        'Иркутск', 'Новосибирск',
+        { lat: 55.0, lon: 69.0 },    /* Тюменская обл. (Новосибирск–Уфа)     */
+        'Уфа', 'Казань',
         'Нижний Новгород', 'Москва', 'Воронеж',
         'Волгоград', 'Ростов-на-Дону', 'Новороссийск'
       ]
     },
 
-    /* ── Route D: Northern land branch — Хабаровск → Якутск → Магадан */
+    /* ── Route D: Northern land branch — Хабаровск → Якутск → Магадан
+       Follows A360 "Lena" highway (Хабаровск → Тында → Нерюнгри → Якутск)
+       then R504 "Kolyma" highway (Якутск → Хандыга → Сусуман → Магадан).
+       Intermediate guide points trace the actual road bends. */
     {
       id: 'north-yakutsk',
       type: 'land',
       label: 'Северный завоз — Якутия',
       desc:  'Хабаровск → Якутск → Магадан. Автодоставка вглубь арктических районов, сезонные поставки.',
-      waypoints: [ 'Хабаровск', 'Якутск', 'Магадан' ]
+      waypoints: [
+        'Хабаровск',
+        { lat: 49.5, lon: 133.0 },   /* М58 на запад от Хабаровска           */
+        { lat: 50.5, lon: 131.0 },   /* Биробиджан / Облучье                 */
+        { lat: 51.5, lon: 128.5 },   /* далее на запад по М58                */
+        { lat: 52.0, lon: 126.5 },   /* Невер / съезд на А360                */
+        { lat: 53.5, lon: 125.0 },   /* Тында — поворот на север             */
+        { lat: 56.5, lon: 124.8 },   /* Нерюнгри                             */
+        { lat: 58.5, lon: 125.5 },   /* Алдан                                */
+        { lat: 60.5, lon: 128.0 },   /* подъезд к Якутску                    */
+        'Якутск',
+        { lat: 62.5, lon: 133.0 },   /* Р504 — на восток от Якутска          */
+        { lat: 62.8, lon: 136.0 },   /* район Хандыги                        */
+        { lat: 63.0, lon: 140.0 },   /* горный перевал — Верхоянский хребет   */
+        { lat: 63.0, lon: 144.0 },   /* далее на восток                      */
+        { lat: 62.8, lon: 148.0 },   /* район Сусумана                       */
+        { lat: 61.0, lon: 150.0 },   /* поворот к побережью                  */
+        'Магадан'
+      ]
     },
 
     /* ── Route E: Северный морской путь (NSR / Arctic Sea Route)
@@ -557,10 +595,12 @@
         { lat: 56.0, lon: 153.0 },  /* Охотское (восток Камчатки)             */
         { lat: 57.5, lon: 151.5 },  /* Охотское — подход к Магадану           */
         'Магадан',
-        { lat: 56.0, lon: 148.0 },  /* Охотское (центр)                       */
-        { lat: 52.5, lon: 143.0 },  /* Охотское — Татарский пролив            */
-        { lat: 49.0, lon: 141.5 },  /* Татарский пролив                       */
-        { lat: 46.0, lon: 135.5 },  /* Японское море                          */
+        { lat: 55.0, lon: 148.0 },  /* Охотское море (юг)                     */
+        { lat: 51.0, lon: 146.0 },  /* Охотское — юго-запад                   */
+        { lat: 47.5, lon: 144.5 },  /* Южное Охотское, вост. Сахалина         */
+        { lat: 45.5, lon: 142.0 },  /* Пролив Лаперуза (Сахалин–Хоккайдо)    */
+        { lat: 44.0, lon: 139.0 },  /* Японское море (север)                  */
+        { lat: 43.5, lon: 135.0 },  /* Японское море (подход к Приморью)      */
         'Владивосток'
       ]
     },
@@ -580,6 +620,69 @@
         { lat: 57.5, lon: 21.0 },   /* Open Baltic Sea                    */
         'Калининград'
       ]
+    },
+
+    /* ── Route G: Cabotage — Владивосток → Сахалин
+       Through the Tatar Strait between mainland Russia and Sakhalin island.
+       Waypoints stay in the Sea of Japan and Tatar Strait water. */
+    {
+      id: 'cab-sakhalin',
+      type: 'sea',
+      label: 'Каботаж — Сахалин',
+      desc:  'Владивосток → Сахалин. Морские грузоперевозки, нефтегазовая логистика Сахалинского шельфа.',
+      waypoints: [
+        'Владивосток',
+        { lat: 43.5, lon: 133.0 },   /* Японское море, выход из бухты          */
+        { lat: 45.0, lon: 136.0 },   /* Японское море — на северо-восток       */
+        { lat: 47.0, lon: 139.0 },   /* подход к Татарскому проливу            */
+        { lat: 48.5, lon: 140.5 },   /* Татарский пролив (юг)                  */
+        { lat: 50.0, lon: 141.5 },   /* Татарский пролив (центр)               */
+        'Сахалин'
+      ]
+    },
+
+    /* ── Route H: Cabotage — Владивосток → Петропавловск-Камчатский
+       Sea of Japan → La Perouse Strait → Okhotsk Sea → Kamchatka.
+       Avoids the narrow Tatar Strait by going south of Sakhalin. */
+    {
+      id: 'cab-kamchatka',
+      type: 'sea',
+      label: 'Каботаж — Камчатка',
+      desc:  'Владивосток → Петропавловск-Камчатский. Морские перевозки на Камчатку, сезонный завоз.',
+      waypoints: [
+        'Владивосток',
+        { lat: 43.5, lon: 133.0 },   /* Японское море                          */
+        { lat: 44.5, lon: 136.0 },   /* Японское — на восток                   */
+        { lat: 45.5, lon: 140.0 },   /* подход к пр. Лаперуза                  */
+        { lat: 45.5, lon: 142.0 },   /* Пролив Лаперуза (Сахалин–Хоккайдо)    */
+        { lat: 47.0, lon: 145.0 },   /* Охотское море — вход                   */
+        { lat: 49.5, lon: 149.0 },   /* Охотское — на северо-восток            */
+        { lat: 51.5, lon: 154.0 },   /* Охотское — центр                       */
+        'Петропавловск-Камчатский'
+      ]
+    },
+
+    /* ── Route I: Cabotage — Владивосток → Магадан
+       Same corridor through La Perouse Strait and Okhotsk Sea,
+       continuing north to Magadan. */
+    {
+      id: 'cab-magadan',
+      type: 'sea',
+      label: 'Каботаж — Магадан',
+      desc:  'Владивосток → Магадан. Морской каботаж через Охотское море, сезонный завоз.',
+      waypoints: [
+        'Владивосток',
+        { lat: 43.5, lon: 133.0 },   /* Японское море                          */
+        { lat: 44.5, lon: 136.0 },   /* Японское — на восток                   */
+        { lat: 45.5, lon: 140.0 },   /* подход к пр. Лаперуза                  */
+        { lat: 45.5, lon: 142.0 },   /* Пролив Лаперуза                        */
+        { lat: 47.0, lon: 145.0 },   /* Охотское море — вход                   */
+        { lat: 50.0, lon: 148.0 },   /* Охотское — на север                    */
+        { lat: 53.0, lon: 149.5 },   /* Охотское — центральная часть           */
+        { lat: 56.0, lon: 150.0 },   /* Охотское — север                       */
+        { lat: 58.0, lon: 150.5 },   /* подход к Магадану                      */
+        'Магадан'
+      ]
     }
   ];
 
@@ -591,7 +694,10 @@
     'south-ru':       '-3.6s',
     'north-yakutsk':  '-0.9s',
     'nsm-route':      '-2.7s',
-    'baltic-sea':     '-1.2s'
+    'baltic-sea':     '-1.2s',
+    'cab-sakhalin':   '-0.6s',
+    'cab-kamchatka':  '-2.1s',
+    'cab-magadan':    '-3.0s'
   };
 
   /* ---- GeoJSON → SVG path helpers ---- */
@@ -739,18 +845,30 @@
     if (pts.length < 2) { return ''; }
 
     var d = 'M' + pts[0].x.toFixed(1) + ' ' + pts[0].y.toFixed(1);
-    for (var i = 1; i < pts.length; i++) {
-      var x0 = pts[i - 1].x, y0 = pts[i - 1].y;
-      var x1 = pts[i].x,     y1 = pts[i].y;
+    var i, p0, p1, p2, p3, cp1x, cp1y, cp2x, cp2y;
+
+    for (i = 1; i < pts.length; i++) {
       if (route.type === 'land') {
         /* Straight segments for land / rail routes */
-        d += ' L' + x1.toFixed(1) + ' ' + y1.toFixed(1);
+        d += ' L' + pts[i].x.toFixed(1) + ' ' + pts[i].y.toFixed(1);
       } else {
-        /* Quadratic bezier: control point arcs slightly above the chord midpoint */
-        var cpx = (x0 + x1) / 2;
-        var cpy = Math.min(y0, y1) - Math.abs(x1 - x0) * 0.10;
-        d += ' Q' + cpx.toFixed(1) + ' ' + cpy.toFixed(1) +
-             ' ' + x1.toFixed(1)   + ' ' + y1.toFixed(1);
+        /* Catmull-Rom → cubic bezier for sea routes.
+           Passes through every waypoint (no systematic directional bias).
+           Tension 0.5 keeps arcs close to waypoints to avoid land-crossing.
+           Divisor 12 = 6 / (1 - tension) with tension = 0.5. */
+        p0 = pts[Math.max(0, i - 2)];
+        p1 = pts[i - 1];
+        p2 = pts[i];
+        p3 = pts[Math.min(pts.length - 1, i + 1)];
+
+        cp1x = p1.x + (p2.x - p0.x) / 12;
+        cp1y = p1.y + (p2.y - p0.y) / 12;
+        cp2x = p2.x - (p3.x - p1.x) / 12;
+        cp2y = p2.y - (p3.y - p1.y) / 12;
+
+        d += ' C' + cp1x.toFixed(1) + ' ' + cp1y.toFixed(1) +
+             ' ' + cp2x.toFixed(1) + ' ' + cp2y.toFixed(1) +
+             ' ' + p2.x.toFixed(1) + ' ' + p2.y.toFixed(1);
       }
     }
     return d;
