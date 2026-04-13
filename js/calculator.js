@@ -60,12 +60,6 @@
     return ARCTIC_KEYWORDS.some(function (k) { return lc.indexOf(k) !== -1; });
   }
 
-  function getFieldValue(id, fallback) {
-    var el = document.getElementById(id);
-    if (!el || typeof el.value !== 'string') return fallback || '';
-    return el.value;
-  }
-
   function hasOptionValue(select, value) {
     if (!select || !select.options || !value) return false;
     return Array.prototype.some.call(select.options, function (opt) {
@@ -92,12 +86,12 @@
     var raw;
     var state;
     var restored = false;
-    var fromSel     = calcEls.from;
-    var toSel       = calcEls.to;
-    var transSel    = calcEls.transport;
-    var cargoSel    = calcEls.cargo;
-    var weightInput = calcEls.weight;
-    var volumeInput = calcEls.volume;
+    var fromSel     = _calcFrom;
+    var toSel       = _calcTo;
+    var transSel    = _calcTransport;
+    var cargoSel    = _calcCargo;
+    var weightInput = _calcWeight;
+    var volumeInput = _calcVolume;
 
     try {
       raw = localStorage.getItem(STORAGE_KEY);
@@ -189,9 +183,6 @@
 
     return true;
   }
-
-  /* ── Cached field references (populated in init) ── */
-  var _fromSel, _toSel, _transSel, _cargoSel, _weightInput, _volInput, _resultBox;
 
   /* ── Estimate ── */
   function estimate() {
