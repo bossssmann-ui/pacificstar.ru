@@ -349,6 +349,8 @@ p { margin-bottom: 1rem; }
   transform: rotate(180deg);
 }
 
+/* Bridge gap: padding-top creates a hover-safe zone between trigger and dropdown,
+   preventing premature closure during diagonal mouse movement */
 .nav-dropdown {
   display: none;
   position: absolute;

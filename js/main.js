@@ -73,6 +73,7 @@
 
   function scheduleClose() {
     cancelCloseTimer();
+    /* 350ms buffer lets users move diagonally from trigger to dropdown */
     hoverCloseTimer = setTimeout(function () {
       closeOpenNavItem();
     }, 350);
