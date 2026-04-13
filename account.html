@@ -34,13 +34,13 @@
     <!-- ========== PAGE HERO ========== -->
     <section class="page-hero" aria-label="Личный кабинет">
       <div class="container" style="position:relative;z-index:1;">
-        <span class="page-hero-label">👤 Клиентский портал</span>
-        <h1>Личный кабинет</h1>
-        <p>Управляйте заявками, отслеживайте грузы и получайте документы онлайн</p>
+        <span class="page-hero-label" data-i18n="account.klientskiy_portal">👤 Клиентский портал</span>
+        <h1 data-i18n="auto.my_account">Личный кабинет</h1>
+        <p data-i18n="auto.manage_requests_track_shipments_and_receive_documents_online">Управляйте заявками, отслеживайте грузы и получайте документы онлайн</p>
         <nav class="breadcrumb" aria-label="Хлебные крошки">
-          <a href="index.html">Главная</a>
+          <a href="index.html" data-i18n="nav.home">Главная</a>
           <span class="breadcrumb-sep" aria-hidden="true">›</span>
-          <span aria-current="page">Личный кабинет</span>
+          <span aria-current="page" data-i18n="auto.my_account">Личный кабинет</span>
         </nav>
       </div>
     </section>
@@ -75,16 +75,16 @@
         <div class="account-panel" id="panel-signin" role="tabpanel" aria-labelledby="tab-signin">
           <div class="account-form-wrap fade-in">
             <div class="account-form-icon" aria-hidden="true">🔐</div>
-            <h2 id="account-title">Войти в аккаунт</h2>
-            <p class="account-form-desc">Введите данные для входа в личный кабинет</p>
+            <h2 id="account-title" data-i18n="auto.sign_in">Войти в аккаунт</h2>
+            <p class="account-form-desc" data-i18n="auto.enter_your_account_login_details">Введите данные для входа в личный кабинет</p>
             <form id="signinForm" class="account-form" novalidate>
               <div class="form-group">
-                <label for="signinEmail" class="form-label">Электронная почта / Логин</label>
+                <label for="signinEmail" class="form-label" data-i18n="auto.email_username">Электронная почта / Логин</label>
                 <input type="email" id="signinEmail" name="email" class="form-control"
                        placeholder="ivan@example.com" required autocomplete="email" >
               </div>
               <div class="form-group">
-                <label for="signinPassword" class="form-label">Пароль</label>
+                <label for="signinPassword" class="form-label" data-i18n="auto.password">Пароль</label>
                 <div class="password-wrap">
                   <input type="password" id="signinPassword" name="password" class="form-control"
                          placeholder="••••••••" required autocomplete="current-password" >
@@ -94,17 +94,17 @@
               <div class="form-row" style="justify-content:space-between;align-items:center;">
                 <div class="form-check">
                   <input type="checkbox" id="rememberMe" name="remember" >
-                  <label for="rememberMe">Запомнить меня</label>
+                  <label for="rememberMe" data-i18n="auto.remember_me">Запомнить меня</label>
                 </div>
-                <a href="#" class="account-link" id="forgotLink">Забыли пароль?</a>
+                <a href="#" class="account-link" id="forgotLink" data-i18n="auto.forgot_password">Забыли пароль?</a>
               </div>
-              <button type="submit" class="btn btn-primary account-submit">Войти</button>
+              <button type="submit" class="btn btn-primary account-submit" data-i18n="misc.entry_2">Войти</button>
               <p class="account-switch">Нет аккаунта? <a href="#" class="account-link" data-switch="register">Зарегистрироваться</a></p>
             </form>
             <!-- CRM notice -->
             <div class="account-crm-notice">
               <span aria-hidden="true">🔗</span>
-              <span>Синхронизируется с CRM. Скоро будет доступна полная интеграция с AmoCRM.</span>
+              <span data-i18n="auto.syncs_with_crm_full_amocrm_integration_will_be_available_soo">Синхронизируется с CRM. Скоро будет доступна полная интеграция с AmoCRM.</span>
             </div>
           </div>
         </div>
@@ -113,8 +113,8 @@
         <div class="account-panel hidden" id="panel-register" role="tabpanel" aria-labelledby="tab-register">
           <div class="account-form-wrap fade-in">
             <div class="account-form-icon" aria-hidden="true">📝</div>
-            <h2>Создать аккаунт</h2>
-            <p class="account-form-desc">Получите доступ к личному кабинету бесплатно</p>
+            <h2 data-i18n="auto.create_account">Создать аккаунт</h2>
+            <p class="account-form-desc" data-i18n="auto.get_free_access_to_your_account">Получите доступ к личному кабинету бесплатно</p>
             <form id="registerForm" class="account-form" novalidate>
               <div class="form-row">
                 <div class="form-group">
@@ -123,7 +123,7 @@
                          placeholder="Иван" required autocomplete="given-name" >
                 </div>
                 <div class="form-group">
-                  <label for="regLastName" class="form-label">Фамилия</label>
+                  <label for="regLastName" class="form-label" data-i18n="auto.last_name">Фамилия</label>
                   <input type="text" id="regLastName" name="lastName" class="form-control"
                          placeholder="Иванов" autocomplete="family-name" >
                 </div>
@@ -134,12 +134,12 @@
                        placeholder="ivan@example.com" required autocomplete="email" >
               </div>
               <div class="form-group">
-                <label for="regPhone" class="form-label">Телефон</label>
+                <label for="regPhone" class="form-label" data-i18n="form.phone_label">Телефон</label>
                 <input type="tel" id="regPhone" name="phone" class="form-control"
                        placeholder="+7 (___) ___-__-__" autocomplete="tel" >
               </div>
               <div class="form-group">
-                <label for="regCompany" class="form-label">Компания</label>
+                <label for="regCompany" class="form-label" data-i18n="auto.company">Компания</label>
                 <input type="text" id="regCompany" name="company" class="form-control"
                        placeholder="ООО «Название»" autocomplete="organization" >
               </div>
@@ -161,11 +161,11 @@
                 <input type="checkbox" id="regPrivacy" name="privacy" required >
                 <label for="regPrivacy">
                   Я согласен(на) на
-                  <a href="privacy.html" target="_blank" rel="noopener noreferrer">обработку персональных данных</a>
+                  <a href="privacy.html" target="_blank" rel="noopener noreferrer" data-i18n="auto.processing_of_personal_data">обработку персональных данных</a>
                   в соответствии с Политикой конфиденциальности
                 </label>
               </div>
-              <button type="submit" class="btn btn-primary account-submit">Зарегистрироваться</button>
+              <button type="submit" class="btn btn-primary account-submit" data-i18n="auto.register">Зарегистрироваться</button>
               <p class="account-switch">Уже есть аккаунт? <a href="#" class="account-link" data-switch="signin">Войти</a></p>
             </form>
           </div>
@@ -181,17 +181,17 @@
               <div class="dash-profile-info">
                 <h2 class="dash-profile-name" id="dashName">—</h2>
                 <p class="dash-profile-email" id="dashEmail">—</p>
-                <span class="dash-profile-badge">Клиент</span>
+                <span class="dash-profile-badge" data-i18n="auto.client">Клиент</span>
               </div>
-              <button type="button" class="btn btn-outline dash-logout-btn" id="dashLogout">Выйти</button>
+              <button type="button" class="btn btn-outline dash-logout-btn" id="dashLogout" data-i18n="auto.sign_out">Выйти</button>
             </div>
 
             <!-- SMTP notice -->
             <div class="dash-smtp-notice" id="dashSmtpNotice" style="display:none;" aria-live="polite">
               <span aria-hidden="true">⚠️</span>
               <div>
-                <strong>Не удалось отправить подтверждение</strong>
-                <p>Проверьте SMTP-настройки сервера (файл .env). Убедитесь, что SMTP_HOST, SMTP_USER и SMTP_PASS заполнены. Ваш аккаунт уже активен.</p>
+                <strong data-i18n="auto.failed_to_send_confirmation">Не удалось отправить подтверждение</strong>
+                <p data-i18n="auto.check_the_server_smtp_settings_env_file_make_sure_smtphost_s">Проверьте SMTP-настройки сервера (файл .env). Убедитесь, что SMTP_HOST, SMTP_USER и SMTP_PASS заполнены. Ваш аккаунт уже активен.</p>
               </div>
             </div>
 
@@ -200,90 +200,90 @@
               <div class="dash-stat-card">
                 <div class="dash-stat-icon" aria-hidden="true">📦</div>
                 <div class="dash-stat-value">4</div>
-                <div class="dash-stat-label">Активных заявок</div>
+                <div class="dash-stat-label" data-i18n="auto.active_requests">Активных заявок</div>
               </div>
               <div class="dash-stat-card">
                 <div class="dash-stat-icon" aria-hidden="true">✅</div>
                 <div class="dash-stat-value">12</div>
-                <div class="dash-stat-label">Доставлено</div>
+                <div class="dash-stat-label" data-i18n="auto.delivered">Доставлено</div>
               </div>
               <div class="dash-stat-card">
                 <div class="dash-stat-icon" aria-hidden="true">📑</div>
                 <div class="dash-stat-value">8</div>
-                <div class="dash-stat-label">Документов</div>
+                <div class="dash-stat-label" data-i18n="auto.documents">Документов</div>
               </div>
               <div class="dash-stat-card">
                 <div class="dash-stat-icon" aria-hidden="true">🔔</div>
                 <div class="dash-stat-value">2</div>
-                <div class="dash-stat-label">Уведомления</div>
+                <div class="dash-stat-label" data-i18n="auto.notifications">Уведомления</div>
               </div>
             </div>
 
             <!-- Quick actions -->
             <div class="dash-section">
-              <h3 class="dash-section-title">Быстрые действия</h3>
+              <h3 class="dash-section-title" data-i18n="auto.quick_actions">Быстрые действия</h3>
               <div class="dash-actions">
                 <button type="button" class="dash-action-btn" data-switch="neworder">
                   <span class="dash-action-icon" aria-hidden="true">➕</span>
-                  <span>Создать заявку</span>
+                  <span data-i18n="auto.create_request">Создать заявку</span>
                 </button>
                 <button type="button" class="dash-action-btn" data-switch="track">
                   <span class="dash-action-icon" aria-hidden="true">🔍</span>
-                  <span>Отследить груз</span>
+                  <span data-i18n="auto.track_shipment">Отследить груз</span>
                 </button>
                 <button type="button" class="dash-action-btn" data-switch="orders">
                   <span class="dash-action-icon" aria-hidden="true">📋</span>
-                  <span>Мои заявки</span>
+                  <span data-i18n="auto.my_orders">Мои заявки</span>
                 </button>
                 <a href="contacts.html#contactForm" class="dash-action-btn">
                   <span class="dash-action-icon" aria-hidden="true">💬</span>
-                  <span>Связаться</span>
+                  <span data-i18n="auto.contact">Связаться</span>
                 </a>
               </div>
             </div>
 
             <!-- Recent orders -->
             <div class="dash-section">
-              <h3 class="dash-section-title">Последние заявки</h3>
+              <h3 class="dash-section-title" data-i18n="auto.latest_requests">Последние заявки</h3>
               <div class="orders-list" role="list" aria-label="Последние заявки">
                 <div class="order-row">
                   <div class="order-num">PS-2025-005678</div>
                   <div class="order-info">
-                    <div class="order-route">Москва → Магадан (море + авто)</div>
-                    <div class="order-meta">Сборный груз · 3 200 кг · 10.02.2025</div>
+                    <div class="order-route" data-i18n="auto.moscow_magadan_sea_road">Москва → Магадан (море + авто)</div>
+                    <div class="order-meta" data-i18n="auto.consolidated_cargo_3200_kg_10022025">Сборный груз · 3 200 кг · 10.02.2025</div>
                   </div>
-                  <span class="order-status st-transit">🚢 В пути</span>
+                  <span class="order-status st-transit" data-i18n="account.v_puti">🚢 В пути</span>
                 </div>
                 <div class="order-row">
                   <div class="order-num">PS-2025-007890</div>
                   <div class="order-info">
-                    <div class="order-route">Токио → Владивосток → Якутск</div>
-                    <div class="order-meta">20' контейнер · 12 000 кг · 18.02.2025</div>
+                    <div class="order-route" data-i18n="auto.tokyo_vladivostok_yakutsk">Токио → Владивосток → Якутск</div>
+                    <div class="order-meta" data-i18n="auto.20_container_12000_kg_18022025">20' контейнер · 12 000 кг · 18.02.2025</div>
                   </div>
-                  <span class="order-status st-customs">🛃 На таможне</span>
+                  <span class="order-status st-customs" data-i18n="account.na_tamozhne">🛃 На таможне</span>
                 </div>
               </div>
               <div style="margin-top:14px;">
-                <button type="button" class="account-link" data-switch="orders" style="background:none;border:none;cursor:pointer;font-size:0.9rem;">Смотреть все заявки →</button>
+                <button type="button" class="account-link" data-switch="orders" style="background:none;border:none;cursor:pointer;font-size:0.9rem;" data-i18n="account.smotret_vse_zayavki">Смотреть все заявки →</button>
               </div>
             </div>
 
             <!-- Notifications -->
             <div class="dash-section">
-              <h3 class="dash-section-title">Уведомления</h3>
+              <h3 class="dash-section-title" data-i18n="auto.notifications">Уведомления</h3>
               <div class="dash-notifications">
                 <div class="dash-notif">
                   <span class="dash-notif-icon" aria-hidden="true">🚢</span>
                   <div class="dash-notif-body">
-                    <div class="dash-notif-text">Груз PS-2025-005678 прибыл в порт Магадана</div>
-                    <div class="dash-notif-time">2 часа назад</div>
+                    <div class="dash-notif-text" data-i18n="auto.shipment_ps2025005678_has_arrived_at_magadan_port">Груз PS-2025-005678 прибыл в порт Магадана</div>
+                    <div class="dash-notif-time" data-i18n="auto.2_hours_ago">2 часа назад</div>
                   </div>
                 </div>
                 <div class="dash-notif">
                   <span class="dash-notif-icon" aria-hidden="true">🛃</span>
                   <div class="dash-notif-body">
-                    <div class="dash-notif-text">Груз PS-2025-007890 проходит таможенный контроль</div>
-                    <div class="dash-notif-time">вчера, 14:30</div>
+                    <div class="dash-notif-text" data-i18n="auto.shipment_ps2025007890_is_undergoing_customs_clearance">Груз PS-2025-007890 проходит таможенный контроль</div>
+                    <div class="dash-notif-time" data-i18n="auto.yesterday_1430">вчера, 14:30</div>
                   </div>
                 </div>
               </div>
@@ -291,7 +291,7 @@
 
             <div class="account-crm-notice">
               <span aria-hidden="true">🔗</span>
-              <span>Данные демонстрационные. После подключения AmoCRM здесь будут ваши реальные заявки и уведомления.</span>
+              <span data-i18n="auto.the_data_is_for_demo_purposes_after_amocrm_is_connected_your">Данные демонстрационные. После подключения AmoCRM здесь будут ваши реальные заявки и уведомления.</span>
             </div>
 
           </div>
@@ -301,8 +301,8 @@
         <div class="account-panel hidden" id="panel-track" role="tabpanel" aria-labelledby="tab-track">
           <div class="account-form-wrap fade-in">
             <div class="account-form-icon" aria-hidden="true">🔍</div>
-            <h2>Отследить груз</h2>
-            <p class="account-form-desc">Введите трек-номер заявки для получения статуса</p>
+            <h2 data-i18n="auto.track_shipment">Отследить груз</h2>
+            <p class="account-form-desc" data-i18n="auto.enter_the_request_tracking_number_to_get_the_status">Введите трек-номер заявки для получения статуса</p>
             <form id="trackForm" class="account-form" novalidate>
               <div class="form-group">
                 <label for="trackNumber" class="form-label">Трек-номер <span class="form-required">(обязательно)</span></label>
@@ -310,17 +310,17 @@
                   <input type="text" id="trackNumber" name="track" class="form-control track-input"
                          placeholder="PS-2025-XXXXXX" required
                          pattern="[Pp][Ss]-\d{4}-[A-Za-z0-9]+" >
-                  <button type="submit" class="btn btn-primary">Найти</button>
+                  <button type="submit" class="btn btn-primary" data-i18n="auto.search">Найти</button>
                 </div>
-                <span class="form-hint">Трек-номер указан в подтверждении заявки (например: PS-2025-001234)</span>
+                <span class="form-hint" data-i18n="auto.the_tracking_number_is_listed_in_the_request_confirmation_fo">Трек-номер указан в подтверждении заявки (например: PS-2025-001234)</span>
               </div>
             </form>
 
             <!-- Demo tracking result (hidden by default) -->
             <div class="track-result" id="trackResult" style="display:none;" aria-live="polite">
               <div class="track-status-header">
-                <div class="track-status-badge" id="trackBadge">В пути</div>
-                <div class="track-status-route" id="trackRoute">Москва → Владивосток</div>
+                <div class="track-status-badge" id="trackBadge" data-i18n="auto.in_transit">В пути</div>
+                <div class="track-status-route" id="trackRoute" data-i18n="auto.moscow_vladivostok">Москва → Владивосток</div>
               </div>
               <div class="track-timeline" id="trackTimeline"></div>
               <div class="track-result-cta">
@@ -340,45 +340,45 @@
         <div class="account-panel hidden" id="panel-orders" role="tabpanel" aria-labelledby="tab-orders">
           <div class="account-form-wrap fade-in" style="max-width:700px;">
             <div class="account-form-icon" aria-hidden="true">📋</div>
-            <h2>Мои заявки</h2>
-            <p class="account-form-desc">История всех ваших отправлений (демонстрационные данные)</p>
+            <h2 data-i18n="auto.my_orders">Мои заявки</h2>
+            <p class="account-form-desc" data-i18n="auto.history_of_all_your_shipments_demo_data">История всех ваших отправлений (демонстрационные данные)</p>
 
             <div class="orders-list" role="list" aria-label="Список заявок">
 
               <div class="order-row">
                 <div class="order-num">PS-2025-001234</div>
                 <div class="order-info">
-                  <div class="order-route">Шанхай → Владивосток → Москва</div>
-                  <div class="order-meta">40' контейнер · 18 500 кг · Отправлено: 02.01.2025</div>
+                  <div class="order-route" data-i18n="auto.shanghai_vladivostok_moscow">Шанхай → Владивосток → Москва</div>
+                  <div class="order-meta" data-i18n="auto.40_container_18500_kg_shipped_02012025">40' контейнер · 18 500 кг · Отправлено: 02.01.2025</div>
                 </div>
-                <span class="order-status st-delivered">✅ Доставлен</span>
+                <span class="order-status st-delivered" data-i18n="account.dostavlen">✅ Доставлен</span>
               </div>
 
               <div class="order-row">
                 <div class="order-num">PS-2025-005678</div>
                 <div class="order-info">
-                  <div class="order-route">Москва → Магадан (море + авто)</div>
-                  <div class="order-meta">Сборный груз · 3 200 кг · Отправлено: 10.02.2025</div>
+                  <div class="order-route" data-i18n="auto.moscow_magadan_sea_road">Москва → Магадан (море + авто)</div>
+                  <div class="order-meta" data-i18n="auto.consolidated_cargo_3200_kg_shipped_10022025">Сборный груз · 3 200 кг · Отправлено: 10.02.2025</div>
                 </div>
-                <span class="order-status st-transit">🚢 В пути</span>
+                <span class="order-status st-transit" data-i18n="account.v_puti">🚢 В пути</span>
               </div>
 
               <div class="order-row">
                 <div class="order-num">PS-2025-007890</div>
                 <div class="order-info">
-                  <div class="order-route">Токио → Владивосток → Якутск</div>
-                  <div class="order-meta">20' контейнер · 12 000 кг · Отправлено: 18.02.2025</div>
+                  <div class="order-route" data-i18n="auto.tokyo_vladivostok_yakutsk">Токио → Владивосток → Якутск</div>
+                  <div class="order-meta" data-i18n="auto.20_container_12000_kg_shipped_18022025">20' контейнер · 12 000 кг · Отправлено: 18.02.2025</div>
                 </div>
-                <span class="order-status st-customs">🛃 На таможне</span>
+                <span class="order-status st-customs" data-i18n="account.na_tamozhne">🛃 На таможне</span>
               </div>
 
               <div class="order-row">
                 <div class="order-num">PS-2025-009102</div>
                 <div class="order-info">
-                  <div class="order-route">Москва → Анадырь (Северный завоз)</div>
-                  <div class="order-meta">Генеральный груз · 7 800 кг · Принято: 21.02.2025</div>
+                  <div class="order-route" data-i18n="auto.moscow_anadyr_northern_supply">Москва → Анадырь (Северный завоз)</div>
+                  <div class="order-meta" data-i18n="auto.general_cargo_7800_kg_accepted_21022025">Генеральный груз · 7 800 кг · Принято: 21.02.2025</div>
                 </div>
-                <span class="order-status st-processing">⏳ Обрабатывается</span>
+                <span class="order-status st-processing" data-i18n="account.obrabatyvaetsya">⏳ Обрабатывается</span>
               </div>
 
             </div>
@@ -388,12 +388,12 @@
                       onclick="document.querySelector('[data-tab=neworder]').click()">
                 + Создать новую заявку
               </button>
-              <a href="contacts.html#contactForm" class="btn btn-outline">Связаться с менеджером</a>
+              <a href="contacts.html#contactForm" class="btn btn-outline" data-i18n="account.svyazat_sya_s_menedzherom">Связаться с менеджером</a>
             </div>
 
             <div class="account-crm-notice" style="margin-top:20px;">
               <span aria-hidden="true">🔗</span>
-              <span>После подключения AmoCRM здесь будут отображаться ваши реальные заявки в режиме реального времени.</span>
+              <span data-i18n="auto.after_amocrm_is_connected_your_real_requests_will_be_display">После подключения AmoCRM здесь будут отображаться ваши реальные заявки в режиме реального времени.</span>
             </div>
           </div>
         </div>
@@ -402,12 +402,12 @@
         <div class="account-panel hidden" id="panel-neworder" role="tabpanel" aria-labelledby="tab-neworder">
           <div class="account-form-wrap fade-in" style="max-width:620px;">
             <div class="account-form-icon" aria-hidden="true">📝</div>
-            <h2>Создать заявку</h2>
-            <p class="account-form-desc">Заполните форму — менеджер свяжется с вами в течение 30 минут</p>
+            <h2 data-i18n="auto.create_request">Создать заявку</h2>
+            <p class="account-form-desc" data-i18n="auto.fill_out_the_form_a_manager_will_contact_you_within_30_minut">Заполните форму — менеджер свяжется с вами в течение 30 минут</p>
 
             <form id="newOrderForm" class="account-form" novalidate>
 
-              <p style="font-weight:700;margin-bottom:12px;color:var(--color-primary);">Маршрут</p>
+              <p style="font-weight:700;margin-bottom:12px;color:var(--color-primary);" data-i18n="form.route_label">Маршрут</p>
               <div class="form-row">
                 <div class="form-group">
                   <label for="orderFrom" class="form-label">Откуда <span class="form-required">(обязательно)</span></label>
@@ -421,46 +421,46 @@
                 </div>
               </div>
 
-              <p style="font-weight:700;margin:16px 0 12px;color:var(--color-primary);">Груз</p>
+              <p style="font-weight:700;margin:16px 0 12px;color:var(--color-primary);" data-i18n="auto.cargo">Груз</p>
               <div class="form-group">
                 <label for="orderCargo" class="form-label">Тип груза <span class="form-required">(обязательно)</span></label>
                 <select id="orderCargo" name="cargoType" class="form-control" required>
-                  <option value="">— выберите тип —</option>
-                  <option value="container_20">Контейнер 20'</option>
-                  <option value="container_40">Контейнер 40'</option>
-                  <option value="groupage">Сборный груз (LCL)</option>
-                  <option value="project">Проектный / негабаритный груз</option>
-                  <option value="general">Генеральный груз</option>
-                  <option value="reefer">Рефрижераторный груз</option>
-                  <option value="auto">Автомобиль / спецтехника</option>
+                  <option value="" data-i18n="auto._select_type_">— выберите тип —</option>
+                  <option value="container_20" data-i18n="auto.20_container">Контейнер 20'</option>
+                  <option value="container_40" data-i18n="auto.40_container">Контейнер 40'</option>
+                  <option value="groupage" data-i18n="auto.consolidated_cargo_lcl">Сборный груз (LCL)</option>
+                  <option value="project" data-i18n="auto.project_oversized_cargo">Проектный / негабаритный груз</option>
+                  <option value="general" data-i18n="auto.general_cargo">Генеральный груз</option>
+                  <option value="reefer" data-i18n="auto.refrigerated_cargo">Рефрижераторный груз</option>
+                  <option value="auto" data-i18n="auto.vehicle_special_equipment">Автомобиль / спецтехника</option>
                 </select>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label for="orderWeight" class="form-label">Вес (кг)</label>
+                  <label for="orderWeight" class="form-label" data-i18n="auto.weight_kg">Вес (кг)</label>
                   <input type="number" id="orderWeight" name="weight" class="form-control"
                          placeholder="5000" min="1" >
                 </div>
                 <div class="form-group">
-                  <label for="orderVolume" class="form-label">Объём (м³)</label>
+                  <label for="orderVolume" class="form-label" data-i18n="auto.volume_m">Объём (м³)</label>
                   <input type="number" id="orderVolume" name="volume" class="form-control"
                          placeholder="12" min="0.01" step="0.01" >
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="orderDesc" class="form-label">Описание груза</label>
+                <label for="orderDesc" class="form-label" data-i18n="auto.cargo_description">Описание груза</label>
                 <input type="text" id="orderDesc" name="description" class="form-control"
                        placeholder="Промышленное оборудование, запчасти…" >
               </div>
 
               <div class="form-group">
-                <label for="orderDate" class="form-label">Дата готовности груза</label>
+                <label for="orderDate" class="form-label" data-i18n="auto.cargo_ready_date">Дата готовности груза</label>
                 <input type="date" id="orderDate" name="readyDate" class="form-control" >
               </div>
 
-              <p style="font-weight:700;margin:16px 0 10px;color:var(--color-primary);">Особые условия</p>
+              <p style="font-weight:700;margin:16px 0 10px;color:var(--color-primary);" data-i18n="auto.special_conditions">Особые условия</p>
               <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
                 <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;cursor:pointer;">
                   <input type="checkbox" name="special_fragile" > Хрупкий груз
@@ -476,7 +476,7 @@
                 </label>
               </div>
 
-              <p style="font-weight:700;margin-bottom:12px;color:var(--color-primary);">Контактные данные</p>
+              <p style="font-weight:700;margin-bottom:12px;color:var(--color-primary);" data-i18n="auto.contact_details">Контактные данные</p>
               <div class="form-row">
                 <div class="form-group">
                   <label for="orderName" class="form-label">Имя <span class="form-required">(обязательно)</span></label>
@@ -491,19 +491,19 @@
               </div>
 
               <div class="form-group">
-                <label for="orderEmail" class="form-label">E-mail</label>
+                <label for="orderEmail" class="form-label" data-i18n="misc.entry_1">E-mail</label>
                 <input type="email" id="orderEmail" name="contactEmail" class="form-control"
                        placeholder="ivan@company.ru" autocomplete="email" >
               </div>
 
               <div class="form-group">
-                <label for="orderCompany" class="form-label">Компания</label>
+                <label for="orderCompany" class="form-label" data-i18n="auto.company">Компания</label>
                 <input type="text" id="orderCompany" name="company" class="form-control"
                        placeholder="ООО «Название»" autocomplete="organization" >
               </div>
 
               <div class="form-group">
-                <label for="orderComment" class="form-label">Комментарий</label>
+                <label for="orderComment" class="form-label" data-i18n="form.comment_label">Комментарий</label>
                 <textarea id="orderComment" name="comment" class="form-control"
                           rows="3" placeholder="Дополнительные требования, вопросы…"
                           style="resize:vertical;font-family:inherit;"></textarea>
@@ -513,22 +513,22 @@
                 <input type="checkbox" id="orderPrivacy" name="privacy" required >
                 <label for="orderPrivacy">
                   Согласен(на) на
-                  <a href="privacy.html" target="_blank" rel="noopener noreferrer">обработку персональных данных</a>
+                  <a href="privacy.html" target="_blank" rel="noopener noreferrer" data-i18n="auto.processing_of_personal_data">обработку персональных данных</a>
                 </label>
               </div>
 
-              <button type="submit" class="btn btn-primary account-submit">Отправить заявку</button>
+              <button type="submit" class="btn btn-primary account-submit" data-i18n="form.submit">Отправить заявку</button>
             </form>
 
             <div id="newOrderSuccess" style="display:none;text-align:center;padding:20px 0;" aria-live="polite">
               <div style="font-size:2.5rem;margin-bottom:12px;">✅</div>
-              <h3 style="margin-bottom:8px;">Заявка отправлена!</h3>
-              <p style="color:var(--color-muted);">Менеджер свяжется с вами в течение 30 минут в рабочее время.</p>
+              <h3 style="margin-bottom:8px;" data-i18n="form.success.title_alt">Заявка отправлена!</h3>
+              <p style="color:var(--color-muted);" data-i18n="auto.a_manager_will_contact_you_within_30_minutes_during_business">Менеджер свяжется с вами в течение 30 минут в рабочее время.</p>
             </div>
 
             <div class="account-crm-notice" style="margin-top:20px;">
               <span aria-hidden="true">🔗</span>
-              <span>После подключения AmoCRM заявка автоматически создаст сделку в вашей воронке продаж.</span>
+              <span data-i18n="auto.after_amocrm_is_connected_the_request_will_automatically_cre">После подключения AmoCRM заявка автоматически создаст сделку в вашей воронке продаж.</span>
             </div>
           </div>
         </div>
@@ -540,41 +540,41 @@
     <section class="section" style="background:var(--color-light);" aria-labelledby="account-features-title">
       <div class="container">
         <div class="section-header">
-          <span class="section-label">Возможности кабинета</span>
-          <h2 class="section-title" id="account-features-title">Всё под контролем</h2>
-          <p class="section-desc">Управляйте логистикой без звонков и ожидания</p>
+          <span class="section-label" data-i18n="auto.account_features">Возможности кабинета</span>
+          <h2 class="section-title" id="account-features-title" data-i18n="auto.everything_under_control">Всё под контролем</h2>
+          <p class="section-desc" data-i18n="auto.manage_logistics_without_calls_or_waiting">Управляйте логистикой без звонков и ожидания</p>
           <div class="divider" aria-hidden="true"></div>
         </div>
         <div class="features-grid">
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">📦</div>
-            <h3>Отслеживание грузов</h3>
-            <p>Видите статус каждой заявки в режиме реального времени: принята, в пути, на таможне, доставлена.</p>
+            <h3 data-i18n="auto.shipment_tracking">Отслеживание грузов</h3>
+            <p data-i18n="auto.see_the_status_of_every_request_in_real_time_accepted_in_tra">Видите статус каждой заявки в режиме реального времени: принята, в пути, на таможне, доставлена.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">📋</div>
-            <h3>История заявок</h3>
-            <p>Вся история отправлений за любой период. Фильтрация по маршруту, дате, статусу.</p>
+            <h3 data-i18n="auto.request_history">История заявок</h3>
+            <p data-i18n="account.vsya_istoriya_otpravleniy_za_lyuboy_period_fil_tra">Вся история отправлений за любой период. Фильтрация по маршруту, дате, статусу.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">📑</div>
-            <h3>Документы онлайн</h3>
-            <p>Скачивайте накладные, счета, акты и сертификаты прямо из кабинета без запросов менеджеру.</p>
+            <h3 data-i18n="account.dokumenty_onlayn">Документы онлайн</h3>
+            <p data-i18n="account.skachivayte_nakladnye_scheta_akty_i_sertifikaty_pr">Скачивайте накладные, счета, акты и сертификаты прямо из кабинета без запросов менеджеру.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">💬</div>
-            <h3>Чат с менеджером</h3>
-            <p>Задавайте вопросы прямо в кабинете. История переписки сохраняется автоматически.</p>
+            <h3 data-i18n="account.chat_s_menedzherom">Чат с менеджером</h3>
+            <p data-i18n="account.zadavayte_voprosy_pryamo_v_kabinete_istoriya_perep">Задавайте вопросы прямо в кабинете. История переписки сохраняется автоматически.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">🔔</div>
-            <h3>Уведомления</h3>
-            <p>SMS и e-mail уведомления о каждом изменении статуса груза. Настройте под себя.</p>
+            <h3 data-i18n="auto.notifications">Уведомления</h3>
+            <p data-i18n="account.sms_i_e_mail_uvedomleniya_o_kazhdom_izmenenii_stat">SMS и e-mail уведомления о каждом изменении статуса груза. Настройте под себя.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">🗺️</div>
-            <h3>Конструктор маршрута</h3>
-            <p>Создайте маршрут в несколько кликов: выберите города, тип транспорта и получите предварительный расчёт.</p>
+            <h3 data-i18n="account.konstruktor_marshruta">Конструктор маршрута</h3>
+            <p data-i18n="account.sozdayte_marshrut_v_neskol_ko_klikov_vyberite_goro">Создайте маршрут в несколько кликов: выберите города, тип транспорта и получите предварительный расчёт.</p>
           </div>
         </div>
       </div>
@@ -584,32 +584,32 @@
     <section class="section see-also-section" aria-labelledby="see-also-acc-title">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title" id="see-also-acc-title">Ещё не знакомы с Pacific Star?</h2>
-          <p class="section-desc">Узнайте о наших услугах перед регистрацией</p>
+          <h2 class="section-title" id="see-also-acc-title" data-i18n="account.eshchyo_ne_znakomy_s_pacific_star">Ещё не знакомы с Pacific Star?</h2>
+          <p class="section-desc" data-i18n="account.uznayte_o_nashikh_uslugakh_pered_registratsiey">Узнайте о наших услугах перед регистрацией</p>
           <div class="divider" aria-hidden="true"></div>
         </div>
         <div class="see-also-grid">
           <a href="services.html" class="see-also-card">
             <span class="see-also-icon" aria-hidden="true">📦</span>
             <div>
-              <strong>Услуги и тарифы</strong>
-              <p>Автоперевозки, ж/д, авиа, склад — полный каталог с тарифами и калькулятором</p>
+              <strong data-i18n="services.hero.title">Услуги и тарифы</strong>
+              <p data-i18n="account.avtoperevozki_zh_d_avia_sklad_polnyy_katalog_s_tar">Автоперевозки, ж/д, авиа, склад — полный каталог с тарифами и калькулятором</p>
             </div>
             <span class="see-also-arrow" aria-hidden="true">→</span>
           </a>
           <a href="about.html" class="see-also-card">
             <span class="see-also-icon" aria-hidden="true">🏢</span>
             <div>
-              <strong>О компании</strong>
-              <p>12 лет опыта в логистике Дальнего Востока. Узнайте нашу историю и ценности</p>
+              <strong data-i18n="footer.about">О компании</strong>
+              <p data-i18n="account.12_let_opyta_v_logistike_dal_nego_vostoka_uznayte_">12 лет опыта в логистике Дальнего Востока. Узнайте нашу историю и ценности</p>
             </div>
             <span class="see-also-arrow" aria-hidden="true">→</span>
           </a>
           <a href="contacts.html#contactForm" class="see-also-card">
             <span class="see-also-icon" aria-hidden="true">✉️</span>
             <div>
-              <strong>Оставить заявку</strong>
-              <p>Менеджер перезвонит в течение 15 минут и рассчитает стоимость бесплатно</p>
+              <strong data-i18n="nav.get_quote">Оставить заявку</strong>
+              <p data-i18n="account.menedzher_perezvonit_v_techenie_15_minut_i_rasschi">Менеджер перезвонит в течение 15 минут и рассчитает стоимость бесплатно</p>
             </div>
             <span class="see-also-arrow" aria-hidden="true">→</span>
           </a>
@@ -621,10 +621,10 @@
     <section class="cta-section" aria-labelledby="account-cta-title">
       <div class="container">
         <div class="cta-inner">
-          <h2 class="cta-title" id="account-cta-title">Вопросы по работе кабинета?</h2>
-          <p class="cta-desc">Наши менеджеры помогут с регистрацией и настройкой — бесплатно.</p>
+          <h2 class="cta-title" id="account-cta-title" data-i18n="account.voprosy_po_rabote_kabineta">Вопросы по работе кабинета?</h2>
+          <p class="cta-desc" data-i18n="account.nashi_menedzhery_pomogut_s_registratsiey_i_nastroy">Наши менеджеры помогут с регистрацией и настройкой — бесплатно.</p>
           <div class="cta-actions">
-            <a href="contacts.html#contactForm" class="btn btn-primary">Связаться с нами</a>
+            <a href="contacts.html#contactForm" class="btn btn-primary" data-i18n="cta.contact_us">Связаться с нами</a>
             <a href="tel:+79147285880" class="btn btn-secondary">+7&nbsp;(914)&nbsp;728&#8209;58&#8209;80</a>
           </div>
         </div>
@@ -640,8 +640,8 @@
 
   <div data-component="scroll-top"></div>
 
-  <script defer src="js/components.js?v=20260413"></script>
-  <script defer src="js/i18n.js?v=20260412"></script>
+  <script defer src="js/components.js?v=20260413b"></script>
+  <script defer src="js/i18n.js?v=20260413"></script>
   <script defer src="js/main.js?v=20260413"></script>
   <script defer src="js/analytics.js?v=20260412"></script>
   <script defer src="js/account.js?v=20260412"></script>
