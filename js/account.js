@@ -26,7 +26,8 @@
     link.addEventListener('click', function (e) {
       e.preventDefault();
       switchTab(link.dataset.switch);
-      window.scrollTo({ top: document.querySelector('.account-tabs').offsetTop - 80, behavior: 'smooth' });
+      var tabsEl = document.querySelector('.account-tabs');
+      if (tabsEl) window.scrollTo({ top: tabsEl.offsetTop - 80, behavior: 'smooth' });
     });
   });
 
@@ -80,7 +81,8 @@
     if (smtpNotice) smtpNotice.style.display = showSmtpNotice ? 'flex' : 'none';
 
     switchTab('dashboard');
-    window.scrollTo({ top: document.querySelector('.account-tabs').offsetTop - 80, behavior: 'smooth' });
+    var tabsEl = document.querySelector('.account-tabs');
+    if (tabsEl) window.scrollTo({ top: tabsEl.offsetTop - 80, behavior: 'smooth' });
   }
 
   /* Logout */
@@ -198,20 +200,25 @@
         trackResult.style.display = 'block';
         return;
       }
-      document.getElementById('trackBadge').textContent = data.status;
-      document.getElementById('trackBadge').className = 'track-status-badge ' + (data.status === 'Доставлен' ? 'delivered' : 'in-transit');
-      document.getElementById('trackRoute').textContent = data.route;
-
+      var badge = document.getElementById('trackBadge');
+      var routeEl = document.getElementById('trackRoute');
       var tl = document.getElementById('trackTimeline');
-      tl.innerHTML = data.events.map(function (ev) {
-        return '<div class="track-event' + (ev.current ? ' track-event--current' : '') + '">' +
-          '<div class="track-event-dot"></div>' +
-          '<div class="track-event-body">' +
-          '<div class="track-event-text">' + ev.text + '</div>' +
-          '<div class="track-event-meta">' + ev.date + ' \u00b7 ' + ev.place + '</div>' +
-          '</div>' +
-          '</div>';
-      }).join('');
+      if (badge) {
+        badge.textContent = data.status;
+        badge.className = 'track-status-badge ' + (data.status === 'Доставлен' ? 'delivered' : 'in-transit');
+      }
+      if (routeEl) routeEl.textContent = data.route;
+      if (tl) {
+        tl.innerHTML = data.events.map(function (ev) {
+          return '<div class="track-event' + (ev.current ? ' track-event--current' : '') + '">' +
+            '<div class="track-event-dot"></div>' +
+            '<div class="track-event-body">' +
+            '<div class="track-event-text">' + ev.text + '</div>' +
+            '<div class="track-event-meta">' + ev.date + ' \u00b7 ' + ev.place + '</div>' +
+            '</div>' +
+            '</div>';
+        }).join('');
+      }
       trackResult.style.display = 'block';
       trackResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
