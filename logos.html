@@ -45,7 +45,7 @@
 
     /* ── HERO ─────────────────────────────────────────── */
     .logos-hero {
-      padding: 152px 32px 80px;
+      padding: 152px 32px 80px; /* 72px site header + 80px spacing */
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -53,7 +53,7 @@
     .logos-hero::before {
       content: '';
       position: absolute;
-      top: 72px; left: 50%; transform: translateX(-50%);
+      top: 72px; left: 50%; transform: translateX(-50%); /* matches site header height */
       width: 600px; height: 400px;
       background: radial-gradient(ellipse, rgba(245,166,35,0.10) 0%, transparent 70%);
       pointer-events: none;
