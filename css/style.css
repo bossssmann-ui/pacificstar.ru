@@ -350,14 +350,24 @@ p { margin-bottom: 1rem; }
 }
 
 /* Bridge gap: padding-top creates a hover-safe zone between trigger and dropdown,
-   preventing premature closure during diagonal mouse movement */
+   preventing premature closure during diagonal mouse movement.
+   The ::before pseudo-element extends the hit area for diagonal cursor paths. */
 .nav-dropdown {
   display: none;
   position: absolute;
-  left: 0;
+  left: -12px;
   top: 100%;
-  padding-top: 4px;
+  padding-top: 8px;
   z-index: 2000;
+}
+
+.nav-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  height: 16px;
 }
 
 .nav-dropdown-inner {
