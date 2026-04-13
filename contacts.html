@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" >
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" >
-  <link rel="stylesheet" href="css/style.css?v=20260412" >
+  <link rel="stylesheet" href="css/style.css?v=20260413a" >
   <link rel="stylesheet" href="css/premium-theme.css?v=20260412" >
   <link rel="stylesheet" href="css/premium-features.css?v=20260413" >
 
@@ -418,55 +418,98 @@
     <section class="section legal-details-section" aria-labelledby="legal-title">
       <div class="container">
         <div class="section-header">
-          <span class="section-label" data-i18n="contacts.rekvizity">Реквизиты</span>
+          <span class="section-label" data-i18n="contacts.rekvizity_kompanii">Реквизиты компании</span>
           <h2 class="section-title" id="legal-title" data-i18n="contacts.yuridicheskaya_informatsiya">Юридическая информация</h2>
           <p class="section-desc" data-i18n="contacts.ofitsial_nye_rekvizity_dlya_dogovorov_i_dokumentoo">Официальные реквизиты для договоров и документооборота</p>
           <div class="divider" aria-hidden="true"></div>
         </div>
         <div class="legal-details-grid">
+          <!-- A. Company identity -->
           <div class="legal-details-card fade-in">
-            <h3 class="legal-details-heading" data-i18n="contacts.obshchie_svedeniya">Общие сведения</h3>
+            <h3 class="legal-details-heading" data-i18n="contacts.svedeniya_o_kompanii">Сведения о компании</h3>
             <dl class="legal-details-list">
               <div class="legal-detail-row">
                 <dt data-i18n="contacts.polnoe_naimenovanie">Полное наименование</dt>
-                <dd data-i18n="contacts.obshchestvo_s_ogranichennoy_otvetstvennost_yu_paci">Общество с ограниченной ответственностью «Pacific Star»</dd>
+                <!-- Official registered name per EGRUL; trading name is Pacific Star -->
+                <dd>ООО Компания «Тихоокеанская Звезда»</dd>
               </div>
               <div class="legal-detail-row">
-                <dt data-i18n="contacts.sokrashchyonnoe_naimenovanie">Сокращённое наименование</dt>
-                <dd data-i18n="contacts.ooo_pacific_star">ООО «Pacific Star»</dd>
+                <dt data-i18n="contacts.general_director">Генеральный директор</dt>
+                <dd>Шнайдер Эдуард Иванович</dd>
               </div>
               <div class="legal-detail-row">
-                <dt data-i18n="contacts.inn">ИНН</dt>
-                <dd>2508139498</dd>
-              </div>
-              <div class="legal-detail-row">
-                <dt data-i18n="contacts.ogrn">ОГРН</dt>
-                <dd>1192536024498</dd>
-              </div>
-              <div class="legal-detail-row">
-                <dt data-i18n="contacts.kpp">КПП</dt>
-                <dd>250801001</dd>
+                <dt data-i18n="contacts.basis_of_authority">Основание полномочий</dt>
+                <dd data-i18n="contacts.acts_on_basis_of_charter">Действует на основании Устава</dd>
               </div>
             </dl>
           </div>
+          <!-- B. Registration details -->
           <div class="legal-details-card fade-in">
-            <h3 class="legal-details-heading" data-i18n="contacts.adres_i_kontakty">Адрес и контакты</h3>
+            <h3 class="legal-details-heading" data-i18n="contacts.registratsionnye_dannye">Регистрационные данные</h3>
+            <dl class="legal-details-list">
+              <div class="legal-detail-row">
+                <dt data-i18n="contacts.inn">ИНН</dt>
+                <dd class="legal-detail-numeric">2508025295</dd>
+              </div>
+              <div class="legal-detail-row">
+                <dt data-i18n="contacts.kpp">КПП</dt>
+                <dd class="legal-detail-numeric">250801001</dd>
+              </div>
+              <div class="legal-detail-row">
+                <dt data-i18n="contacts.ogrn">ОГРН</dt>
+                <dd class="legal-detail-numeric">1022500704863</dd>
+              </div>
+              <div class="legal-detail-row">
+                <dt data-i18n="contacts.okpo">ОКПО</dt>
+                <dd class="legal-detail-numeric">36781361</dd>
+              </div>
+            </dl>
+          </div>
+          <!-- C. Banking details -->
+          <div class="legal-details-card fade-in">
+            <h3 class="legal-details-heading" data-i18n="contacts.bankovskie_rekvizity">Банковские реквизиты</h3>
+            <dl class="legal-details-list">
+              <div class="legal-detail-row">
+                <dt data-i18n="contacts.bank">Банк</dt>
+                <dd>БАНК ГПБ (АО), г.&nbsp;Москва</dd>
+              </div>
+              <div class="legal-detail-row">
+                <dt data-i18n="contacts.raschyotnyy_schyot">Расчётный счёт</dt>
+                <dd class="legal-detail-numeric">40702810200000232912</dd>
+              </div>
+              <div class="legal-detail-row">
+                <dt data-i18n="contacts.bik">БИК</dt>
+                <dd class="legal-detail-numeric">044525823</dd>
+              </div>
+              <div class="legal-detail-row">
+                <dt data-i18n="contacts.korrespondentskiy_schyot">Корреспондентский счёт</dt>
+                <dd class="legal-detail-numeric">30101810200000000823</dd>
+              </div>
+            </dl>
+          </div>
+          <!-- D. Addresses and contact -->
+          <div class="legal-details-card fade-in">
+            <h3 class="legal-details-heading" data-i18n="contacts.adresa_i_svyaz">Адреса и связь</h3>
             <dl class="legal-details-list">
               <div class="legal-detail-row">
                 <dt data-i18n="contacts.yuridicheskiy_adres">Юридический адрес</dt>
-                <dd data-i18n="contacts.692902_primorskiy_kray_g_nakhodka_ul_severnyy_pros">692902, Приморский край, г. Находка, ул. Северный проспект, 47с2</dd>
+                <dd>692953, Приморский край, г.&nbsp;Находка, ул.&nbsp;Луговая, д.&nbsp;14</dd>
               </div>
               <div class="legal-detail-row">
-                <dt data-i18n="contacts.fakticheskiy_adres">Фактический адрес</dt>
-                <dd data-i18n="contacts.692902_primorskiy_kray_g_nakhodka_ul_severnyy_pros">692902, Приморский край, г. Находка, ул. Северный проспект, 47с2</dd>
+                <dt data-i18n="contacts.pochtovyy_adres">Почтовый адрес</dt>
+                <dd>692918, Приморский край, г.&nbsp;Находка, а/я&nbsp;33</dd>
+              </div>
+              <div class="legal-detail-row">
+                <dt data-i18n="misc.entry_1">E-mail</dt>
+                <dd><a href="mailto:office@pacificstar.ru">office@pacificstar.ru</a></dd>
               </div>
               <div class="legal-detail-row">
                 <dt data-i18n="form.phone_label">Телефон</dt>
                 <dd><a href="tel:+79147285880">+7&nbsp;(914)&nbsp;728&#8209;58&#8209;80</a></dd>
               </div>
               <div class="legal-detail-row">
-                <dt data-i18n="misc.entry_1">E-mail</dt>
-                <dd><a href="mailto:info@pacificstar.ru">info@pacificstar.ru</a></dd>
+                <dt data-i18n="contacts.edo_id">ЭДО ID</dt>
+                <dd class="legal-detail-numeric">2BE9ef07c765783441cab2033489a8edad9</dd>
               </div>
             </dl>
           </div>
