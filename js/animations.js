@@ -2,11 +2,8 @@
 document.addEventListener('DOMContentLoaded', function () {
   'use strict';
 
-  var observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.12
-  };
+  var els = document.querySelectorAll('.animate-on-scroll');
+  if (!els.length || !('IntersectionObserver' in window)) return;
 
   var scrollObserver = new IntersectionObserver(function (entries, observer) {
     entries.forEach(function (entry) {
@@ -15,9 +12,9 @@ document.addEventListener('DOMContentLoaded', function () {
         observer.unobserve(entry.target);
       }
     });
-  }, observerOptions);
+  }, { root: null, rootMargin: '0px', threshold: 0.12 });
 
-  document.querySelectorAll('.animate-on-scroll').forEach(function (el) {
+  els.forEach(function (el) {
     scrollObserver.observe(el);
   });
 });

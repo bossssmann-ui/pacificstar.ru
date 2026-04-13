@@ -2862,7 +2862,8 @@
 
   /* ─── Persist & read language ────────────────────────────────────────── */
   function getLang() {
-    var saved = localStorage.getItem('ps-lang');
+    var saved;
+    try { saved = localStorage.getItem('ps-lang'); } catch (e) { /* private browsing */ }
     if (saved && LANGS[saved]) return saved;
     var browser = (navigator.language || 'ru').slice(0, 2).toLowerCase();
     if (browser === 'zh') return 'zh';
@@ -2874,7 +2875,7 @@
 
   function setLang(lang) {
     if (!LANGS[lang]) return;
-    localStorage.setItem('ps-lang', lang);
+    try { localStorage.setItem('ps-lang', lang); } catch (e) { /* private browsing */ }
     applyLang(lang);
     /* Close dropdown */
     var dd  = document.getElementById('langDropdown');

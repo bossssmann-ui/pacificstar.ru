@@ -19,7 +19,6 @@
     scrollTicking = false;
   }
 
-  var scrollTicking = false;
   window.addEventListener('scroll', function () {
     if (!scrollTicking) {
       requestAnimationFrame(function () { scrollTicking = false; onScroll(); });
@@ -227,7 +226,7 @@
 
   const counterEls = document.querySelectorAll('[data-counter]');
 
-  if (counterEls.length) {
+  if (counterEls.length && 'IntersectionObserver' in window) {
     const counterObserver = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
