@@ -69,6 +69,24 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
+/* ─── Service Hero Icon ─── */
+.service-hero-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.92);
+  margin-bottom: 20px;
+}
+
+.service-hero-icon svg {
+  width: 36px;
+  height: 36px;
+}
+
 /* ─── Stat Bar ─── */
 .stat-bar {
   display: grid;
