@@ -367,7 +367,7 @@ p { margin-bottom: 1rem; }
   top: -8px;
   left: 0;
   right: 0;
-  height: 16px;
+  height: 8px;
 }
 
 .nav-dropdown-inner {
@@ -2848,6 +2848,13 @@ select.form-control {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 28px;
+}
+
+.regions-category h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+  margin: 0;
 }
 
 .region-card {
