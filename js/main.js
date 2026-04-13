@@ -334,7 +334,7 @@
       })
       .then(function () {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Отправить заявку <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+        submitBtn.innerHTML = 'Отправить запрос на расчёт <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
         contactForm.reset();
 
         if (successMsg) {
@@ -346,7 +346,7 @@
       })
       .catch(function () {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Отправить заявку <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+        submitBtn.innerHTML = 'Отправить запрос на расчёт <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
 
         if (successMsg) {
           successMsg.textContent = '❌ Не удалось отправить заявку. Попробуйте позже или позвоните нам.';
