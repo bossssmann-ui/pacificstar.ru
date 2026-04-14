@@ -1,20 +1,16 @@
 /**
- * Pacific Star — Pure SVG Route Map  (v11 — full route layer rebuild)
+ * Pacific Star — Pure SVG Route Map  (v12 — clean route-layer structure)
  * ======================================================================================
  * Self-contained inline SVG map — no external libraries, no tile requests.
  * Uses Mercator projection + bundled GeoJSON land polygons (map-geodata.js).
  * Three design themes: Navy (морская), Sapphire (сапфир), Amber (янтарь).
- * Animated directional flow routes: international, cabotage, NSR, rail, road.
  *
- * v11 rebuild: all route waypoints rebuilt from scratch with verified geography.
- * Key fixes:
- *   - NSR route uses Kara Gates passage (avoids crossing Novaya Zemlya)
- *   - Taymyr rounded at 78°N (north of Cape Chelyuskin 77.72°N)
- *   - North of New Siberian Islands at 76°N
- *   - La Perouse Strait at 45.7°N (between Sakhalin and Hokkaido)
- *   - All sea routes verified to stay in water
- *   - Route categories: intl / cabotage / nsr / rail / road
- *   - NSR has distinct visual style (ice-blue, dash-dot pattern)
+ * v12 changes:
+ *   - Separate SEA_ROUTES and LAND_ROUTES arrays (both empty, ready for data)
+ *   - Separate SVG <g> layers: svg-map-sea-routes, svg-map-land-routes
+ *   - renderRouteList() helper for rendering any route array into a target group
+ *   - allRoutes() helper for combined iteration (hover, lookup)
+ *   - ROUTE_DELAYS replaces FLOW_DELAYS
  *
  * Both sea and land routes use Catmull-Rom → cubic bezier splines that pass
  * through every waypoint. Sea routes use divisor 16 for tight curves that
@@ -399,27 +395,35 @@
       lx:  11, ly:  17 }
   ];
 
-  /* ---- Directional flow routes ----
-     Chains of waypoints showing cargo flow direction.
-     Waypoints are either a city name (matched against POINTS) or
-     an anonymous {lat, lon} object used as a path guide point only.
-     Fields:
-       id       — unique route identifier
-       type     — 'sea' | 'land'
-       label    — short route title shown in hover tooltip
-       desc     — service description shown in tooltip (one line)
-       mobile   — false = hide route on small screens (default: true)
-       waypoints — ordered list of city names and/or {lat, lon} guide points
-     To add a new route: push an entry here and in FLOW_DELAYS.
+  /* ---- Route data ----
+     Each route is an object with these fields:
+       id        — unique route identifier (e.g. 'intl-sea', 'trans-sib')
+       type      — 'sea' | 'land'
+       category  — optional: 'intl' | 'cabotage' | 'nsr' | 'rail' | 'road'
+       label     — short route title shown in hover tooltip
+       desc      — service description shown in tooltip (one line)
+       mobile    — false = hide route on small screens (default: true)
+       waypoints — ordered list of city names (matched against POINTS)
+                   and/or {lat, lon} guide points for sea-path shaping
+
+     Sea routes are rendered in the lower layer; land routes on top.
+     To add a route: push an entry into the appropriate array below.
      To adjust a sea route's path: edit or insert {lat, lon} guide points.
      To adjust a land route corridor: reorder or add city-name stops. */
-  /* Route data removed for cleanup — see git history for original waypoints.
-     Previous 9 routes: intl-sea, trans-sib, south-ru, north-yakutsk,
-     nsm-route, baltic-sea, cab-sakhalin, cab-kamchatka, cab-magadan. */
-  var FLOW_ROUTES = [];
 
-  /* Animation delay per route (negative = start already mid-cycle). */
-  var FLOW_DELAYS = {};
+  /* Sea routes — international, cabotage, NSR (empty until corrected data is ready). */
+  var SEA_ROUTES = [];
+
+  /* Land routes — rail, road (empty until corrected data is ready). */
+  var LAND_ROUTES = [];
+
+  /* Animation delay per route id (negative = start already mid-cycle). */
+  var ROUTE_DELAYS = {};
+
+  /* Helper: combined list for iteration. Sea first, then land (render order). */
+  function allRoutes() {
+    return SEA_ROUTES.concat(LAND_ROUTES);
+  }
 
   /* ---- GeoJSON → SVG path helpers ---- */
   var LON_PAD = 8;
@@ -691,76 +695,86 @@
       });
       vpGroup.appendChild(landG);
 
-      /* ---- Flow routes ---- */
-      var routesG = el('g', { 'class': 'svg-map-routes' });
+      /* ---- Route layers ----
+         Sea routes render first (below), land routes on top. Both layers
+         live inside a common parent so hover queries work across both. */
+      var routesG    = el('g', { 'class': 'svg-map-routes' });
+      var seaRoutesG = el('g', { 'class': 'svg-map-sea-routes' });
+      var landRoutesG = el('g', { 'class': 'svg-map-land-routes' });
+      routesG.appendChild(seaRoutesG);
+      routesG.appendChild(landRoutesG);
 
-      FLOW_ROUTES.forEach(function (route) {
-        var d = buildFlowPath(route);
-        if (!d) { return; }
+      /* Render a list of route definitions into a target <g> element. */
+      function renderRouteList(routes, targetG) {
+        routes.forEach(function (route) {
+          var d = buildFlowPath(route);
+          if (!d) { return; }
 
-        /* Determine style based on route category. */
-        var cat = route.category || '';
-        var routeColor, strokeW, opacity;
-        if (cat === 'nsr') {
-          routeColor = theme.routeNSR;
-          strokeW    = '2.0';
-          opacity    = '0.85';
-        } else if (cat === 'cabotage' || cat === 'intl') {
-          routeColor = theme.routeSea;
-          strokeW    = (cat === 'intl') ? '2.2' : '2.0';
-          opacity    = '0.90';
-        } else if (cat === 'rail') {
-          routeColor = theme.routeLand;
-          strokeW    = '1.5';
-          opacity    = '0.75';
-        } else if (cat === 'road') {
-          routeColor = theme.routeLand;
-          strokeW    = '1.3';
-          opacity    = '0.65';
-        } else {
-          routeColor = (route.type === 'land') ? theme.routeLand : theme.routeSea;
-          strokeW    = (route.type === 'land') ? '1.5' : '2.2';
-          opacity    = (route.type === 'land') ? '0.75' : '0.90';
-        }
+          /* Determine style based on route category. */
+          var cat = route.category || '';
+          var routeColor, strokeW, opacity;
+          if (cat === 'nsr') {
+            routeColor = theme.routeNSR;
+            strokeW    = '2.0';
+            opacity    = '0.85';
+          } else if (cat === 'cabotage' || cat === 'intl') {
+            routeColor = theme.routeSea;
+            strokeW    = (cat === 'intl') ? '2.2' : '2.0';
+            opacity    = '0.90';
+          } else if (cat === 'rail') {
+            routeColor = theme.routeLand;
+            strokeW    = '1.5';
+            opacity    = '0.75';
+          } else if (cat === 'road') {
+            routeColor = theme.routeLand;
+            strokeW    = '1.3';
+            opacity    = '0.65';
+          } else {
+            routeColor = (route.type === 'land') ? theme.routeLand : theme.routeSea;
+            strokeW    = (route.type === 'land') ? '1.5' : '2.2';
+            opacity    = (route.type === 'land') ? '0.75' : '0.90';
+          }
 
-        /* CSS class determines dash-array + animation.
-           NSR gets its own class for a distinct dash-dot pattern. */
-        var cssType = (route.type === 'land') ? 'land' : 'sea';
-        if (cat === 'nsr') { cssType = 'nsr'; }
+          /* CSS class determines dash-array + animation.
+             NSR gets its own class for a distinct dash-dot pattern. */
+          var cssType = (route.type === 'land') ? 'land' : 'sea';
+          if (cat === 'nsr') { cssType = 'nsr'; }
 
-        /* mobile: false → hide on small screens via CSS media query */
-        var isMobileHide = (route.mobile === false);
+          /* mobile: false → hide on small screens via CSS media query */
+          var isMobileHide = (route.mobile === false);
 
-        /* Animated visible route line. */
-        var pathEl = el('path', {
-          d: d,
-          style: 'fill:none;stroke:' + routeColor +
-                 ';stroke-width:' + strokeW +
-                 ';stroke-opacity:' + opacity +
-                 ';stroke-linecap:round;stroke-linejoin:round',
-          'class': 'svg-map-route svg-map-route--' + cssType +
-                   (isMobileHide ? ' svg-map-minor' : ''),
-          'data-route-id': route.id
+          /* Animated visible route line. */
+          var pathEl = el('path', {
+            d: d,
+            style: 'fill:none;stroke:' + routeColor +
+                   ';stroke-width:' + strokeW +
+                   ';stroke-opacity:' + opacity +
+                   ';stroke-linecap:round;stroke-linejoin:round',
+            'class': 'svg-map-route svg-map-route--' + cssType +
+                     (isMobileHide ? ' svg-map-minor' : ''),
+            'data-route-id': route.id
+          });
+          if (ROUTE_DELAYS[route.id]) {
+            pathEl.style.animationDelay = ROUTE_DELAYS[route.id];
+          }
+          targetG.appendChild(pathEl);
+
+          /* Invisible wide hit area for easy mouse/touch hover. */
+          var hitEl = el('path', {
+            d: d,
+            style: 'fill:none;stroke:transparent;stroke-width:14;stroke-linecap:round;stroke-linejoin:round',
+            'class': 'svg-map-route-hit' + (isMobileHide ? ' svg-map-minor' : ''),
+            'data-route-id':    route.id,
+            'data-route-label': route.label || '',
+            'data-route-desc':  route.desc  || '',
+            'data-route-type':  route.type
+          });
+          targetG.appendChild(hitEl);
         });
-        if (FLOW_DELAYS[route.id]) {
-          pathEl.style.animationDelay = FLOW_DELAYS[route.id];
-        }
-        routesG.appendChild(pathEl);
+      }
 
-        /* Invisible wide hit area for easy mouse/touch hover.
-           Increase stroke-width to widen the interactive zone.
-           pointer-events:stroke means only the stroke area triggers events. */
-        var hitEl = el('path', {
-          d: d,
-          style: 'fill:none;stroke:transparent;stroke-width:14;stroke-linecap:round;stroke-linejoin:round',
-          'class': 'svg-map-route-hit' + (isMobileHide ? ' svg-map-minor' : ''),
-          'data-route-id':    route.id,
-          'data-route-label': route.label || '',
-          'data-route-desc':  route.desc  || '',
-          'data-route-type':  route.type
-        });
-        routesG.appendChild(hitEl);
-      });
+      renderRouteList(SEA_ROUTES, seaRoutesG);
+      renderRouteList(LAND_ROUTES, landRoutesG);
 
       vpGroup.appendChild(routesG);
 
@@ -933,8 +947,9 @@
              We preserve the original dot fill colour and only add a stronger glow
              so hub nodes remain visually distinct from regular city nodes. */
           var routeDef = null;
-          for (var ri = 0; ri < FLOW_ROUTES.length; ri++) {
-            if (FLOW_ROUTES[ri].id === routeId) { routeDef = FLOW_ROUTES[ri]; break; }
+          var routes = allRoutes();
+          for (var ri = 0; ri < routes.length; ri++) {
+            if (routes[ri].id === routeId) { routeDef = routes[ri]; break; }
           }
           if (routeDef) {
             routeDef.waypoints.forEach(function (wp) {
