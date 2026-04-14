@@ -411,6 +411,28 @@
      To adjust a sea route's path: edit or insert {lat, lon} guide points.
      To adjust a land route corridor: reorder or add city-name stops. */
 
+  /* ╔══════════════════════════════════════════════════════════════════════╗
+     ║  ROUTE INVENTORY — 9 routes total (6 sea + 3 land)                  ║
+     ║                                                                      ║
+     ║  SEA_ROUTES (6):                                                     ║
+     ║    1. intl-sea      — Intl sea corridor (Новороссийск → Владивосток) ║
+     ║    2. nsm-route     — Northern Sea Route / СМП (Мурманск → Влад.)   ║
+     ║    3. baltic-sea    — Baltic corridor (СПб → Калининград)            ║
+     ║    4. cab-sakhalin  — Cabotage (Владивосток → Сахалин)              ║
+     ║    5. cab-kamchatka — Cabotage (Владивосток → Петропавловск-К.)     ║
+     ║    6. cab-magadan   — Cabotage (Владивосток → Магадан)              ║
+     ║                                                                      ║
+     ║  LAND_ROUTES (3):                                                    ║
+     ║    7. trans-sib     — Trans-Siberian Railway (Владивосток → Мурм.)  ║
+     ║    8. south-ru      — Southern road corridor (Влад. → Новороссийск) ║
+     ║    9. north-yakutsk — Northern delivery (Хабаровск → Магадан)       ║
+     ║                                                                      ║
+     ║  ROUTE_DELAYS: animation timing offsets for all 9 routes.            ║
+     ║                                                                      ║
+     ║  STATUS: Routes restored from git history. Geometry corrections      ║
+     ║  pending — see per-route CORRECTION NEEDED comments below.           ║
+     ╚══════════════════════════════════════════════════════════════════════╝ */
+
   /* Sea routes — international, cabotage, NSR. */
   var SEA_ROUTES = [
     /* ══════════════════════════════════════════════════════════════════
@@ -418,6 +440,12 @@
        Новороссийск → Босфор → Суэцкий канал → Индия → Малаккский пролив
        → Южно-Китайское море → Китай → Корейский пролив → Япония
        → пролив Цугару → Японское море → Владивосток
+
+       CORRECTION NEEDED: likely correct — detailed sea waypoints stay
+       in open water through Bosphorus, Suez, Arabian Sea, Malacca,
+       SCS, and Japan straits. Minor review: some Chinese-port zigzag
+       (Гуанчжоу → Шэньчжэнь → Сямэнь → Нинбо → Шанхай → Циндао →
+       Далянь → Тяньцзинь) may cut across land.
        ══════════════════════════════════════════════════════════════════ */
     {
       id: 'intl-sea',
@@ -484,18 +512,23 @@
         { lat: 43.0, lon: 134.5 },  /* Японское море — Приморье               */
         'Владивосток'
       ]
-    },,
+    },
     /* ══════════════════════════════════════════════════════════════════
        Route E — Северный морской путь / NSR  (category: nsr)
        Мурманск → Архангельск → Сабетта → Дудинка → Тикси
        → Певек → Провидения → Анадырь → Магадан → Владивосток
 
-       REBUILT FROM SCRATCH — all waypoints verified against coastlines:
+       Previously rebuilt with coastline-verified waypoints:
        • Kara Gates passage (70.4°N) avoids Novaya Zemlya
        • Taymyr rounded well north of Cape Chelyuskin (78°N)
        • North of New Siberian Islands (76°N)
        • Okhotsk Sea return stays east of Sakhalin
        • La Perouse Strait at 45.7°N between Sakhalin and Hokkaido
+
+       CORRECTION NEEDED: likely correct — most detailed route (~60
+       waypoints), carefully follows Arctic coastline. Verify Bering Sea
+       segment (Anadyr → Magadan) does not cross Kamchatka peninsula.
+       Check lat/lon 180° wrap near Provideniya/Bering Strait area.
        ══════════════════════════════════════════════════════════════════ */
     {
       id: 'nsm-route',
@@ -610,10 +643,14 @@
         { lat: 43.0, lon: 133.0 },    /* approaching Vladivostok               */
         'Владивосток'
       ]
-    },,
+    },
     /* ══════════════════════════════════════════════════════════════════
        Route F — Baltic Sea  (category: intl)
        Санкт-Петербург → Gulf of Finland → Baltic → Калининград
+
+       CORRECTION NEEDED: likely correct — short route with only 4
+       sea waypoints; stays in the Gulf of Finland and Baltic Sea.
+       Verify the path does not clip Estonia or Latvia coastline.
        ══════════════════════════════════════════════════════════════════ */
     {
       id: 'baltic-sea',
@@ -630,12 +667,15 @@
         'Калининград'
       ]
     },
-,
     /* ══════════════════════════════════════════════════════════════════
        Route G — Cabotage: Владивосток → Сахалин  (category: cabotage)
        Sea of Japan → Tatar Strait (mid-channel) → Sakhalin west coast.
        Tatar Strait width: ~250 km at 47°N, ~100 km at 50°N.
        Waypoints stay mid-channel at every degree of latitude.
+
+       CORRECTION NEEDED: likely correct — 8 sea waypoints follow Tatar
+       Strait mid-channel. Verify final approach to Сахалин node; the
+       route should end at Южно-Сахалинск/Корсаков if a named port exists.
        ══════════════════════════════════════════════════════════════════ */
     {
       id: 'cab-sakhalin',
@@ -657,13 +697,17 @@
         'Сахалин'
       ]
     },
-,
     /* ══════════════════════════════════════════════════════════════════
        Route H — Cabotage: Владивосток → Петропавловск-Камчатский
        (category: cabotage)
        Sea of Japan → La Perouse Strait → Okhotsk Sea →
        south of Kamchatka (Cape Lopatka 50.88°N) → Pacific coast.
        Route stays west of Kuril chain inside Okhotsk Sea.
+
+       CORRECTION NEEDED: likely correct — route goes through La Perouse
+       Strait then stays inside Okhotsk Sea west of Kurils. Rounds Cape
+       Lopatka at 50.5°N before heading up Pacific coast to Petropavlovsk.
+       Verify the La Perouse→Okhotsk transition doesn't clip Hokkaido.
        ══════════════════════════════════════════════════════════════════ */
     {
       id: 'cab-kamchatka',
@@ -688,11 +732,16 @@
         { lat: 52.5, lon: 158.7 },    /* approaching Petropavlovsk             */
         'Петропавловск-Камчатский'
       ]
-    },,
+    },
     /* ══════════════════════════════════════════════════════════════════
        Route I — Cabotage: Владивосток → Магадан  (category: cabotage)
        Sea of Japan → La Perouse Strait → Okhotsk Sea → Magadan.
        Route stays inside Okhotsk Sea, west of Kuril chain.
+
+       CORRECTION NEEDED: likely correct — shares La Perouse entry with
+       cab-kamchatka, then heads north through Okhotsk Sea to Magadan.
+       Verify the northern Okhotsk waypoints don't clip Shantar Islands
+       or Sakhalin's northeast coast.
        ══════════════════════════════════════════════════════════════════ */
     {
       id: 'cab-magadan',
@@ -723,6 +772,12 @@
     /* ══════════════════════════════════════════════════════════════════
        Route B — Trans-Siberian Railway  (category: rail)
        Владивосток → Хабаровск → Чита → Иркутск → Москва → СПб → Мурманск
+
+       CORRECTION NEEDED: mixed/needs review — follows real Trans-Sib
+       corridor with named city stops, but intermediate {lat,lon} guide
+       points may not match actual rail alignment (especially the BAM
+       section Хабаровск→Чита and Пермь→Москва approach). Land route
+       should follow real rail/road corridors, not straight interpolation.
        ══════════════════════════════════════════════════════════════════ */
     {
       id: 'trans-sib',
@@ -766,11 +821,17 @@
         { lat: 65.5, lon: 33.0 },
         'Мурманск'
       ]
-    },,
+    },
     /* ══════════════════════════════════════════════════════════════════
        Route C — Southern Russia road corridor  (category: road)
        Владивосток → Хабаровск → Чита → Москва → Ростов → Новороссийск
        M58, M55, M7, M4 federal highways
+
+       CORRECTION NEEDED: mixed/needs review — follows named cities on
+       real federal highways, but intermediate guide points are sparse.
+       The Москва→Воронеж→Волгоград→Ростов section could cut across
+       Ukraine depending on how the spline interpolates. Verify all
+       intermediate segments stay within Russian territory.
        ══════════════════════════════════════════════════════════════════ */
     {
       id: 'south-ru',
@@ -811,10 +872,16 @@
         { lat: 45.5, lon: 38.5 },
         'Новороссийск'
       ]
-    },,
+    },
     /* ══════════════════════════════════════════════════════════════════
        Route D — Northern land delivery  (category: road)
        Хабаровск → Якутск → Магадан  (A360 Lena + R504 Kolyma)
+
+       CORRECTION NEEDED: mixed/needs review — follows A360 Lena Highway
+       and R504 Kolyma Highway via Якутск. Guide points trace the general
+       corridor but may not match actual road bends (especially the R504
+       section Якутск→Магадан, which has a significant northward dogleg
+       through Хандыга and Сусуман). Land route should follow real roads.
        ══════════════════════════════════════════════════════════════════ */
     {
       id: 'north-yakutsk',
