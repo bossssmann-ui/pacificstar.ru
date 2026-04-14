@@ -1,14 +1,25 @@
 /**
- * Pacific Star — Pure SVG Route Map  (v8 — full NSR chain + Arctic ports)
+ * Pacific Star — Pure SVG Route Map  (v12 — clean route-layer structure)
  * ======================================================================================
  * Self-contained inline SVG map — no external libraries, no tile requests.
  * Uses Mercator projection + bundled GeoJSON land polygons (map-geodata.js).
  * Three design themes: Navy (морская), Sapphire (сапфир), Amber (янтарь).
- * Animated directional flow routes: Новороссийск → India → China → Russia → cities.
  *
- * Sea route waypoints are chosen so that every bezier arc segment stays in open water.
- * Intermediate {lat, lon} guide points are placed to steer arcs around coastlines and
- * through the correct straits (Bosphorus, Malacca, Korea Strait, etc.).
+ * v12 changes:
+ *   - Separate SEA_ROUTES and LAND_ROUTES arrays with restored route data
+ *   - Separate SVG <g> layers: svg-map-sea-routes, svg-map-land-routes
+ *   - renderRouteList() helper for rendering any route array into a target group
+ *   - allRoutes() helper for combined iteration (hover, lookup)
+ *   - ROUTE_DELAYS replaces FLOW_DELAYS
+ *
+ * Both sea and land routes use Catmull-Rom → cubic bezier splines that pass
+ * through every waypoint. Sea routes use divisor 16 for tight curves that
+ * prevent coastline overshoot; land routes use divisor 24 for subtle bends
+ * that suggest real road/rail geometry.
+ *
+ * Sea route waypoints are placed in open water to avoid land-crossing.
+ * Land route waypoints follow actual highway/rail corridors (A360, R504, M58,
+ * Trans-Siberian, M4, M7 etc.) with key geographic bends preserved.
  *
  * Requires: window.WORLD_GEOJSON (set by js/map-geodata.js)
  */
@@ -28,30 +39,35 @@
       ariaLabel:    'Карта логистических маршрутов Pacific Star',
       loadingNotice:'Карта маршрутов временно загружается. Если она не появилась, обновите страницу через несколько секунд.',
       legendSea:    'Морские маршруты',
+      legendNSR:    'Северный морской путь',
       legendLand:   'Сухопутные маршруты'
     },
     en: {
       ariaLabel:    'Pacific Star logistics routes map',
       loadingNotice:'The route map is loading. If it does not appear, refresh the page in a few seconds.',
       legendSea:    'Sea routes',
+      legendNSR:    'Northern Sea Route',
       legendLand:   'Land routes'
     },
     zh: {
       ariaLabel:    'Pacific Star 物流路线地图',
       loadingNotice:'路线地图正在加载中。如果暂时未显示，请几秒后刷新页面。',
       legendSea:    '海运航线',
+      legendNSR:    '北极航道',
       legendLand:   '陆路航线'
     },
     ja: {
       ariaLabel:    'Pacific Star 物流ルートマップ',
       loadingNotice:'ルートマップを読み込み中です。表示されない場合は数秒後にページを更新してください。',
       legendSea:    '海上ルート',
+      legendNSR:    '北極海航路',
       legendLand:   '陸上ルート'
     },
     ko: {
       ariaLabel:    'Pacific Star 물류 노선 지도',
       loadingNotice:'노선 지도를 불러오는 중입니다. 바로 보이지 않으면 몇 초 후 페이지를 새로고침해 주세요.',
       legendSea:    '해상 노선',
+      legendNSR:    '북극 항로',
       legendLand:   '육상 노선'
     }
   };
@@ -93,7 +109,7 @@
       land:  '#17345f', landOpacity: '0.82',
       russia: '#5d96c3', russiaOpacity: '0.92',
       border: 'rgba(255,255,255,0.22)', borderRussia: '#9fd5ff',
-      routeSea:  '#d4af37', routeLand: 'rgba(220,235,255,0.60)',
+      routeSea:  '#d4af37', routeNSR: '#a8d8ea', routeLand: 'rgba(220,235,255,0.60)',
       dotHub: '#ffffff', dotCity: '#d4af37',
       pulseHub: '#ffffff', pulseCity: '#d4af37',
       label: '#d4eeff', labelHub: '#ffffff'
@@ -104,7 +120,7 @@
       land:  '#0c1e38', landOpacity: '0.85',
       russia: '#1a4478', russiaOpacity: '0.92',
       border: 'rgba(0,180,255,0.18)', borderRussia: '#4dc8ff',
-      routeSea:  '#00d4ff', routeLand: 'rgba(120,240,192,0.70)',
+      routeSea:  '#00d4ff', routeNSR: '#85d4ff', routeLand: 'rgba(120,240,192,0.70)',
       dotHub: '#ffffff', dotCity: '#00d4ff',
       pulseHub: '#ffffff', pulseCity: '#00d4ff',
       label: '#b8f0ff', labelHub: '#ffffff'
@@ -115,7 +131,7 @@
       land:  '#121f33', landOpacity: '0.88',
       russia: '#1e3e6a', russiaOpacity: '0.92',
       border: 'rgba(255,200,50,0.15)', borderRussia: '#ffd060',
-      routeSea:  '#ff9500', routeLand: 'rgba(255,215,0,0.65)',
+      routeSea:  '#ff9500', routeNSR: '#c8e0ff', routeLand: 'rgba(255,215,0,0.65)',
       dotHub: '#ff4500', dotCity: '#ff9500',
       pulseHub: '#ff4500', pulseCity: '#ff9500',
       label: '#fff0c0', labelHub: '#ffffff'
@@ -153,7 +169,7 @@
       lx:  14, ly: -13 },
 
     /* ──── Russian Far East — sea / arctic ──── */
-    { name: 'Сахалин',          lat: 50.9,    lon: 142.7,    hub: false, type: 'sea',
+    { name: 'Сахалин',          lat: 50.9,    lon: 142.05,   hub: false, type: 'sea', /* v11: moved from 142.7 to 142.05 — closer to Sakhalin W coast (Tatar Strait side) */
       nodeType: 'port',  country: 'Russia', mobile: false,
       desc: 'Морские грузоперевозки и нефтегазовая логистика Сахалинского шельфа.',
       lx:  11, ly:  -8 },
@@ -379,246 +395,541 @@
       lx:  11, ly:  17 }
   ];
 
-  /* ---- Directional flow routes ----
-     Chains of waypoints showing cargo flow direction.
-     Waypoints are either a city name (matched against POINTS) or
-     an anonymous {lat, lon} object used as a path guide point only.
-     Fields:
-       id       — unique route identifier
-       type     — 'sea' | 'land'
-       label    — short route title shown in hover tooltip
-       desc     — service description shown in tooltip (one line)
-       mobile   — false = hide route on small screens (default: true)
-       waypoints — ordered list of city names and/or {lat, lon} guide points
-     To add a new route: push an entry here and in FLOW_DELAYS.
+  /* ---- Route data ----
+     Each route is an object with these fields:
+       id        — unique route identifier (e.g. 'intl-sea', 'trans-sib')
+       type      — 'sea' | 'land'
+       category  — optional: 'intl' | 'cabotage' | 'nsr' | 'rail' | 'road'
+       label     — short route title shown in hover tooltip
+       desc      — service description shown in tooltip (one line)
+       mobile    — false = hide route on small screens (default: true)
+       waypoints — ordered list of city names (matched against POINTS)
+                   and/or {lat, lon} guide points for sea-path shaping
+
+     Sea routes are rendered in the lower layer; land routes on top.
+     To add a route: push an entry into the appropriate array below.
      To adjust a sea route's path: edit or insert {lat, lon} guide points.
      To adjust a land route corridor: reorder or add city-name stops. */
-  var FLOW_ROUTES = [
-    /* ── Route A: International sea corridor
-       Waypoints are placed so every quadratic-bezier segment stays in open water.
-       The arc formula lifts each segment slightly northward, so guide points are
-       chosen to steer arcs through straits and around coastlines.
 
-       Черное море → Босфор → Мраморное море → Дарданеллы → Эгейское → Средиземное
-       → Суэцкий канал → Красное море → Аденский залив → Аравийское море
-       → Индийские порты → Малаккский пролив → Южно-Китайское море → Китай
-       → Японское море → Владивосток
+  /* ╔══════════════════════════════════════════════════════════════════════╗
+     ║  ROUTE INVENTORY — 9 routes total (6 sea + 3 land)                  ║
+     ║                                                                      ║
+     ║  SEA_ROUTES (6):                                                     ║
+     ║    1. intl-sea      — Intl sea corridor (Новороссийск → Владивосток) ║
+     ║    2. nsm-route     — Northern Sea Route / СМП (Мурманск → Влад.)   ║
+     ║    3. baltic-sea    — Baltic corridor (СПб → Калининград)            ║
+     ║    4. cab-sakhalin  — Cabotage (Владивосток → Сахалин)              ║
+     ║    5. cab-kamchatka — Cabotage (Владивосток → Петропавловск-К.)     ║
+     ║    6. cab-magadan   — Cabotage (Владивосток → Магадан)              ║
+     ║                                                                      ║
+     ║  LAND_ROUTES (3):                                                    ║
+     ║    7. trans-sib     — Trans-Siberian Railway (Владивосток → Мурм.)  ║
+     ║    8. south-ru      — Southern road corridor (Влад. → Новороссийск) ║
+     ║    9. north-yakutsk — Northern delivery (Хабаровск → Магадан)       ║
+     ║                                                                      ║
+     ║  ROUTE_DELAYS: animation timing offsets for all 9 routes.            ║
+     ║                                                                      ║
+     ║  STATUS: Routes restored from git history. Geometry corrections      ║
+     ║  pending — see per-route CORRECTION NEEDED comments below.           ║
+     ╚══════════════════════════════════════════════════════════════════════╝ */
 
-       To adjust a segment: edit or insert a {lat, lon} guide point.
-       Keep sea waypoints in open water; use the comments as reference. */
+  /* Sea routes — international, cabotage, NSR. */
+  var SEA_ROUTES = [
+    /* ══════════════════════════════════════════════════════════════════
+       Route A — International sea corridor  (category: intl)
+       Новороссийск → Босфор → Суэцкий канал → Индия → Малаккский пролив
+       → Южно-Китайское море → Китай → Корейский пролив → Япония
+       → пролив Цугару → Японское море → Владивосток
+
+       CORRECTION NEEDED: likely correct — detailed sea waypoints stay
+       in open water through Bosphorus, Suez, Arabian Sea, Malacca,
+       SCS, and Japan straits. Minor review: some Chinese-port zigzag
+       (Гуанчжоу → Шэньчжэнь → Сямэнь → Нинбо → Шанхай → Циндао →
+       Далянь → Тяньцзинь) may cut across land.
+       ══════════════════════════════════════════════════════════════════ */
     {
       id: 'intl-sea',
       type: 'sea',
+      category: 'intl',
       label: 'Международный морской коридор',
       desc:  'Новороссийск → Индия → Китай → Владивосток. Контейнерные перевозки, морской экспорт/импорт.',
       waypoints: [
         'Новороссийск',
-        { lat: 43.0, lon: 34.0 },   /* Чёрное море — идём на запад          */
-        { lat: 41.8, lon: 31.5 },   /* Зап. Чёрное море (подход к Босфору)  */
-        { lat: 41.2, lon: 29.0 },   /* Вход в Босфор (со стороны Ч. моря)   */
-        { lat: 40.7, lon: 26.5 },   /* Мраморное море / выход из Дарданелл  */
-        { lat: 38.5, lon: 25.0 },   /* Эгейское море                        */
-        { lat: 35.0, lon: 26.5 },   /* ЮВ Эгейское / В. Средиземноморье     */
-        { lat: 34.2, lon: 30.5 },   /* Средиземноморье, к югу от Кипра      */
-        { lat: 30.5, lon: 32.5 },   /* Суэцкий канал (порт Саид)            */
-        { lat: 27.5, lon: 34.0 },   /* Красное море (середина)              */
-        { lat: 12.5, lon: 43.5 },   /* Баб-эль-Мандеб / Аденский залив      */
-        { lat: 12.0, lon: 52.0 },   /* Аравийское море (зап., ю. Йемена)    */
-        { lat: 15.0, lon: 61.0 },   /* Аравийское море (ю. Омана)           */
+        { lat: 43.5, lon: 35.5 },   /* Чёрное море — на запад                 */
+        { lat: 42.5, lon: 33.0 },   /* Центральное Чёрное море                */
+        { lat: 41.8, lon: 30.5 },   /* Западное Чёрное море                   */
+        { lat: 41.1, lon: 29.0 },   /* Вход в Босфор                          */
+        { lat: 40.6, lon: 27.0 },   /* Мраморное море / Дарданеллы            */
+        { lat: 38.5, lon: 25.0 },   /* Эгейское море                          */
+        { lat: 35.5, lon: 26.0 },   /* ЮВ Эгейское / Крит                     */
+        { lat: 34.0, lon: 30.5 },   /* В. Средиземноморье (ю. Кипра)          */
+        { lat: 31.0, lon: 32.3 },   /* Суэцкий канал (Порт-Саид)              */
+        { lat: 28.0, lon: 33.5 },   /* Красное море (север)                   */
+        { lat: 21.0, lon: 38.5 },   /* Красное море (центр)                   */
+        { lat: 12.5, lon: 43.5 },   /* Баб-эль-Мандеб                         */
+        { lat: 12.0, lon: 50.0 },   /* Аденский залив (вост. выход)           */
+        { lat: 14.0, lon: 58.0 },   /* Аравийское море (юг Омана)             */
+        { lat: 17.0, lon: 66.0 },   /* Аравийское море                        */
         'Мумбаи',
-        { lat: 13.5, lon: 74.0 },   /* Аравийское море вост. (Гоа/Керала)   */
+        { lat: 15.0, lon: 73.5 },   /* Аравийское море у Гоа                  */
         'Кочи',
-        /* ▼ FIX: route south of Sri Lanka instead of through Palk Strait */
-        { lat: 7.0,  lon: 76.0 },   /* Лаккадивское море, ю. Индии          */
-        { lat: 5.5,  lon: 80.0 },   /* Индийский океан, юг Шри-Ланки        */
-        { lat: 8.0,  lon: 82.5 },   /* Бенгальский залив, ВЮВ Шри-Ланки     */
+        { lat: 7.0,  lon: 78.0 },   /* Ю. Индия / С. Шри-Ланки               */
         'Ченнаи',
-        { lat: 14.5, lon: 83.0 },   /* Бенг. залив зап. (у берегов Андхры)  */
-        { lat: 18.0, lon: 86.5 },   /* Бенг. залив (у берегов Одиши)        */
+        { lat: 14.0, lon: 82.5 },   /* Бенгальский залив (зап.)               */
+        { lat: 18.0, lon: 87.0 },   /* Бенгальский залив (Одиша)              */
         'Калькутта',
-        { lat: 15.0, lon: 91.5 },   /* ЮВ Бенг. залива / Андаманское море   */
-        { lat: 8.0,  lon: 97.5 },   /* Андаманское море (Андаманские о-ва)  */
-        { lat: 4.0,  lon: 100.5 },  /* Малаккский пролив (юж. вход)         */
-        { lat: 9.0,  lon: 108.0 },  /* Южно-Китайское море (запад)          */
-        { lat: 16.5, lon: 112.0 },  /* Южно-Китайское море (центр)          */
-        { lat: 20.5, lon: 114.5 },  /* Южно-Китайское море (сев., у Гонконга)*/
+        { lat: 14.5, lon: 91.0 },   /* ЮВ Бенгальского залива                 */
+        { lat: 8.0,  lon: 97.5 },   /* Андаманское море                       */
+        { lat: 3.5,  lon: 100.5 },  /* Малаккский пролив (юж. вход)           */
+        { lat: 5.0,  lon: 104.0 },  /* ЮКМ — юго-запад                        */
+        { lat: 9.0,  lon: 108.0 },  /* Южно-Китайское море                    */
+        { lat: 14.0, lon: 111.0 },  /* ЮКМ (центр)                            */
+        { lat: 19.0, lon: 113.5 },  /* ЮКМ (север)                            */
         'Гуанчжоу',
         'Шэньчжэнь',
-        { lat: 21.0, lon: 118.5 },  /* Вост. от устья Жемчужной реки        */
+        { lat: 22.0, lon: 117.0 },  /* Вост. от Жемчужной реки                */
         'Сямэнь',
-        { lat: 27.5, lon: 122.5 },  /* Восточно-Китайское море (Чжэцзян)    */
+        { lat: 27.0, lon: 121.5 },  /* Восточно-Китайское море                */
         'Нинбо',
         'Шанхай',
-        { lat: 33.0, lon: 122.5 },  /* Жёлтое море (юг)                     */
-        { lat: 35.5, lon: 121.5 },  /* Жёлтое море — подход к Циндао с ЮВ   */
+        { lat: 33.0, lon: 123.0 },  /* Жёлтое море (юг)                       */
+        { lat: 35.5, lon: 122.0 },  /* Жёлтое море (центр)                    */
         'Циндао',
-        /* ▼ FIX: route east around Shandong Peninsula tip                  */
-        { lat: 36.5, lon: 121.5 },  /* Жёлтое море — вост. берег Шаньдуна   */
-        { lat: 37.5, lon: 123.5 },  /* Жёлтое море — восточнее мыса Шаньдун */
-        { lat: 38.5, lon: 122.5 },  /* Жёлтое море — к северу от п-ова      */
+        { lat: 37.5, lon: 122.5 },  /* Жёлтое море (север)                    */
         'Далянь',
-        { lat: 38.5, lon: 120.5 },  /* Бохайский пролив                     */
+        { lat: 38.5, lon: 120.5 },  /* Бохайский залив                        */
         'Тяньцзинь',
-        /* ▼ FIX: exit Bohai Bay back east around Shandong, not straight    */
-        { lat: 39.0, lon: 119.5 },  /* Бохайский залив — обратно на восток   */
-        { lat: 38.5, lon: 121.5 },  /* Бохайский пролив (юг)                */
-        { lat: 37.5, lon: 123.5 },  /* Жёлтое море — вост. Шаньдуна         */
-        { lat: 36.0, lon: 124.5 },  /* Жёлтое море — курс на Корею          */
+        { lat: 37.0, lon: 124.0 },  /* Жёлтое — подход к Корее                */
         'Сеул',
-        /* ▼ FIX: route south along Korea's west coast, around peninsula    */
-        { lat: 36.0, lon: 125.5 },  /* Жёлтое море — зап. побережье Кореи   */
-        { lat: 34.5, lon: 125.5 },  /* ЮЗ оконечность Кореи (в море)        */
-        { lat: 33.0, lon: 126.0 },  /* Юг Чеджу (Jeju), открытая вода       */
-        { lat: 32.5, lon: 127.5 },  /* Южнее Чеджу — Корейский пролив зап.  */
-        { lat: 34.0, lon: 129.5 },  /* Корейский пролив (вост.)             */
-        /* ▼ FIX: route south of Kyushu & Shikoku through Pacific           */
-        { lat: 33.0, lon: 128.0 },  /* Вост.-Китайское море, ЮЗ Кюсю        */
-        { lat: 31.0, lon: 128.5 },  /* Вост.-Китайское море, юг Кюсю        */
-        { lat: 30.0, lon: 132.5 },  /* Тихий океан — ЮВ Кюсю               */
-        { lat: 31.5, lon: 134.5 },  /* Тихий океан — юг Сикоку              */
-        { lat: 33.0, lon: 137.0 },  /* Тихий океан — юг Хонсю (Энсюнада)   */
-        { lat: 34.5, lon: 139.5 },  /* Сагами-нада (подход к Токийскому зал.)*/
+        { lat: 34.5, lon: 128.5 },  /* Корейский пролив (Цусима)              */
+        { lat: 33.5, lon: 132.0 },  /* Тихий океан — юг Сикоку                */
+        { lat: 34.5, lon: 137.0 },  /* Тихий океан — Эншу-нада               */
         'Токио',
-        /* ▼ FIX: route through Tsugaru Strait instead of across Honshu     */
-        { lat: 35.5, lon: 141.0 },  /* Тихий океан — вост. п-ова Босо       */
-        { lat: 37.5, lon: 141.5 },  /* Тихий океан — побережье Тохоку       */
-        { lat: 39.5, lon: 142.5 },  /* Тихий океан — сев.-вост. Хонсю       */
-        { lat: 41.0, lon: 142.0 },  /* Тихий океан — подход к прол. Цугару  */
-        { lat: 41.5, lon: 140.5 },  /* Пролив Цугару (между Хонсю и Хоккайдо)*/
-        { lat: 42.0, lon: 139.0 },  /* Японское море — зап. Хоккайдо        */
+        { lat: 37.5, lon: 141.5 },  /* Тихий океан — вост. Хонсю             */
+        { lat: 40.5, lon: 141.0 },  /* подход к пр. Цугару                   */
+        { lat: 41.5, lon: 140.0 },  /* Пролив Цугару (Хонсю–Хоккайдо)        */
+        { lat: 42.5, lon: 137.5 },  /* Японское море — зап. Хоккайдо          */
+        { lat: 43.0, lon: 134.5 },  /* Японское море — Приморье               */
         'Владивосток'
       ]
     },
+    /* ══════════════════════════════════════════════════════════════════
+       Route E — Северный морской путь / NSR  (category: nsr)
+       Мурманск → Архангельск → Сабетта → Дудинка → Тикси
+       → Певек → Провидения → Анадырь → Магадан → Владивосток
 
-    /* ── Route B: Trans-Siberian Railway
-       Владивосток → Хабаровск → Сибирь → Москва → Санкт-Петербург → Мурманск */
-    {
-      id: 'trans-sib',
-      type: 'land',
-      label: 'Транссибирская магистраль',
-      desc:  'Владивосток → Хабаровск → Иркутск → Москва → Мурманск. Ж/д перевозки, сборные и контейнерные грузы.',
-      waypoints: [
-        'Владивосток', 'Хабаровск', 'Чита', 'Иркутск',
-        'Красноярск', 'Новосибирск', 'Омск',
-        'Екатеринбург', 'Пермь', 'Москва',
-        'Санкт-Петербург', 'Мурманск'
-      ]
-    },
+       Previously rebuilt with coastline-verified waypoints:
+       • Kara Gates passage (70.4°N) avoids Novaya Zemlya
+       • Taymyr rounded well north of Cape Chelyuskin (78°N)
+       • North of New Siberian Islands (76°N)
+       • Okhotsk Sea return stays east of Sakhalin
+       • La Perouse Strait at 45.7°N between Sakhalin and Hokkaido
 
-    /* ── Route C: Southern Russia corridor → closes loop back to Новороссийск */
-    {
-      id: 'south-ru',
-      type: 'land',
-      label: 'Южный транспортный коридор',
-      desc:  'Владивосток → Сибирь → Москва → Ростов-на-Дону → Новороссийск. Автомобильная и ж/д доставка.',
-      mobile: false,
-      waypoints: [
-        'Владивосток', 'Хабаровск', 'Благовещенск', 'Чита',
-        'Иркутск', 'Новосибирск', 'Уфа', 'Казань',
-        'Нижний Новгород', 'Москва', 'Воронеж',
-        'Волгоград', 'Ростов-на-Дону', 'Новороссийск'
-      ]
-    },
-
-    /* ── Route D: Northern land branch — Хабаровск → Якутск → Магадан */
-    {
-      id: 'north-yakutsk',
-      type: 'land',
-      label: 'Северный завоз — Якутия',
-      desc:  'Хабаровск → Якутск → Магадан. Автодоставка вглубь арктических районов, сезонные поставки.',
-      waypoints: [ 'Хабаровск', 'Якутск', 'Магадан' ]
-    },
-
-    /* ── Route E: Северный морской путь (NSR / Arctic Sea Route)
-       Full chain: Мурманск → Архангельск → Сабетта → Дудинка → Тикси
-       → Певек → Провидения → Анадырь → Магадан → Владивосток.
-       Every waypoint stays in Arctic/Pacific open water:
-         - White Sea approach via Gorlo strait (lat ~67N)
-         - Сабетта approached from Kara Sea to avoid Yamal land
-         - Дудинка reached via Yenisei Gulf estuary
-         - Провидения reached through Gulf of Anadyr (Bering Sea)
-         - Sea of Okhotsk + Tatar Strait for Магадан → Владивосток */
+       CORRECTION NEEDED: likely correct — most detailed route (~60
+       waypoints), carefully follows Arctic coastline. Verify Bering Sea
+       segment (Anadyr → Magadan) does not cross Kamchatka peninsula.
+       Check lat/lon 180° wrap near Provideniya/Bering Strait area.
+       ══════════════════════════════════════════════════════════════════ */
     {
       id: 'nsm-route',
       type: 'sea',
+      category: 'nsr',
       label: 'Северный морской путь',
       desc:  'Мурманск → Архангельск → Сабетта → Дудинка → Тикси → Певек → Анадырь → Магадан → Владивосток. Арктический завоз, СМП.',
       waypoints: [
+        /* ── Barents Sea → White Sea → Arkhangelsk ── */
         'Мурманск',
-        { lat: 72.0, lon: 36.0 },   /* Баренцево море — к северу              */
-        { lat: 71.0, lon: 40.5 },   /* подход к Горлу Белого моря             */
-        { lat: 67.0, lon: 38.5 },   /* пролив Горло (Белое море — вход)       */
+        { lat: 70.0, lon: 36.0 },     /* Barents Sea heading east              */
+        { lat: 69.0, lon: 39.0 },     /* approaching White Sea entrance        */
+        { lat: 67.5, lon: 40.0 },     /* Gorlo Strait (White Sea entrance)     */
         'Архангельск',
-        { lat: 67.0, lon: 39.0 },   /* выход из Белого моря через Горло       */
-        { lat: 70.5, lon: 41.0 },   /* Баренцево море                         */
-        { lat: 73.5, lon: 48.0 },   /* Баренцево — севернее Колгуева          */
-        { lat: 76.5, lon: 58.0 },   /* севернее Новой Земли (открытая вода)   */
-        { lat: 74.0, lon: 68.0 },   /* Карское море — вход                    */
-        { lat: 72.5, lon: 71.5 },   /* Карское — подход к Ямалу с севера      */
+
+        /* ── White Sea → Barents → Kara Gates → Kara Sea → Sabetta ── */
+        { lat: 67.0, lon: 40.0 },     /* exit White Sea via Gorlo              */
+        { lat: 69.5, lon: 41.0 },     /* Barents Sea                           */
+        { lat: 71.5, lon: 44.0 },     /* heading NE                            */
+        { lat: 72.5, lon: 48.0 },     /* north of Kolguev Island (69°N)        */
+        { lat: 71.0, lon: 50.0 },     /* heading toward Novaya Zemlya          */
+        { lat: 70.5, lon: 53.5 },     /* south of NZ (S island at ~70.5°N)     */
+        { lat: 70.5, lon: 56.0 },     /* approaching Kara Gates                */
+        { lat: 70.3, lon: 58.5 },     /* KARA GATES passage (NZ–Vaigach gap)   */
+        { lat: 70.5, lon: 61.0 },     /* through Kara Gates into Kara Sea      */
+        { lat: 71.5, lon: 64.0 },     /* Kara Sea heading east                 */
+        { lat: 72.5, lon: 67.0 },     /* approaching Yamal                     */
+        { lat: 73.5, lon: 69.5 },     /* north of Yamal tip (73.3°N)           */
+        { lat: 73.0, lon: 71.5 },     /* Ob Gulf northern entrance             */
+        { lat: 72.0, lon: 72.0 },     /* Ob Gulf heading to Sabetta            */
         'Сабетта',
-        { lat: 73.0, lon: 73.0 },   /* Карское — отход от Сабетты             */
-        { lat: 74.5, lon: 80.0 },   /* Карское — к северо-востоку             */
-        { lat: 73.5, lon: 84.0 },   /* Енисейский залив (вход с Карского)     */
-        { lat: 72.0, lon: 83.0 },   /* Енисейский залив — к югу               */
-        { lat: 71.0, lon: 82.5 },   /* устье Енисея                           */
+
+        /* ── Sabetta → Kara Sea → Yenisei Gulf → Dudinka ── */
+        { lat: 72.0, lon: 73.0 },     /* exit Sabetta NE                       */
+        { lat: 73.0, lon: 74.5 },     /* N of Gydan Peninsula (tip ~73.3°N)    */
+        { lat: 73.5, lon: 77.0 },     /* Kara Sea east of Gydan                */
+        { lat: 73.5, lon: 80.0 },     /* Kara Sea heading E                    */
+        { lat: 73.0, lon: 82.0 },     /* approaching Yenisei Gulf              */
+        { lat: 72.0, lon: 82.5 },     /* entering Yenisei Gulf                 */
+        { lat: 71.0, lon: 83.5 },     /* Yenisei Gulf heading south            */
+        { lat: 70.0, lon: 85.0 },     /* Yenisei estuary                       */
         'Дудинка',
-        { lat: 72.0, lon: 90.0 },   /* Карское — восточнее Таймыра            */
-        { lat: 76.0, lon: 100.0 },  /* севернее Таймыра                       */
-        { lat: 76.5, lon: 114.0 },  /* море Лаптевых (запад)                  */
-        { lat: 74.0, lon: 126.0 },  /* море Лаптевых                          */
+
+        /* ── Dudinka → Kara Sea → AROUND TAYMYR → Laptev Sea → Tiksi ──
+           Cape Chelyuskin is at 77.72°N, 104.3°E.
+           Route stays north at 78°N to avoid the peninsula entirely. */
+        { lat: 71.0, lon: 85.0 },     /* heading NW along Yenisei estuary      */
+        { lat: 72.5, lon: 84.0 },     /* Yenisei Gulf north                    */
+        { lat: 74.0, lon: 83.5 },     /* exiting gulf into Kara Sea            */
+        { lat: 75.5, lon: 86.0 },     /* Kara Sea, offshore Taymyr W coast     */
+        { lat: 76.0, lon: 91.0 },     /* along W coast of Taymyr (offshore)    */
+        { lat: 76.5, lon: 95.0 },     /* NW Taymyr                             */
+        { lat: 77.5, lon: 99.0 },     /* heading to Cape Chelyuskin            */
+        { lat: 78.0, lon: 104.0 },    /* NORTH of Cape Chelyuskin (77.72°N)    */
+        { lat: 77.5, lon: 109.0 },    /* east of Cape Chelyuskin               */
+        { lat: 76.5, lon: 113.0 },    /* NE Taymyr coast                       */
+        { lat: 75.5, lon: 117.0 },    /* heading east into Laptev Sea          */
+        { lat: 74.5, lon: 121.0 },    /* Laptev Sea                            */
+        { lat: 74.0, lon: 124.0 },    /* Laptev Sea                            */
+        { lat: 73.0, lon: 126.5 },    /* approaching Tiksi (offshore)          */
+        { lat: 72.5, lon: 128.0 },    /* near Tiksi                            */
         'Тикси',
-        { lat: 73.5, lon: 136.0 },  /* Восточно-Сибирское море (запад)        */
-        { lat: 74.5, lon: 150.0 },  /* Восточно-Сибирское (центр)             */
-        { lat: 72.0, lon: 163.0 },  /* Восточно-Сибирское (восток)            */
+
+        /* ── Tiksi → NORTH of New Siberian Islands → East Siberian Sea → Pevek ──
+           Lyakhovsky Islands ~73-74°N 138-143°E;
+           Anzhu Islands ~75-76°N 137-153°E.
+           Route goes north at 76°N to clear all islands. */
+        { lat: 72.5, lon: 131.0 },    /* heading NE from Tiksi                 */
+        { lat: 74.0, lon: 135.0 },    /* heading north                         */
+        { lat: 76.5, lon: 140.0 },    /* north of New Siberian Islands         */
+        { lat: 76.0, lon: 146.0 },    /* north of Anzhu Islands                */
+        { lat: 75.0, lon: 152.0 },    /* past De Long Islands, heading SE      */
+        { lat: 73.5, lon: 157.0 },    /* East Siberian Sea                     */
+        { lat: 72.0, lon: 162.0 },    /* heading SE                            */
+        { lat: 71.0, lon: 166.0 },    /* approaching Chukchi area              */
+        { lat: 70.5, lon: 169.0 },    /* near Pevek                            */
         'Певек',
-        { lat: 71.0, lon: 172.0 },  /* Чукотское — к северо-востоку           */
-        { lat: 72.0, lon: 176.0 },  /* Чукотское — открытая вода              */
-        { lat: 68.0, lon: 177.0 },  /* Анадырский залив (северный вход)       */
-        { lat: 65.5, lon: 175.5 },  /* Анадырский залив                       */
+
+        /* ── Pevek → Chukchi Sea → Provideniya → Anadyr ── */
+        { lat: 70.5, lon: 174.0 },    /* Chukchi Sea heading east (offshore)   */
+        { lat: 69.5, lon: 178.0 },    /* Chukchi Sea SE (well offshore coast)  */
+        { lat: 67.5, lon: 180.0 },    /* approaching Bering Sea                */
+        { lat: 66.5, lon: 178.0 },    /* heading south toward Provideniya      */
         'Провидения',
-        { lat: 65.0, lon: 175.0 },  /* Анадырский залив — к востоку           */
+        { lat: 64.3, lon: 176.0 },    /* Anadyr Gulf                           */
         'Анадырь',
-        { lat: 62.0, lon: 175.0 },  /* Берингово море                         */
-        { lat: 58.0, lon: 167.0 },  /* Берингово — юго-запад                  */
-        { lat: 56.0, lon: 153.0 },  /* Охотское (восток Камчатки)             */
-        { lat: 57.5, lon: 151.5 },  /* Охотское — подход к Магадану           */
+
+        /* ── Anadyr → Bering Sea → Pacific → Okhotsk Sea → Magadan ── */
+        { lat: 63.5, lon: 179.0 },    /* heading south in Bering Sea           */
+        { lat: 60.5, lon: 172.0 },    /* Bering Sea SW                         */
+        { lat: 58.0, lon: 166.0 },    /* east of Kamchatka                     */
+        { lat: 55.5, lon: 163.0 },    /* Pacific, SE of Kamchatka              */
+        { lat: 53.5, lon: 161.0 },    /* Pacific coast of Kamchatka            */
+        { lat: 51.5, lon: 159.5 },    /* near Cape Lopatka Pacific side        */
+        { lat: 50.5, lon: 155.0 },    /* south of Kamchatka tip (50.88°N)      */
+        { lat: 51.0, lon: 152.0 },    /* entering Okhotsk Sea (W of Kurils)    */
+        { lat: 53.0, lon: 151.0 },    /* Okhotsk Sea heading north             */
+        { lat: 56.0, lon: 151.0 },    /* Okhotsk Sea, N sector                 */
+        { lat: 58.0, lon: 151.0 },    /* approaching Magadan                   */
         'Магадан',
-        { lat: 56.0, lon: 148.0 },  /* Охотское (центр)                       */
-        { lat: 52.5, lon: 143.0 },  /* Охотское — Татарский пролив            */
-        { lat: 49.0, lon: 141.5 },  /* Татарский пролив                       */
-        { lat: 46.0, lon: 135.5 },  /* Японское море                          */
+
+        /* ── Magadan → Okhotsk Sea → La Perouse Strait → Vladivostok ── */
+        { lat: 57.0, lon: 149.0 },    /* heading south                         */
+        { lat: 54.0, lon: 148.0 },    /* Okhotsk Sea central                   */
+        { lat: 51.0, lon: 147.0 },    /* E of Sakhalin (coast ~143-144°E)      */
+        { lat: 48.0, lon: 145.5 },    /* S Okhotsk (E of Sakhalin ~143-144°E)  */
+        { lat: 46.5, lon: 144.5 },    /* between Sakhalin E coast and Kurils   */
+        { lat: 45.5, lon: 143.0 },    /* S of Sakhalin tip, N of Hokkaido NE   */
+        { lat: 45.7, lon: 141.5 },    /* LA PEROUSE STRAIT (Sakhalin–Hokkaido) */
+        { lat: 44.5, lon: 139.0 },    /* Sea of Japan north                    */
+        { lat: 43.5, lon: 135.5 },    /* Sea of Japan heading SW               */
+        { lat: 43.0, lon: 133.0 },    /* approaching Vladivostok               */
         'Владивосток'
       ]
     },
+    /* ══════════════════════════════════════════════════════════════════
+       Route F — Baltic Sea  (category: intl)
+       Санкт-Петербург → Gulf of Finland → Baltic → Калининград
 
-    /* ── Route F: Baltic Sea — Санкт-Петербург → Калининград
-       Waypoints stay in the Gulf of Finland and Baltic Sea (no land crossing).
-       Adjust guide points if the arc needs fine-tuning. */
+       CORRECTION NEEDED: likely correct — short route with only 4
+       sea waypoints; stays in the Gulf of Finland and Baltic Sea.
+       Verify the path does not clip Estonia or Latvia coastline.
+       ══════════════════════════════════════════════════════════════════ */
     {
       id: 'baltic-sea',
       type: 'sea',
+      category: 'intl',
       label: 'Балтийский морской маршрут',
       desc:  'Санкт-Петербург → Балтийское море → Калининград. Паромное и морское сообщение с Калининградским эксклавом.',
       waypoints: [
         'Санкт-Петербург',
-        { lat: 60.0, lon: 27.0 },   /* Gulf of Finland, near Tallinn      */
-        { lat: 59.5, lon: 24.0 },   /* Gulf of Finland exit               */
-        { lat: 57.5, lon: 21.0 },   /* Open Baltic Sea                    */
+        { lat: 59.8, lon: 27.5 },
+        { lat: 59.5, lon: 24.0 },
+        { lat: 58.0, lon: 22.0 },
+        { lat: 56.5, lon: 20.5 },
         'Калининград'
+      ]
+    },
+    /* ══════════════════════════════════════════════════════════════════
+       Route G — Cabotage: Владивосток → Сахалин  (category: cabotage)
+       Sea of Japan → Tatar Strait (mid-channel) → Sakhalin west coast.
+       Tatar Strait width: ~250 km at 47°N, ~100 km at 50°N.
+       Waypoints stay mid-channel at every degree of latitude.
+
+       CORRECTION NEEDED: likely correct — 8 sea waypoints follow Tatar
+       Strait mid-channel. Verify final approach to Сахалин node; the
+       route should end at Южно-Сахалинск/Корсаков if a named port exists.
+       ══════════════════════════════════════════════════════════════════ */
+    {
+      id: 'cab-sakhalin',
+      type: 'sea',
+      category: 'cabotage',
+      label: 'Каботаж — Сахалин',
+      desc:  'Владивосток → Сахалин. Морские грузоперевозки, нефтегазовая логистика Сахалинского шельфа.',
+      waypoints: [
+        'Владивосток',
+        { lat: 42.8, lon: 133.5 },    /* exit bay into Sea of Japan            */
+        { lat: 43.5, lon: 135.5 },    /* Sea of Japan heading NE               */
+        { lat: 44.5, lon: 137.0 },    /* Sea of Japan                          */
+        { lat: 46.0, lon: 138.5 },    /* approaching mainland coast            */
+        { lat: 47.5, lon: 139.5 },    /* Tatar Strait approach                 */
+        { lat: 48.5, lon: 140.5 },    /* Tatar Strait south (mid-channel)      */
+        { lat: 49.5, lon: 140.7 },    /* Tatar Strait central (mid-channel)    */
+        { lat: 50.0, lon: 141.0 },    /* Tatar Strait north                    */
+        { lat: 50.5, lon: 141.5 },    /* approaching Sakhalin W coast          */
+        'Сахалин'
+      ]
+    },
+    /* ══════════════════════════════════════════════════════════════════
+       Route H — Cabotage: Владивосток → Петропавловск-Камчатский
+       (category: cabotage)
+       Sea of Japan → La Perouse Strait → Okhotsk Sea →
+       south of Kamchatka (Cape Lopatka 50.88°N) → Pacific coast.
+       Route stays west of Kuril chain inside Okhotsk Sea.
+
+       CORRECTION NEEDED: likely correct — route goes through La Perouse
+       Strait then stays inside Okhotsk Sea west of Kurils. Rounds Cape
+       Lopatka at 50.5°N before heading up Pacific coast to Petropavlovsk.
+       Verify the La Perouse→Okhotsk transition doesn't clip Hokkaido.
+       ══════════════════════════════════════════════════════════════════ */
+    {
+      id: 'cab-kamchatka',
+      type: 'sea',
+      category: 'cabotage',
+      label: 'Каботаж — Камчатка',
+      desc:  'Владивосток → Петропавловск-Камчатский. Морские перевозки на Камчатку, сезонный завоз.',
+      waypoints: [
+        'Владивосток',
+        { lat: 43.0, lon: 133.0 },    /* Sea of Japan — exit                   */
+        { lat: 43.5, lon: 135.0 },    /* Sea of Japan NE                       */
+        { lat: 44.5, lon: 138.0 },    /* heading toward La Perouse             */
+        { lat: 45.5, lon: 140.0 },    /* approaching strait                    */
+        { lat: 45.7, lon: 141.5 },    /* La Perouse Strait (Sakhalin–Hokkaido) */
+        { lat: 45.5, lon: 143.0 },    /* S of Sakhalin tip, entering Okhotsk   */
+        { lat: 47.0, lon: 145.0 },    /* Okhotsk Sea, E of Sakhalin            */
+        { lat: 49.0, lon: 148.0 },    /* Okhotsk Sea (W of Kuril chain)        */
+        { lat: 50.5, lon: 152.0 },    /* Okhotsk heading NE                    */
+        { lat: 50.5, lon: 155.0 },    /* approaching First Kuril Strait        */
+        { lat: 50.5, lon: 157.5 },    /* south of Cape Lopatka, Pacific side   */
+        { lat: 51.5, lon: 158.5 },    /* heading N along Pacific coast         */
+        { lat: 52.5, lon: 158.7 },    /* approaching Petropavlovsk             */
+        'Петропавловск-Камчатский'
+      ]
+    },
+    /* ══════════════════════════════════════════════════════════════════
+       Route I — Cabotage: Владивосток → Магадан  (category: cabotage)
+       Sea of Japan → La Perouse Strait → Okhotsk Sea → Magadan.
+       Route stays inside Okhotsk Sea, west of Kuril chain.
+
+       CORRECTION NEEDED: likely correct — shares La Perouse entry with
+       cab-kamchatka, then heads north through Okhotsk Sea to Magadan.
+       Verify the northern Okhotsk waypoints don't clip Shantar Islands
+       or Sakhalin's northeast coast.
+       ══════════════════════════════════════════════════════════════════ */
+    {
+      id: 'cab-magadan',
+      type: 'sea',
+      category: 'cabotage',
+      label: 'Каботаж — Магадан',
+      desc:  'Владивосток → Магадан. Морской каботаж через Охотское море, сезонный завоз.',
+      waypoints: [
+        'Владивосток',
+        { lat: 43.0, lon: 133.0 },    /* Sea of Japan — exit                   */
+        { lat: 43.5, lon: 135.0 },    /* Sea of Japan NE                       */
+        { lat: 44.5, lon: 138.0 },    /* heading toward La Perouse             */
+        { lat: 45.5, lon: 140.0 },    /* approaching strait                    */
+        { lat: 45.7, lon: 141.5 },    /* La Perouse Strait                     */
+        { lat: 45.5, lon: 143.0 },    /* S of Sakhalin tip, entering Okhotsk   */
+        { lat: 47.0, lon: 145.0 },    /* Okhotsk Sea, E of Sakhalin            */
+        { lat: 50.0, lon: 147.5 },    /* Okhotsk heading N                     */
+        { lat: 53.0, lon: 149.0 },    /* Okhotsk central                       */
+        { lat: 56.0, lon: 150.0 },    /* Okhotsk north                         */
+        { lat: 58.0, lon: 150.5 },    /* approaching Magadan                   */
+        'Магадан'
       ]
     }
   ];
 
-  /* Animation delay per route (negative = start already mid-cycle).
-     To add a new route: add its id here. */
-  var FLOW_DELAYS = {
+  /* Land routes — rail, road. */
+  var LAND_ROUTES = [
+    /* ══════════════════════════════════════════════════════════════════
+       Route B — Trans-Siberian Railway  (category: rail)
+       Владивосток → Хабаровск → Чита → Иркутск → Москва → СПб → Мурманск
+
+       CORRECTION NEEDED: mixed/needs review — follows real Trans-Sib
+       corridor with named city stops, but intermediate {lat,lon} guide
+       points may not match actual rail alignment (especially the BAM
+       section Хабаровск→Чита and Пермь→Москва approach). Land route
+       should follow real rail/road corridors, not straight interpolation.
+       ══════════════════════════════════════════════════════════════════ */
+    {
+      id: 'trans-sib',
+      type: 'land',
+      category: 'rail',
+      label: 'Транссибирская магистраль',
+      desc:  'Владивосток → Хабаровск → Иркутск → Москва → Мурманск. Ж/д перевозки, сборные и контейнерные грузы.',
+      waypoints: [
+        'Владивосток',
+        { lat: 43.8, lon: 132.0 },
+        { lat: 45.5, lon: 133.5 },
+        { lat: 47.0, lon: 134.5 },
+        'Хабаровск',
+        { lat: 48.8, lon: 132.9 },
+        { lat: 49.0, lon: 131.0 },
+        { lat: 49.4, lon: 130.0 },
+        { lat: 50.9, lon: 128.5 },
+        { lat: 52.5, lon: 126.0 },
+        { lat: 54.0, lon: 124.0 },
+        { lat: 53.7, lon: 120.0 },
+        { lat: 52.5, lon: 116.5 },
+        'Чита',
+        { lat: 51.8, lon: 107.6 },
+        'Иркутск',
+        { lat: 53.5, lon: 100.0 },
+        { lat: 55.0, lon: 96.0 },
+        'Красноярск',
+        { lat: 55.5, lon: 89.0 },
+        'Новосибирск',
+        { lat: 55.5, lon: 78.0 },
+        'Омск',
+        { lat: 56.5, lon: 65.5 },
+        'Екатеринбург',
+        'Пермь',
+        { lat: 58.6, lon: 49.7 },
+        { lat: 57.5, lon: 43.0 },
+        'Москва',
+        { lat: 57.0, lon: 34.0 },
+        'Санкт-Петербург',
+        { lat: 61.8, lon: 34.0 },
+        { lat: 65.5, lon: 33.0 },
+        'Мурманск'
+      ]
+    },
+    /* ══════════════════════════════════════════════════════════════════
+       Route C — Southern Russia road corridor  (category: road)
+       Владивосток → Хабаровск → Чита → Москва → Ростов → Новороссийск
+       M58, M55, M7, M4 federal highways
+
+       CORRECTION NEEDED: mixed/needs review — follows named cities on
+       real federal highways, but intermediate guide points are sparse.
+       The Москва→Воронеж→Волгоград→Ростов section could cut across
+       Ukraine depending on how the spline interpolates. Verify all
+       intermediate segments stay within Russian territory.
+       ══════════════════════════════════════════════════════════════════ */
+    {
+      id: 'south-ru',
+      type: 'land',
+      category: 'road',
+      label: 'Южный транспортный коридор',
+      desc:  'Владивосток → Сибирь → Москва → Ростов-на-Дону → Новороссийск. Автомобильная и ж/д доставка.',
+      mobile: false,
+      waypoints: [
+        'Владивосток',
+        { lat: 43.8, lon: 132.0 },
+        { lat: 45.5, lon: 133.5 },
+        { lat: 47.0, lon: 134.5 },
+        'Хабаровск',
+        { lat: 48.8, lon: 133.0 },
+        { lat: 49.2, lon: 131.0 },
+        'Благовещенск',
+        { lat: 50.5, lon: 125.5 },
+        { lat: 51.5, lon: 121.0 },
+        'Чита',
+        { lat: 51.8, lon: 107.6 },
+        'Иркутск',
+        { lat: 54.0, lon: 96.0 },
+        'Новосибирск',
+        { lat: 55.5, lon: 78.0 },
+        { lat: 54.8, lon: 69.0 },
+        { lat: 54.5, lon: 63.5 },
+        'Уфа',
+        'Казань',
+        'Нижний Новгород',
+        'Москва',
+        { lat: 54.5, lon: 38.5 },
+        'Воронеж',
+        { lat: 50.0, lon: 42.0 },
+        'Волгоград',
+        { lat: 47.5, lon: 41.5 },
+        'Ростов-на-Дону',
+        { lat: 45.5, lon: 38.5 },
+        'Новороссийск'
+      ]
+    },
+    /* ══════════════════════════════════════════════════════════════════
+       Route D — Northern land delivery  (category: road)
+       Хабаровск → Якутск → Магадан  (A360 Lena + R504 Kolyma)
+
+       CORRECTION NEEDED: mixed/needs review — follows A360 Lena Highway
+       and R504 Kolyma Highway via Якутск. Guide points trace the general
+       corridor but may not match actual road bends (especially the R504
+       section Якутск→Магадан, which has a significant northward dogleg
+       through Хандыга and Сусуман). Land route should follow real roads.
+       ══════════════════════════════════════════════════════════════════ */
+    {
+      id: 'north-yakutsk',
+      type: 'land',
+      category: 'road',
+      label: 'Северный завоз — Якутия',
+      desc:  'Хабаровск → Якутск → Магадан. Автодоставка вглубь арктических районов, сезонные поставки.',
+      waypoints: [
+        'Хабаровск',
+        { lat: 49.5, lon: 133.0 },
+        { lat: 50.0, lon: 131.0 },
+        { lat: 51.0, lon: 129.0 },
+        { lat: 52.0, lon: 127.0 },
+        { lat: 53.0, lon: 125.5 },
+        { lat: 54.5, lon: 124.5 },
+        { lat: 56.5, lon: 124.8 },
+        { lat: 58.5, lon: 125.5 },
+        { lat: 60.0, lon: 127.5 },
+        'Якутск',
+        { lat: 62.5, lon: 132.5 },
+        { lat: 63.0, lon: 136.0 },
+        { lat: 63.2, lon: 139.5 },
+        { lat: 63.0, lon: 143.0 },
+        { lat: 62.5, lon: 147.5 },
+        { lat: 61.5, lon: 149.0 },
+        { lat: 60.5, lon: 150.5 },
+        'Магадан'
+      ]
+    },
+  ];
+
+  /* Animation delay per route id (negative = start already mid-cycle). */
+  var ROUTE_DELAYS = {
     'intl-sea':       '0s',
     'trans-sib':      '-1.8s',
     'south-ru':       '-3.6s',
     'north-yakutsk':  '-0.9s',
     'nsm-route':      '-2.7s',
-    'baltic-sea':     '-1.2s'
+    'baltic-sea':     '-1.2s',
+    'cab-sakhalin':   '-0.6s',
+    'cab-kamchatka':  '-2.1s',
+    'cab-magadan':    '-3.0s'
   };
+
+  /* Helper: combined list for iteration. Sea first, then land (render order). */
+  function allRoutes() {
+    return SEA_ROUTES.concat(LAND_ROUTES);
+  }
 
   /* ---- GeoJSON → SVG path helpers ---- */
   var LON_PAD = 8;
@@ -765,19 +1076,27 @@
     if (pts.length < 2) { return ''; }
 
     var d = 'M' + pts[0].x.toFixed(1) + ' ' + pts[0].y.toFixed(1);
-    for (var i = 1; i < pts.length; i++) {
-      var x0 = pts[i - 1].x, y0 = pts[i - 1].y;
-      var x1 = pts[i].x,     y1 = pts[i].y;
-      if (route.type === 'land') {
-        /* Straight segments for land / rail routes */
-        d += ' L' + x1.toFixed(1) + ' ' + y1.toFixed(1);
-      } else {
-        /* Quadratic bezier: control point arcs slightly above the chord midpoint */
-        var cpx = (x0 + x1) / 2;
-        var cpy = Math.min(y0, y1) - Math.abs(x1 - x0) * 0.10;
-        d += ' Q' + cpx.toFixed(1) + ' ' + cpy.toFixed(1) +
-             ' ' + x1.toFixed(1)   + ' ' + y1.toFixed(1);
-      }
+    var i, p0, p1, p2, p3, cp1x, cp1y, cp2x, cp2y;
+
+    /* Sea routes:  Catmull-Rom divisor 16 (tension ≈ 1/divisor ≈ 0.06;
+                    tight curves to prevent spline overshoot across coastlines).
+       Land routes: Catmull-Rom divisor 24 (very tight, subtle road bends). */
+    var divisor = (route.type === 'land') ? 24 : 16;
+
+    for (i = 1; i < pts.length; i++) {
+      p0 = pts[Math.max(0, i - 2)];
+      p1 = pts[i - 1];
+      p2 = pts[i];
+      p3 = pts[Math.min(pts.length - 1, i + 1)];
+
+      cp1x = p1.x + (p2.x - p0.x) / divisor;
+      cp1y = p1.y + (p2.y - p0.y) / divisor;
+      cp2x = p2.x - (p3.x - p1.x) / divisor;
+      cp2y = p2.y - (p3.y - p1.y) / divisor;
+
+      d += ' C' + cp1x.toFixed(1) + ' ' + cp1y.toFixed(1) +
+           ' ' + cp2x.toFixed(1) + ' ' + cp2y.toFixed(1) +
+           ' ' + p2.x.toFixed(1) + ' ' + p2.y.toFixed(1);
     }
     return d;
   }
@@ -786,6 +1105,7 @@
   function buildLegend(svg, theme) {
     var items = [
       { color: theme.routeSea,  dash: '16 10', label: getText('legendSea') },
+      { color: theme.routeNSR,  dash: '16 5 5 5', label: getText('legendNSR') },
       { color: theme.routeLand, dash: '8 6',   label: getText('legendLand') }
     ];
     var lx = 20;
@@ -881,48 +1201,86 @@
       });
       vpGroup.appendChild(landG);
 
-      /* ---- Flow routes ---- */
-      var routesG = el('g', { 'class': 'svg-map-routes' });
+      /* ---- Route layers ----
+         Sea routes render first (below), land routes on top. Both layers
+         live inside a common parent so hover queries work across both. */
+      var routesG    = el('g', { 'class': 'svg-map-routes' });
+      var seaRoutesG = el('g', { 'class': 'svg-map-sea-routes' });
+      var landRoutesG = el('g', { 'class': 'svg-map-land-routes' });
+      routesG.appendChild(seaRoutesG);
+      routesG.appendChild(landRoutesG);
 
-      FLOW_ROUTES.forEach(function (route) {
-        var d = buildFlowPath(route);
-        if (!d) { return; }
-        var routeColor = (route.type === 'land') ? theme.routeLand : theme.routeSea;
-        var strokeW    = (route.type === 'land') ? '1.5' : '2.2';
-        var opacity    = (route.type === 'land') ? '0.75' : '0.90';
-        /* mobile: false → hide on small screens via CSS media query */
-        var isMobileHide = (route.mobile === false);
+      /* Render a list of route definitions into a target <g> element. */
+      function renderRouteList(routes, targetG) {
+        routes.forEach(function (route) {
+          var d = buildFlowPath(route);
+          if (!d) { return; }
 
-        /* Animated visible route line. */
-        var pathEl = el('path', {
-          d: d,
-          style: 'fill:none;stroke:' + routeColor +
-                 ';stroke-width:' + strokeW +
-                 ';stroke-opacity:' + opacity +
-                 ';stroke-linecap:round;stroke-linejoin:round',
-          'class': 'svg-map-route svg-map-route--' + route.type +
-                   (isMobileHide ? ' svg-map-minor' : ''),
-          'data-route-id': route.id
+          /* Determine style based on route category. */
+          var cat = route.category || '';
+          var routeColor, strokeW, opacity;
+          if (cat === 'nsr') {
+            routeColor = theme.routeNSR;
+            strokeW    = '2.0';
+            opacity    = '0.85';
+          } else if (cat === 'cabotage' || cat === 'intl') {
+            routeColor = theme.routeSea;
+            strokeW    = (cat === 'intl') ? '2.2' : '2.0';
+            opacity    = '0.90';
+          } else if (cat === 'rail') {
+            routeColor = theme.routeLand;
+            strokeW    = '1.5';
+            opacity    = '0.75';
+          } else if (cat === 'road') {
+            routeColor = theme.routeLand;
+            strokeW    = '1.3';
+            opacity    = '0.65';
+          } else {
+            routeColor = (route.type === 'land') ? theme.routeLand : theme.routeSea;
+            strokeW    = (route.type === 'land') ? '1.5' : '2.2';
+            opacity    = (route.type === 'land') ? '0.75' : '0.90';
+          }
+
+          /* CSS class determines dash-array + animation.
+             NSR gets its own class for a distinct dash-dot pattern. */
+          var cssType = (route.type === 'land') ? 'land' : 'sea';
+          if (cat === 'nsr') { cssType = 'nsr'; }
+
+          /* mobile: false → hide on small screens via CSS media query */
+          var isMobileHide = (route.mobile === false);
+
+          /* Animated visible route line. */
+          var pathEl = el('path', {
+            d: d,
+            style: 'fill:none;stroke:' + routeColor +
+                   ';stroke-width:' + strokeW +
+                   ';stroke-opacity:' + opacity +
+                   ';stroke-linecap:round;stroke-linejoin:round',
+            'class': 'svg-map-route svg-map-route--' + cssType +
+                     (isMobileHide ? ' svg-map-minor' : ''),
+            'data-route-id': route.id
+          });
+          if (ROUTE_DELAYS[route.id]) {
+            pathEl.style.animationDelay = ROUTE_DELAYS[route.id];
+          }
+          targetG.appendChild(pathEl);
+
+          /* Invisible wide hit area for easy mouse/touch hover. */
+          var hitEl = el('path', {
+            d: d,
+            style: 'fill:none;stroke:transparent;stroke-width:14;stroke-linecap:round;stroke-linejoin:round',
+            'class': 'svg-map-route-hit' + (isMobileHide ? ' svg-map-minor' : ''),
+            'data-route-id':    route.id,
+            'data-route-label': route.label || '',
+            'data-route-desc':  route.desc  || '',
+            'data-route-type':  route.type
+          });
+          targetG.appendChild(hitEl);
         });
-        if (FLOW_DELAYS[route.id]) {
-          pathEl.style.animationDelay = FLOW_DELAYS[route.id];
-        }
-        routesG.appendChild(pathEl);
+      }
 
-        /* Invisible wide hit area for easy mouse/touch hover.
-           Increase stroke-width to widen the interactive zone.
-           pointer-events:stroke means only the stroke area triggers events. */
-        var hitEl = el('path', {
-          d: d,
-          style: 'fill:none;stroke:transparent;stroke-width:14;stroke-linecap:round;stroke-linejoin:round',
-          'class': 'svg-map-route-hit' + (isMobileHide ? ' svg-map-minor' : ''),
-          'data-route-id':    route.id,
-          'data-route-label': route.label || '',
-          'data-route-desc':  route.desc  || '',
-          'data-route-type':  route.type
-        });
-        routesG.appendChild(hitEl);
-      });
+      renderRouteList(SEA_ROUTES, seaRoutesG);
+      renderRouteList(LAND_ROUTES, landRoutesG);
 
       vpGroup.appendChild(routesG);
 
@@ -1095,8 +1453,9 @@
              We preserve the original dot fill colour and only add a stronger glow
              so hub nodes remain visually distinct from regular city nodes. */
           var routeDef = null;
-          for (var ri = 0; ri < FLOW_ROUTES.length; ri++) {
-            if (FLOW_ROUTES[ri].id === routeId) { routeDef = FLOW_ROUTES[ri]; break; }
+          var routes = allRoutes();
+          for (var ri = 0; ri < routes.length; ri++) {
+            if (routes[ri].id === routeId) { routeDef = routes[ri]; break; }
           }
           if (routeDef) {
             routeDef.waypoints.forEach(function (wp) {

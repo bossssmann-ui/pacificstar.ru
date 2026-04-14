@@ -19,7 +19,6 @@
     scrollTicking = false;
   }
 
-  var scrollTicking = false;
   window.addEventListener('scroll', function () {
     if (!scrollTicking) {
       requestAnimationFrame(function () { scrollTicking = false; onScroll(); });
@@ -43,7 +42,7 @@
   var navToggleBtns = document.querySelectorAll('.nav-item .nav-toggle');
 
   /* Also mark parent "Услуги" nav-toggle active when on a sub-page */
-  var servicePages = ['services.html', 'truck-delivery.html', 'remote-regions.html'];
+  var servicePages = ['services.html', 'severnyy-zavoz.html', 'kabotazh.html', 'avto-dfo.html', 'negabarit.html', 'rail.html', 'ved.html', 'remote-regions.html', 'truck-delivery.html'];
   if (servicePages.indexOf(currentPath) !== -1) {
     navToggleBtns.forEach(function (btn) {
       btn.classList.add('active');
@@ -51,9 +50,10 @@
   }
 
   /* =======================================
-     DESKTOP NAV DROPDOWN: click to toggle
+     DESKTOP NAV DROPDOWN: hover + click with delay buffer
      ======================================= */
   var openNavItem = null; /* track currently open dropdown item */
+  var hoverCloseTimer = null;
 
   function closeOpenNavItem() {
     if (openNavItem) {
@@ -64,6 +64,41 @@
     }
   }
 
+  function cancelCloseTimer() {
+    if (hoverCloseTimer) {
+      clearTimeout(hoverCloseTimer);
+      hoverCloseTimer = null;
+    }
+  }
+
+  function scheduleClose() {
+    cancelCloseTimer();
+    /* 400ms buffer lets users move diagonally from trigger to dropdown */
+    hoverCloseTimer = setTimeout(function () {
+      closeOpenNavItem();
+    }, 400);
+  }
+
+  /* Wire hover enter/leave on each .nav-item that contains a dropdown */
+  var navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(function (item) {
+    item.addEventListener('mouseenter', function () {
+      cancelCloseTimer();
+      if (openNavItem && openNavItem !== item) {
+        closeOpenNavItem();
+      }
+      item.classList.add('open');
+      var toggle = item.querySelector('.nav-toggle');
+      if (toggle) toggle.setAttribute('aria-expanded', 'true');
+      openNavItem = item;
+    });
+
+    item.addEventListener('mouseleave', function () {
+      scheduleClose();
+    });
+  });
+
+  /* Click toggle (for keyboard / tap users) */
   navToggleBtns.forEach(function (btn) {
     btn.addEventListener('click', function (e) {
       e.preventDefault();
@@ -83,6 +118,15 @@
   /* Close desktop dropdown on outside click */
   document.addEventListener('click', function (e) {
     if (!e.target.closest('.nav-item')) {
+      cancelCloseTimer();
+      closeOpenNavItem();
+    }
+  });
+
+  /* Close on Escape key */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && openNavItem) {
+      cancelCloseTimer();
       closeOpenNavItem();
     }
   });
@@ -227,7 +271,7 @@
 
   const counterEls = document.querySelectorAll('[data-counter]');
 
-  if (counterEls.length) {
+  if (counterEls.length && 'IntersectionObserver' in window) {
     const counterObserver = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
@@ -335,7 +379,7 @@
       })
       .then(function () {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Отправить заявку <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+        submitBtn.innerHTML = 'Отправить запрос на расчёт <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
         contactForm.reset();
 
         if (successMsg) {
@@ -347,7 +391,7 @@
       })
       .catch(function () {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Отправить заявку <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+        submitBtn.innerHTML = 'Отправить запрос на расчёт <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
 
         if (successMsg) {
           successMsg.textContent = '❌ Не удалось отправить заявку. Попробуйте позже или позвоните нам.';

@@ -8,126 +8,99 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <noscript><style>.fade-in{opacity:1!important;transform:none!important;animation:none!important}</style></noscript>
+  <link rel="stylesheet" href="css/style.css?v=20260412">
+  <link rel="stylesheet" href="css/premium-theme.css?v=20260412">
+  <link rel="stylesheet" href="css/premium-features.css?v=20260413">
   <style>
-    /* ── RESET ───────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    /* ── DESIGN TOKENS ───────────────────────────────── */
+    /* ── DESIGN TOKENS (logos page) ───────────────────── */
     :root {
-      --navy:    #0d2b5e;
-      --navy-d:  #091e4f;
-      --navy-m:  #1a4da0;
-      --gold:    #f5a623;
-      --gold-lt: #ffe066;
-      --teal:    #0a8fa3;
-      --bg:      #07101f;
-      --bg2:     #0d1b2e;
-      --bg3:     #112240;
-      --text:    #cdd8ea;
-      --muted:   #718baa;
-      --border:  rgba(255,255,255,0.07);
-      --glow:    rgba(245,166,35,0.18);
-      --radius:  16px;
-      --font:    'Inter', -apple-system, sans-serif;
+      --logos-navy:    #0d2b5e;
+      --logos-navy-d:  #091e4f;
+      --logos-navy-m:  #1a4da0;
+      --logos-gold:    #f5a623;
+      --logos-gold-lt: #ffe066;
+      --logos-teal:    #0a8fa3;
+      --logos-bg:      #07101f;
+      --logos-bg2:     #0d1b2e;
+      --logos-bg3:     #112240;
+      --logos-text:    #cdd8ea;
+      --logos-muted:   #718baa;
+      --logos-border:  rgba(255,255,255,0.07);
+      --logos-glow:    rgba(245,166,35,0.18);
+      --logos-radius:  16px;
+      --logos-font:    'Inter', -apple-system, sans-serif;
     }
 
-    /* ── BASE ─────────────────────────────────────────── */
+    /* ── BASE (logos page) ────────────────────────────── */
     body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--text);
+      font-family: var(--logos-font);
+      background: var(--logos-bg);
+      color: var(--logos-text);
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
     }
 
     a { color: inherit; text-decoration: none; }
 
-    /* ── TOP BAR ──────────────────────────────────────── */
-    .topbar {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 60px;
-      background: rgba(7,16,31,0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      padding: 0 32px;
-      z-index: 100;
-      gap: 16px;
-    }
-    .topbar-logo { display: flex; align-items: center; gap: 10px; }
-    .topbar-logo img { width: 32px; height: 32px; }
-    .topbar-name {
-      font-size: 0.85rem; font-weight: 700;
-      color: white; letter-spacing: 0.5px;
-    }
-    .topbar-sep { flex: 1; }
-    .topbar-link {
-      font-size: 0.78rem; color: var(--muted);
-      transition: color 0.2s;
-    }
-    .topbar-link:hover { color: var(--gold); }
-
     /* ── HERO ─────────────────────────────────────────── */
-    .hero {
-      padding: 140px 32px 80px;
+    .logos-hero {
+      padding: 152px 32px 80px; /* 72px site header + 80px spacing */
       text-align: center;
       position: relative;
       overflow: hidden;
     }
-    .hero::before {
+    .logos-hero::before {
       content: '';
       position: absolute;
-      top: 60px; left: 50%; transform: translateX(-50%);
+      top: 72px; left: 50%; transform: translateX(-50%); /* matches site header height */
       width: 600px; height: 400px;
       background: radial-gradient(ellipse, rgba(245,166,35,0.10) 0%, transparent 70%);
       pointer-events: none;
     }
-    .hero-eyebrow {
+    .logos-hero-eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
       font-size: 0.72rem; font-weight: 600; letter-spacing: 4px;
-      text-transform: uppercase; color: var(--gold);
+      text-transform: uppercase; color: var(--logos-gold);
       margin-bottom: 24px;
     }
-    .hero-eyebrow span {
+    .logos-hero-eyebrow span {
       display: inline-block; width: 24px; height: 1px;
-      background: var(--gold); opacity: 0.6;
+      background: var(--logos-gold); opacity: 0.6;
     }
-    .hero-title {
+    .logos-hero-title {
       font-size: clamp(2.2rem, 5vw, 3.8rem);
       font-weight: 900; line-height: 1.05;
       letter-spacing: -2px;
       color: white;
       margin-bottom: 20px;
     }
-    .hero-title em {
+    .logos-hero-title em {
       font-style: normal;
-      background: linear-gradient(135deg, var(--gold-lt), var(--gold));
+      background: linear-gradient(135deg, var(--logos-gold-lt), var(--logos-gold));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .hero-sub {
+    .logos-hero-sub {
       max-width: 540px; margin: 0 auto 48px;
       font-size: 1.05rem; font-weight: 400;
-      color: var(--muted); line-height: 1.65;
+      color: var(--logos-muted); line-height: 1.65;
     }
-    .hero-divider {
+    .logos-hero-divider {
       display: flex; align-items: center; justify-content: center; gap: 16px;
       margin-bottom: 80px;
     }
-    .hero-divider-line {
+    .logos-hero-divider-line {
       width: 80px; height: 1px;
       background: linear-gradient(to right, transparent, rgba(245,166,35,0.4));
     }
-    .hero-divider-line:last-child {
+    .logos-hero-divider-line:last-child {
       background: linear-gradient(to left, transparent, rgba(245,166,35,0.4));
     }
-    .hero-divider-diamond {
+    .logos-hero-divider-diamond {
       width: 8px; height: 8px;
-      background: var(--gold);
+      background: var(--logos-gold);
       transform: rotate(45deg);
     }
 
@@ -146,9 +119,9 @@
 
     /* ── CARD ─────────────────────────────────────────── */
     .card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+      background: var(--logos-bg2);
+      border: 1px solid var(--logos-border);
+      border-radius: var(--logos-radius);
       overflow: hidden;
       transition: transform 0.35s cubic-bezier(0.22,1,0.36,1),
                   box-shadow 0.35s cubic-bezier(0.22,1,0.36,1),
@@ -172,13 +145,13 @@
       border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
       font-size: 0.9rem; font-weight: 800;
-      color: var(--gold);
+      color: var(--logos-gold);
       letter-spacing: 0.5px;
     }
 
     /* Dark preview area */
     .card-preview-dark {
-      background: var(--navy-d);
+      background: var(--logos-navy-d);
       height: 200px;
       display: flex; align-items: center; justify-content: center;
       padding: 28px;
@@ -230,7 +203,7 @@
       height: 110px;
       display: flex; align-items: center; justify-content: center;
       padding: 18px;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--logos-border);
       border-bottom: 1px solid rgba(0,0,0,0.08);
     }
     .card-preview-light img {
@@ -245,7 +218,7 @@
     }
     .card-variant {
       font-size: 0.62rem; font-weight: 700; letter-spacing: 4px;
-      text-transform: uppercase; color: var(--gold);
+      text-transform: uppercase; color: var(--logos-gold);
       margin-bottom: 6px;
     }
     .card-name {
@@ -254,12 +227,12 @@
       margin-bottom: 12px;
     }
     .card-name em {
-      font-style: normal; color: var(--muted);
+      font-style: normal; color: var(--logos-muted);
       font-weight: 400; font-size: 1rem; letter-spacing: 0;
     }
     .card-desc {
       font-size: 0.88rem; line-height: 1.65;
-      color: var(--muted); margin-bottom: 20px;
+      color: var(--logos-muted); margin-bottom: 20px;
     }
     .card-tags {
       display: flex; flex-wrap: wrap; gap: 6px;
@@ -276,7 +249,7 @@
     .card-tag.gold {
       background: rgba(245,166,35,0.12);
       border-color: rgba(245,166,35,0.35);
-      color: var(--gold);
+      color: var(--logos-gold);
     }
 
     /* ── FULL LOGO PREVIEW ────────────────────────────── */
@@ -286,7 +259,7 @@
     }
     .section-title {
       font-size: 0.68rem; font-weight: 700; letter-spacing: 4px;
-      text-transform: uppercase; color: var(--gold);
+      text-transform: uppercase; color: var(--logos-gold);
       margin-bottom: 10px;
     }
     .section-headline {
@@ -303,8 +276,8 @@
       .logo-previews { grid-template-columns: 1fr; }
     }
     .logo-preview-dark {
-      background: var(--navy-d);
-      border: 1px solid var(--border);
+      background: var(--logos-navy-d);
+      border: 1px solid var(--logos-border);
       border-radius: 12px;
       padding: 36px 28px;
       display: flex; align-items: center; justify-content: center;
@@ -339,57 +312,40 @@
     }
     .swatch-hex {
       font-size: 0.75rem; font-weight: 600;
-      color: var(--text); font-family: 'Courier New', monospace;
+      color: var(--logos-text); font-family: 'Courier New', monospace;
     }
     .swatch-name {
-      font-size: 0.68rem; color: var(--muted);
+      font-size: 0.68rem; color: var(--logos-muted);
     }
-
-    /* ── FOOTER ───────────────────────────────────────── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 40px 32px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.82rem;
-    }
-    footer a { color: var(--gold); }
-    footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 
-<!-- ── TOP BAR ──────────────────────────────────────── -->
-<header class="topbar">
-  <div class="topbar-logo">
-    <img src="img/logo-icon.svg" alt="">
-    <span class="topbar-name">Pacific Star</span>
-  </div>
-  <span class="topbar-sep"></span>
-  <a href="index.html" class="topbar-link">← На сайт</a>
-</header>
+  <div data-component="header" data-theme-toggle></div>
 
-<!-- ── HERO ─────────────────────────────────────────── -->
-<section class="hero">
-  <div class="hero-eyebrow">
-    <span></span>Brand Identity 2024<span></span>
-  </div>
-  <h1 class="hero-title">
-    Выбери лицо<br><em>Pacific Star</em>
-  </h1>
-  <p class="hero-sub">
-    Четыре концепции. Четыре характера. Один — станет голосом компании
-    на сайте, документах, технике и в Арктике.
-  </p>
-  <div class="hero-divider">
-    <div class="hero-divider-line"></div>
-    <div class="hero-divider-diamond"></div>
-    <div class="hero-divider-line"></div>
-  </div>
-</section>
+  <main>
 
-<!-- ── LOGO VARIANT CARDS ────────────────────────────── -->
-<main class="grid" aria-label="Варианты логотипа">
+  <!-- ── HERO ─────────────────────────────────────────── -->
+  <section class="logos-hero">
+    <div class="logos-hero-eyebrow">
+      <span></span>Brand Identity 2024<span></span>
+    </div>
+    <h1 class="logos-hero-title">
+      Выбери лицо<br><em>Pacific Star</em>
+    </h1>
+    <p class="logos-hero-sub">
+      Четыре концепции. Четыре характера. Один — станет голосом компании
+      на сайте, документах, технике и в Арктике.
+    </p>
+    <div class="logos-hero-divider">
+      <div class="logos-hero-divider-line"></div>
+      <div class="logos-hero-divider-diamond"></div>
+      <div class="logos-hero-divider-line"></div>
+    </div>
+  </section>
+
+  <!-- ── LOGO VARIANT CARDS ────────────────────────────── -->
+  <section class="grid" aria-label="Варианты логотипа">
 
   <!-- CARD A: ПОЛЯРИС -->
   <article class="card" aria-label="Вариант A — ПОЛЯРИС">
@@ -525,7 +481,7 @@
     </div>
   </article>
 
-</main>
+  </section><!-- /.grid -->
 
 <!-- ── FULL LOGO PREVIEW ──────────────────────────────── -->
 <section class="full-logo-section" aria-label="Горизонтальный логотип">
@@ -581,14 +537,17 @@
   </div>
 </section>
 
-<!-- ── FOOTER ────────────────────────────────────────── -->
-<footer>
-  <p>
-    Pacific Star · Транспорт и Логистика · Бренд-гайд 2024
-    &nbsp;·&nbsp;
-    <a href="index.html">Вернуться на сайт</a>
-  </p>
-</footer>
+  </main>
 
+  <div data-component="footer"></div>
+  <div data-component="floating-contacts"></div>
+  <div data-component="callback-panel"></div>
+  <div data-component="scroll-top"></div>
+
+  <script defer src="js/components.js?v=20260413b"></script>
+  <script defer src="js/i18n.js?v=20260413"></script>
+  <script defer src="js/main.js?v=20260413"></script>
+  <script defer src="js/animations.js?v=20260412"></script>
+  <script defer src="js/premium-features.js?v=20260413"></script>
 </body>
 </html>

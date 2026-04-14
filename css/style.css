@@ -349,18 +349,34 @@ p { margin-bottom: 1rem; }
   transform: rotate(180deg);
 }
 
+/* Bridge gap: padding-top creates a hover-safe zone between trigger and dropdown,
+   preventing premature closure during diagonal mouse movement.
+   The ::before pseudo-element extends the hit area for diagonal cursor paths. */
 .nav-dropdown {
   display: none;
   position: absolute;
+  left: -12px;
+  top: 100%;
+  padding-top: 8px;
+  z-index: 2000;
+}
+
+.nav-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -8px;
   left: 0;
-  top: calc(100% + 4px);
+  right: 0;
+  height: 8px;
+}
+
+.nav-dropdown-inner {
   background: var(--color-white);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
   min-width: 220px;
   padding: 6px;
-  z-index: 2000;
 }
 
 .nav-item:hover .nav-dropdown,
@@ -1018,8 +1034,16 @@ p { margin-bottom: 1rem; }
   align-items: center;
   justify-content: center;
   font-size: 5rem;
+  color: rgba(255, 255, 255, 0.92);
   position: relative;
   overflow: hidden;
+}
+
+.service-card-img svg {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  z-index: 1;
 }
 
 .service-card-img::after {
@@ -1753,6 +1777,14 @@ p { margin-bottom: 1rem; }
 .service-full-icon {
   font-size: 3rem;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-full-icon svg {
+  width: 48px;
+  height: 48px;
 }
 
 .service-full-header h3 {
@@ -2292,7 +2324,7 @@ select.form-control {
   color: #fff;
 }
 
-/* Legal details section */
+/* Legal / company details section — premium layout */
 .legal-details-section {
   background: var(--color-light);
 }
@@ -2300,23 +2332,34 @@ select.form-control {
 .legal-details-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 32px;
+  gap: 28px;
 }
 
 .legal-details-card {
   background: var(--color-white);
   border-radius: var(--radius-lg);
-  padding: 32px;
+  padding: 28px 32px 24px;
   box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--color-secondary);
+  transition: box-shadow var(--transition), border-color var(--transition);
+}
+
+.legal-details-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-hover);
+  border-top-color: var(--color-primary);
 }
 
 .legal-details-heading {
-  font-size: 1.1rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: var(--color-primary);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-secondary);
   margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .legal-details-list {
@@ -2326,38 +2369,57 @@ select.form-control {
 .legal-detail-row {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   gap: 16px;
-  padding: 10px 0;
-  border-bottom: 1px dashed var(--color-border);
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(221, 227, 238, 0.55);
 }
 
 .legal-detail-row:last-child {
   border-bottom: none;
+  padding-bottom: 0;
+}
+
+.legal-detail-row:first-child {
+  padding-top: 0;
 }
 
 .legal-detail-row dt {
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   color: var(--color-muted);
   font-weight: 500;
   flex-shrink: 0;
   min-width: 40%;
+  line-height: 1.5;
 }
 
 .legal-detail-row dd {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--color-primary);
   text-align: right;
   margin: 0;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+.legal-detail-numeric {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  font-size: 0.92rem;
 }
 
 .legal-detail-row dd a {
   color: var(--color-secondary);
-  transition: color var(--transition);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color var(--transition), border-color var(--transition);
 }
 
 .legal-detail-row dd a:hover {
   color: var(--color-accent-dark);
+  border-bottom-color: var(--color-accent-dark);
 }
 
 /* Form success message */
@@ -2690,7 +2752,7 @@ select.form-control {
 
   .legal-detail-row {
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
   }
 
   .legal-detail-row dd {
@@ -2698,7 +2760,12 @@ select.form-control {
   }
 
   .legal-details-card {
-    padding: 24px 20px;
+    padding: 22px 20px 18px;
+  }
+
+  .legal-detail-numeric {
+    white-space: normal;
+    overflow-wrap: break-word;
   }
 }
 
@@ -2816,6 +2883,13 @@ select.form-control {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 28px;
+}
+
+.regions-category h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+  margin: 0;
 }
 
 .region-card {

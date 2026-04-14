@@ -246,10 +246,8 @@ html.dark-theme .theme-toggle .icon-moon { display: none; }
   border-radius: 50%;
   pointer-events: none;
   z-index: 10000;
-  /* translate(var(--cx/--cy)) positions the cursor via transform (compositor-only,
-     no layout). Fallback -100px keeps the element off-screen until JS sets the var.
-     Must match the initial mouseX/mouseY = -100 values in premium-features.js. */
-  transform: translate(var(--cx, -100px), var(--cy, -100px)) translate(-50%, -50%);
+  /* Centre the dot on the pointer — JS sets left/top to mouse coords */
+  transform: translate(-50%, -50%);
   transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
   will-change: transform;
   display: none;
@@ -265,9 +263,8 @@ html.dark-theme .theme-toggle .icon-moon { display: none; }
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
-  /* translate(var(--rx/--ry)) mirrors the dot approach for the ring.
-     Fallback -100px keeps it off-screen until JS initialises the variable. */
-  transform: translate(var(--rx, -100px), var(--ry, -100px)) translate(-50%, -50%);
+  /* Centre the ring on the pointer — JS sets left/top via lerp */
+  transform: translate(-50%, -50%);
   transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
   will-change: transform;
   opacity: 0.55;
@@ -350,6 +347,12 @@ html.dark-theme .custom-cursor-ring.is-hovered {
   to   { stroke-dashoffset: 0; }
 }
 
+/* NSR / Arctic route: dash-dot pattern (16+5+5+5 = 31) */
+@keyframes svg-flow-nsr {
+  from { stroke-dashoffset: 31; }
+  to   { stroke-dashoffset: 0; }
+}
+
 /* Legacy keyframe kept for any older cached refs */
 @keyframes svg-route-flow {
   from { stroke-dashoffset: 26; }
@@ -368,6 +371,12 @@ html.dark-theme .custom-cursor-ring.is-hovered {
 .svg-map-route--land {
   stroke-dasharray: 8 6;
   animation: svg-flow-land 2.5s linear infinite;
+}
+
+/* NSR / Arctic route: dash-dot pattern for visual distinction. */
+.svg-map-route--nsr {
+  stroke-dasharray: 16 5 5 5;
+  animation: svg-flow-nsr 3.5s linear infinite;
 }
 
 /* Invisible hit-area path for route hover (wide transparent stroke). */
@@ -445,6 +454,7 @@ html.dark-theme .custom-cursor-ring.is-hovered {
 @media (prefers-reduced-motion: reduce) {
   .svg-map-route--sea,
   .svg-map-route--land,
+  .svg-map-route--nsr,
   .svg-map-pulse,
   .svg-map-marker--hub .svg-map-pulse,
   .svg-map-marker--route-active .svg-map-pulse {

@@ -39,7 +39,8 @@
 
   /* Apply saved or OS-preferred theme immediately */
   (function applyInitialTheme() {
-    var saved = localStorage.getItem(THEME_KEY);
+    var saved;
+    try { saved = localStorage.getItem(THEME_KEY); } catch (e) { /* private browsing */ }
     if (saved === 'dark') {
       htmlEl.classList.add('dark-theme');
     } else if (saved === 'light') {

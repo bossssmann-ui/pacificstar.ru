@@ -17,16 +17,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" >
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" >
-  <link rel="stylesheet" href="css/style.css?v=20260412" >
+  <link rel="stylesheet" href="css/style.css?v=20260413c" >
   <link rel="stylesheet" href="css/premium-theme.css?v=20260412" >
-  <link rel="stylesheet" href="css/premium-features.css?v=20260412" >
+  <link rel="stylesheet" href="css/premium-features.css?v=20260413" >
 
   <!-- Analytics configuration — replace with production IDs -->
   <script>
     window.PS_YM_ID = window.PS_YM_ID || 0;
     window.PS_GA_ID = window.PS_GA_ID || '';
   </script>
-  <link rel="stylesheet" href="css/services.css?v=20260412" >
+  <link rel="stylesheet" href="css/services.css?v=20260413" >
 
   <!-- JSON-LD: Service + BreadcrumbList + FAQPage -->
   <script type="application/ld+json">
@@ -42,11 +42,9 @@
         "areaServed": [
           { "@type": "Place", "name": "Чукотский автономный округ" },
           { "@type": "Place", "name": "Арктическая зона России" },
-          { "@type": "Place", "name": "Республика Саха (Якутия)" },
-          { "@type": "Place", "name": "Магаданская область" },
-          { "@type": "Place", "name": "Камчатский край" }
+          { "@type": "Place", "name": "Республика Саха (Якутия)" }
         ],
-        "serviceType": ["Северный завоз", "Арктическая логистика", "Доставка грузов на Крайний Север"]
+        "serviceType": ["Северный завоз", "Арктическая логистика", "Северный морской путь", "Доставка грузов на Крайний Север"]
       },
       {
         "@type": "BreadcrumbList",
@@ -133,19 +131,20 @@
     <!-- ========== 1. HERO ========== -->
     <section class="service-hero" aria-label="Северный завоз">
       <div class="container">
-        <span class="service-hero-label">411-ФЗ · Арктика · Навигация 2026</span>
-        <h1>Северный завоз — доставка грузов в&nbsp;Арктику и&nbsp;на&nbsp;Крайний Север</h1>
-        <p>Организуем доставку грузов в&nbsp;арктические порты и&nbsp;труднодоступные районы Дальнего Востока: Анадырь, Певек, Эгвекинот, Тикси, Провидения. Работаем по&nbsp;411-ФЗ с&nbsp;полным документальным сопровождением.</p>
+        <div class="service-hero-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 42l4-8h36l4 8"/><path d="M8 42c4 4 14 6 24 6s20-2 24-6"/><rect x="14" y="28" width="10" height="8" rx="1"/><rect x="26" y="30" width="8" height="6" rx="1"/><rect x="36" y="26" width="8" height="10" rx="1"/><line x1="40" y1="20" x2="40" y2="26"/><line x1="40" y1="30" x2="40" y2="32" stroke-width="1.2"/><circle cx="14" cy="14" r="1.5" fill="currentColor" stroke="none"/><line x1="14" y1="8" x2="14" y2="11"/><line x1="14" y1="17" x2="14" y2="20"/><line x1="8" y1="14" x2="11" y2="14"/><line x1="17" y1="14" x2="20" y2="14"/><line x1="10" y1="10" x2="11.5" y2="11.5" stroke-width="1.2"/><line x1="16.5" y1="16.5" x2="18" y2="18" stroke-width="1.2"/><line x1="18" y1="10" x2="16.5" y2="11.5" stroke-width="1.2"/><line x1="11.5" y1="16.5" x2="10" y2="18" stroke-width="1.2"/></svg></div>
+        <span class="service-hero-label" data-i18n="severnyy_zavoz.411_fz_arktika_navigatsiya_2026">411-ФЗ · Арктика · Навигация 2026</span>
+        <h1 data-i18n="severnyy_zavoz.severnyy_zavoz_dostavka_gruzov_v_arktiku_i_na_kray">Северный завоз — доставка грузов в&nbsp;Арктику и&nbsp;на&nbsp;Крайний Север</h1>
+        <p data-i18n="severnyy_zavoz.organizuem_dostavku_gruzov_v_arkticheskie_porty_i_">Организуем доставку грузов в&nbsp;арктические порты и&nbsp;труднодоступные районы Дальнего Востока: Анадырь, Певек, Эгвекинот, Тикси, Провидения. Работаем по&nbsp;411-ФЗ с&nbsp;полным документальным сопровождением.</p>
         <div class="service-hero-actions">
-          <a href="contacts.html#contactForm" class="btn btn-white">Рассчитать стоимость</a>
-          <a href="#sz-service" class="btn btn-outline-light">Подробнее об услуге</a>
+          <a href="contacts.html#contactForm" class="btn btn-white" data-i18n="cta.calculate_cost">Рассчитать стоимость</a>
+          <a href="#sz-service" class="btn btn-outline-light" data-i18n="cta.service_details">Подробнее об услуге</a>
         </div>
         <nav class="breadcrumb" aria-label="Хлебные крошки">
-          <a href="index.html">Главная</a>
+          <a href="index.html" data-i18n="nav.home">Главная</a>
           <span class="breadcrumb-sep" aria-hidden="true">›</span>
-          <a href="services.html">Услуги</a>
+          <a href="services.html" data-i18n="nav.services">Услуги</a>
           <span class="breadcrumb-sep" aria-hidden="true">›</span>
-          <span aria-current="page">Северный завоз</span>
+          <span aria-current="page" data-i18n="nav.northern_supply">Северный завоз</span>
         </nav>
       </div>
     </section>
@@ -166,39 +165,39 @@
     <section class="section" id="sz-service" aria-labelledby="sz-service-title">
       <div class="container">
         <div class="section-header">
-          <h2 id="sz-service-title">Что включает услуга</h2>
-          <p>Полный цикл логистики Северного завоза — от&nbsp;планирования до&nbsp;выгрузки в&nbsp;порту назначения</p>
+          <h2 id="sz-service-title" data-i18n="severnyy_zavoz.chto_vklyuchaet_usluga">Что включает услуга</h2>
+          <p data-i18n="severnyy_zavoz.polnyy_tsikl_logistiki_severnogo_zavoza_ot_planiro">Полный цикл логистики Северного завоза — от&nbsp;планирования до&nbsp;выгрузки в&nbsp;порту назначения</p>
         </div>
         <div class="feature-grid">
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">📋</div>
-            <h3>Планирование и расчёт</h3>
-            <p>Подбор оптимального маршрута с&nbsp;учётом навигационных окон, ледовой обстановки и&nbsp;графика судозаходов. Расчёт стоимости за&nbsp;24&nbsp;часа.</p>
+            <h3 data-i18n="severnyy_zavoz.planirovanie_i_raschyot">Планирование и расчёт</h3>
+            <p data-i18n="severnyy_zavoz.podbor_optimal_nogo_marshruta_s_uchyotom_navigatsi">Подбор оптимального маршрута с&nbsp;учётом навигационных окон, ледовой обстановки и&nbsp;графика судозаходов. Расчёт стоимости за&nbsp;24&nbsp;часа.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">📄</div>
-            <h3>Документы по 411-ФЗ</h3>
-            <p>Оформление статуса груза Северного завоза, подготовка товаросопроводительных документов, заявки на&nbsp;субсидирование перевозки.</p>
+            <h3 data-i18n="severnyy_zavoz.dokumenty_po_411_fz">Документы по 411-ФЗ</h3>
+            <p data-i18n="severnyy_zavoz.oformlenie_statusa_gruza_severnogo_zavoza_podgotov">Оформление статуса груза Северного завоза, подготовка товаросопроводительных документов, заявки на&nbsp;субсидирование перевозки.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">🏗️</div>
-            <h3>Консолидация во Владивостоке</h3>
-            <p>Приём грузов на&nbsp;склад, формирование партий, погрузка на&nbsp;судно. Хранение до&nbsp;отправки — без&nbsp;дополнительных расходов при&nbsp;стандартных сроках.</p>
+            <h3 data-i18n="severnyy_zavoz.konsolidatsiya_vo_vladivostoke">Консолидация во Владивостоке</h3>
+            <p data-i18n="severnyy_zavoz.priyom_gruzov_na_sklad_formirovanie_partiy_pogruzk">Приём грузов на&nbsp;склад, формирование партий, погрузка на&nbsp;судно. Хранение до&nbsp;отправки — без&nbsp;дополнительных расходов при&nbsp;стандартных сроках.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">📡</div>
-            <h3>Мониторинг и отчётность</h3>
-            <p>GPS-контроль на&nbsp;всём маршруте, оперативное информирование о&nbsp;статусе. Фотоотчёт при&nbsp;выгрузке в&nbsp;порту назначения.</p>
+            <h3 data-i18n="severnyy_zavoz.monitoring_i_otchyotnost">Мониторинг и отчётность</h3>
+            <p data-i18n="severnyy_zavoz.gps_kontrol_na_vsyom_marshrute_operativnoe_informi">GPS-контроль на&nbsp;всём маршруте, оперативное информирование о&nbsp;статусе. Фотоотчёт при&nbsp;выгрузке в&nbsp;порту назначения.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">🚛</div>
-            <h3>Доставка «последней мили»</h3>
-            <p>Организуем вывоз из&nbsp;порта и&nbsp;доставку до&nbsp;конечного получателя — автомобильным транспортом или&nbsp;по&nbsp;зимникам.</p>
+            <h3 data-i18n="severnyy_zavoz.dostavka_posledney_mili">Доставка «последней мили»</h3>
+            <p data-i18n="severnyy_zavoz.organizuem_vyvoz_iz_porta_i_dostavku_do_konechnogo">Организуем вывоз из&nbsp;порта и&nbsp;доставку до&nbsp;конечного получателя — автомобильным транспортом или&nbsp;по&nbsp;зимникам.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">🛡️</div>
-            <h3>Страхование груза</h3>
-            <p>Оформление страхового покрытия на&nbsp;весь маршрут — от&nbsp;склада отправителя до&nbsp;порта выгрузки. Работаем с&nbsp;проверенными страховщиками.</p>
+            <h3 data-i18n="auto.cargo_insurance">Страхование груза</h3>
+            <p data-i18n="severnyy_zavoz.oformlenie_strakhovogo_pokrytiya_na_ves_marshrut_o">Оформление страхового покрытия на&nbsp;весь маршрут — от&nbsp;склада отправителя до&nbsp;порта выгрузки. Работаем с&nbsp;проверенными страховщиками.</p>
           </div>
         </div>
       </div>
@@ -208,39 +207,39 @@
     <section class="section" style="background:var(--color-light);" aria-labelledby="sz-cargo-title">
       <div class="container">
         <div class="section-header">
-          <h2 id="sz-cargo-title">Какие грузы доставляем</h2>
-          <p>Полный спектр грузов Северного завоза в&nbsp;соответствии с&nbsp;411-ФЗ</p>
+          <h2 id="sz-cargo-title" data-i18n="severnyy_zavoz.kakie_gruzy_dostavlyaem">Какие грузы доставляем</h2>
+          <p data-i18n="severnyy_zavoz.polnyy_spektr_gruzov_severnogo_zavoza_v_sootvetstv">Полный спектр грузов Северного завоза в&nbsp;соответствии с&nbsp;411-ФЗ</p>
         </div>
         <div class="feature-grid">
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">📦</div>
-            <h3>Контейнерные грузы</h3>
-            <p>20- и 40-футовые контейнеры, включая рефрижераторные. Продовольствие, промышленные товары, оборудование, бытовая техника.</p>
+            <h3 data-i18n="severnyy_zavoz.konteynernye_gruzy">Контейнерные грузы</h3>
+            <p data-i18n="severnyy_zavoz.20_i_40_futovye_konteynery_vklyuchaya_refrizherato">20- и 40-футовые контейнеры, включая рефрижераторные. Продовольствие, промышленные товары, оборудование, бытовая техника.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">⚙️</div>
-            <h3>Генеральные грузы</h3>
-            <p>Строительные материалы, металлоконструкции, техника и оборудование. Крупногабаритные и тяжеловесные отправки на&nbsp;палубе и в&nbsp;трюме.</p>
+            <h3 data-i18n="remote_regions.general_nye_gruzy">Генеральные грузы</h3>
+            <p data-i18n="severnyy_zavoz.stroitel_nye_materialy_metallokonstruktsii_tekhnik">Строительные материалы, металлоконструкции, техника и оборудование. Крупногабаритные и тяжеловесные отправки на&nbsp;палубе и в&nbsp;трюме.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">⛏️</div>
-            <h3>Навалочные и сыпучие</h3>
-            <p>Уголь, щебень, песок, цемент. Доставка твёрдого топлива для нужд коммунального хозяйства арктических посёлков.</p>
+            <h3 data-i18n="severnyy_zavoz.navalochnye_i_sypuchie">Навалочные и сыпучие</h3>
+            <p data-i18n="severnyy_zavoz.ugol_shcheben_pesok_tsement_dostavka_tvyordogo_top">Уголь, щебень, песок, цемент. Доставка твёрдого топлива для нужд коммунального хозяйства арктических посёлков.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">💊</div>
-            <h3>Социально значимые грузы</h3>
-            <p>Медикаменты, продовольствие первой необходимости, товары для жизнеобеспечения. Приоритетная обработка и&nbsp;сокращённые сроки.</p>
+            <h3 data-i18n="severnyy_zavoz.sotsial_no_znachimye_gruzy">Социально значимые грузы</h3>
+            <p data-i18n="severnyy_zavoz.medikamenty_prodovol_stvie_pervoy_neobkhodimosti_t">Медикаменты, продовольствие первой необходимости, товары для жизнеобеспечения. Приоритетная обработка и&nbsp;сокращённые сроки.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">⚡</div>
-            <h3>Энергетическое оборудование</h3>
-            <p>Дизель-генераторы, трансформаторы, котельное оборудование для&nbsp;объектов энергетики и&nbsp;ЖКХ северных территорий.</p>
+            <h3 data-i18n="severnyy_zavoz.energeticheskoe_oborudovanie">Энергетическое оборудование</h3>
+            <p data-i18n="severnyy_zavoz.dizel_generatory_transformatory_kotel_noe_oborudov">Дизель-генераторы, трансформаторы, котельное оборудование для&nbsp;объектов энергетики и&nbsp;ЖКХ северных территорий.</p>
           </div>
           <div class="feature-card fade-in">
             <div class="feature-icon" aria-hidden="true">🚗</div>
-            <h3>Техника и транспорт</h3>
-            <p>Автомобили, спецтехника, снегоходы, вездеходы. Перевозка на&nbsp;палубе своим ходом (Ro-Ro) или в&nbsp;контейнерах.</p>
+            <h3 data-i18n="severnyy_zavoz.tekhnika_i_transport">Техника и транспорт</h3>
+            <p data-i18n="severnyy_zavoz.avtomobili_spetstekhnika_snegokhody_vezdekhody_per">Автомобили, спецтехника, снегоходы, вездеходы. Перевозка на&nbsp;палубе своим ходом (Ro-Ro) или в&nbsp;контейнерах.</p>
           </div>
         </div>
       </div>
@@ -250,50 +249,50 @@
     <section class="section" aria-labelledby="sz-geo-title">
       <div class="container">
         <div class="section-header">
-          <h2 id="sz-geo-title">География доставки</h2>
-          <p>Доставляем грузы в&nbsp;ключевые порты Арктической зоны и&nbsp;труднодоступные территории Дальнего Востока</p>
+          <h2 id="sz-geo-title" data-i18n="severnyy_zavoz.geografiya_severnogo_zavoza">География северного завоза</h2>
+          <p data-i18n="severnyy_zavoz.dostavlyaem_gruzy_v_klyuchevye_porty_arkticheskoy_">Доставляем грузы в&nbsp;ключевые порты Арктической зоны и&nbsp;труднодоступные территории Дальнего Востока. Используем каботажные линии, мультимодальные схемы «ж/д&nbsp;+ море&nbsp;+ авто» и&nbsp;прямые рейсы навигационного сезона по&nbsp;Северному морскому пути.</p>
         </div>
         <div class="geo-grid">
           <div class="geo-card fade-in">
             <div class="geo-card-icon" aria-hidden="true">🏔️</div>
             <div>
-              <h3>Анадырь</h3>
-              <p>Столица Чукотки. Крупнейший порт региона. Навигация: июнь — октябрь. От&nbsp;Владивостока — около 4&nbsp;000&nbsp;км, 10–14&nbsp;суток в&nbsp;пути.</p>
+              <h3 data-i18n="remote_regions.anadyr">Анадырь</h3>
+              <p data-i18n="severnyy_zavoz.stolitsa_chukotki_krupneyshiy_port_regiona_navigat">Столица Чукотки. Крупнейший порт региона. Навигация: июнь — октябрь. От&nbsp;Владивостока — около 4&nbsp;000&nbsp;км, 10–14&nbsp;суток в&nbsp;пути.</p>
             </div>
           </div>
           <div class="geo-card fade-in">
             <div class="geo-card-icon" aria-hidden="true">❄️</div>
             <div>
-              <h3>Певек</h3>
-              <p>Самый северный город России (69°&nbsp;с.&nbsp;ш.). Арктический порт с&nbsp;ледокольной проводкой. От&nbsp;Владивостока — ~4&nbsp;200&nbsp;км, 12–15&nbsp;суток.</p>
+              <h3 data-i18n="severnyy_zavoz.pevek">Певек</h3>
+              <p data-i18n="severnyy_zavoz.samyy_severnyy_gorod_rossii_69_s_sh_arkticheskiy_p">Самый северный город России (69°&nbsp;с.&nbsp;ш.). Арктический порт с&nbsp;ледокольной проводкой. От&nbsp;Владивостока — ~4&nbsp;200&nbsp;км, 12–15&nbsp;суток.</p>
             </div>
           </div>
           <div class="geo-card fade-in">
             <div class="geo-card-icon" aria-hidden="true">⛵</div>
             <div>
-              <h3>Эгвекинот</h3>
-              <p>Порт в&nbsp;заливе Креста, Чукотка. Ключевой пункт Северного завоза для&nbsp;западных районов Чукотки. Навигация: июнь — октябрь.</p>
+              <h3 data-i18n="remote_regions.egvekinot">Эгвекинот</h3>
+              <p data-i18n="severnyy_zavoz.port_v_zalive_kresta_chukotka_klyuchevoy_punkt_sev">Порт в&nbsp;заливе Креста, Чукотка. Ключевой пункт Северного завоза для&nbsp;западных районов Чукотки. Навигация: июнь — октябрь.</p>
             </div>
           </div>
           <div class="geo-card fade-in">
             <div class="geo-card-icon" aria-hidden="true">🧊</div>
             <div>
-              <h3>Тикси</h3>
-              <p>Порт в&nbsp;Якутии на&nbsp;берегу моря Лаптевых. Ключевой хаб Северного морского пути. Навигация: июль — октябрь.</p>
+              <h3 data-i18n="severnyy_zavoz.tiksi">Тикси</h3>
+              <p data-i18n="severnyy_zavoz.port_v_yakutii_na_beregu_morya_laptevykh_klyuchevo">Порт в&nbsp;Якутии на&nbsp;берегу моря Лаптевых. Ключевой хаб Северного морского пути. Навигация: июль — октябрь.</p>
             </div>
           </div>
           <div class="geo-card fade-in">
             <div class="geo-card-icon" aria-hidden="true">🌊</div>
             <div>
-              <h3>Провидения</h3>
-              <p>Порт на&nbsp;крайнем востоке Чукотки, у&nbsp;входа в&nbsp;Берингов пролив. Опорный пункт для&nbsp;прибрежных посёлков. Навигация: июнь — октябрь.</p>
+              <h3 data-i18n="severnyy_zavoz.provideniya">Провидения</h3>
+              <p data-i18n="severnyy_zavoz.port_na_kraynem_vostoke_chukotki_u_vkhoda_v_bering">Порт на&nbsp;крайнем востоке Чукотки, у&nbsp;входа в&nbsp;Берингов пролив. Опорный пункт для&nbsp;прибрежных посёлков. Навигация: июнь — октябрь.</p>
             </div>
           </div>
           <div class="geo-card fade-in">
             <div class="geo-card-icon" aria-hidden="true">🏞️</div>
             <div>
-              <h3>Речные порты Якутии</h3>
-              <p>Якутск, Хандыга, Зырянка, Черский — по&nbsp;рекам Лена, Индигирка, Колыма. Навигация: июнь — сентябрь. Мультимодальная доставка.</p>
+              <h3 data-i18n="severnyy_zavoz.rechnye_porty_yakutii">Речные порты Якутии</h3>
+              <p data-i18n="severnyy_zavoz.yakutsk_khandyga_zyryanka_cherskiy_po_rekam_lena_i">Якутск, Хандыга, Зырянка, Черский — по&nbsp;рекам Лена, Индигирка, Колыма. Навигация: июнь — сентябрь. Мультимодальная доставка.</p>
             </div>
           </div>
         </div>
@@ -304,33 +303,33 @@
     <section class="process-section" aria-labelledby="sz-route-title">
       <div class="container">
         <div class="section-header">
-          <h2 id="sz-route-title">Как мы планируем маршрут</h2>
-          <p>От заявки до&nbsp;доставки — прозрачный процесс на&nbsp;каждом этапе</p>
+          <h2 id="sz-route-title" data-i18n="severnyy_zavoz.kak_my_planiruem_marshrut">Как мы планируем маршрут</h2>
+          <p data-i18n="severnyy_zavoz.ot_zayavki_do_dostavki_prozrachnyy_protsess_na_kaz">От заявки до&nbsp;доставки — прозрачный процесс на&nbsp;каждом этапе</p>
         </div>
         <div class="process-grid">
           <div class="process-step fade-in">
-            <h4>Заявка и предварительный расчёт</h4>
-            <p>Вы описываете груз — мы рассчитываем стоимость за&nbsp;24&nbsp;часа с&nbsp;учётом навигационных окон и&nbsp;ледовой обстановки на&nbsp;маршруте.</p>
+            <h4 data-i18n="severnyy_zavoz.zayavka_i_predvaritel_nyy_raschyot">Заявка и предварительный расчёт</h4>
+            <p data-i18n="severnyy_zavoz.vy_opisyvaete_gruz_my_rasschityvaem_stoimost_za_24">Вы описываете груз — мы рассчитываем стоимость за&nbsp;24&nbsp;часа с&nbsp;учётом навигационных окон и&nbsp;ледовой обстановки на&nbsp;маршруте.</p>
           </div>
           <div class="process-step fade-in">
-            <h4>Подбор судна и графика</h4>
-            <p>Согласовываем судно, дату погрузки и&nbsp;плановый срок прибытия. Учитываем тип груза, требования к&nbsp;температурному режиму и&nbsp;наличие портовой инфраструктуры.</p>
+            <h4 data-i18n="severnyy_zavoz.podbor_sudna_i_grafika">Подбор судна и графика</h4>
+            <p data-i18n="severnyy_zavoz.soglasovyvaem_sudno_datu_pogruzki_i_planovyy_srok_">Согласовываем судно, дату погрузки и&nbsp;плановый срок прибытия. Учитываем тип груза, требования к&nbsp;температурному режиму и&nbsp;наличие портовой инфраструктуры.</p>
           </div>
           <div class="process-step fade-in">
-            <h4>Оформление документов</h4>
-            <p>Готовим полный пакет по&nbsp;411-ФЗ: статус груза Северного завоза, товаросопроводительные документы, заявки на&nbsp;субсидирование.</p>
+            <h4 data-i18n="remote_regions.oformlenie_dokumentov">Оформление документов</h4>
+            <p data-i18n="severnyy_zavoz.gotovim_polnyy_paket_po_411_fz_status_gruza_severn">Готовим полный пакет по&nbsp;411-ФЗ: статус груза Северного завоза, товаросопроводительные документы, заявки на&nbsp;субсидирование.</p>
           </div>
           <div class="process-step fade-in">
-            <h4>Консолидация и погрузка</h4>
-            <p>Принимаем груз на&nbsp;склад во&nbsp;Владивостоке, формируем партию, организуем погрузку. Фотофиксация при&nbsp;затарке контейнера.</p>
+            <h4 data-i18n="severnyy_zavoz.konsolidatsiya_i_pogruzka">Консолидация и погрузка</h4>
+            <p data-i18n="severnyy_zavoz.prinimaem_gruz_na_sklad_vo_vladivostoke_formiruem_">Принимаем груз на&nbsp;склад во&nbsp;Владивостоке, формируем партию, организуем погрузку. Фотофиксация при&nbsp;затарке контейнера.</p>
           </div>
           <div class="process-step fade-in">
-            <h4>Морская перевозка</h4>
-            <p>Груз следует по&nbsp;маршруту с&nbsp;GPS-мониторингом. При&nbsp;необходимости — ледокольная проводка по&nbsp;Северному морскому пути.</p>
+            <h4 data-i18n="severnyy_zavoz.morskaya_perevozka">Морская перевозка</h4>
+            <p data-i18n="severnyy_zavoz.gruz_sleduet_po_marshrutu_s_gps_monitoringom_pri_n">Груз следует по&nbsp;маршруту с&nbsp;GPS-мониторингом. При&nbsp;необходимости — ледокольная проводка по&nbsp;Северному морскому пути.</p>
           </div>
           <div class="process-step fade-in">
-            <h4>Выгрузка и доставка</h4>
-            <p>Организуем разгрузку в&nbsp;порту назначения, оформляем акты. Доставляем до&nbsp;конечного получателя автотранспортом или&nbsp;по&nbsp;зимнику.</p>
+            <h4 data-i18n="severnyy_zavoz.vygruzka_i_dostavka">Выгрузка и доставка</h4>
+            <p data-i18n="severnyy_zavoz.organizuem_razgruzku_v_portu_naznacheniya_oformlya">Организуем разгрузку в&nbsp;порту назначения, оформляем акты. Доставляем до&nbsp;конечного получателя автотранспортом или&nbsp;по&nbsp;зимнику.</p>
           </div>
         </div>
       </div>
@@ -340,25 +339,25 @@
     <section class="section" aria-labelledby="sz-season-title">
       <div class="container">
         <div class="section-header">
-          <h2 id="sz-season-title">Сезонность и навигационные ограничения</h2>
-          <p>Арктическая логистика привязана к&nbsp;навигационным окнам — важно планировать заранее</p>
+          <h2 id="sz-season-title" data-i18n="severnyy_zavoz.sezonnost_i_navigatsionnye_ogranicheniya">Сезонность и навигационные ограничения</h2>
+          <p data-i18n="severnyy_zavoz.arkticheskaya_logistika_privyazana_k_navigatsionny">Арктическая логистика привязана к&nbsp;навигационным окнам — важно планировать заранее</p>
         </div>
         <div class="season-grid">
           <article class="season-card fade-in">
-            <h3>Навигация: июнь — октябрь</h3>
-            <p>Основной период морской доставки в&nbsp;арктические порты. Чукотка (Анадырь, Певек, Эгвекинот) — с&nbsp;июня. Тикси — с&nbsp;июля. Конкретные даты зависят от&nbsp;ледовой обстановки каждого года.</p>
+            <h3 data-i18n="severnyy_zavoz.navigatsiya_iyun_oktyabr">Навигация: июнь — октябрь</h3>
+            <p data-i18n="severnyy_zavoz.osnovnoy_period_morskoy_dostavki_v_arkticheskie_po">Основной период морской доставки в&nbsp;арктические порты. Чукотка (Анадырь, Певек, Эгвекинот) — с&nbsp;июня. Тикси — с&nbsp;июля. Конкретные даты зависят от&nbsp;ледовой обстановки каждого года.</p>
           </article>
           <article class="season-card fade-in">
-            <h3>Ледокольная проводка</h3>
-            <p>В начале и конце навигации суда идут с&nbsp;ледокольным сопровождением по&nbsp;Северному морскому пути. Это увеличивает сроки и&nbsp;стоимость, но&nbsp;позволяет расширить окно доставки на&nbsp;1–2&nbsp;месяца.</p>
+            <h3 data-i18n="severnyy_zavoz.ledokol_naya_provodka">Ледокольная проводка</h3>
+            <p data-i18n="severnyy_zavoz.v_nachale_i_kontse_navigatsii_suda_idut_s_ledokol_">В начале и конце навигации суда идут с&nbsp;ледокольным сопровождением по&nbsp;Северному морскому пути. Это увеличивает сроки и&nbsp;стоимость, но&nbsp;позволяет расширить окно доставки на&nbsp;1–2&nbsp;месяца.</p>
           </article>
           <article class="season-card fade-in">
-            <h3>Подача заявок: до апреля</h3>
-            <p>Рекомендуем формировать заявки за&nbsp;2–3&nbsp;месяца до&nbsp;начала навигации. Это позволяет зарезервировать место на&nbsp;судне, оформить документы по&nbsp;411-ФЗ и&nbsp;подать заявку на&nbsp;субсидирование.</p>
+            <h3 data-i18n="severnyy_zavoz.podacha_zayavok_do_aprelya">Подача заявок: до апреля</h3>
+            <p data-i18n="severnyy_zavoz.rekomenduem_formirovat_zayavki_za_2_3_mesyatsa_do_">Рекомендуем формировать заявки за&nbsp;2–3&nbsp;месяца до&nbsp;начала навигации. Это позволяет зарезервировать место на&nbsp;судне, оформить документы по&nbsp;411-ФЗ и&nbsp;подать заявку на&nbsp;субсидирование.</p>
           </article>
           <article class="season-card fade-in">
-            <h3>Зимние альтернативы</h3>
-            <p>В межнавигационный период доставка возможна автозимниками (Якутия), авиатранспортом (срочные грузы) или&nbsp;с&nbsp;ледокольной проводкой по&nbsp;СМП для&nbsp;крупных партий.</p>
+            <h3 data-i18n="severnyy_zavoz.zimnie_al_ternativy">Зимние альтернативы</h3>
+            <p data-i18n="severnyy_zavoz.v_mezhnavigatsionnyy_period_dostavka_vozmozhna_avt">В межнавигационный период доставка возможна автозимниками (Якутия), авиатранспортом (срочные грузы) или&nbsp;с&nbsp;ледокольной проводкой по&nbsp;СМП для&nbsp;крупных партий.</p>
           </article>
         </div>
       </div>
@@ -367,9 +366,9 @@
     <!-- ========== MID-PAGE CTA ========== -->
     <section class="service-cta" aria-label="Принимаем заявки на навигацию 2026">
       <div class="container">
-        <h2>Навигация 2026 — принимаем заявки</h2>
-        <p>Забронируйте место на&nbsp;судне заранее. Чем раньше заявка — тем больше вариантов по&nbsp;датам и&nbsp;стоимости.</p>
-        <a href="contacts.html#contactForm" class="btn btn-white">Оставить заявку на навигацию</a>
+        <h2 data-i18n="severnyy_zavoz.navigatsiya_2026_prinimaem_zayavki">Навигация 2026 — принимаем заявки</h2>
+        <p data-i18n="severnyy_zavoz.zabroniruyte_mesto_na_sudne_zaranee_chem_ran_she_z">Забронируйте место на&nbsp;судне заранее. Чем раньше заявка — тем больше вариантов по&nbsp;датам и&nbsp;стоимости.</p>
+        <a href="contacts.html#contactForm" class="btn btn-white" data-i18n="severnyy_zavoz.ostavit_zayavku_na_navigatsiyu">Оставить заявку на навигацию</a>
       </div>
     </section>
 
@@ -377,48 +376,48 @@
     <section class="section" aria-labelledby="sz-cases-title">
       <div class="container">
         <div class="section-header">
-          <h2 id="sz-cases-title">Примеры перевозок</h2>
-          <p>Реальные задачи, которые мы решали для&nbsp;клиентов</p>
+          <h2 id="sz-cases-title" data-i18n="severnyy_zavoz.primery_perevozok">Примеры перевозок</h2>
+          <p data-i18n="severnyy_zavoz.real_nye_zadachi_kotorye_my_reshali_dlya_klientov">Реальные задачи, которые мы решали для&nbsp;клиентов</p>
         </div>
         <div class="cases-grid">
           <article class="case-card fade-in">
             <div class="case-card-header">
-              <span class="case-card-tag">Чукотка</span>
-              <span class="case-card-tag">Контейнеры</span>
+              <span class="case-card-tag" data-i18n="auto.chukotka">Чукотка</span>
+              <span class="case-card-tag" data-i18n="index.konteynery">Контейнеры</span>
             </div>
-            <h3>Продовольствие в&nbsp;Певек — 48&nbsp;контейнеров</h3>
+            <h3 data-i18n="severnyy_zavoz.prodovol_stvie_v_pevek_48_konteynerov">Продовольствие в&nbsp;Певек — 48&nbsp;контейнеров</h3>
             <dl class="case-card-details">
               <div><dt>Маршрут</dt><dd>Владивосток → Певек</dd></div>
               <div><dt>Груз</dt><dd>Продукты питания (рефрижераторные и&nbsp;сухие контейнеры)</dd></div>
               <div><dt>Срок</dt><dd>14 суток, навигация июль</dd></div>
             </dl>
-            <p>Сформировали партию из&nbsp;48&nbsp;контейнеров (32&nbsp;рефрижераторных + 16&nbsp;сухих) для&nbsp;сети розничных магазинов. Оформили документы по&nbsp;411-ФЗ, обеспечили непрерывную холодовую цепь. Доставили в&nbsp;срок — до&nbsp;начала штормового сезона.</p>
+            <p data-i18n="severnyy_zavoz.sformirovali_partiyu_iz_48_konteynerov_32_refrizhe">Сформировали партию из&nbsp;48&nbsp;контейнеров (32&nbsp;рефрижераторных + 16&nbsp;сухих) для&nbsp;сети розничных магазинов. Оформили документы по&nbsp;411-ФЗ, обеспечили непрерывную холодовую цепь. Доставили в&nbsp;срок — до&nbsp;начала штормового сезона.</p>
           </article>
           <article class="case-card fade-in">
             <div class="case-card-header">
-              <span class="case-card-tag">Якутия</span>
-              <span class="case-card-tag">Генгруз</span>
+              <span class="case-card-tag" data-i18n="severnyy_zavoz.yakutiya">Якутия</span>
+              <span class="case-card-tag" data-i18n="severnyy_zavoz.gengruz">Генгруз</span>
             </div>
-            <h3>Котельное оборудование в&nbsp;Тикси — 320&nbsp;тонн</h3>
+            <h3 data-i18n="severnyy_zavoz.kotel_noe_oborudovanie_v_tiksi_320_tonn">Котельное оборудование в&nbsp;Тикси — 320&nbsp;тонн</h3>
             <dl class="case-card-details">
               <div><dt>Маршрут</dt><dd>Владивосток → Тикси (море) → посёлок (автозимник)</dd></div>
               <div><dt>Груз</dt><dd>Модульные котельные, трубопроводы, запасная арматура</dd></div>
               <div><dt>Срок</dt><dd>18 суток (море) + 3 суток (зимник)</dd></div>
             </dl>
-            <p>Мультимодальная доставка для&nbsp;замены котельной в&nbsp;арктическом посёлке. Разработали схему крепления на&nbsp;палубе, согласовали выгрузку с&nbsp;портовыми властями Тикси. Автозимник задействовали для&nbsp;вывоза из&nbsp;порта.</p>
+            <p data-i18n="severnyy_zavoz.mul_timodal_naya_dostavka_dlya_zameny_kotel_noy_v_">Мультимодальная доставка для&nbsp;замены котельной в&nbsp;арктическом посёлке. Разработали схему крепления на&nbsp;палубе, согласовали выгрузку с&nbsp;портовыми властями Тикси. Автозимник задействовали для&nbsp;вывоза из&nbsp;порта.</p>
           </article>
           <article class="case-card fade-in">
             <div class="case-card-header">
-              <span class="case-card-tag">Чукотка</span>
-              <span class="case-card-tag">Навалочный</span>
+              <span class="case-card-tag" data-i18n="auto.chukotka">Чукотка</span>
+              <span class="case-card-tag" data-i18n="severnyy_zavoz.navalochnyy">Навалочный</span>
             </div>
-            <h3>Уголь в&nbsp;Эгвекинот — 5&nbsp;000&nbsp;тонн</h3>
+            <h3 data-i18n="severnyy_zavoz.ugol_v_egvekinot_5_000_tonn">Уголь в&nbsp;Эгвекинот — 5&nbsp;000&nbsp;тонн</h3>
             <dl class="case-card-details">
               <div><dt>Маршрут</dt><dd>Ванино → Эгвекинот</dd></div>
               <div><dt>Груз</dt><dd>Энергетический уголь для&nbsp;ЖКХ</dd></div>
               <div><dt>Срок</dt><dd>10 суток</dd></div>
             </dl>
-            <p>Организовали доставку твёрдого топлива для&nbsp;отопительного сезона. Погрузка в&nbsp;Ванино, выгрузка грейферами в&nbsp;Эгвекиноте. Документы по&nbsp;411-ФЗ обеспечили субсидирование перевозки.</p>
+            <p data-i18n="severnyy_zavoz.organizovali_dostavku_tvyordogo_topliva_dlya_otopi">Организовали доставку твёрдого топлива для&nbsp;отопительного сезона. Погрузка в&nbsp;Ванино, выгрузка грейферами в&nbsp;Эгвекиноте. Документы по&nbsp;411-ФЗ обеспечили субсидирование перевозки.</p>
           </article>
         </div>
       </div>
@@ -428,7 +427,7 @@
     <section class="faq-section" aria-labelledby="sz-faq-title">
       <div class="container">
         <div class="section-header">
-          <h2 id="sz-faq-title">Частые вопросы</h2>
+          <h2 id="sz-faq-title" data-i18n="heading.faq">Частые вопросы</h2>
         </div>
         <div class="faq-list">
           <div class="faq-item">
@@ -437,7 +436,7 @@
               <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-answer">
-              <p>Северный завоз — государственная программа обеспечения жизненно важными товарами труднодоступных территорий Арктики и&nbsp;Дальнего Востока. Регулируется Федеральным законом №&nbsp;411-ФЗ от&nbsp;13.06.2023 «О&nbsp;северном завозе». Закон определяет перечень грузов, территории доставки, единого морского оператора и&nbsp;механизм субсидирования перевозчиков.</p>
+              <p data-i18n="severnyy_zavoz.severnyy_zavoz_gosudarstvennaya_programma_obespech">Северный завоз — государственная программа обеспечения жизненно важными товарами труднодоступных территорий Арктики и&nbsp;Дальнего Востока. Регулируется Федеральным законом №&nbsp;411-ФЗ от&nbsp;13.06.2023 «О&nbsp;северном завозе». Закон определяет перечень грузов, территории доставки, единого морского оператора и&nbsp;механизм субсидирования перевозчиков.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -446,7 +445,7 @@
               <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-answer">
-              <p>Навигация на&nbsp;Чукотку (Анадырь, Певек, Эгвекинот) открывается в&nbsp;июне и&nbsp;длится до&nbsp;октября. В&nbsp;порт Тикси (Якутия, море Лаптевых) — с&nbsp;июля по&nbsp;октябрь. Ледокольная проводка атомными ледоколами ФГУП «Атомфлот» позволяет расширить окно навигации.</p>
+              <p data-i18n="severnyy_zavoz.navigatsiya_na_chukotku_anadyr_pevek_egvekinot_otk">Навигация на&nbsp;Чукотку (Анадырь, Певек, Эгвекинот) открывается в&nbsp;июне и&nbsp;длится до&nbsp;октября. В&nbsp;порт Тикси (Якутия, море Лаптевых) — с&nbsp;июля по&nbsp;октябрь. Ледокольная проводка атомными ледоколами ФГУП «Атомфлот» позволяет расширить окно навигации.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -455,7 +454,7 @@
               <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-answer">
-              <p>Продовольственные товары первой необходимости; уголь и&nbsp;твёрдое топливо; медикаменты и&nbsp;медицинские изделия; товары для&nbsp;нужд коммунального хозяйства; строительные материалы для&nbsp;социальных объектов; промышленные товары для&nbsp;жизнеобеспечения населения; оборудование для&nbsp;объектов энергетики.</p>
+              <p data-i18n="severnyy_zavoz.prodovol_stvennye_tovary_pervoy_neobkhodimosti_ugo">Продовольственные товары первой необходимости; уголь и&nbsp;твёрдое топливо; медикаменты и&nbsp;медицинские изделия; товары для&nbsp;нужд коммунального хозяйства; строительные материалы для&nbsp;социальных объектов; промышленные товары для&nbsp;жизнеобеспечения населения; оборудование для&nbsp;объектов энергетики.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -464,7 +463,7 @@
               <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-answer">
-              <p>Стоимость зависит от&nbsp;типа и&nbsp;объёма груза, порта назначения, даты отправления и&nbsp;необходимости ледокольной проводки. Оставьте заявку с&nbsp;описанием груза — мы рассчитаем стоимость и&nbsp;сроки в&nbsp;течение 24&nbsp;часов.</p>
+              <p data-i18n="severnyy_zavoz.stoimost_zavisit_ot_tipa_i_ob_yoma_gruza_porta_naz">Стоимость зависит от&nbsp;типа и&nbsp;объёма груза, порта назначения, даты отправления и&nbsp;необходимости ледокольной проводки. Оставьте заявку с&nbsp;описанием груза — мы рассчитаем стоимость и&nbsp;сроки в&nbsp;течение 24&nbsp;часов.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -473,7 +472,7 @@
               <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-answer">
-              <p>Морская навигация в&nbsp;большинство арктических портов ограничена летне-осенним периодом. Зимой возможна доставка автозимниками в&nbsp;отдельные населённые пункты Якутии, авиатранспортом (срочные грузы) или&nbsp;с&nbsp;ледокольной проводкой по&nbsp;СМП для&nbsp;крупных партий.</p>
+              <p data-i18n="severnyy_zavoz.morskaya_navigatsiya_v_bol_shinstvo_arkticheskikh_">Морская навигация в&nbsp;большинство арктических портов ограничена летне-осенним периодом. Зимой возможна доставка автозимниками в&nbsp;отдельные населённые пункты Якутии, авиатранспортом (срочные грузы) или&nbsp;с&nbsp;ледокольной проводкой по&nbsp;СМП для&nbsp;крупных партий.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -482,19 +481,51 @@
               <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-answer">
-              <p>Товаросопроводительные документы, договор перевозки, заявка на&nbsp;включение в&nbsp;реестр грузов Северного завоза (для&nbsp;субсидирования). Pacific Star берёт на&nbsp;себя оформление документов по&nbsp;411-ФЗ и&nbsp;взаимодействие с&nbsp;оператором Северного завоза.</p>
+              <p data-i18n="severnyy_zavoz.tovarosoprovoditel_nye_dokumenty_dogovor_perevozki">Товаросопроводительные документы, договор перевозки, заявка на&nbsp;включение в&nbsp;реестр грузов Северного завоза (для&nbsp;субсидирования). Pacific Star берёт на&nbsp;себя оформление документов по&nbsp;411-ФЗ и&nbsp;взаимодействие с&nbsp;оператором Северного завоза.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- ========== 8b. WHEN WE ARE ESPECIALLY USEFUL ========== -->
+    <section class="section" style="background:var(--color-light);">
+      <div class="container">
+        <div class="section-header">
+          <h2 data-i18n="severnyy_zavoz.kogda_my_osobenno_polezny">Когда мы&nbsp;особенно полезны</h2>
+          <p data-i18n="severnyy_zavoz.situatsii_v_kotorykh_nash_opyt_i_resursy_kritiches">Ситуации, в&nbsp;которых наш опыт и&nbsp;ресурсы критически важны для&nbsp;успеха северного завоза</p>
+        </div>
+        <ul class="feature-grid" style="list-style:none;padding:0;margin:0;">
+          <li class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">⏱️</div>
+            <h3 data-i18n="severnyy_zavoz.zhyostkie_sroki_navigatsii">Жёсткие сроки навигации</h3>
+            <p data-i18n="severnyy_zavoz.navigatsionnoe_okno_na_chukotku_i_v_arktiku_vsego_">Навигационное окно на&nbsp;Чукотку и&nbsp;в&nbsp;Арктику — всего 4–5&nbsp;месяцев. Если груз не&nbsp;уйдёт с&nbsp;ближайшим судном, следующая отправка — только через год. Контролируем каждый этап, чтобы вы&nbsp;не&nbsp;пропустили рейс.</p>
+          </li>
+          <li class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">🔗</div>
+            <h3 data-i18n="severnyy_zavoz.slozhnaya_stykovka_plech">Сложная стыковка плеч</h3>
+            <p data-i18n="severnyy_zavoz.gruz_iz_tsentral_noy_rossii_na_chukotku_eto_zh_d_d">Груз из&nbsp;центральной России на&nbsp;Чукотку — это ж/д до&nbsp;Владивостока, перевалка в&nbsp;порту, морской переход, иногда ещё автодоставка до&nbsp;объекта. Мы&nbsp;координируем всю цепочку как&nbsp;единый проект.</p>
+          </li>
+          <li class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">📐</div>
+            <h3 data-i18n="severnyy_zavoz.negabarit_v_severnom_zavoze">Негабарит в&nbsp;северном завозе</h3>
+            <p data-i18n="severnyy_zavoz.tyazhyoloe_oborudovanie_moduli_spetstekhnika_perev">Тяжёлое оборудование, модули, спецтехника — перевозки, требующие подбора судна с&nbsp;нужной грузоподъёмностью крана, расчёта крепления и&nbsp;схемы выгрузки в&nbsp;порту без&nbsp;развитой инфраструктуры.</p>
+          </li>
+          <li class="feature-card fade-in">
+            <div class="feature-icon" aria-hidden="true">📑</div>
+            <h3 data-i18n="severnyy_zavoz.dokumenty_po_411_fz">Документы по&nbsp;411-ФЗ</h3>
+            <p data-i18n="severnyy_zavoz.vklyuchenie_gruzov_v_reestr_severnogo_zavoza_vzaim">Включение грузов в&nbsp;реестр северного завоза, взаимодействие с&nbsp;единым морским оператором, оформление субсидий на&nbsp;перевозку — берём на&nbsp;себя бюрократию, чтобы вы&nbsp;сосредоточились на&nbsp;основной работе.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
     <!-- ========== 9. CTA / LEAD FORM ========== -->
     <section class="service-cta" aria-label="Оставить заявку">
       <div class="container">
-        <h2>Нужна доставка на&nbsp;Север?</h2>
-        <p>Рассчитаем стоимость и&nbsp;сроки за&nbsp;24&nbsp;часа. Работаем по&nbsp;411-ФЗ с&nbsp;полным документальным сопровождением. Принимаем заявки на&nbsp;навигацию 2026.</p>
-        <a href="contacts.html#contactForm" class="btn btn-white">Оставить заявку</a>
+        <h2 data-i18n="severnyy_zavoz.nuzhna_dostavka_na_sever">Нужна доставка на&nbsp;Север?</h2>
+        <p data-i18n="severnyy_zavoz.rasschitaem_stoimost_i_sroki_za_24_chasa_rabotaem_">Рассчитаем стоимость и&nbsp;сроки за&nbsp;24&nbsp;часа. Работаем по&nbsp;411-ФЗ с&nbsp;полным документальным сопровождением. Принимаем заявки на&nbsp;навигацию 2026.</p>
+        <a href="contacts.html#contactForm" class="btn btn-white" data-i18n="nav.get_quote">Оставить заявку</a>
       </div>
     </section>
 
@@ -512,11 +543,11 @@
   <!-- ========== SCROLL TOP (injected by components.js) ========== -->
   <div data-component="scroll-top"></div>
 
-  <script defer src="js/components.js?v=20260412"></script>
-  <script defer src="js/i18n.js?v=20260412"></script>
-  <script defer src="js/main.js?v=20260412"></script>
+  <script defer src="js/components.js?v=20260413d"></script>
+  <script defer src="js/i18n.js?v=20260413"></script>
+  <script defer src="js/main.js?v=20260413c"></script>
   <script defer src="js/animations.js?v=20260412"></script>
-  <script defer src="js/premium-features.js?v=20260412"></script>
+  <script defer src="js/premium-features.js?v=20260413"></script>
   <script defer src="js/analytics.js?v=20260412"></script>
 
 </body>

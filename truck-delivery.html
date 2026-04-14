@@ -18,9 +18,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" >
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" >
-  <link rel="stylesheet" href="css/style.css?v=20260412" >
+  <link rel="stylesheet" href="css/style.css?v=20260413c" >
   <link rel="stylesheet" href="css/premium-theme.css?v=20260412" >
-  <link rel="stylesheet" href="css/premium-features.css?v=20260412" >
+  <link rel="stylesheet" href="css/premium-features.css?v=20260413" >
 
   <!-- Analytics configuration — replace with production IDs -->
   <script>
@@ -47,22 +47,23 @@
 </head>
 <body>
 
-  <div data-component="header"></div>
+  <div data-component="header" data-theme-toggle></div>
 
   <main>
 
     <!-- ========== PAGE HERO ========== -->
     <section class="page-hero arctic-hero" aria-label="Автомобильная доставка на Север">
       <div class="container" style="position:relative;z-index:1;">
-        <span class="page-hero-label">Автомобильная доставка</span>
+        <div class="service-hero-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="24" width="30" height="18" rx="2"/><path d="M34 30h10c2 0 4 2 5 4l2 4v4H34"/><line x1="38" y1="30" x2="38" y2="42" stroke-width="1.5"/><circle cx="14" cy="46" r="4"/><circle cx="44" cy="46" r="4"/><line x1="0" y1="50" x2="64" y2="50" stroke-width="1.5"/><path d="M10 14h36" stroke-width="2"/><polyline points="42 10 46 14 42 18" stroke-width="2"/><circle cx="10" cy="14" r="2" fill="currentColor" stroke="none"/></svg></div>
+        <span class="page-hero-label" data-i18n="auto.road_delivery">Автомобильная доставка</span>
         <h1>Грузовые автоперевозки<br>в труднодоступные районы Дальнего Востока</h1>
         <p>Якутия · Магаданская область · Чукотка · Забайкалье<br>Федеральные трассы и сезонные зимники</p>
         <nav class="breadcrumb" aria-label="Хлебные крошки">
-          <a href="index.html">Главная</a>
+          <a href="index.html" data-i18n="nav.home">Главная</a>
           <span class="breadcrumb-sep" aria-hidden="true">›</span>
-          <a href="services.html">Услуги</a>
+          <a href="services.html" data-i18n="nav.services">Услуги</a>
           <span class="breadcrumb-sep" aria-hidden="true">›</span>
-          <span aria-current="page">Автомобильная доставка</span>
+          <span aria-current="page" data-i18n="auto.road_delivery">Автомобильная доставка</span>
         </nav>
       </div>
     </section>
@@ -71,9 +72,9 @@
     <section class="section" style="background:var(--color-light);" aria-labelledby="road-title">
       <div class="container">
         <div class="section-header">
-          <span class="section-label">Автомобильная доставка</span>
+          <span class="section-label" data-i18n="auto.road_delivery">Автомобильная доставка</span>
           <h2 class="section-title" id="road-title">Грузовые автоперевозки<br>в труднодоступные районы Дальнего Востока</h2>
-          <p class="section-desc">Морской путь — не единственный. По большей части грузы в северные регионы доставляются автотранспортом по федеральным трассам и сезонным зимникам</p>
+          <p class="section-desc" data-i18n="auto.sea_routes_are_not_the_only_option_most_cargo_to_the_norther">Морской путь — не единственный. По большей части грузы в северные регионы доставляются автотранспортом по федеральным трассам и сезонным зимникам</p>
           <div class="divider" aria-hidden="true"></div>
         </div>
 
@@ -89,146 +90,146 @@
         <div class="road-routes-grid">
           <div class="road-route-card fade-in">
             <div class="road-route-icon" aria-hidden="true">🛣️</div>
-            <h3>Трасса «Лена» (А-360)</h3>
-            <p class="road-route-meta">Большой Невер — Якутск · 1 157 км</p>
-            <p>Главная артерия Якутии. Связывает Транссибирскую магистраль с Якутском. Работает круглогодично; в период весеннего бездорожья возможны ограничения по нагрузке на ось. Срок доставки: 3–5 суток.</p>
+            <h3 data-i18n="auto.lena_highway_a360">Трасса «Лена» (А-360)</h3>
+            <p class="road-route-meta" data-i18n="auto.bolshoy_never_yakutsk_1157_km">Большой Невер — Якутск · 1 157 км</p>
+            <p data-i18n="auto.the_main_artery_of_yakutia_connects_the_transsiberian_railwa">Главная артерия Якутии. Связывает Транссибирскую магистраль с Якутском. Работает круглогодично; в период весеннего бездорожья возможны ограничения по нагрузке на ось. Срок доставки: 3–5 суток.</p>
           </div>
           <div class="road-route-card fade-in">
             <div class="road-route-icon" aria-hidden="true">❄️</div>
-            <h3>Трасса «Колыма» (Р-504)</h3>
-            <p class="road-route-meta">Якутск — Магадан · 2 032 км</p>
-            <p>«Дорога жизни» — единственная сухопутная связь Магаданской области с остальной страной. В сочетании с морским плечом позволяет работать круглогодично. Срок: 7–12 суток от Якутска.</p>
+            <h3 data-i18n="auto.kolyma_highway_r504">Трасса «Колыма» (Р-504)</h3>
+            <p class="road-route-meta" data-i18n="auto.yakutsk_magadan_2032_km">Якутск — Магадан · 2 032 км</p>
+            <p data-i18n="auto.the_road_of_life_is_the_only_overland_link_between_the_magad">«Дорога жизни» — единственная сухопутная связь Магаданской области с остальной страной. В сочетании с морским плечом позволяет работать круглогодично. Срок: 7–12 суток от Якутска.</p>
           </div>
           <div class="road-route-card fade-in">
             <div class="road-route-icon" aria-hidden="true">🏔️</div>
-            <h3>Трасса «Вилюй»</h3>
-            <p class="road-route-meta">Якутск — Мирный — Тулун · 1 789 км</p>
-            <p>Связывает Якутск с центральной частью Якутии и алмазодобывающим центром Мирный. Грунтовая дорога со сложными участками. Незаменима для снабжения горнодобывающих предприятий и вахтовых посёлков.</p>
+            <h3 data-i18n="auto.vilyuy_highway">Трасса «Вилюй»</h3>
+            <p class="road-route-meta" data-i18n="auto.yakutsk_mirny_tulun_1789_km">Якутск — Мирный — Тулун · 1 789 км</p>
+            <p data-i18n="auto.connects_yakutsk_with_central_yakutia_and_the_diamondmining_">Связывает Якутск с центральной частью Якутии и алмазодобывающим центром Мирный. Грунтовая дорога со сложными участками. Незаменима для снабжения горнодобывающих предприятий и вахтовых посёлков.</p>
           </div>
           <div class="road-route-card fade-in">
             <div class="road-route-icon" aria-hidden="true">🌨️</div>
-            <h3>Зимники (сезонные дороги)</h3>
-            <p class="road-route-meta">Декабрь — март · по льду и тайге</p>
-            <p>Временные дороги по замёрзшим рекам и снежной целине. Открываются при морозе −25 °C и ниже. Позволяют доставить тяжёлое оборудование в районы, недоступные в летний период. Координация с дорожными службами обязательна.</p>
+            <h3 data-i18n="auto.winter_roads_seasonal_roads">Зимники (сезонные дороги)</h3>
+            <p class="road-route-meta" data-i18n="auto.december_march_over_ice_and_taiga">Декабрь — март · по льду и тайге</p>
+            <p data-i18n="auto.temporary_roads_along_frozen_rivers_and_snowy_tundra_open_wh">Временные дороги по замёрзшим рекам и снежной целине. Открываются при морозе −25 °C и ниже. Позволяют доставить тяжёлое оборудование в районы, недоступные в летний период. Координация с дорожными службами обязательна.</p>
           </div>
         </div>
 
         <!-- Multimodal chain -->
         <div class="multimodal-block fade-in">
           <div class="multimodal-title">
-            <span class="section-label" style="margin:0;">Мультимодальная схема</span>
-            <h3>Автодоставка + перегрузка = груз в любую точку Севера</h3>
+            <span class="section-label" style="margin:0;" data-i18n="auto.multimodal_scheme">Мультимодальная схема</span>
+            <h3 data-i18n="auto.road_delivery_transshipment_cargo_to_any_point_in_the_north">Автодоставка + перегрузка = груз в любую точку Севера</h3>
           </div>
           <div class="multimodal-chain">
             <div class="mm-step">
               <div class="mm-icon" aria-hidden="true">🏭</div>
-              <div class="mm-label">Отправитель</div>
-              <div class="mm-sub">Любой регион России</div>
+              <div class="mm-label" data-i18n="auto.shipper">Отправитель</div>
+              <div class="mm-sub" data-i18n="auto.any_region_of_russia">Любой регион России</div>
             </div>
             <div class="mm-arrow" aria-hidden="true">→</div>
             <div class="mm-step">
               <div class="mm-icon" aria-hidden="true">🚛</div>
-              <div class="mm-label">Автодоставка по дорогам общего пользования</div>
-              <div class="mm-sub">По федеральным трассам</div>
+              <div class="mm-label" data-i18n="auto.road_delivery_via_public_roads">Автодоставка по дорогам общего пользования</div>
+              <div class="mm-sub" data-i18n="auto.along_federal_highways">По федеральным трассам</div>
             </div>
             <div class="mm-arrow" aria-hidden="true">→</div>
             <div class="mm-step">
               <div class="mm-icon" aria-hidden="true">🔄</div>
-              <div class="mm-label">Перегрузка на автомобили повышенной проходимости</div>
-              <div class="mm-sub">На перевалочной базе</div>
+              <div class="mm-label" data-i18n="auto.transfer_to_offroad_vehicles">Перегрузка на автомобили повышенной проходимости</div>
+              <div class="mm-sub" data-i18n="auto.at_the_transshipment_base">На перевалочной базе</div>
             </div>
             <div class="mm-arrow" aria-hidden="true">→</div>
             <div class="mm-step">
               <div class="mm-icon" aria-hidden="true">🚚</div>
-              <div class="mm-label">Автодоставка</div>
-              <div class="mm-sub">По трассе или зимнику</div>
+              <div class="mm-label" data-i18n="misc.entry_8">Автодоставка</div>
+              <div class="mm-sub" data-i18n="auto.via_highway_or_winter_road">По трассе или зимнику</div>
             </div>
             <div class="mm-arrow" aria-hidden="true">→</div>
             <div class="mm-step">
               <div class="mm-icon" aria-hidden="true">📍</div>
-              <div class="mm-label">Получатель</div>
-              <div class="mm-sub">Любой адрес на Севере</div>
+              <div class="mm-label" data-i18n="auto.consignee">Получатель</div>
+              <div class="mm-sub" data-i18n="auto.any_address_in_the_north">Любой адрес на Севере</div>
             </div>
           </div>
         </div>
 
         <!-- Key northern auto-destinations -->
-        <h3 class="north-destinations-header">Ключевые направления автодоставки</h3>
+        <h3 class="north-destinations-header" data-i18n="auto.key_road_delivery_destinations">Ключевые направления автодоставки</h3>
         <div class="north-destinations-grid">
           <div class="north-dest-item">
-            <span class="north-dest-city">Якутск</span>
-            <span class="north-dest-route">Трасса «Лена» (А-360)</span>
-            <span class="north-dest-note">Административный центр РС(Я), главный перевалочный хаб Севера</span>
+            <span class="north-dest-city" data-i18n="auto.yakutsk">Якутск</span>
+            <span class="north-dest-route" data-i18n="auto.lena_highway_a360">Трасса «Лена» (А-360)</span>
+            <span class="north-dest-note" data-i18n="auto.administrative_center_of_the_sakha_republic_the_main_transsh">Административный центр РС(Я), главный перевалочный хаб Севера</span>
           </div>
           <div class="north-dest-item">
-            <span class="north-dest-city">Нерюнгри</span>
-            <span class="north-dest-route">А-360 + ж/д ветка</span>
-            <span class="north-dest-note">Крупный промышленный центр, угольная промышленность Якутии</span>
+            <span class="north-dest-city" data-i18n="truck_delivery.neryungri">Нерюнгри</span>
+            <span class="north-dest-route" data-i18n="truck_delivery.a_360_zh_d_vetka">А-360 + ж/д ветка</span>
+            <span class="north-dest-note" data-i18n="auto.major_industrial_center_center_of_yakutias_coal_industry">Крупный промышленный центр, угольная промышленность Якутии</span>
           </div>
           <div class="north-dest-item">
-            <span class="north-dest-city">Мирный</span>
-            <span class="north-dest-route">Трасса «Вилюй»</span>
-            <span class="north-dest-note">Алмазодобывающий центр АЛРОСА</span>
+            <span class="north-dest-city" data-i18n="truck_delivery.mirnyy">Мирный</span>
+            <span class="north-dest-route" data-i18n="auto.vilyuy_highway">Трасса «Вилюй»</span>
+            <span class="north-dest-note" data-i18n="auto.alrosa_diamond_mining_center">Алмазодобывающий центр АЛРОСА</span>
           </div>
           <div class="north-dest-item">
-            <span class="north-dest-city">Сусуман</span>
-            <span class="north-dest-route">Трасса «Колыма» (Р-504)</span>
-            <span class="north-dest-note">Горнодобывающий район Магаданской области</span>
+            <span class="north-dest-city" data-i18n="truck_delivery.susuman">Сусуман</span>
+            <span class="north-dest-route" data-i18n="auto.kolyma_highway_r504">Трасса «Колыма» (Р-504)</span>
+            <span class="north-dest-note" data-i18n="truck_delivery.gornodobyvayushchiy_rayon_magadanskoy_oblasti">Горнодобывающий район Магаданской области</span>
           </div>
           <div class="north-dest-item">
-            <span class="north-dest-city">Усть-Нера</span>
-            <span class="north-dest-route">Трасса «Колыма» (Р-504)</span>
-            <span class="north-dest-note">Оймяконский район, полюс холода России</span>
+            <span class="north-dest-city" data-i18n="truck_delivery.ust_nera">Усть-Нера</span>
+            <span class="north-dest-route" data-i18n="auto.kolyma_highway_r504">Трасса «Колыма» (Р-504)</span>
+            <span class="north-dest-note" data-i18n="truck_delivery.oymyakonskiy_rayon_polyus_kholoda_rossii">Оймяконский район, полюс холода России</span>
           </div>
           <div class="north-dest-item">
-            <span class="north-dest-city">Тикси</span>
-            <span class="north-dest-route">Зимник + авиа / морской завоз</span>
-            <span class="north-dest-note">Арктический порт на Северном морском пути</span>
+            <span class="north-dest-city" data-i18n="severnyy_zavoz.tiksi">Тикси</span>
+            <span class="north-dest-route" data-i18n="truck_delivery.zimnik_avia_morskoy_zavoz">Зимник + авиа / морской завоз</span>
+            <span class="north-dest-note" data-i18n="truck_delivery.arkticheskiy_port_na_severnom_morskom_puti">Арктический порт на Северном морском пути</span>
           </div>
           <div class="north-dest-item">
-            <span class="north-dest-city">Бодайбо</span>
-            <span class="north-dest-route">Автодорога от Таксимо / зимник</span>
-            <span class="north-dest-note">Золотодобывающий район Иркутской области</span>
+            <span class="north-dest-city" data-i18n="truck_delivery.bodaybo">Бодайбо</span>
+            <span class="north-dest-route" data-i18n="truck_delivery.avtodoroga_ot_taksimo_zimnik">Автодорога от Таксимо / зимник</span>
+            <span class="north-dest-note" data-i18n="truck_delivery.zolotodobyvayushchiy_rayon_irkutskoy_oblasti">Золотодобывающий район Иркутской области</span>
           </div>
           <div class="north-dest-item">
-            <span class="north-dest-city">Таксимо</span>
-            <span class="north-dest-route">БАМ (ж/д станция)</span>
-            <span class="north-dest-note">Узловая станция Байкало-Амурской магистрали, Бурятия</span>
+            <span class="north-dest-city" data-i18n="truck_delivery.taksimo">Таксимо</span>
+            <span class="north-dest-route" data-i18n="truck_delivery.bam_zh_d_stantsiya">БАМ (ж/д станция)</span>
+            <span class="north-dest-note" data-i18n="truck_delivery.uzlovaya_stantsiya_baykalo_amurskoy_magistrali_bur">Узловая станция Байкало-Амурской магистрали, Бурятия</span>
           </div>
           <div class="north-dest-item">
-            <span class="north-dest-city">Кропоткин</span>
-            <span class="north-dest-route">Автодорога от Бодайбо</span>
-            <span class="north-dest-note">Населённый пункт Бодайбинского района Иркутской области</span>
+            <span class="north-dest-city" data-i18n="truck_delivery.kropotkin">Кропоткин</span>
+            <span class="north-dest-route" data-i18n="truck_delivery.avtodoroga_ot_bodaybo">Автодорога от Бодайбо</span>
+            <span class="north-dest-note" data-i18n="truck_delivery.naselyonnyy_punkt_bodaybinskogo_rayona_irkutskoy_o">Населённый пункт Бодайбинского района Иркутской области</span>
           </div>
           <div class="north-dest-item">
-            <span class="north-dest-city">Новая Чара</span>
-            <span class="north-dest-route">БАМ (ж/д станция)</span>
-            <span class="north-dest-note">Каларский район Забайкальского края, станция БАМа</span>
+            <span class="north-dest-city" data-i18n="truck_delivery.novaya_chara">Новая Чара</span>
+            <span class="north-dest-route" data-i18n="truck_delivery.bam_zh_d_stantsiya">БАМ (ж/д станция)</span>
+            <span class="north-dest-note" data-i18n="truck_delivery.kalarskiy_rayon_zabaykal_skogo_kraya_stantsiya_bam">Каларский район Забайкальского края, станция БАМа</span>
           </div>
           <div class="north-dest-item">
-            <span class="north-dest-city">Чегдомын</span>
-            <span class="north-dest-route">БАМ (ж/д станция)</span>
-            <span class="north-dest-note">Районный центр Верхнебуреинского района Хабаровского края</span>
+            <span class="north-dest-city" data-i18n="truck_delivery.chegdomyn">Чегдомын</span>
+            <span class="north-dest-route" data-i18n="truck_delivery.bam_zh_d_stantsiya">БАМ (ж/д станция)</span>
+            <span class="north-dest-note" data-i18n="truck_delivery.rayonnyy_tsentr_verkhnebureinskogo_rayona_khabarov">Районный центр Верхнебуреинского района Хабаровского края</span>
           </div>
           <div class="north-dest-item">
-            <span class="north-dest-city">Эльгинское месторождение</span>
-            <span class="north-dest-route">Ж/д ветка Улак — Эльга</span>
-            <span class="north-dest-note">Крупнейшее угольное месторождение Якутии</span>
+            <span class="north-dest-city" data-i18n="truck_delivery.el_ginskoe_mestorozhdenie">Эльгинское месторождение</span>
+            <span class="north-dest-route" data-i18n="truck_delivery.zh_d_vetka_ulak_el_ga">Ж/д ветка Улак — Эльга</span>
+            <span class="north-dest-note" data-i18n="truck_delivery.krupneyshee_ugol_noe_mestorozhdenie_yakutii">Крупнейшее угольное месторождение Якутии</span>
           </div>
           <div class="north-dest-item">
-            <span class="north-dest-city">Ленск</span>
-            <span class="north-dest-route">Автодорога «Вилюй» / речной транспорт</span>
-            <span class="north-dest-note">Город на реке Лена, перевалочная база западной Якутии</span>
+            <span class="north-dest-city" data-i18n="truck_delivery.lensk">Ленск</span>
+            <span class="north-dest-route" data-i18n="truck_delivery.avtodoroga_vilyuy_rechnoy_transport">Автодорога «Вилюй» / речной транспорт</span>
+            <span class="north-dest-note" data-i18n="truck_delivery.gorod_na_reke_lena_perevalochnaya_baza_zapadnoy_ya">Город на реке Лена, перевалочная база западной Якутии</span>
           </div>
           <div class="north-dest-item">
-            <span class="north-dest-city">Олёкминск</span>
-            <span class="north-dest-route">Речной транспорт / автодорога от Якутска</span>
-            <span class="north-dest-note">Город на реке Лена, Олёкминский район Якутии</span>
+            <span class="north-dest-city" data-i18n="truck_delivery.olyokminsk">Олёкминск</span>
+            <span class="north-dest-route" data-i18n="truck_delivery.rechnoy_transport_avtodoroga_ot_yakutska">Речной транспорт / автодорога от Якутска</span>
+            <span class="north-dest-note" data-i18n="truck_delivery.gorod_na_reke_lena_olyokminskiy_rayon_yakutii">Город на реке Лена, Олёкминский район Якутии</span>
           </div>
           <div class="north-dest-item">
-            <span class="north-dest-city">Газимурский Завод</span>
-            <span class="north-dest-route">Автодорога от Читы</span>
-            <span class="north-dest-note">Районный центр Газимуро-Заводского района Забайкальского края</span>
+            <span class="north-dest-city" data-i18n="truck_delivery.gazimurskiy_zavod">Газимурский Завод</span>
+            <span class="north-dest-route" data-i18n="truck_delivery.avtodoroga_ot_chity">Автодорога от Читы</span>
+            <span class="north-dest-note" data-i18n="truck_delivery.rayonnyy_tsentr_gazimuro_zavodskogo_rayona_zabayka">Районный центр Газимуро-Заводского района Забайкальского края</span>
           </div>
         </div>
 
@@ -239,23 +240,23 @@
     <section class="section see-also-section" aria-labelledby="see-also-td-title">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title" id="see-also-td-title">Смотрите также</h2>
+          <h2 class="section-title" id="see-also-td-title" data-i18n="auto.see_also">Смотрите также</h2>
           <div class="divider" aria-hidden="true"></div>
         </div>
         <div class="see-also-grid">
           <a href="remote-regions.html" class="see-also-card">
             <span class="see-also-icon" aria-hidden="true">🚢</span>
             <div>
-              <strong>Северный завоз — морские перевозки</strong>
-              <p>Доставка морем на Сахалин, Магадан, Камчатку и Чукотку — альтернатива автоперевозкам</p>
+              <strong data-i18n="auto.northern_supply_sea_freight">Северный завоз — морские перевозки</strong>
+              <p data-i18n="auto.sea_delivery_to_sakhalin_magadan_kamchatka_and_chukotka_an_a">Доставка морем на Сахалин, Магадан, Камчатку и Чукотку — альтернатива автоперевозкам</p>
             </div>
             <span class="see-also-arrow" aria-hidden="true">→</span>
           </a>
           <a href="services.html" class="see-also-card">
             <span class="see-also-icon" aria-hidden="true">📦</span>
             <div>
-              <strong>Все услуги и тарифы</strong>
-              <p>Полный список логистических решений: ж/д, авиа, склад, экспедирование</p>
+              <strong data-i18n="cta.all_services_rates">Все услуги и тарифы</strong>
+              <p data-i18n="truck_delivery.polnyy_spisok_logisticheskikh_resheniy_zh_d_avia_s">Полный список логистических решений: ж/д, авиа, склад, экспедирование</p>
             </div>
             <span class="see-also-arrow" aria-hidden="true">→</span>
           </a>
@@ -267,14 +268,14 @@
     <section class="cta-section" aria-labelledby="cta-td-title">
       <div class="container">
         <div class="cta-inner">
-          <h2 class="cta-title" id="cta-td-title">Нужна автодоставка на Север?</h2>
+          <h2 class="cta-title" id="cta-td-title" data-i18n="auto.need_road_delivery_to_the_north">Нужна автодоставка на Север?</h2>
           <p class="cta-desc">
             Оставьте заявку — наш специалист по северным автоперевозкам
             перезвонит в течение 2 часов и рассчитает стоимость доставки.
           </p>
           <div class="cta-actions">
-            <a href="contacts.html#contactForm" class="btn btn-primary">Оставить заявку на доставку</a>
-            <a href="tel:+78005553535" class="btn btn-secondary">
+            <a href="contacts.html#contactForm" class="btn btn-primary" data-i18n="auto.request_delivery">Оставить заявку на доставку</a>
+            <a href="tel:+79147285880" class="btn btn-secondary">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                    fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
                 <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5
@@ -282,7 +283,7 @@
                          1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.26a16 16 0 006.29
                          6.29l1.25-1.25a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
               </svg>
-              +7&nbsp;(800)&nbsp;555&#8209;35&#8209;35
+              +7&nbsp;(914)&nbsp;728&#8209;58&#8209;80
             </a>
           </div>
         </div>
@@ -301,11 +302,11 @@
 
   <div data-component="scroll-top"></div>
 
-  <script defer src="js/components.js?v=20260412"></script>
-  <script defer src="js/i18n.js?v=20260412"></script>
-  <script defer src="js/main.js?v=20260412"></script>
+  <script defer src="js/components.js?v=20260413d"></script>
+  <script defer src="js/i18n.js?v=20260413"></script>
+  <script defer src="js/main.js?v=20260413c"></script>
   <script defer src="js/animations.js?v=20260412"></script>
-  <script defer src="js/premium-features.js?v=20260412"></script>
+  <script defer src="js/premium-features.js?v=20260413"></script>
   <script defer src="js/analytics.js?v=20260412"></script>
 </body>
 </html>
