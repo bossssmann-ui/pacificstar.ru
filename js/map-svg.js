@@ -694,15 +694,15 @@
       desc:  'Владивосток → Сахалин. Морские грузоперевозки, нефтегазовая логистика Сахалинского шельфа.',
       waypoints: [
         'Владивосток',
-        { lat: 42.8, lon: 133.5 },    /* exit bay into Sea of Japan            */
-        { lat: 43.5, lon: 135.5 },    /* Sea of Japan heading NE               */
-        { lat: 44.5, lon: 137.0 },    /* Sea of Japan                          */
-        { lat: 46.0, lon: 138.5 },    /* approaching mainland coast            */
-        { lat: 47.5, lon: 139.5 },    /* Tatar Strait approach                 */
-        { lat: 48.5, lon: 140.5 },    /* Tatar Strait south (mid-channel)      */
-        { lat: 49.5, lon: 140.7 },    /* Tatar Strait central (mid-channel)    */
-        { lat: 50.0, lon: 141.0 },    /* Tatar Strait north                    */
-        { lat: 50.5, lon: 141.5 },    /* approaching Sakhalin W coast          */
+        { lat: 43.0, lon: 132.8 },    /* exit bay into Sea of Japan            */
+        { lat: 44.0, lon: 135.5 },    /* Sea of Japan, heading NE              */
+        { lat: 45.5, lon: 137.5 },    /* Sea of Japan, off Sikhote-Alin coast  */
+        { lat: 47.0, lon: 139.0 },    /* off mainland coast, heading to strait */
+        { lat: 48.0, lon: 139.8 },    /* southern Tatar Strait entrance        */
+        { lat: 49.0, lon: 140.5 },    /* Tatar Strait south (mid-channel)      */
+        { lat: 49.8, lon: 141.0 },    /* Tatar Strait central                  */
+        { lat: 50.3, lon: 141.4 },    /* Tatar Strait north                    */
+        { lat: 50.6, lon: 141.7 },    /* approaching Sakhalin W coast          */
         'Сахалин'
       ]
     },
