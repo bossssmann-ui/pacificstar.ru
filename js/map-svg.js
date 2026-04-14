@@ -606,11 +606,19 @@
         { lat: 70.5, lon: 169.0 },    /* near Pevek                            */
         'Певек',
 
-        /* ── Pevek → Chukchi Sea → Provideniya → Anadyr ── */
-        { lat: 70.5, lon: 174.0 },    /* Chukchi Sea heading east (offshore)   */
-        { lat: 70.0, lon: 180.0 },    /* Chukchi Sea, east of Chukchi Pen.     */
-        { lat: 67.0, lon: 180.0 },    /* approaching Bering Strait             */
-        { lat: 65.0, lon: 180.0 },    /* south through Bering Sea              */
+        /* ── Pevek → E Chukotka coast → Bering Strait → Provideniya → Anadyr ──
+           The Chukchi Peninsula on the simplified GeoJSON is solid land
+           from lon ≈ 180 at lat 65-68.5.  Route goes east around the
+           peninsula through the Bering Strait to stay over open water. */
+        { lat: 70.0, lon: 175.0 },    /* Chukchi Sea heading east              */
+        { lat: 69.5, lon: 180.0 },    /* Chukchi Sea near date line            */
+        { lat: 69.0, lon: 182.0 },    /* east Chukotka coast offshore          */
+        { lat: 68.0, lon: 184.0 },    /* following east coast southward        */
+        { lat: 67.0, lon: 188.0 },    /* Cape Dezhnev area offshore            */
+        { lat: 66.0, lon: 192.0 },    /* east of Bering Strait                 */
+        { lat: 65.0, lon: 191.0 },    /* south past Bering islands             */
+        { lat: 64.0, lon: 188.0 },    /* Bering Sea heading west               */
+        { lat: 64.0, lon: 180.0 },    /* Bering Sea                            */
         'Провидения',
         { lat: 64.0, lon: 179.0 },    /* Anadyr Gulf offshore                  */
         'Анадырь',
