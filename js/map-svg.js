@@ -669,10 +669,10 @@
       desc:  'Санкт-Петербург → Балтийское море → Калининград. Паромное и морское сообщение с Калининградским эксклавом.',
       waypoints: [
         'Санкт-Петербург',
-        { lat: 59.8, lon: 27.5 },
-        { lat: 59.5, lon: 24.0 },
-        { lat: 58.0, lon: 22.0 },
-        { lat: 56.5, lon: 20.5 },
+        { lat: 59.8, lon: 27.5 },    /* Gulf of Finland, heading west            */
+        { lat: 59.5, lon: 24.0 },    /* Central Gulf of Finland, off Tallinn     */
+        { lat: 59.0, lon: 20.5 },    /* Open Baltic, west of Hiiumaa / Saaremaa  */
+        { lat: 57.0, lon: 20.0 },    /* Open Baltic Sea, heading south           */
         'Калининград'
       ]
     },
