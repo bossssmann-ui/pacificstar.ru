@@ -645,7 +645,8 @@
         { lat: 69.5, lon: 41.0 },     /* Barents Sea                           */
         { lat: 71.5, lon: 44.0 },     /* heading NE                            */
         { lat: 72.5, lon: 48.0 },     /* north of Kolguev Island (69°N)        */
-        { lat: 71.5, lon: 52.0 },     /* heading toward Novaya Zemlya          */
+        { lat: 71.0, lon: 50.0 },     /* heading toward Novaya Zemlya          */
+        { lat: 70.5, lon: 53.5 },     /* south of NZ (S island at ~70.5°N)     */
         { lat: 70.5, lon: 56.0 },     /* approaching Kara Gates                */
         { lat: 70.3, lon: 58.5 },     /* KARA GATES passage (NZ–Vaigach gap)   */
         { lat: 70.5, lon: 61.0 },     /* through Kara Gates into Kara Sea      */
@@ -670,10 +671,11 @@
         /* ── Dudinka → Kara Sea → AROUND TAYMYR → Laptev Sea → Tiksi ──
            Cape Chelyuskin is at 77.72°N, 104.3°E.
            Route stays north at 78°N to avoid the peninsula entirely. */
-        { lat: 70.5, lon: 87.0 },     /* heading north from Dudinka            */
-        { lat: 72.0, lon: 87.5 },     /* NE into Kara Sea                      */
-        { lat: 73.5, lon: 88.5 },     /* approaching Taymyr west coast         */
-        { lat: 75.0, lon: 91.0 },     /* along W coast of Taymyr (offshore)    */
+        { lat: 71.0, lon: 85.0 },     /* heading NW along Yenisei estuary      */
+        { lat: 72.5, lon: 84.0 },     /* Yenisei Gulf north                    */
+        { lat: 74.0, lon: 83.5 },     /* exiting gulf into Kara Sea            */
+        { lat: 75.5, lon: 86.0 },     /* Kara Sea, offshore Taymyr W coast     */
+        { lat: 76.0, lon: 91.0 },     /* along W coast of Taymyr (offshore)    */
         { lat: 76.5, lon: 95.0 },     /* NW Taymyr                             */
         { lat: 77.5, lon: 99.0 },     /* heading to Cape Chelyuskin            */
         { lat: 78.0, lon: 104.0 },    /* NORTH of Cape Chelyuskin (77.72°N)    */
@@ -681,7 +683,8 @@
         { lat: 76.5, lon: 113.0 },    /* NE Taymyr coast                       */
         { lat: 75.5, lon: 117.0 },    /* heading east into Laptev Sea          */
         { lat: 74.5, lon: 121.0 },    /* Laptev Sea                            */
-        { lat: 73.5, lon: 125.0 },    /* approaching Tiksi                     */
+        { lat: 74.0, lon: 124.0 },    /* Laptev Sea                            */
+        { lat: 73.0, lon: 126.5 },    /* approaching Tiksi (offshore)          */
         { lat: 72.5, lon: 128.0 },    /* near Tiksi                            */
         'Тикси',
 
@@ -691,7 +694,7 @@
            Route goes north at 76°N to clear all islands. */
         { lat: 72.5, lon: 131.0 },    /* heading NE from Tiksi                 */
         { lat: 74.0, lon: 135.0 },    /* heading north                         */
-        { lat: 75.5, lon: 140.0 },    /* north of Lyakhovsky Islands           */
+        { lat: 76.5, lon: 140.0 },    /* north of New Siberian Islands         */
         { lat: 76.0, lon: 146.0 },    /* north of Anzhu Islands                */
         { lat: 75.0, lon: 152.0 },    /* past De Long Islands, heading SE      */
         { lat: 73.5, lon: 157.0 },    /* East Siberian Sea                     */
@@ -701,21 +704,21 @@
         'Певек',
 
         /* ── Pevek → Chukchi Sea → Provideniya → Anadyr ── */
-        { lat: 69.5, lon: 172.0 },    /* Chukchi Sea heading east              */
-        { lat: 68.0, lon: 175.0 },    /* Chukchi Sea SE (coast ~67°N at 175°E) */
-        { lat: 66.5, lon: 176.0 },    /* approaching Bering Sea                */
-        { lat: 65.0, lon: 174.0 },    /* heading south                         */
+        { lat: 70.5, lon: 174.0 },    /* Chukchi Sea heading east (offshore)   */
+        { lat: 69.5, lon: 178.0 },    /* Chukchi Sea SE (well offshore coast)  */
+        { lat: 67.5, lon: 180.0 },    /* approaching Bering Sea                */
+        { lat: 66.5, lon: 178.0 },    /* heading south toward Provideniya      */
         'Провидения',
-        { lat: 64.5, lon: 175.5 },    /* Anadyr Gulf                           */
+        { lat: 64.3, lon: 176.0 },    /* Anadyr Gulf                           */
         'Анадырь',
 
         /* ── Anadyr → Bering Sea → Pacific → Okhotsk Sea → Magadan ── */
-        { lat: 63.0, lon: 176.0 },    /* heading south in Bering Sea           */
+        { lat: 63.5, lon: 179.0 },    /* heading south in Bering Sea           */
         { lat: 60.5, lon: 172.0 },    /* Bering Sea SW                         */
         { lat: 58.0, lon: 166.0 },    /* east of Kamchatka                     */
         { lat: 55.5, lon: 163.0 },    /* Pacific, SE of Kamchatka              */
         { lat: 53.5, lon: 161.0 },    /* Pacific coast of Kamchatka            */
-        { lat: 52.0, lon: 158.0 },    /* near Cape Lopatka Pacific side        */
+        { lat: 51.5, lon: 159.5 },    /* near Cape Lopatka Pacific side        */
         { lat: 50.5, lon: 155.0 },    /* south of Kamchatka tip (50.88°N)      */
         { lat: 51.0, lon: 152.0 },    /* entering Okhotsk Sea (W of Kurils)    */
         { lat: 53.0, lon: 151.0 },    /* Okhotsk Sea heading north             */
@@ -727,8 +730,9 @@
         { lat: 57.0, lon: 149.0 },    /* heading south                         */
         { lat: 54.0, lon: 148.0 },    /* Okhotsk Sea central                   */
         { lat: 51.0, lon: 147.0 },    /* E of Sakhalin (coast ~143-144°E)      */
-        { lat: 48.0, lon: 145.5 },    /* S Okhotsk (E of Sakhalin ~143°E)      */
-        { lat: 46.0, lon: 143.5 },    /* SE of Sakhalin south tip              */
+        { lat: 48.0, lon: 145.5 },    /* S Okhotsk (E of Sakhalin ~143-144°E)  */
+        { lat: 46.5, lon: 144.5 },    /* between Sakhalin E coast and Kurils   */
+        { lat: 45.5, lon: 143.0 },    /* S of Sakhalin tip, N of Hokkaido NE   */
         { lat: 45.7, lon: 141.5 },    /* LA PEROUSE STRAIT (Sakhalin–Hokkaido) */
         { lat: 44.5, lon: 139.0 },    /* Sea of Japan north                    */
         { lat: 43.5, lon: 135.5 },    /* Sea of Japan heading SW               */
@@ -771,15 +775,15 @@
       desc:  'Владивосток → Сахалин. Морские грузоперевозки, нефтегазовая логистика Сахалинского шельфа.',
       waypoints: [
         'Владивосток',
-        { lat: 43.0, lon: 133.0 },    /* exit bay into Sea of Japan            */
-        { lat: 43.5, lon: 134.5 },    /* Sea of Japan heading NE               */
-        { lat: 44.5, lon: 136.0 },    /* Sea of Japan                          */
-        { lat: 46.0, lon: 137.5 },    /* approaching mainland coast            */
-        { lat: 47.5, lon: 138.5 },    /* Tatar Strait approach                 */
-        { lat: 48.5, lon: 139.5 },    /* Tatar Strait south (mid-channel)      */
-        { lat: 49.5, lon: 140.0 },    /* Tatar Strait central                  */
-        { lat: 50.0, lon: 140.5 },    /* Tatar Strait north                    */
-        { lat: 50.5, lon: 141.0 },    /* approaching Sakhalin W coast          */
+        { lat: 42.8, lon: 133.5 },    /* exit bay into Sea of Japan            */
+        { lat: 43.5, lon: 135.5 },    /* Sea of Japan heading NE               */
+        { lat: 44.5, lon: 137.0 },    /* Sea of Japan                          */
+        { lat: 46.0, lon: 138.5 },    /* approaching mainland coast            */
+        { lat: 47.5, lon: 139.5 },    /* Tatar Strait approach                 */
+        { lat: 48.5, lon: 140.5 },    /* Tatar Strait south (mid-channel)      */
+        { lat: 49.5, lon: 140.7 },    /* Tatar Strait central (mid-channel)    */
+        { lat: 50.0, lon: 141.0 },    /* Tatar Strait north                    */
+        { lat: 50.5, lon: 141.5 },    /* approaching Sakhalin W coast          */
         'Сахалин'
       ]
     },
@@ -804,9 +808,9 @@
         { lat: 44.5, lon: 138.0 },    /* heading toward La Perouse             */
         { lat: 45.5, lon: 140.0 },    /* approaching strait                    */
         { lat: 45.7, lon: 141.5 },    /* La Perouse Strait (Sakhalin–Hokkaido) */
-        { lat: 46.5, lon: 143.5 },    /* entering Okhotsk Sea                  */
-        { lat: 48.0, lon: 146.0 },    /* Okhotsk Sea south                     */
-        { lat: 49.5, lon: 149.0 },    /* Okhotsk Sea (W of Kuril chain)        */
+        { lat: 45.5, lon: 143.0 },    /* S of Sakhalin tip, entering Okhotsk   */
+        { lat: 47.0, lon: 145.0 },    /* Okhotsk Sea, E of Sakhalin            */
+        { lat: 49.0, lon: 148.0 },    /* Okhotsk Sea (W of Kuril chain)        */
         { lat: 50.5, lon: 152.0 },    /* Okhotsk heading NE                    */
         { lat: 50.5, lon: 155.0 },    /* approaching First Kuril Strait        */
         { lat: 50.5, lon: 157.5 },    /* south of Cape Lopatka, Pacific side   */
@@ -834,8 +838,8 @@
         { lat: 44.5, lon: 138.0 },    /* heading toward La Perouse             */
         { lat: 45.5, lon: 140.0 },    /* approaching strait                    */
         { lat: 45.7, lon: 141.5 },    /* La Perouse Strait                     */
-        { lat: 46.5, lon: 143.5 },    /* entering Okhotsk Sea                  */
-        { lat: 48.0, lon: 146.0 },    /* Okhotsk Sea south                     */
+        { lat: 45.5, lon: 143.0 },    /* S of Sakhalin tip, entering Okhotsk   */
+        { lat: 47.0, lon: 145.0 },    /* Okhotsk Sea, E of Sakhalin            */
         { lat: 50.0, lon: 147.5 },    /* Okhotsk heading N                     */
         { lat: 53.0, lon: 149.0 },    /* Okhotsk central                       */
         { lat: 56.0, lon: 150.0 },    /* Okhotsk north                         */
