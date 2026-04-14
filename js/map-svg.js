@@ -733,12 +733,13 @@
         { lat: 45.7, lon: 141.5 },    /* La Perouse Strait (Sakhalin–Hokkaido) */
         { lat: 45.5, lon: 143.0 },    /* S of Sakhalin tip, entering Okhotsk   */
         { lat: 47.0, lon: 145.0 },    /* Okhotsk Sea, E of Sakhalin            */
-        { lat: 49.0, lon: 148.0 },    /* Okhotsk Sea (W of Kuril chain)        */
-        { lat: 50.5, lon: 152.0 },    /* Okhotsk heading NE                    */
-        { lat: 50.5, lon: 155.0 },    /* approaching First Kuril Strait        */
-        { lat: 50.5, lon: 157.5 },    /* south of Cape Lopatka, Pacific side   */
-        { lat: 51.5, lon: 158.5 },    /* heading N along Pacific coast         */
-        { lat: 52.5, lon: 158.7 },    /* approaching Petropavlovsk             */
+        { lat: 49.0, lon: 149.0 },    /* Okhotsk Sea (W of Kuril chain)        */
+        { lat: 50.0, lon: 153.0 },    /* Okhotsk Sea heading NE                */
+        { lat: 50.0, lon: 155.5 },    /* approaching Cape Lopatka from W       */
+        { lat: 50.0, lon: 157.5 },    /* rounding south of Cape Lopatka        */
+        { lat: 50.5, lon: 159.0 },    /* Pacific side, S of Kamchatka          */
+        { lat: 51.5, lon: 159.5 },    /* heading N along Pacific coast         */
+        { lat: 52.5, lon: 159.0 },    /* approaching Petropavlovsk             */
         'Петропавловск-Камчатский'
       ]
     },
