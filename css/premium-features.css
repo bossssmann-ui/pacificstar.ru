@@ -347,6 +347,12 @@ html.dark-theme .custom-cursor-ring.is-hovered {
   to   { stroke-dashoffset: 0; }
 }
 
+/* NSR / Arctic route: dash-dot pattern (16+5+5+5 = 31) */
+@keyframes svg-flow-nsr {
+  from { stroke-dashoffset: 31; }
+  to   { stroke-dashoffset: 0; }
+}
+
 /* Legacy keyframe kept for any older cached refs */
 @keyframes svg-route-flow {
   from { stroke-dashoffset: 26; }
@@ -365,6 +371,12 @@ html.dark-theme .custom-cursor-ring.is-hovered {
 .svg-map-route--land {
   stroke-dasharray: 8 6;
   animation: svg-flow-land 2.5s linear infinite;
+}
+
+/* NSR / Arctic route: dash-dot pattern for visual distinction. */
+.svg-map-route--nsr {
+  stroke-dasharray: 16 5 5 5;
+  animation: svg-flow-nsr 3.5s linear infinite;
 }
 
 /* Invisible hit-area path for route hover (wide transparent stroke). */
@@ -442,6 +454,7 @@ html.dark-theme .custom-cursor-ring.is-hovered {
 @media (prefers-reduced-motion: reduce) {
   .svg-map-route--sea,
   .svg-map-route--land,
+  .svg-map-route--nsr,
   .svg-map-pulse,
   .svg-map-marker--hub .svg-map-pulse,
   .svg-map-marker--route-active .svg-map-pulse {
