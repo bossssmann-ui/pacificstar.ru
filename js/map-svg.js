@@ -17,9 +17,9 @@
  *   - NSR has distinct visual style (ice-blue, dash-dot pattern)
  *
  * Both sea and land routes use Catmull-Rom → cubic bezier splines that pass
- * through every waypoint. Sea routes use tension ~0.42 (divisor 16) for tight
- * curves that prevent coastline overshoot; land routes use tension ~0.75
- * (divisor 24) for subtle bends that suggest real road/rail geometry.
+ * through every waypoint. Sea routes use divisor 16 for tight curves that
+ * prevent coastline overshoot; land routes use divisor 24 for subtle bends
+ * that suggest real road/rail geometry.
  *
  * Sea route waypoints are placed in open water to avoid land-crossing.
  * Land route waypoints follow actual highway/rail corridors (A360, R504, M58,
@@ -57,7 +57,7 @@
       ariaLabel:    'Pacific Star 物流路线地图',
       loadingNotice:'路线地图正在加载中。如果暂时未显示，请几秒后刷新页面。',
       legendSea:    '海运航线',
-      legendNSR:    '北方海航线',
+      legendNSR:    '北极航道',
       legendLand:   '陆路航线'
     },
     ja: {
@@ -173,7 +173,7 @@
       lx:  14, ly: -13 },
 
     /* ──── Russian Far East — sea / arctic ──── */
-    { name: 'Сахалин',          lat: 50.9,    lon: 142.05,   hub: false, type: 'sea',
+    { name: 'Сахалин',          lat: 50.9,    lon: 142.05,   hub: false, type: 'sea', /* v11: moved from 142.7 to 142.05 — closer to Sakhalin W coast (Tatar Strait side) */
       nodeType: 'port',  country: 'Russia', mobile: false,
       desc: 'Морские грузоперевозки и нефтегазовая логистика Сахалинского шельфа.',
       lx:  11, ly:  -8 },
@@ -1009,8 +1009,8 @@
     var d = 'M' + pts[0].x.toFixed(1) + ' ' + pts[0].y.toFixed(1);
     var i, p0, p1, p2, p3, cp1x, cp1y, cp2x, cp2y;
 
-    /* Sea routes:  Catmull-Rom divisor 16 (tension ~0.42, tight curves
-                    to prevent spline overshoot across coastlines).
+    /* Sea routes:  Catmull-Rom divisor 16 (tension ≈ 1/divisor ≈ 0.06;
+                    tight curves to prevent spline overshoot across coastlines).
        Land routes: Catmull-Rom divisor 24 (very tight, subtle road bends). */
     var divisor = (route.type === 'land') ? 24 : 16;
 
