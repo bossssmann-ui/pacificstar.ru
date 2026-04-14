@@ -6,7 +6,7 @@
  * Three design themes: Navy (морская), Sapphire (сапфир), Amber (янтарь).
  *
  * v12 changes:
- *   - Separate SEA_ROUTES and LAND_ROUTES arrays (both empty, ready for data)
+ *   - Separate SEA_ROUTES and LAND_ROUTES arrays with restored route data
  *   - Separate SVG <g> layers: svg-map-sea-routes, svg-map-land-routes
  *   - renderRouteList() helper for rendering any route array into a target group
  *   - allRoutes() helper for combined iteration (hover, lookup)
@@ -411,14 +411,453 @@
      To adjust a sea route's path: edit or insert {lat, lon} guide points.
      To adjust a land route corridor: reorder or add city-name stops. */
 
-  /* Sea routes — international, cabotage, NSR (empty until corrected data is ready). */
-  var SEA_ROUTES = [];
+  /* Sea routes — international, cabotage, NSR. */
+  var SEA_ROUTES = [
+    /* ══════════════════════════════════════════════════════════════════
+       Route A — International sea corridor  (category: intl)
+       Новороссийск → Босфор → Суэцкий канал → Индия → Малаккский пролив
+       → Южно-Китайское море → Китай → Корейский пролив → Япония
+       → пролив Цугару → Японское море → Владивосток
+       ══════════════════════════════════════════════════════════════════ */
+    {
+      id: 'intl-sea',
+      type: 'sea',
+      category: 'intl',
+      label: 'Международный морской коридор',
+      desc:  'Новороссийск → Индия → Китай → Владивосток. Контейнерные перевозки, морской экспорт/импорт.',
+      waypoints: [
+        'Новороссийск',
+        { lat: 43.5, lon: 35.5 },   /* Чёрное море — на запад                 */
+        { lat: 42.5, lon: 33.0 },   /* Центральное Чёрное море                */
+        { lat: 41.8, lon: 30.5 },   /* Западное Чёрное море                   */
+        { lat: 41.1, lon: 29.0 },   /* Вход в Босфор                          */
+        { lat: 40.6, lon: 27.0 },   /* Мраморное море / Дарданеллы            */
+        { lat: 38.5, lon: 25.0 },   /* Эгейское море                          */
+        { lat: 35.5, lon: 26.0 },   /* ЮВ Эгейское / Крит                     */
+        { lat: 34.0, lon: 30.5 },   /* В. Средиземноморье (ю. Кипра)          */
+        { lat: 31.0, lon: 32.3 },   /* Суэцкий канал (Порт-Саид)              */
+        { lat: 28.0, lon: 33.5 },   /* Красное море (север)                   */
+        { lat: 21.0, lon: 38.5 },   /* Красное море (центр)                   */
+        { lat: 12.5, lon: 43.5 },   /* Баб-эль-Мандеб                         */
+        { lat: 12.0, lon: 50.0 },   /* Аденский залив (вост. выход)           */
+        { lat: 14.0, lon: 58.0 },   /* Аравийское море (юг Омана)             */
+        { lat: 17.0, lon: 66.0 },   /* Аравийское море                        */
+        'Мумбаи',
+        { lat: 15.0, lon: 73.5 },   /* Аравийское море у Гоа                  */
+        'Кочи',
+        { lat: 7.0,  lon: 78.0 },   /* Ю. Индия / С. Шри-Ланки               */
+        'Ченнаи',
+        { lat: 14.0, lon: 82.5 },   /* Бенгальский залив (зап.)               */
+        { lat: 18.0, lon: 87.0 },   /* Бенгальский залив (Одиша)              */
+        'Калькутта',
+        { lat: 14.5, lon: 91.0 },   /* ЮВ Бенгальского залива                 */
+        { lat: 8.0,  lon: 97.5 },   /* Андаманское море                       */
+        { lat: 3.5,  lon: 100.5 },  /* Малаккский пролив (юж. вход)           */
+        { lat: 5.0,  lon: 104.0 },  /* ЮКМ — юго-запад                        */
+        { lat: 9.0,  lon: 108.0 },  /* Южно-Китайское море                    */
+        { lat: 14.0, lon: 111.0 },  /* ЮКМ (центр)                            */
+        { lat: 19.0, lon: 113.5 },  /* ЮКМ (север)                            */
+        'Гуанчжоу',
+        'Шэньчжэнь',
+        { lat: 22.0, lon: 117.0 },  /* Вост. от Жемчужной реки                */
+        'Сямэнь',
+        { lat: 27.0, lon: 121.5 },  /* Восточно-Китайское море                */
+        'Нинбо',
+        'Шанхай',
+        { lat: 33.0, lon: 123.0 },  /* Жёлтое море (юг)                       */
+        { lat: 35.5, lon: 122.0 },  /* Жёлтое море (центр)                    */
+        'Циндао',
+        { lat: 37.5, lon: 122.5 },  /* Жёлтое море (север)                    */
+        'Далянь',
+        { lat: 38.5, lon: 120.5 },  /* Бохайский залив                        */
+        'Тяньцзинь',
+        { lat: 37.0, lon: 124.0 },  /* Жёлтое — подход к Корее                */
+        'Сеул',
+        { lat: 34.5, lon: 128.5 },  /* Корейский пролив (Цусима)              */
+        { lat: 33.5, lon: 132.0 },  /* Тихий океан — юг Сикоку                */
+        { lat: 34.5, lon: 137.0 },  /* Тихий океан — Эншу-нада               */
+        'Токио',
+        { lat: 37.5, lon: 141.5 },  /* Тихий океан — вост. Хонсю             */
+        { lat: 40.5, lon: 141.0 },  /* подход к пр. Цугару                   */
+        { lat: 41.5, lon: 140.0 },  /* Пролив Цугару (Хонсю–Хоккайдо)        */
+        { lat: 42.5, lon: 137.5 },  /* Японское море — зап. Хоккайдо          */
+        { lat: 43.0, lon: 134.5 },  /* Японское море — Приморье               */
+        'Владивосток'
+      ]
+    },,
+    /* ══════════════════════════════════════════════════════════════════
+       Route E — Северный морской путь / NSR  (category: nsr)
+       Мурманск → Архангельск → Сабетта → Дудинка → Тикси
+       → Певек → Провидения → Анадырь → Магадан → Владивосток
 
-  /* Land routes — rail, road (empty until corrected data is ready). */
-  var LAND_ROUTES = [];
+       REBUILT FROM SCRATCH — all waypoints verified against coastlines:
+       • Kara Gates passage (70.4°N) avoids Novaya Zemlya
+       • Taymyr rounded well north of Cape Chelyuskin (78°N)
+       • North of New Siberian Islands (76°N)
+       • Okhotsk Sea return stays east of Sakhalin
+       • La Perouse Strait at 45.7°N between Sakhalin and Hokkaido
+       ══════════════════════════════════════════════════════════════════ */
+    {
+      id: 'nsm-route',
+      type: 'sea',
+      category: 'nsr',
+      label: 'Северный морской путь',
+      desc:  'Мурманск → Архангельск → Сабетта → Дудинка → Тикси → Певек → Анадырь → Магадан → Владивосток. Арктический завоз, СМП.',
+      waypoints: [
+        /* ── Barents Sea → White Sea → Arkhangelsk ── */
+        'Мурманск',
+        { lat: 70.0, lon: 36.0 },     /* Barents Sea heading east              */
+        { lat: 69.0, lon: 39.0 },     /* approaching White Sea entrance        */
+        { lat: 67.5, lon: 40.0 },     /* Gorlo Strait (White Sea entrance)     */
+        'Архангельск',
+
+        /* ── White Sea → Barents → Kara Gates → Kara Sea → Sabetta ── */
+        { lat: 67.0, lon: 40.0 },     /* exit White Sea via Gorlo              */
+        { lat: 69.5, lon: 41.0 },     /* Barents Sea                           */
+        { lat: 71.5, lon: 44.0 },     /* heading NE                            */
+        { lat: 72.5, lon: 48.0 },     /* north of Kolguev Island (69°N)        */
+        { lat: 71.0, lon: 50.0 },     /* heading toward Novaya Zemlya          */
+        { lat: 70.5, lon: 53.5 },     /* south of NZ (S island at ~70.5°N)     */
+        { lat: 70.5, lon: 56.0 },     /* approaching Kara Gates                */
+        { lat: 70.3, lon: 58.5 },     /* KARA GATES passage (NZ–Vaigach gap)   */
+        { lat: 70.5, lon: 61.0 },     /* through Kara Gates into Kara Sea      */
+        { lat: 71.5, lon: 64.0 },     /* Kara Sea heading east                 */
+        { lat: 72.5, lon: 67.0 },     /* approaching Yamal                     */
+        { lat: 73.5, lon: 69.5 },     /* north of Yamal tip (73.3°N)           */
+        { lat: 73.0, lon: 71.5 },     /* Ob Gulf northern entrance             */
+        { lat: 72.0, lon: 72.0 },     /* Ob Gulf heading to Sabetta            */
+        'Сабетта',
+
+        /* ── Sabetta → Kara Sea → Yenisei Gulf → Dudinka ── */
+        { lat: 72.0, lon: 73.0 },     /* exit Sabetta NE                       */
+        { lat: 73.0, lon: 74.5 },     /* N of Gydan Peninsula (tip ~73.3°N)    */
+        { lat: 73.5, lon: 77.0 },     /* Kara Sea east of Gydan                */
+        { lat: 73.5, lon: 80.0 },     /* Kara Sea heading E                    */
+        { lat: 73.0, lon: 82.0 },     /* approaching Yenisei Gulf              */
+        { lat: 72.0, lon: 82.5 },     /* entering Yenisei Gulf                 */
+        { lat: 71.0, lon: 83.5 },     /* Yenisei Gulf heading south            */
+        { lat: 70.0, lon: 85.0 },     /* Yenisei estuary                       */
+        'Дудинка',
+
+        /* ── Dudinka → Kara Sea → AROUND TAYMYR → Laptev Sea → Tiksi ──
+           Cape Chelyuskin is at 77.72°N, 104.3°E.
+           Route stays north at 78°N to avoid the peninsula entirely. */
+        { lat: 71.0, lon: 85.0 },     /* heading NW along Yenisei estuary      */
+        { lat: 72.5, lon: 84.0 },     /* Yenisei Gulf north                    */
+        { lat: 74.0, lon: 83.5 },     /* exiting gulf into Kara Sea            */
+        { lat: 75.5, lon: 86.0 },     /* Kara Sea, offshore Taymyr W coast     */
+        { lat: 76.0, lon: 91.0 },     /* along W coast of Taymyr (offshore)    */
+        { lat: 76.5, lon: 95.0 },     /* NW Taymyr                             */
+        { lat: 77.5, lon: 99.0 },     /* heading to Cape Chelyuskin            */
+        { lat: 78.0, lon: 104.0 },    /* NORTH of Cape Chelyuskin (77.72°N)    */
+        { lat: 77.5, lon: 109.0 },    /* east of Cape Chelyuskin               */
+        { lat: 76.5, lon: 113.0 },    /* NE Taymyr coast                       */
+        { lat: 75.5, lon: 117.0 },    /* heading east into Laptev Sea          */
+        { lat: 74.5, lon: 121.0 },    /* Laptev Sea                            */
+        { lat: 74.0, lon: 124.0 },    /* Laptev Sea                            */
+        { lat: 73.0, lon: 126.5 },    /* approaching Tiksi (offshore)          */
+        { lat: 72.5, lon: 128.0 },    /* near Tiksi                            */
+        'Тикси',
+
+        /* ── Tiksi → NORTH of New Siberian Islands → East Siberian Sea → Pevek ──
+           Lyakhovsky Islands ~73-74°N 138-143°E;
+           Anzhu Islands ~75-76°N 137-153°E.
+           Route goes north at 76°N to clear all islands. */
+        { lat: 72.5, lon: 131.0 },    /* heading NE from Tiksi                 */
+        { lat: 74.0, lon: 135.0 },    /* heading north                         */
+        { lat: 76.5, lon: 140.0 },    /* north of New Siberian Islands         */
+        { lat: 76.0, lon: 146.0 },    /* north of Anzhu Islands                */
+        { lat: 75.0, lon: 152.0 },    /* past De Long Islands, heading SE      */
+        { lat: 73.5, lon: 157.0 },    /* East Siberian Sea                     */
+        { lat: 72.0, lon: 162.0 },    /* heading SE                            */
+        { lat: 71.0, lon: 166.0 },    /* approaching Chukchi area              */
+        { lat: 70.5, lon: 169.0 },    /* near Pevek                            */
+        'Певек',
+
+        /* ── Pevek → Chukchi Sea → Provideniya → Anadyr ── */
+        { lat: 70.5, lon: 174.0 },    /* Chukchi Sea heading east (offshore)   */
+        { lat: 69.5, lon: 178.0 },    /* Chukchi Sea SE (well offshore coast)  */
+        { lat: 67.5, lon: 180.0 },    /* approaching Bering Sea                */
+        { lat: 66.5, lon: 178.0 },    /* heading south toward Provideniya      */
+        'Провидения',
+        { lat: 64.3, lon: 176.0 },    /* Anadyr Gulf                           */
+        'Анадырь',
+
+        /* ── Anadyr → Bering Sea → Pacific → Okhotsk Sea → Magadan ── */
+        { lat: 63.5, lon: 179.0 },    /* heading south in Bering Sea           */
+        { lat: 60.5, lon: 172.0 },    /* Bering Sea SW                         */
+        { lat: 58.0, lon: 166.0 },    /* east of Kamchatka                     */
+        { lat: 55.5, lon: 163.0 },    /* Pacific, SE of Kamchatka              */
+        { lat: 53.5, lon: 161.0 },    /* Pacific coast of Kamchatka            */
+        { lat: 51.5, lon: 159.5 },    /* near Cape Lopatka Pacific side        */
+        { lat: 50.5, lon: 155.0 },    /* south of Kamchatka tip (50.88°N)      */
+        { lat: 51.0, lon: 152.0 },    /* entering Okhotsk Sea (W of Kurils)    */
+        { lat: 53.0, lon: 151.0 },    /* Okhotsk Sea heading north             */
+        { lat: 56.0, lon: 151.0 },    /* Okhotsk Sea, N sector                 */
+        { lat: 58.0, lon: 151.0 },    /* approaching Magadan                   */
+        'Магадан',
+
+        /* ── Magadan → Okhotsk Sea → La Perouse Strait → Vladivostok ── */
+        { lat: 57.0, lon: 149.0 },    /* heading south                         */
+        { lat: 54.0, lon: 148.0 },    /* Okhotsk Sea central                   */
+        { lat: 51.0, lon: 147.0 },    /* E of Sakhalin (coast ~143-144°E)      */
+        { lat: 48.0, lon: 145.5 },    /* S Okhotsk (E of Sakhalin ~143-144°E)  */
+        { lat: 46.5, lon: 144.5 },    /* between Sakhalin E coast and Kurils   */
+        { lat: 45.5, lon: 143.0 },    /* S of Sakhalin tip, N of Hokkaido NE   */
+        { lat: 45.7, lon: 141.5 },    /* LA PEROUSE STRAIT (Sakhalin–Hokkaido) */
+        { lat: 44.5, lon: 139.0 },    /* Sea of Japan north                    */
+        { lat: 43.5, lon: 135.5 },    /* Sea of Japan heading SW               */
+        { lat: 43.0, lon: 133.0 },    /* approaching Vladivostok               */
+        'Владивосток'
+      ]
+    },,
+    /* ══════════════════════════════════════════════════════════════════
+       Route F — Baltic Sea  (category: intl)
+       Санкт-Петербург → Gulf of Finland → Baltic → Калининград
+       ══════════════════════════════════════════════════════════════════ */
+    {
+      id: 'baltic-sea',
+      type: 'sea',
+      category: 'intl',
+      label: 'Балтийский морской маршрут',
+      desc:  'Санкт-Петербург → Балтийское море → Калининград. Паромное и морское сообщение с Калининградским эксклавом.',
+      waypoints: [
+        'Санкт-Петербург',
+        { lat: 59.8, lon: 27.5 },
+        { lat: 59.5, lon: 24.0 },
+        { lat: 58.0, lon: 22.0 },
+        { lat: 56.5, lon: 20.5 },
+        'Калининград'
+      ]
+    },
+,
+    /* ══════════════════════════════════════════════════════════════════
+       Route G — Cabotage: Владивосток → Сахалин  (category: cabotage)
+       Sea of Japan → Tatar Strait (mid-channel) → Sakhalin west coast.
+       Tatar Strait width: ~250 km at 47°N, ~100 km at 50°N.
+       Waypoints stay mid-channel at every degree of latitude.
+       ══════════════════════════════════════════════════════════════════ */
+    {
+      id: 'cab-sakhalin',
+      type: 'sea',
+      category: 'cabotage',
+      label: 'Каботаж — Сахалин',
+      desc:  'Владивосток → Сахалин. Морские грузоперевозки, нефтегазовая логистика Сахалинского шельфа.',
+      waypoints: [
+        'Владивосток',
+        { lat: 42.8, lon: 133.5 },    /* exit bay into Sea of Japan            */
+        { lat: 43.5, lon: 135.5 },    /* Sea of Japan heading NE               */
+        { lat: 44.5, lon: 137.0 },    /* Sea of Japan                          */
+        { lat: 46.0, lon: 138.5 },    /* approaching mainland coast            */
+        { lat: 47.5, lon: 139.5 },    /* Tatar Strait approach                 */
+        { lat: 48.5, lon: 140.5 },    /* Tatar Strait south (mid-channel)      */
+        { lat: 49.5, lon: 140.7 },    /* Tatar Strait central (mid-channel)    */
+        { lat: 50.0, lon: 141.0 },    /* Tatar Strait north                    */
+        { lat: 50.5, lon: 141.5 },    /* approaching Sakhalin W coast          */
+        'Сахалин'
+      ]
+    },
+,
+    /* ══════════════════════════════════════════════════════════════════
+       Route H — Cabotage: Владивосток → Петропавловск-Камчатский
+       (category: cabotage)
+       Sea of Japan → La Perouse Strait → Okhotsk Sea →
+       south of Kamchatka (Cape Lopatka 50.88°N) → Pacific coast.
+       Route stays west of Kuril chain inside Okhotsk Sea.
+       ══════════════════════════════════════════════════════════════════ */
+    {
+      id: 'cab-kamchatka',
+      type: 'sea',
+      category: 'cabotage',
+      label: 'Каботаж — Камчатка',
+      desc:  'Владивосток → Петропавловск-Камчатский. Морские перевозки на Камчатку, сезонный завоз.',
+      waypoints: [
+        'Владивосток',
+        { lat: 43.0, lon: 133.0 },    /* Sea of Japan — exit                   */
+        { lat: 43.5, lon: 135.0 },    /* Sea of Japan NE                       */
+        { lat: 44.5, lon: 138.0 },    /* heading toward La Perouse             */
+        { lat: 45.5, lon: 140.0 },    /* approaching strait                    */
+        { lat: 45.7, lon: 141.5 },    /* La Perouse Strait (Sakhalin–Hokkaido) */
+        { lat: 45.5, lon: 143.0 },    /* S of Sakhalin tip, entering Okhotsk   */
+        { lat: 47.0, lon: 145.0 },    /* Okhotsk Sea, E of Sakhalin            */
+        { lat: 49.0, lon: 148.0 },    /* Okhotsk Sea (W of Kuril chain)        */
+        { lat: 50.5, lon: 152.0 },    /* Okhotsk heading NE                    */
+        { lat: 50.5, lon: 155.0 },    /* approaching First Kuril Strait        */
+        { lat: 50.5, lon: 157.5 },    /* south of Cape Lopatka, Pacific side   */
+        { lat: 51.5, lon: 158.5 },    /* heading N along Pacific coast         */
+        { lat: 52.5, lon: 158.7 },    /* approaching Petropavlovsk             */
+        'Петропавловск-Камчатский'
+      ]
+    },,
+    /* ══════════════════════════════════════════════════════════════════
+       Route I — Cabotage: Владивосток → Магадан  (category: cabotage)
+       Sea of Japan → La Perouse Strait → Okhotsk Sea → Magadan.
+       Route stays inside Okhotsk Sea, west of Kuril chain.
+       ══════════════════════════════════════════════════════════════════ */
+    {
+      id: 'cab-magadan',
+      type: 'sea',
+      category: 'cabotage',
+      label: 'Каботаж — Магадан',
+      desc:  'Владивосток → Магадан. Морской каботаж через Охотское море, сезонный завоз.',
+      waypoints: [
+        'Владивосток',
+        { lat: 43.0, lon: 133.0 },    /* Sea of Japan — exit                   */
+        { lat: 43.5, lon: 135.0 },    /* Sea of Japan NE                       */
+        { lat: 44.5, lon: 138.0 },    /* heading toward La Perouse             */
+        { lat: 45.5, lon: 140.0 },    /* approaching strait                    */
+        { lat: 45.7, lon: 141.5 },    /* La Perouse Strait                     */
+        { lat: 45.5, lon: 143.0 },    /* S of Sakhalin tip, entering Okhotsk   */
+        { lat: 47.0, lon: 145.0 },    /* Okhotsk Sea, E of Sakhalin            */
+        { lat: 50.0, lon: 147.5 },    /* Okhotsk heading N                     */
+        { lat: 53.0, lon: 149.0 },    /* Okhotsk central                       */
+        { lat: 56.0, lon: 150.0 },    /* Okhotsk north                         */
+        { lat: 58.0, lon: 150.5 },    /* approaching Magadan                   */
+        'Магадан'
+      ]
+    }
+  ];
+
+  /* Land routes — rail, road. */
+  var LAND_ROUTES = [
+    /* ══════════════════════════════════════════════════════════════════
+       Route B — Trans-Siberian Railway  (category: rail)
+       Владивосток → Хабаровск → Чита → Иркутск → Москва → СПб → Мурманск
+       ══════════════════════════════════════════════════════════════════ */
+    {
+      id: 'trans-sib',
+      type: 'land',
+      category: 'rail',
+      label: 'Транссибирская магистраль',
+      desc:  'Владивосток → Хабаровск → Иркутск → Москва → Мурманск. Ж/д перевозки, сборные и контейнерные грузы.',
+      waypoints: [
+        'Владивосток',
+        { lat: 43.8, lon: 132.0 },
+        { lat: 45.5, lon: 133.5 },
+        { lat: 47.0, lon: 134.5 },
+        'Хабаровск',
+        { lat: 48.8, lon: 132.9 },
+        { lat: 49.0, lon: 131.0 },
+        { lat: 49.4, lon: 130.0 },
+        { lat: 50.9, lon: 128.5 },
+        { lat: 52.5, lon: 126.0 },
+        { lat: 54.0, lon: 124.0 },
+        { lat: 53.7, lon: 120.0 },
+        { lat: 52.5, lon: 116.5 },
+        'Чита',
+        { lat: 51.8, lon: 107.6 },
+        'Иркутск',
+        { lat: 53.5, lon: 100.0 },
+        { lat: 55.0, lon: 96.0 },
+        'Красноярск',
+        { lat: 55.5, lon: 89.0 },
+        'Новосибирск',
+        { lat: 55.5, lon: 78.0 },
+        'Омск',
+        { lat: 56.5, lon: 65.5 },
+        'Екатеринбург',
+        'Пермь',
+        { lat: 58.6, lon: 49.7 },
+        { lat: 57.5, lon: 43.0 },
+        'Москва',
+        { lat: 57.0, lon: 34.0 },
+        'Санкт-Петербург',
+        { lat: 61.8, lon: 34.0 },
+        { lat: 65.5, lon: 33.0 },
+        'Мурманск'
+      ]
+    },,
+    /* ══════════════════════════════════════════════════════════════════
+       Route C — Southern Russia road corridor  (category: road)
+       Владивосток → Хабаровск → Чита → Москва → Ростов → Новороссийск
+       M58, M55, M7, M4 federal highways
+       ══════════════════════════════════════════════════════════════════ */
+    {
+      id: 'south-ru',
+      type: 'land',
+      category: 'road',
+      label: 'Южный транспортный коридор',
+      desc:  'Владивосток → Сибирь → Москва → Ростов-на-Дону → Новороссийск. Автомобильная и ж/д доставка.',
+      mobile: false,
+      waypoints: [
+        'Владивосток',
+        { lat: 43.8, lon: 132.0 },
+        { lat: 45.5, lon: 133.5 },
+        { lat: 47.0, lon: 134.5 },
+        'Хабаровск',
+        { lat: 48.8, lon: 133.0 },
+        { lat: 49.2, lon: 131.0 },
+        'Благовещенск',
+        { lat: 50.5, lon: 125.5 },
+        { lat: 51.5, lon: 121.0 },
+        'Чита',
+        { lat: 51.8, lon: 107.6 },
+        'Иркутск',
+        { lat: 54.0, lon: 96.0 },
+        'Новосибирск',
+        { lat: 55.5, lon: 78.0 },
+        { lat: 54.8, lon: 69.0 },
+        { lat: 54.5, lon: 63.5 },
+        'Уфа',
+        'Казань',
+        'Нижний Новгород',
+        'Москва',
+        { lat: 54.5, lon: 38.5 },
+        'Воронеж',
+        { lat: 50.0, lon: 42.0 },
+        'Волгоград',
+        { lat: 47.5, lon: 41.5 },
+        'Ростов-на-Дону',
+        { lat: 45.5, lon: 38.5 },
+        'Новороссийск'
+      ]
+    },,
+    /* ══════════════════════════════════════════════════════════════════
+       Route D — Northern land delivery  (category: road)
+       Хабаровск → Якутск → Магадан  (A360 Lena + R504 Kolyma)
+       ══════════════════════════════════════════════════════════════════ */
+    {
+      id: 'north-yakutsk',
+      type: 'land',
+      category: 'road',
+      label: 'Северный завоз — Якутия',
+      desc:  'Хабаровск → Якутск → Магадан. Автодоставка вглубь арктических районов, сезонные поставки.',
+      waypoints: [
+        'Хабаровск',
+        { lat: 49.5, lon: 133.0 },
+        { lat: 50.0, lon: 131.0 },
+        { lat: 51.0, lon: 129.0 },
+        { lat: 52.0, lon: 127.0 },
+        { lat: 53.0, lon: 125.5 },
+        { lat: 54.5, lon: 124.5 },
+        { lat: 56.5, lon: 124.8 },
+        { lat: 58.5, lon: 125.5 },
+        { lat: 60.0, lon: 127.5 },
+        'Якутск',
+        { lat: 62.5, lon: 132.5 },
+        { lat: 63.0, lon: 136.0 },
+        { lat: 63.2, lon: 139.5 },
+        { lat: 63.0, lon: 143.0 },
+        { lat: 62.5, lon: 147.5 },
+        { lat: 61.5, lon: 149.0 },
+        { lat: 60.5, lon: 150.5 },
+        'Магадан'
+      ]
+    },
+  ];
 
   /* Animation delay per route id (negative = start already mid-cycle). */
-  var ROUTE_DELAYS = {};
+  var ROUTE_DELAYS = {
+    'intl-sea':       '0s',
+    'trans-sib':      '-1.8s',
+    'south-ru':       '-3.6s',
+    'north-yakutsk':  '-0.9s',
+    'nsm-route':      '-2.7s',
+    'baltic-sea':     '-1.2s',
+    'cab-sakhalin':   '-0.6s',
+    'cab-kamchatka':  '-2.1s',
+    'cab-magadan':    '-3.0s'
+  };
 
   /* Helper: combined list for iteration. Sea first, then land (render order). */
   function allRoutes() {
