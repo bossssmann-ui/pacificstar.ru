@@ -540,45 +540,44 @@
         /* ── Barents Sea → White Sea → Arkhangelsk ── */
         'Мурманск',
         { lat: 70.0, lon: 36.0 },     /* Barents Sea heading east              */
-        { lat: 69.0, lon: 39.0 },     /* approaching White Sea entrance        */
-        { lat: 67.5, lon: 40.0 },     /* Gorlo Strait (White Sea entrance)     */
+        { lat: 69.5, lon: 39.0 },     /* Barents Sea, north of Kola Peninsula  */
+        { lat: 67.5, lon: 40.5 },     /* Gorlo Strait (White Sea entrance)     */
         'Архангельск',
 
         /* ── White Sea → Barents → Kara Gates → Kara Sea → Sabetta ── */
-        { lat: 67.0, lon: 40.0 },     /* exit White Sea via Gorlo              */
-        { lat: 69.5, lon: 41.0 },     /* Barents Sea                           */
-        { lat: 71.5, lon: 44.0 },     /* heading NE                            */
-        { lat: 72.5, lon: 48.0 },     /* north of Kolguev Island (69°N)        */
-        { lat: 71.0, lon: 50.0 },     /* heading toward Novaya Zemlya          */
+        { lat: 67.0, lon: 40.5 },     /* exit White Sea via Gorlo              */
+        { lat: 68.0, lon: 37.5 },     /* heading NW into Barents Sea           */
+        { lat: 69.5, lon: 36.0 },     /* Barents Sea, off Kola                 */
+        { lat: 70.0, lon: 45.0 },     /* Barents Sea heading NE                */
+        { lat: 70.5, lon: 50.0 },     /* Barents Sea south of NZ               */
         { lat: 70.5, lon: 53.5 },     /* south of NZ (S island at ~70.5°N)     */
         { lat: 70.5, lon: 56.0 },     /* approaching Kara Gates                */
-        { lat: 70.3, lon: 58.5 },     /* KARA GATES passage (NZ–Vaigach gap)   */
-        { lat: 70.5, lon: 61.0 },     /* through Kara Gates into Kara Sea      */
-        { lat: 71.5, lon: 64.0 },     /* Kara Sea heading east                 */
+        { lat: 70.5, lon: 58.5 },     /* KARA GATES passage (NZ–Vaigach gap)   */
+        { lat: 70.5, lon: 62.0 },     /* through Kara Gates into Kara Sea      */
+        { lat: 72.5, lon: 64.0 },     /* Kara Sea heading east                 */
         { lat: 72.5, lon: 67.0 },     /* approaching Yamal                     */
         { lat: 73.5, lon: 69.5 },     /* north of Yamal tip (73.3°N)           */
-        { lat: 73.0, lon: 71.5 },     /* Ob Gulf northern entrance             */
-        { lat: 72.0, lon: 72.0 },     /* Ob Gulf heading to Sabetta            */
+        { lat: 74.0, lon: 71.0 },     /* Ob Gulf northern approach             */
+        { lat: 73.0, lon: 73.0 },     /* Ob Gulf mid-channel                   */
+        { lat: 72.0, lon: 73.0 },     /* Ob Gulf heading to Sabetta            */
         'Сабетта',
 
         /* ── Sabetta → Kara Sea → Yenisei Gulf → Dudinka ── */
-        { lat: 72.0, lon: 73.0 },     /* exit Sabetta NE                       */
-        { lat: 73.0, lon: 74.5 },     /* N of Gydan Peninsula (tip ~73.3°N)    */
-        { lat: 73.5, lon: 77.0 },     /* Kara Sea east of Gydan                */
-        { lat: 73.5, lon: 80.0 },     /* Kara Sea heading E                    */
-        { lat: 73.0, lon: 82.0 },     /* approaching Yenisei Gulf              */
-        { lat: 72.0, lon: 82.5 },     /* entering Yenisei Gulf                 */
-        { lat: 71.0, lon: 83.5 },     /* Yenisei Gulf heading south            */
-        { lat: 70.0, lon: 85.0 },     /* Yenisei estuary                       */
+        { lat: 72.0, lon: 73.5 },     /* exit Sabetta NE                       */
+        { lat: 74.0, lon: 74.0 },     /* Kara Sea above Gydan Peninsula        */
+        { lat: 74.0, lon: 80.0 },     /* Kara Sea heading E                    */
+        { lat: 73.0, lon: 80.0 },     /* Yenisei Gulf approach                 */
+        { lat: 72.5, lon: 80.0 },     /* Yenisei Gulf north channel            */
+        { lat: 72.0, lon: 81.5 },     /* Yenisei Gulf mid-channel              */
         'Дудинка',
 
         /* ── Dudinka → Kara Sea → AROUND TAYMYR → Laptev Sea → Tiksi ──
            Cape Chelyuskin is at 77.72°N, 104.3°E.
            Route stays north at 78°N to avoid the peninsula entirely. */
-        { lat: 71.0, lon: 85.0 },     /* heading NW along Yenisei estuary      */
-        { lat: 72.5, lon: 84.0 },     /* Yenisei Gulf north                    */
-        { lat: 74.0, lon: 83.5 },     /* exiting gulf into Kara Sea            */
-        { lat: 75.5, lon: 86.0 },     /* Kara Sea, offshore Taymyr W coast     */
+        { lat: 72.0, lon: 81.5 },     /* heading NW via Yenisei Gulf           */
+        { lat: 72.5, lon: 80.0 },     /* Yenisei Gulf north                    */
+        { lat: 74.5, lon: 80.0 },     /* Kara Sea, west of Taymyr              */
+        { lat: 75.5, lon: 83.0 },     /* Kara Sea, offshore Taymyr W coast     */
         { lat: 76.0, lon: 91.0 },     /* along W coast of Taymyr (offshore)    */
         { lat: 76.5, lon: 95.0 },     /* NW Taymyr                             */
         { lat: 77.5, lon: 99.0 },     /* heading to Cape Chelyuskin            */
@@ -588,42 +587,44 @@
         { lat: 75.5, lon: 117.0 },    /* heading east into Laptev Sea          */
         { lat: 74.5, lon: 121.0 },    /* Laptev Sea                            */
         { lat: 74.0, lon: 124.0 },    /* Laptev Sea                            */
-        { lat: 73.0, lon: 126.5 },    /* approaching Tiksi (offshore)          */
-        { lat: 72.5, lon: 128.0 },    /* near Tiksi                            */
+        { lat: 74.0, lon: 127.0 },    /* north of Lena Delta                   */
+        { lat: 73.0, lon: 130.0 },    /* approaching Tiksi (offshore)          */
         'Тикси',
 
         /* ── Tiksi → NORTH of New Siberian Islands → East Siberian Sea → Pevek ──
            Lyakhovsky Islands ~73-74°N 138-143°E;
            Anzhu Islands ~75-76°N 137-153°E.
-           Route goes north at 76°N to clear all islands. */
+           Route goes north to 76.5°N to clear all islands. */
         { lat: 72.5, lon: 131.0 },    /* heading NE from Tiksi                 */
         { lat: 74.0, lon: 135.0 },    /* heading north                         */
-        { lat: 76.5, lon: 140.0 },    /* north of New Siberian Islands         */
-        { lat: 76.0, lon: 146.0 },    /* north of Anzhu Islands                */
+        { lat: 76.5, lon: 134.0 },    /* north of New Siberian Islands         */
+        { lat: 77.0, lon: 146.0 },    /* north of Anzhu Islands                */
         { lat: 75.0, lon: 152.0 },    /* past De Long Islands, heading SE      */
         { lat: 73.5, lon: 157.0 },    /* East Siberian Sea                     */
         { lat: 72.0, lon: 162.0 },    /* heading SE                            */
-        { lat: 71.0, lon: 166.0 },    /* approaching Chukchi area              */
+        { lat: 72.0, lon: 168.0 },    /* East Siberian Sea                     */
         { lat: 70.5, lon: 169.0 },    /* near Pevek                            */
         'Певек',
 
         /* ── Pevek → Chukchi Sea → Provideniya → Anadyr ── */
         { lat: 70.5, lon: 174.0 },    /* Chukchi Sea heading east (offshore)   */
-        { lat: 69.5, lon: 178.0 },    /* Chukchi Sea SE (well offshore coast)  */
-        { lat: 67.5, lon: 180.0 },    /* approaching Bering Sea                */
-        { lat: 66.5, lon: 178.0 },    /* heading south toward Provideniya      */
+        { lat: 70.0, lon: 180.0 },    /* Chukchi Sea, east of Chukchi Pen.     */
+        { lat: 67.0, lon: 180.0 },    /* approaching Bering Strait             */
+        { lat: 65.0, lon: 180.0 },    /* south through Bering Sea              */
         'Провидения',
-        { lat: 64.3, lon: 176.0 },    /* Anadyr Gulf                           */
+        { lat: 64.0, lon: 179.0 },    /* Anadyr Gulf offshore                  */
         'Анадырь',
 
         /* ── Anadyr → Bering Sea → Pacific → Okhotsk Sea → Magadan ── */
-        { lat: 63.5, lon: 179.0 },    /* heading south in Bering Sea           */
-        { lat: 60.5, lon: 172.0 },    /* Bering Sea SW                         */
+        { lat: 62.0, lon: 179.0 },    /* heading south in Bering Sea           */
+        { lat: 61.0, lon: 177.0 },    /* Bering Sea                            */
+        { lat: 60.0, lon: 172.0 },    /* Bering Sea SW                         */
         { lat: 58.0, lon: 166.0 },    /* east of Kamchatka                     */
         { lat: 55.5, lon: 163.0 },    /* Pacific, SE of Kamchatka              */
         { lat: 53.5, lon: 161.0 },    /* Pacific coast of Kamchatka            */
         { lat: 51.5, lon: 159.5 },    /* near Cape Lopatka Pacific side        */
-        { lat: 50.5, lon: 155.0 },    /* south of Kamchatka tip (50.88°N)      */
+        { lat: 50.0, lon: 157.0 },    /* south of Kamchatka tip                */
+        { lat: 50.0, lon: 155.0 },    /* south of Kamchatka tip (50.88°N)      */
         { lat: 51.0, lon: 152.0 },    /* entering Okhotsk Sea (W of Kurils)    */
         { lat: 53.0, lon: 151.0 },    /* Okhotsk Sea heading north             */
         { lat: 56.0, lon: 151.0 },    /* Okhotsk Sea, N sector                 */
@@ -639,8 +640,8 @@
         { lat: 45.5, lon: 143.0 },    /* S of Sakhalin tip, N of Hokkaido NE   */
         { lat: 45.7, lon: 141.5 },    /* LA PEROUSE STRAIT (Sakhalin–Hokkaido) */
         { lat: 44.5, lon: 139.0 },    /* Sea of Japan north                    */
-        { lat: 43.5, lon: 135.5 },    /* Sea of Japan heading SW               */
-        { lat: 43.0, lon: 133.0 },    /* approaching Vladivostok               */
+        { lat: 43.0, lon: 136.0 },    /* Sea of Japan heading SW               */
+        { lat: 42.5, lon: 133.0 },    /* approaching Vladivostok               */
         'Владивосток'
       ]
     },
