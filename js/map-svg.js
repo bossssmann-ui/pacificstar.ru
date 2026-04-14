@@ -762,16 +762,16 @@
       waypoints: [
         'Владивосток',
         { lat: 43.0, lon: 133.0 },    /* Sea of Japan — exit                   */
-        { lat: 43.5, lon: 135.0 },    /* Sea of Japan NE                       */
-        { lat: 44.5, lon: 138.0 },    /* heading toward La Perouse             */
-        { lat: 45.5, lon: 140.0 },    /* approaching strait                    */
-        { lat: 45.7, lon: 141.5 },    /* La Perouse Strait                     */
-        { lat: 45.5, lon: 143.0 },    /* S of Sakhalin tip, entering Okhotsk   */
-        { lat: 47.0, lon: 145.0 },    /* Okhotsk Sea, E of Sakhalin            */
-        { lat: 50.0, lon: 147.5 },    /* Okhotsk heading N                     */
-        { lat: 53.0, lon: 149.0 },    /* Okhotsk central                       */
-        { lat: 56.0, lon: 150.0 },    /* Okhotsk north                         */
-        { lat: 58.0, lon: 150.5 },    /* approaching Magadan                   */
+        { lat: 43.5, lon: 135.5 },    /* Sea of Japan NE                       */
+        { lat: 44.8, lon: 139.0 },    /* heading toward La Perouse             */
+        { lat: 45.5, lon: 140.5 },    /* approaching La Perouse from SW        */
+        { lat: 45.8, lon: 142.0 },    /* La Perouse Strait (mid-channel)       */
+        { lat: 46.2, lon: 144.5 },    /* entering Okhotsk SE of Sakhalin       */
+        { lat: 48.0, lon: 147.0 },    /* Okhotsk Sea well E of Sakhalin        */
+        { lat: 50.5, lon: 149.5 },    /* Okhotsk Sea heading N                 */
+        { lat: 53.5, lon: 151.0 },    /* central Okhotsk Sea                   */
+        { lat: 56.0, lon: 151.5 },    /* northern Okhotsk Sea                  */
+        { lat: 58.3, lon: 151.0 },    /* approaching Nagayev Bay               */
         'Магадан'
       ]
     }
