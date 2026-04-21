@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" >
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" >
-  <link rel="stylesheet" href="css/style.css?v=20260413c" >
+  <link rel="stylesheet" href="css/style.css?v=20260421" >
   <link rel="stylesheet" href="css/premium-theme.css?v=20260412" >
   <link rel="stylesheet" href="css/premium-features.css?v=20260414" >
 
@@ -152,7 +152,7 @@
             <div class="hero-form-card">
               <h2 class="hero-form-title" data-i18n="form.hero.title">Рассчитайте стоимость доставки</h2>
               <p class="hero-form-subtitle" data-i18n="form.hero.subtitle">Бесплатный расчёт за&nbsp;15&nbsp;минут</p>
-              <form id="heroLeadForm" novalidate aria-label="Быстрая заявка на расчёт" data-track-label="hero_lead_form">
+              <form id="heroLeadForm" method="post" novalidate aria-label="Быстрая заявка на расчёт" data-track-label="hero_lead_form">
                 <div class="form-group">
                   <label for="hero-name" class="form-label">
                     Имя <span class="required" aria-hidden="true">*</span>
@@ -177,10 +177,13 @@
                   <input type="text" id="hero-cargo" name="cargo" class="form-control"
                          placeholder="Описание, вес, объём">
                 </div>
+                <div class="form-check">
+                  <input type="checkbox" id="form-consent" name="consent" required>
+                  <label for="form-consent">
+                    Я&nbsp;согласен(на) на&nbsp;обработку персональных данных в&nbsp;соответствии с&nbsp;<a href="privacy.html">Политикой конфиденциальности</a>
+                  </label>
+                </div>
                 <button type="submit" class="btn btn-primary hero-form-submit" data-i18n="index.poluchit_raschyot_perevozki">Получить расчёт перевозки</button>
-                <p class="hero-form-note">
-                  Нажимая кнопку, вы соглашаетесь с&nbsp;<a href="privacy.html">политикой конфиденциальности</a>
-                </p>
               </form>
             </div>
           </div>
