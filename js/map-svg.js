@@ -458,8 +458,12 @@
         { lat: 43.5, lon: 35.5 },   /* Чёрное море — на запад                 */
         { lat: 42.5, lon: 33.0 },   /* Центральное Чёрное море                */
         { lat: 41.8, lon: 30.5 },   /* Западное Чёрное море                   */
-        { lat: 41.1, lon: 29.0 },   /* Вход в Босфор                          */
-        { lat: 40.6, lon: 27.0 },   /* Мраморное море / Дарданеллы            */
+        { lat: 41.20, lon: 29.13 }, /* северный вход в Босфор                 */
+        { lat: 41.05, lon: 29.05 }, /* середина Босфора                       */
+        { lat: 40.97, lon: 28.95 }, /* выход в Мраморное море                 */
+        { lat: 40.85, lon: 28.10 }, /* Мраморное море (центр)                 */
+        { lat: 40.40, lon: 26.65 }, /* Дарданеллы (вход)                      */
+        { lat: 40.15, lon: 26.20 }, /* Дарданеллы (выход в Эгейское)          */
         { lat: 38.5, lon: 25.0 },   /* Эгейское море                          */
         { lat: 35.5, lon: 26.0 },   /* ЮВ Эгейское / Крит                     */
         { lat: 34.0, lon: 30.5 },   /* В. Средиземноморье (ю. Кипра)          */
@@ -477,11 +481,8 @@
         'Ченнаи',
         { lat: 14.0, lon: 82.5 },   /* Бенгальский залив (зап.)               */
         { lat: 18.0, lon: 87.0 },   /* Бенгальский залив (Одиша)              */
-        { lat: 21.0, lon: 87.5 },   /* подход к дельте Ганга (мористее)       */
-        { lat: 21.6, lon: 88.0 },   /* устье Хугли (Sandheads)               */
-        'Калькутта',
-        { lat: 21.6, lon: 88.0 },   /* устье Хугли (выход обратно)            */
-        { lat: 20.0, lon: 89.0 },   /* Бенгальский залив — ю. дельты          */
+        { lat: 20.5, lon: 88.0 },   /* Бенгальский залив, юг дельты Ганга     */
+        { lat: 20.0, lon: 89.5 },   /* далее на юго-восток                    */
         { lat: 14.5, lon: 91.0 },   /* ЮВ Бенгальского залива                 */
         { lat: 8.0,  lon: 97.5 },   /* Андаманское море                       */
         { lat: 3.5,  lon: 100.5 },  /* Малаккский пролив (юж. вход)           */
@@ -500,15 +501,18 @@
         { lat: 33.0, lon: 123.0 },  /* Жёлтое море (юг)                       */
         { lat: 35.5, lon: 122.0 },  /* Жёлтое море (центр)                    */
         'Циндао',
-        { lat: 37.5, lon: 122.5 },  /* Жёлтое море (север)                    */
+        { lat: 37.0, lon: 123.5 },  /* между Циндао и Шаньдунским мысом, мористее */
+        { lat: 38.2, lon: 122.8 },  /* севернее мыса, открытая вода           */
         'Далянь',
         { lat: 38.5, lon: 120.5 },  /* Бохайский залив                        */
         'Тяньцзинь',
         { lat: 38.5, lon: 119.0 },  /* Бохайское море (восток)                */
         { lat: 38.0, lon: 121.0 },  /* Бохайский пролив (м/у Ляодун и Шаньдун) */
         { lat: 37.0, lon: 124.0 },  /* Жёлтое — подход к Корее                */
-        'Сеул',
-        { lat: 34.5, lon: 128.5 },  /* Корейский пролив (Цусима)              */
+        { lat: 37.0, lon: 125.5 },  /* подход к Корее с Жёлтого моря          */
+        { lat: 36.5, lon: 126.4 },  /* западное побережье Кореи               */
+        { lat: 34.5, lon: 127.5 },  /* обход полуострова с юга                */
+        { lat: 34.0, lon: 128.5 },  /* Цусимский пролив                       */
         { lat: 33.5, lon: 132.0 },  /* Тихий океан — юг Сикоку                */
         { lat: 34.5, lon: 137.0 },  /* Тихий океан — Эншу-нада               */
         'Токио',
@@ -650,11 +654,12 @@
         { lat: 57.0, lon: 149.0 },    /* heading south                         */
         { lat: 54.0, lon: 148.0 },    /* Okhotsk Sea central                   */
         { lat: 51.0, lon: 147.0 },    /* E of Sakhalin (coast ~143-144°E)      */
+        { lat: 50.0, lon: 145.0 },    /* восток Сахалина, открытая вода        */
         { lat: 48.0, lon: 145.5 },    /* S Okhotsk (E of Sakhalin ~143-144°E)  */
         { lat: 46.5, lon: 144.5 },    /* between Sakhalin E coast and Kurils   */
-        { lat: 45.5, lon: 143.0 },    /* S of Sakhalin tip, N of Hokkaido NE   */
+        { lat: 46.5, lon: 142.0 },    /* юг Сахалина, подход к La Perouse      */
         { lat: 45.7, lon: 141.5 },    /* LA PEROUSE STRAIT (Sakhalin–Hokkaido) */
-        { lat: 44.5, lon: 139.0 },    /* Sea of Japan north                    */
+        { lat: 44.5, lon: 138.5 },    /* Sea of Japan                          */
         { lat: 43.0, lon: 136.0 },    /* Sea of Japan heading SW               */
         { lat: 42.5, lon: 133.0 },    /* approaching Vladivostok               */
         'Владивосток'
@@ -680,6 +685,8 @@
         { lat: 59.5, lon: 24.0 },    /* Central Gulf of Finland, off Tallinn     */
         { lat: 59.0, lon: 20.5 },    /* Open Baltic, west of Hiiumaa / Saaremaa  */
         { lat: 57.0, lon: 20.0 },    /* Open Baltic Sea, heading south           */
+        { lat: 55.8, lon: 19.8 },    /* открытая Балтика                         */
+        { lat: 55.0, lon: 20.0 },    /* подход к Калининградскому заливу          */
         'Калининград'
       ]
     },
@@ -710,7 +717,8 @@
         { lat: 49.8, lon: 141.0 },    /* Tatar Strait central                  */
         { lat: 50.3, lon: 141.4 },    /* Tatar Strait north                    */
         { lat: 50.6, lon: 141.7 },    /* approaching Sakhalin W coast          */
-        'Сахалин'
+        { lat: 50.7, lon: 141.85 },   /* Татарский пролив у самого берега      */
+        { lat: 50.9, lon: 142.00 }    /* финальная точка у западного побережья */
       ]
     },
     /* ══════════════════════════════════════════════════════════════════
@@ -779,6 +787,7 @@
         { lat: 53.5, lon: 151.0 },    /* central Okhotsk Sea                   */
         { lat: 56.0, lon: 151.5 },    /* northern Okhotsk Sea                  */
         { lat: 58.3, lon: 151.0 },    /* approaching Nagayev Bay               */
+        { lat: 59.0, lon: 150.95 },   /* страховочная точка у бухты Нагаева    */
         'Магадан'
       ]
     }
@@ -1010,11 +1019,12 @@
   var vpTranslate = { x: 0, y: 0 };
   var vpGroup     = null;   /* current viewport <g> — set in buildSVGMap */
   var currentSVG  = null;   /* current <svg> element                     */
+  var labelEls    = [];     /* cached .svg-map-label elements for font compensation */
 
   /* Zoom tuning constants — adjust to change sensitivity and limits. */
   var ZOOM_FACTOR  = 1.12;  /* scale multiplier per wheel tick           */
-  var ZOOM_MIN     = 0.5;   /* minimum allowed scale                     */
-  var ZOOM_MAX     = 10;    /* maximum allowed scale                     */
+  var ZOOM_MIN     = 1.0;   /* minimum: map cannot shrink below initial size — container matches viewBox */
+  var ZOOM_MAX     = 6.0;   /* maximum: enough to read any region; beyond this, simplified GeoJSON blurs */
 
   /* WeakSet tracks which containers already have pan/zoom listeners wired. */
   var pannedContainers = typeof WeakSet !== 'undefined' ? new WeakSet() : null;
@@ -1026,6 +1036,31 @@
       'translate(' + vpTranslate.x.toFixed(2) + ',' + vpTranslate.y.toFixed(2) + ')' +
       ' scale(' + vpScale.toFixed(4) + ')'
     );
+    /* Compensate label font-size so city names stay readable at any zoom level.
+       Visual size grows softly with zoom (^0.25 exponent) but is clamped.
+       svgFontSize = visualSize / vpScale → after the group scale it renders
+       as visualSize px on screen. stroke-width is also divided so halos
+       stay proportional. */
+    var BASE_LABEL     = 12;    /* SVG base px — regular labels              */
+    var MIN_LABEL      = 11;    /* min on-screen px                          */
+    var MAX_LABEL      = 18;    /* max on-screen px                          */
+    var BASE_LABEL_HUB = 14;    /* SVG base px — hub labels                  */
+    var MIN_LABEL_HUB  = 13;    /* min on-screen px (hub)                    */
+    var MAX_LABEL_HUB  = 20;    /* max on-screen px (hub)                    */
+    var i, lbl, isHub, base, minL, maxL, visualSize, svgFontSize, svgStrokeW;
+    for (i = 0; i < labelEls.length; i++) {
+      lbl   = labelEls[i];
+      isHub = lbl.classList.contains('svg-map-label--hub');
+      base  = isHub ? BASE_LABEL_HUB : BASE_LABEL;
+      minL  = isHub ? MIN_LABEL_HUB  : MIN_LABEL;
+      maxL  = isHub ? MAX_LABEL_HUB  : MAX_LABEL;
+      visualSize  = base * Math.pow(vpScale, 0.25);
+      visualSize  = Math.max(minL, Math.min(maxL, visualSize));
+      svgFontSize = visualSize / vpScale;
+      svgStrokeW  = (isHub ? 3 : 2.5) / vpScale;
+      lbl.setAttribute('font-size', svgFontSize.toFixed(2));
+      lbl.setAttribute('stroke-width', svgStrokeW.toFixed(3));
+    }
   }
 
   function resetViewport() {
@@ -1376,6 +1411,12 @@
         markersG.appendChild(g);
       });
       vpGroup.appendChild(markersG);
+
+      /* Cache label elements now that all markers are built.
+         applyViewportTransform() uses this list to compensate font-size at each zoom level. */
+      labelEls = markersG.querySelectorAll('.svg-map-label');
+      /* Sync initial label sizes with vpScale=1 (no visual change, primes the cache). */
+      applyViewportTransform();
 
       svg.appendChild(vpGroup);
 
