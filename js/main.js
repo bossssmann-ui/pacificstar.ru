@@ -528,7 +528,7 @@
         heroSubmitBtn.textContent = 'Получить расчёт перевозки';
 
         if (heroSuccessMsg) {
-          heroSuccessMsg.textContent = '\u274C Не удалось отправить заявку. Попробуйте позже или позвоните нам.';
+          heroSuccessMsg.innerHTML = '<span aria-hidden="true" style="font-size:1.2rem;">&#x274C;</span> Не удалось отправить заявку. Попробуйте позже или позвоните нам.';
           heroSuccessMsg.classList.add('show');
           setTimeout(function () {
             heroSuccessMsg.classList.remove('show');
