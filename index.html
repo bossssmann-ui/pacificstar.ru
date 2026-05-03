@@ -159,6 +159,9 @@
                   </label>
                   <input type="text" id="hero-name" name="name" class="form-control"
                          placeholder="Иван Иванов" required autocomplete="name">
+                  <small class="field-error" style="color:#e74c3c;font-size:0.82rem;">
+                    Укажите ваше имя (не менее 2 символов)
+                  </small>
                 </div>
                 <div class="form-group">
                   <label for="hero-phone" class="form-label">
@@ -166,6 +169,9 @@
                   </label>
                   <input type="tel" id="hero-phone" name="phone" class="form-control"
                          placeholder="+7 (___) ___-__-__" required autocomplete="tel">
+                  <small class="field-error" style="color:#e74c3c;font-size:0.82rem;">
+                    Укажите корректный телефон
+                  </small>
                 </div>
                 <div class="form-group">
                   <label for="hero-route" class="form-label" data-i18n="form.route_label">Маршрут</label>
@@ -182,8 +188,15 @@
                   <label for="form-consent">
                     Я&nbsp;согласен(на) на&nbsp;обработку персональных данных в&nbsp;соответствии с&nbsp;<a href="privacy.html">Политикой конфиденциальности</a>
                   </label>
+                  <small class="field-error" style="color:#e74c3c;font-size:0.82rem;">
+                    Необходимо согласие на обработку персональных данных
+                  </small>
                 </div>
                 <button type="submit" class="btn btn-primary hero-form-submit" data-i18n="index.poluchit_raschyot_perevozki">Получить расчёт перевозки</button>
+                <div id="heroFormSuccess" class="form-success" role="alert">
+                  <span aria-hidden="true" style="font-size:1.2rem;">&#x2705;</span>
+                  Заявка отправлена! Мы свяжемся с вами в течение 15 минут.
+                </div>
               </form>
             </div>
           </div>
@@ -745,7 +758,7 @@
 
   <script defer src="js/components.js?v=20260413d"></script>
   <script defer src="js/i18n.js?v=20260413"></script>
-  <script defer src="js/main.js?v=20260413c"></script>
+  <script defer src="js/main.js?v=20260503"></script>
   <script defer src="js/animations.js?v=20260412"></script>
   <script defer src="js/premium-features.js?v=20260413"></script>
   <script defer src="js/map-geodata.js?v=20260413"></script>
