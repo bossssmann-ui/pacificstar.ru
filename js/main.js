@@ -418,6 +418,149 @@
   }
 
   /* =======================================
+     HERO LEAD FORM (152-FZ consent enforced)
+     ======================================= */
+  var heroLeadForm = document.getElementById('heroLeadForm');
+
+  if (heroLeadForm) {
+    var heroSubmitBtn    = heroLeadForm.querySelector('[type="submit"]');
+    var heroSuccessMsg   = document.getElementById('heroFormSuccess');
+    var heroNameField    = document.getElementById('hero-name');
+    var heroPhoneField   = document.getElementById('hero-phone');
+    var heroRouteField   = document.getElementById('hero-route');
+    var heroCargoField   = document.getElementById('hero-cargo');
+    var heroConsentCheck = document.getElementById('form-consent');
+
+    heroLeadForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var valid = true;
+
+      /* Name: required, min 2 chars */
+      var heroNameGroup = heroNameField && heroNameField.closest('.form-group');
+      var heroNameError = heroNameGroup && heroNameGroup.querySelector('.field-error');
+      if (!heroNameField || !heroNameField.value.trim() || heroNameField.value.trim().length < 2) {
+        valid = false;
+        if (heroNameField) {
+          heroNameField.classList.add('field-invalid');
+          if (heroNameError) heroNameError.classList.add('field-error-visible');
+        }
+      } else {
+        heroNameField.classList.remove('field-invalid');
+        if (heroNameError) heroNameError.classList.remove('field-error-visible');
+      }
+
+      /* Phone: required, must have at least 10 digits */
+      var heroPhoneGroup = heroPhoneField && heroPhoneField.closest('.form-group');
+      var heroPhoneError = heroPhoneGroup && heroPhoneGroup.querySelector('.field-error');
+      if (!heroPhoneField || !heroPhoneField.value.trim()) {
+        valid = false;
+        if (heroPhoneField) {
+          heroPhoneField.classList.add('field-invalid');
+          if (heroPhoneError) heroPhoneError.classList.add('field-error-visible');
+        }
+      } else {
+        var cleanedPhone = heroPhoneField.value.replace(/\D/g, '');
+        if (cleanedPhone.length < 10) {
+          valid = false;
+          heroPhoneField.classList.add('field-invalid');
+          if (heroPhoneError) heroPhoneError.classList.add('field-error-visible');
+        } else {
+          heroPhoneField.classList.remove('field-invalid');
+          if (heroPhoneError) heroPhoneError.classList.remove('field-error-visible');
+        }
+      }
+
+      /* Consent checkbox: required (152-FZ) */
+      var heroConsentWrap  = heroConsentCheck && heroConsentCheck.closest('.form-check');
+      var heroConsentError = heroConsentWrap && heroConsentWrap.querySelector('.field-error');
+      if (!heroConsentCheck || !heroConsentCheck.checked) {
+        valid = false;
+        if (heroConsentCheck) heroConsentCheck.classList.add('field-invalid');
+        if (heroConsentError) heroConsentError.classList.add('field-error-visible');
+      } else {
+        if (heroConsentCheck) heroConsentCheck.classList.remove('field-invalid');
+        if (heroConsentError) heroConsentError.classList.remove('field-error-visible');
+      }
+
+      if (!valid) {
+        var firstInvalid = heroLeadForm.querySelector('.field-invalid');
+        if (firstInvalid) firstInvalid.focus();
+        return;
+      }
+
+      /* Send to backend */
+      heroSubmitBtn.disabled = true;
+      heroSubmitBtn.textContent = 'Отправляем...';
+
+      var heroFormData = {
+        name:   heroNameField  ? heroNameField.value.trim()  : '',
+        phone:  heroPhoneField ? heroPhoneField.value.trim() : '',
+        route:  heroRouteField ? heroRouteField.value.trim() : '',
+        cargo:  heroCargoField ? heroCargoField.value.trim() : '',
+        source: heroLeadForm.getAttribute('data-track-label') || 'hero_lead_form'
+      };
+
+      fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(heroFormData)
+      })
+      .then(function (response) {
+        if (!response.ok) { throw new Error('HTTP ' + response.status); }
+        return response.json();
+      })
+      .then(function () {
+        heroSubmitBtn.disabled = false;
+        heroSubmitBtn.textContent = 'Получить расчёт перевозки';
+        heroLeadForm.reset();
+
+        if (heroSuccessMsg) {
+          heroSuccessMsg.innerHTML = '<span aria-hidden="true" style="font-size:1.2rem;">&#x2705;</span> Заявка отправлена! Мы свяжемся с вами в течение 15 минут.';
+          heroSuccessMsg.classList.add('show');
+          setTimeout(function () {
+            heroSuccessMsg.classList.remove('show');
+          }, 6000);
+        }
+      })
+      .catch(function () {
+        heroSubmitBtn.disabled = false;
+        heroSubmitBtn.textContent = 'Получить расчёт перевозки';
+
+        if (heroSuccessMsg) {
+          heroSuccessMsg.innerHTML = '<span aria-hidden="true" style="font-size:1.2rem;">&#x274C;</span> Не удалось отправить заявку. Попробуйте позже или позвоните нам.';
+          heroSuccessMsg.classList.add('show');
+          setTimeout(function () {
+            heroSuccessMsg.classList.remove('show');
+          }, 6000);
+        }
+      });
+    });
+
+    /* Live validation: clear errors on input */
+    [heroNameField, heroPhoneField].forEach(function (field) {
+      if (!field) return;
+      field.addEventListener('input', function () {
+        field.classList.remove('field-invalid');
+        var grp = field.closest('.form-group');
+        var err = grp && grp.querySelector('.field-error');
+        if (err) err.classList.remove('field-error-visible');
+      });
+    });
+
+    if (heroConsentCheck) {
+      heroConsentCheck.addEventListener('change', function () {
+        if (heroConsentCheck.checked) {
+          heroConsentCheck.classList.remove('field-invalid');
+          var wrap = heroConsentCheck.closest('.form-check');
+          var err  = wrap && wrap.querySelector('.field-error');
+          if (err) err.classList.remove('field-error-visible');
+        }
+      });
+    }
+  }
+
+  /* =======================================
      PHONE MASK (simple)
      ======================================= */
   const phoneInputs = document.querySelectorAll('[name="phone"]');
