@@ -5160,3 +5160,14 @@ select.form-control {
 
 /* Spaced variant of .work-hours used after .contacts-info-block */
 .work-hours--spaced { margin-top: 24px; }
+
+/* Integrations: small disclaimer right-aligned under data block */
+.integrations-note {
+  margin-top: 16px;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+  text-align: right;
+}
+
+/* Generic left-align utility (used on START dev/landing card) */
+.text-left { text-align: left; }
