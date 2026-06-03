@@ -33,7 +33,7 @@
   <main>
     <!-- ========== PAGE HERO ========== -->
     <section class="page-hero" aria-label="Личный кабинет">
-      <div class="container" style="position:relative;z-index:1;">
+      <div class="container container--layered">
         <span class="page-hero-label" data-i18n="account.klientskiy_portal">👤 Клиентский портал</span>
         <h1 data-i18n="auto.my_account">Личный кабинет</h1>
         <p data-i18n="auto.manage_requests_track_shipments_and_receive_documents_online">Управляйте заявками, отслеживайте грузы и получайте документы онлайн</p>
@@ -91,7 +91,7 @@
                   <button type="button" class="password-toggle" aria-label="Показать пароль" id="toggleSigninPwd">👁</button>
                 </div>
               </div>
-              <div class="form-row" style="justify-content:space-between;align-items:center;">
+              <div class="form-row form-row--justify-between">
                 <div class="form-check">
                   <input type="checkbox" id="rememberMe" name="remember" >
                   <label for="rememberMe" data-i18n="auto.remember_me">Запомнить меня</label>
@@ -263,8 +263,8 @@
                   <span class="order-status st-customs" data-i18n="account.na_tamozhne">🛃 На таможне</span>
                 </div>
               </div>
-              <div style="margin-top:14px;">
-                <button type="button" class="account-link" data-switch="orders" style="background:none;border:none;cursor:pointer;font-size:0.9rem;" data-i18n="account.smotret_vse_zayavki">Смотреть все заявки →</button>
+              <div class="account-link-row">
+                <button type="button" class="account-link account-link--inline" data-switch="orders" data-i18n="account.smotret_vse_zayavki">Смотреть все заявки →</button>
               </div>
             </div>
 
@@ -338,7 +338,7 @@
 
         <!-- ── My Orders ── -->
         <div class="account-panel hidden" id="panel-orders" role="tabpanel" aria-labelledby="tab-orders">
-          <div class="account-form-wrap fade-in" style="max-width:700px;">
+          <div class="account-form-wrap account-form-wrap--narrow fade-in">
             <div class="account-form-icon" aria-hidden="true">📋</div>
             <h2 data-i18n="auto.my_orders">Мои заявки</h2>
             <p class="account-form-desc" data-i18n="auto.history_of_all_your_shipments_demo_data">История всех ваших отправлений (демонстрационные данные)</p>
@@ -383,7 +383,7 @@
 
             </div>
 
-            <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
+            <div class="account-actions">
               <button type="button" class="btn btn-primary account-submit"
                       onclick="document.querySelector('[data-tab=neworder]').click()">
                 + Создать новую заявку
@@ -391,7 +391,7 @@
               <a href="contacts.html#contactForm" class="btn btn-outline" data-i18n="account.svyazat_sya_s_menedzherom">Связаться с менеджером</a>
             </div>
 
-            <div class="account-crm-notice" style="margin-top:20px;">
+            <div class="account-crm-notice account-crm-notice--spaced">
               <span aria-hidden="true">🔗</span>
               <span data-i18n="auto.after_amocrm_is_connected_your_real_requests_will_be_display">После подключения AmoCRM здесь будут отображаться ваши реальные заявки в режиме реального времени.</span>
             </div>
@@ -400,14 +400,14 @@
 
         <!-- ── New Order ── -->
         <div class="account-panel hidden" id="panel-neworder" role="tabpanel" aria-labelledby="tab-neworder">
-          <div class="account-form-wrap fade-in" style="max-width:620px;">
+          <div class="account-form-wrap account-form-wrap--xs fade-in">
             <div class="account-form-icon" aria-hidden="true">📝</div>
             <h2 data-i18n="auto.create_request">Создать заявку</h2>
             <p class="account-form-desc" data-i18n="auto.fill_out_the_form_a_manager_will_contact_you_within_30_minut">Заполните форму — менеджер свяжется с вами в течение 30 минут</p>
 
             <form id="newOrderForm" class="account-form" novalidate>
 
-              <p style="font-weight:700;margin-bottom:12px;color:var(--color-primary);" data-i18n="form.route_label">Маршрут</p>
+              <p class="form-section-title" data-i18n="form.route_label">Маршрут</p>
               <div class="form-row">
                 <div class="form-group">
                   <label for="orderFrom" class="form-label">Откуда <span class="form-required">(обязательно)</span></label>
@@ -421,7 +421,7 @@
                 </div>
               </div>
 
-              <p style="font-weight:700;margin:16px 0 12px;color:var(--color-primary);" data-i18n="auto.cargo">Груз</p>
+              <p class="form-section-title form-section-title--mid" data-i18n="auto.cargo">Груз</p>
               <div class="form-group">
                 <label for="orderCargo" class="form-label">Тип груза <span class="form-required">(обязательно)</span></label>
                 <select id="orderCargo" name="cargoType" class="form-control" required>
@@ -460,23 +460,23 @@
                 <input type="date" id="orderDate" name="readyDate" class="form-control" >
               </div>
 
-              <p style="font-weight:700;margin:16px 0 10px;color:var(--color-primary);" data-i18n="auto.special_conditions">Особые условия</p>
-              <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;">
-                <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;cursor:pointer;">
+              <p class="form-section-title form-section-title--tight" data-i18n="auto.special_conditions">Особые условия</p>
+              <div class="checkbox-inline-group">
+                <label class="checkbox-inline">
                   <input type="checkbox" name="special_fragile" > Хрупкий груз
                 </label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;cursor:pointer;">
+                <label class="checkbox-inline">
                   <input type="checkbox" name="special_temp" > Температурный режим
                 </label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;cursor:pointer;">
+                <label class="checkbox-inline">
                   <input type="checkbox" name="special_oversized" > Негабаритный
                 </label>
-                <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;cursor:pointer;">
+                <label class="checkbox-inline">
                   <input type="checkbox" name="special_insurance" > Страхование груза
                 </label>
               </div>
 
-              <p style="font-weight:700;margin-bottom:12px;color:var(--color-primary);" data-i18n="auto.contact_details">Контактные данные</p>
+              <p class="form-section-title" data-i18n="auto.contact_details">Контактные данные</p>
               <div class="form-row">
                 <div class="form-group">
                   <label for="orderName" class="form-label">Имя <span class="form-required">(обязательно)</span></label>
@@ -506,10 +506,10 @@
                 <label for="orderComment" class="form-label" data-i18n="form.comment_label">Комментарий</label>
                 <textarea id="orderComment" name="comment" class="form-control"
                           rows="3" placeholder="Дополнительные требования, вопросы…"
-                          style="resize:vertical;font-family:inherit;"></textarea>
+></textarea>
               </div>
 
-              <div class="form-check" style="margin-bottom:16px;">
+              <div class="form-check form-check--tight">
                 <input type="checkbox" id="orderPrivacy" name="privacy" required >
                 <label for="orderPrivacy">
                   Согласен(на) на
@@ -520,13 +520,13 @@
               <button type="submit" class="btn btn-primary account-submit" data-i18n="form.submit">Отправить заявку</button>
             </form>
 
-            <div id="newOrderSuccess" style="display:none;text-align:center;padding:20px 0;" aria-live="polite">
-              <div style="font-size:2.5rem;margin-bottom:12px;">✅</div>
-              <h3 style="margin-bottom:8px;" data-i18n="form.success.title_alt">Заявка отправлена!</h3>
-              <p style="color:var(--color-muted);" data-i18n="auto.a_manager_will_contact_you_within_30_minutes_during_business">Менеджер свяжется с вами в течение 30 минут в рабочее время.</p>
+            <div id="newOrderSuccess" class="account-success" style="display:none;" aria-live="polite">
+              <div class="account-success-icon">✅</div>
+              <h3 class="account-success-title" data-i18n="form.success.title_alt">Заявка отправлена!</h3>
+              <p class="account-success-desc" data-i18n="auto.a_manager_will_contact_you_within_30_minutes_during_business">Менеджер свяжется с вами в течение 30 минут в рабочее время.</p>
             </div>
 
-            <div class="account-crm-notice" style="margin-top:20px;">
+            <div class="account-crm-notice account-crm-notice--spaced">
               <span aria-hidden="true">🔗</span>
               <span data-i18n="auto.after_amocrm_is_connected_the_request_will_automatically_cre">После подключения AmoCRM заявка автоматически создаст сделку в вашей воронке продаж.</span>
             </div>
@@ -537,7 +537,7 @@
     </section>
 
     <!-- ========== FEATURES PREVIEW ========== -->
-    <section class="section" style="background:var(--color-light);" aria-labelledby="account-features-title">
+    <section class="section section--muted" aria-labelledby="account-features-title">
       <div class="container">
         <div class="section-header">
           <span class="section-label" data-i18n="auto.account_features">Возможности кабинета</span>
