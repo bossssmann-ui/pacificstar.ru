@@ -142,7 +142,7 @@
       '<a href="remote-regions.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.remote_regions">Морские в труднодоступные</a>' +
       '<a href="truck-delivery.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.truck_north">Авто в труднодоступные</a>' +
       '</div></div></div>' +
-      '<a href="https://career.pacificstar.ru/careers" class="nav-link" data-i18n="nav.careers">Наши вакансии</a>' +
+      '<a href="https://career.pacificstar.ru/careers/" class="nav-link" data-i18n="nav.careers">Наши вакансии</a>' +
       '<a href="contacts.html" class="nav-link" data-i18n="nav.contacts">Контакты</a></nav>' +
       '<div class="header-cta">' +
       '<a href="tel:+79147285880" class="header-phone" aria-label="Позвонить нам" data-i18n-aria-label="comp.header.call_aria">' +
@@ -179,7 +179,7 @@
     '<a href="remote-regions.html" class="nav-link" data-i18n="nav.remote_regions">Морские в труднодоступные</a>' +
     '<a href="truck-delivery.html" class="nav-link" data-i18n="nav.truck_north">Авто в труднодоступные</a>' +
     '</div></div>' +
-    '<a href="https://career.pacificstar.ru/careers" class="nav-link" data-i18n="nav.careers">Наши вакансии</a>' +
+    '<a href="https://career.pacificstar.ru/careers/" class="nav-link" data-i18n="nav.careers">Наши вакансии</a>' +
     '<a href="contacts.html" class="nav-link" data-i18n="nav.contacts">Контакты</a>' +
     '<a href="tel:+79147285880" class="header-phone">' +
     PHONE_SVG_18 + ' +7\u00a0(914)\u00a0728\u201158\u201180</a>' +
