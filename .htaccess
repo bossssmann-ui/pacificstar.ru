@@ -2,6 +2,12 @@
 Options -Indexes
 DirectoryIndex index.html index.php
 
+# favicon.ico → SVG (браузеры запрашивают /favicon.ico по умолчанию)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^favicon\.ico$ img/favicon.svg [L]
+</IfModule>
+
 # ── Caching ────────────────────────────────────────────────────────────
 # Versioned assets (?v=…) are safe to cache long-term.
 # HTML pages get a short TTL so visitors always see the latest content.

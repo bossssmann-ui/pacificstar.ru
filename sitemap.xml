@@ -1,99 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Главная -->
   <url>
     <loc>https://pacificstar.ru/</loc>
+    <lastmod>2026-07-07</lastmod>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
   </url>
-
-  <!-- О компании -->
   <url>
     <loc>https://pacificstar.ru/about.html</loc>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
-
-  <!-- Услуги и тарифы -->
   <url>
     <loc>https://pacificstar.ru/services.html</loc>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
-
-  <!-- Северный завоз по 411-ФЗ -->
   <url>
     <loc>https://pacificstar.ru/severnyy-zavoz.html</loc>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
-
-  <!-- Каботажные перевозки -->
   <url>
     <loc>https://pacificstar.ru/kabotazh.html</loc>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.9</priority>
     <changefreq>monthly</changefreq>
   </url>
-
-  <!-- Негабаритные перевозки -->
   <url>
     <loc>https://pacificstar.ru/negabarit.html</loc>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
-
-  <!-- Автодоставка ДФО -->
   <url>
     <loc>https://pacificstar.ru/avto-dfo.html</loc>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
-
-  <!-- Автоперевозки в труднодоступные районы -->
   <url>
     <loc>https://pacificstar.ru/truck-delivery.html</loc>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
-
-  <!-- Ж/Д перевозки -->
   <url>
     <loc>https://pacificstar.ru/rail.html</loc>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
-
-  <!-- ВЭД логистика -->
   <url>
     <loc>https://pacificstar.ru/ved.html</loc>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
-
-  <!-- Морские перевозки в труднодоступные районы -->
   <url>
     <loc>https://pacificstar.ru/remote-regions.html</loc>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
-
-  <!-- Кейсы -->
   <url>
     <loc>https://pacificstar.ru/cases.html</loc>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
-
-  <!-- Контакты -->
   <url>
     <loc>https://pacificstar.ru/contacts.html</loc>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
-
-  <!-- Политика конфиденциальности -->
   <url>
     <loc>https://pacificstar.ru/privacy.html</loc>
+    <lastmod>2026-07-07</lastmod>
     <priority>0.3</priority>
     <changefreq>yearly</changefreq>
   </url>

@@ -139,6 +139,8 @@
       '<a href="negabarit.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.negabarit">Негабаритные грузы</a>' +
       '<a href="rail.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.rail">Ж/Д перевозки</a>' +
       '<a href="ved.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.ved">ВЭД логистика</a>' +
+      '<a href="remote-regions.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.remote_regions">Морские в труднодоступные</a>' +
+      '<a href="truck-delivery.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.truck_north">Авто в труднодоступные</a>' +
       '</div></div></div>' +
       '<a href="https://career.pacificstar.ru/careers" class="nav-link" data-i18n="nav.careers">Наши вакансии</a>' +
       '<a href="contacts.html" class="nav-link" data-i18n="nav.contacts">Контакты</a></nav>' +
@@ -174,6 +176,8 @@
     '<a href="negabarit.html" class="nav-link" data-i18n="nav.negabarit">Негабаритные грузы</a>' +
     '<a href="rail.html" class="nav-link" data-i18n="nav.rail">Ж/Д перевозки</a>' +
     '<a href="ved.html" class="nav-link" data-i18n="nav.ved">ВЭД логистика</a>' +
+    '<a href="remote-regions.html" class="nav-link" data-i18n="nav.remote_regions">Морские в труднодоступные</a>' +
+    '<a href="truck-delivery.html" class="nav-link" data-i18n="nav.truck_north">Авто в труднодоступные</a>' +
     '</div></div>' +
     '<a href="https://career.pacificstar.ru/careers" class="nav-link" data-i18n="nav.careers">Наши вакансии</a>' +
     '<a href="contacts.html" class="nav-link" data-i18n="nav.contacts">Контакты</a>' +

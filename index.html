@@ -20,7 +20,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" >
   <link rel="stylesheet" href="css/style.css?v=20260421" >
   <link rel="stylesheet" href="css/premium-theme.css?v=20260412" >
-  <link rel="stylesheet" href="css/premium-features.css?v=20260414" >
+  <link rel="stylesheet" href="css/premium-features.css?v=20260707" >
 
   <!-- Analytics configuration — replace with production IDs -->
   <script>
@@ -73,7 +73,11 @@
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Международные перевозки АТР — Китай, Япония, Корея" } }
           ]
         },
-        "sameAs": []
+        "sameAs": [
+          "https://t.me/KhmelRoman",
+          "https://wa.me/79147285880",
+          "https://career.pacificstar.ru/careers"
+        ]
       },
       {
         "@type": "WebSite",
@@ -82,12 +86,72 @@
         "name": "Pacific Star — Логистика",
         "publisher": { "@id": "https://pacificstar.ru/#organization" },
         "inLanguage": "ru-RU"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://pacificstar.ru/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Кто такая компания Pacific Star?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Pacific Star (ООО «Pacific Star») — транспортно-логистическая компания с 2012 года. Специализируемся на сложной логистике Дальнего Востока и Арктики: Северный завоз по 411-ФЗ, каботаж, негабаритные грузы, автодоставка, ж/д и ВЭД. Офис в Находке, Приморский край."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Какие регионы обслуживает Pacific Star?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Сахалин, Магадан, Камчатка, Чукотка, Якутия, Приморский край, Хабаровский край, арктические порты России. Международные направления: Китай, Япония, Республика Корея, страны СНГ."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Что такое Северный завоз по 411-ФЗ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Северный завоз — государственная программа доставки жизненно важных грузов в труднодоступные территории Арктики и Дальнего Востока. Регулируется Федеральным законом № 411-ФЗ от 13.06.2023. Pacific Star организует доставку в порты Анадырь, Певек, Эгвекинот, Магадан и другие."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Как рассчитать стоимость доставки?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Оставьте заявку на сайте (форма на главной или страница Контакты), позвоните +7 (914) 728-58-80 или воспользуйтесь калькулятором на странице Услуги. Укажите маршрут, вес и тип груза — менеджер подготовит расчёт в течение 15 минут в рабочее время."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Как связаться с Pacific Star?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Телефон: +7 (914) 728-58-80, email: info@pacificstar.ru. Офис: Находка, ул. Северный проспект, 47с2. Форма обратной связи: https://pacificstar.ru/contacts.html"
+            }
+          }
+        ]
       }
     ]
   }
   </script>
 </head>
 <body>
+
+  <noscript>
+    <nav class="noscript-nav" aria-label="Навигация">
+      <a href="index.html">Главная</a>
+      <a href="about.html">О компании</a>
+      <a href="services.html">Услуги</a>
+      <a href="severnyy-zavoz.html">Северный завоз</a>
+      <a href="kabotazh.html">Каботаж</a>
+      <a href="remote-regions.html">Морские перевозки</a>
+      <a href="contacts.html">Контакты</a>
+      <a href="tel:+79147285880">+7&nbsp;(914)&nbsp;728&#8209;58&#8209;80</a>
+      <a href="mailto:info@pacificstar.ru">info@pacificstar.ru</a>
+    </nav>
+  </noscript>
 
 
   <!-- ========== PRELOADER ========== -->
@@ -443,11 +507,47 @@
         </div>
         <div id="svg-map-container" class="map-frame"
              role="img" aria-label="Карта маршрутов Pacific Star">
-          <noscript>
-            <p style="color:#9fd5ff;text-align:center;padding-top:180px;font-size:1.1rem;">
-              Для отображения карты включите JavaScript в&nbsp;настройках браузера.
-            </p>
-          </noscript>
+        </div>
+      </div>
+
+      <div class="container" style="margin-top:32px;">
+        <div class="route-index" id="route-index">
+          <h3 class="route-index-title">Ключевые логистические маршруты Pacific Star</h3>
+          <p class="route-index-desc">Текстовый справочник направлений для поисковых систем и справочных сервисов. Интерактивная карта с анимацией маршрутов доступна при включённом JavaScript.</p>
+          <div class="route-index-grid">
+            <div>
+              <h4>Хабы и порты</h4>
+              <ul>
+                <li>Владивосток, Находка, Хабаровск</li>
+                <li>Корсаков (Сахалин), Магадан, Петропавловск-Камчатский</li>
+                <li>Анадырь, Певек, Эгвекинот (Чукотка), Тикси (Якутия)</li>
+                <li>Москва, Новосибирск, Мурманск, Новороссийск</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Каботаж (море)</h4>
+              <ul>
+                <li>Владивосток → Южно-Сахалинск / Корсаков</li>
+                <li>Владивосток → Магадан</li>
+                <li>Владивосток → Петропавловск-Камчатский</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Северный завоз (411-ФЗ)</h4>
+              <ul>
+                <li>Владивосток → Певек → Анадырь</li>
+                <li>Мурманск → Дудинка → Тикси → Магадан (СМП)</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Международные и мультимодальные</h4>
+              <ul>
+                <li>Шанхай / Циндао / Пусан → Владивосток → ДФО</li>
+                <li>Транссиб: Владивосток → Москва → Мурманск</li>
+                <li>Новороссийск → Индия → Китай → Владивосток</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -690,6 +790,62 @@
       </div>
     </section>
 
+    <!-- ========== FAQ (GEO / AI search) ========== -->
+    <section class="faq-section" id="faq" aria-labelledby="index-faq-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="index-faq-title">Частые вопросы о Pacific Star</h2>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Кто такая компания Pacific Star?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Pacific Star (ООО «Pacific Star») — транспортно-логистическая компания с&nbsp;2012&nbsp;года. Специализируемся на&nbsp;сложной логистике Дальнего Востока и&nbsp;Арктики: Северный завоз по&nbsp;411-ФЗ, каботаж, негабарит, автодоставка, ж/д и&nbsp;ВЭД. Офис в&nbsp;Находке, Приморский край.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Какие регионы вы обслуживаете?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Сахалин, Магадан, Камчатка, Чукотка, Якутия, Приморье, Хабаровский край, арктические порты. Международные направления: Китай, Япония, Корея, СНГ.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Что такое Северный завоз по 411-ФЗ?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Государственная программа доставки жизненно важных грузов в&nbsp;труднодоступные территории. Регулируется ФЗ&nbsp;№&nbsp;411-ФЗ от&nbsp;13.06.2023. Подробнее — на&nbsp;странице <a href="severnyy-zavoz.html">Северный завоз</a>.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Как рассчитать стоимость доставки?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Оставьте заявку на&nbsp;этой странице или на&nbsp;<a href="contacts.html">Контактах</a>, позвоните <a href="tel:+79147285880">+7&nbsp;(914)&nbsp;728&#8209;58&#8209;80</a> или используйте <a href="services.html#calculator">калькулятор</a> на&nbsp;странице услуг.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button type="button" class="faq-question" aria-expanded="false">
+              Как связаться с менеджером?
+              <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-answer">
+              <p>Телефон: <a href="tel:+79147285880">+7&nbsp;(914)&nbsp;728&#8209;58&#8209;80</a>, email: <a href="mailto:info@pacificstar.ru">info@pacificstar.ru</a>. Офис: Находка, ул.&nbsp;Северный проспект, 47с2.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ========== STATS ========== -->
     <section class="stats" aria-label="Статистика компании">
       <div class="container">
@@ -756,9 +912,9 @@
   <!-- ========== SCROLL TOP (injected by components.js) ========== -->
   <div data-component="scroll-top"></div>
 
-  <script defer src="js/components.js?v=20260605a"></script>
+  <script defer src="js/components.js?v=20260707a"></script>
   <script defer src="js/i18n.js?v=20260413"></script>
-  <script defer src="js/main.js?v=20260503"></script>
+  <script defer src="js/main.js?v=20260707a"></script>
   <script defer src="js/animations.js?v=20260412"></script>
   <script defer src="js/premium-features.js?v=20260413"></script>
   <script defer src="js/map-geodata.js?v=20260413"></script>

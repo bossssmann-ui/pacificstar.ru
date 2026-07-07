@@ -8,3 +8,6 @@ Disallow: /account.html
 Disallow: /integrations.html
 
 Sitemap: https://pacificstar.ru/sitemap.xml
+
+# Машиночитаемое описание для ИИ-краулеров
+# https://pacificstar.ru/llms.txt

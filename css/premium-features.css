@@ -729,3 +729,59 @@ html.dark-theme .custom-cursor-ring.is-hovered {
   color: var(--color-muted, #6c757d);
   line-height: 1.4;
 }
+
+/* ── Route index (SEO / AI crawlable text near SVG map) ── */
+.route-index {
+  background: var(--color-light, #f4f6f9);
+  border-radius: var(--radius-lg, 16px);
+  padding: 28px 32px;
+}
+
+.route-index-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-primary, #0d2b5e);
+  margin: 0 0 8px;
+}
+
+.route-index-desc {
+  color: var(--color-muted, #6c757d);
+  font-size: 0.92rem;
+  margin: 0 0 20px;
+}
+
+.route-index-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px 28px;
+}
+
+.route-index-grid h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-primary, #0d2b5e);
+  margin: 0 0 8px;
+}
+
+.route-index-grid ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.88rem;
+  color: var(--color-text, #333);
+  line-height: 1.55;
+}
+
+/* ── Noscript navigation (crawlers / no-JS fallback) ── */
+.noscript-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  padding: 12px 16px;
+  background: var(--color-primary, #0d2b5e);
+  font-size: 0.88rem;
+}
+
+.noscript-nav a {
+  color: #fff;
+  text-decoration: underline;
+}

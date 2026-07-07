@@ -2,6 +2,8 @@
 
 Production website for **Pacific Star** (ООО «Pacific Star»), a B2B freight-forwarding and logistics company in the Russian Far East. The site drives lead generation through SEO-optimized service pages, an interactive route map, a callback form, and a cost calculator.
 
+**Development roadmap:** [ROADMAP.md](ROADMAP.md) — QA baseline, GEO/AI-search strategy, phased implementation plan.
+
 ---
 
 ## Business purpose

@@ -747,4 +747,28 @@
       }, 100);
     }
   }
+
+  /* ── FAQ accordion (.faq-question buttons) ─────────────────────────── */
+  document.querySelectorAll('.faq-question').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = btn.closest('.faq-item');
+      if (!item) return;
+      var list = item.parentElement;
+      var wasOpen = item.classList.contains('open');
+
+      if (list) {
+        list.querySelectorAll('.faq-item.open').forEach(function (openItem) {
+          if (openItem !== item) {
+            openItem.classList.remove('open');
+            var openBtn = openItem.querySelector('.faq-question');
+            if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      item.classList.toggle('open', !wasOpen);
+      btn.setAttribute('aria-expanded', wasOpen ? 'false' : 'true');
+    });
+  });
+
 }());

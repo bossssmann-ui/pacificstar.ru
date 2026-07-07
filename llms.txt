@@ -1,0 +1,46 @@
+# Pacific Star — pacificstar.ru
+# Транспортно-логистическая компания, Дальний Восток и Арктика
+
+> ООО «Pacific Star» — грузоперевозки с 2012 года.
+> Специализация: Северный завоз (ФЗ № 411-ФЗ), каботаж, негабарит, автодоставка ДФО, ж/д, ВЭД.
+> Офис: Находка, Приморский край, ул. Северный проспект, 47с2.
+> Телефон: +7 (914) 728-58-80. Email: info@pacificstar.ru
+
+## Услуги
+
+- Главная: https://pacificstar.ru/
+- Все услуги и тарифы: https://pacificstar.ru/services.html
+- Северный завоз (411-ФЗ): https://pacificstar.ru/severnyy-zavoz.html
+- Каботажные перевозки: https://pacificstar.ru/kabotazh.html
+- Негабаритные / проектные грузы: https://pacificstar.ru/negabarit.html
+- Автодоставка ДФО: https://pacificstar.ru/avto-dfo.html
+- Автоперевозки в труднодоступные районы: https://pacificstar.ru/truck-delivery.html
+- Железнодорожные перевозки: https://pacificstar.ru/rail.html
+- ВЭД логистика (Китай, Япония, Корея): https://pacificstar.ru/ved.html
+- Морские перевозки в труднодоступные районы: https://pacificstar.ru/remote-regions.html
+
+## Информация
+
+- О компании: https://pacificstar.ru/about.html
+- Кейсы / проекты: https://pacificstar.ru/cases.html
+- Контакты и форма заявки: https://pacificstar.ru/contacts.html
+- Политика конфиденциальности: https://pacificstar.ru/privacy.html
+
+## Ключевые факты
+
+- Регионы: Сахалин, Магадан, Камчатка, Чукотка, Якутия, Приморье, Арктика
+- Хабы: Владивосток, Находка, Хабаровск
+- Виды транспорта: морской, железнодорожный, автомобильный, мультимодальный
+- Северный завоз регулируется Федеральным законом № 411-ФЗ от 13.06.2023
+
+## Не индексировать
+
+- /account.html
+- /integrations.html
+- /logos.html
+- /START.html
+- /hello.html
+
+## Sitemap
+
+https://pacificstar.ru/sitemap.xml
