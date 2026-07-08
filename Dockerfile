@@ -10,6 +10,7 @@ COPY server.js ./
 
 ENV NODE_ENV=production
 ENV API_ONLY=true
+ENV PORT=8080
 EXPOSE 8080
 
 CMD ["node", "server.js"]
