@@ -8,7 +8,9 @@ const compression = require('compression');
 require('dotenv').config();
 
 /* ── Env helpers ───────────────────────────────────────────────────── */
-const PORT      = Number(process.env.PORT) || 3000;
+// Timeweb App Platform uses dynamic PORT; if it's not set for some reason,
+// default to 8080 (matches Dockerfile EXPOSE) to avoid proxy mismatches.
+const PORT      = Number(process.env.PORT) || 8080;
 const SMTP_HOST = process.env.SMTP_HOST || '';
 const SMTP_PORT = Number(process.env.SMTP_PORT) || 465;
 const SMTP_SEC  = process.env.SMTP_SECURE !== 'false';
@@ -365,7 +367,14 @@ process.on('unhandledRejection', function (reason) {
   console.error('unhandledRejection:', reason);
 });
 
-console.log('Pacific Star boot: PORT=' + PORT + ' NODE_ENV=' + (process.env.NODE_ENV || 'unset'));
+console.log(
+  'Pacific Star boot: PORT=' + PORT +
+  ' NODE_ENV=' + (process.env.NODE_ENV || 'unset') +
+  ' CONTACT_EMAIL=' + CONTACT_EMAIL +
+  ' SMTP_USER=' + (SMTP_USER || '(empty)') +
+  ' MAIL_FROM=' + (MAIL_FROM || '(empty)') +
+  ' API_ONLY=' + API_ONLY
+);
 
 app.listen(PORT, '0.0.0.0', function () {
   console.log('🚀 Pacific Star server listening on 0.0.0.0:' + PORT);
