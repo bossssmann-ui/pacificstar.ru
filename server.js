@@ -16,6 +16,7 @@ const SMTP_USER = process.env.SMTP_USER || '';
 const SMTP_PASS = process.env.SMTP_PASS || '';
 const MAIL_FROM = process.env.MAIL_FROM || SMTP_USER;
 const AMOCRM_WEBHOOK_URL = process.env.AMOCRM_WEBHOOK_URL || '';
+const CORS_ORIGIN = process.env.CORS_ORIGIN || 'https://pacificstar.ru';
 
 /* ── SMTP transport ────────────────────────────────────────────────── */
 let transporter = null;
@@ -41,6 +42,17 @@ const app = express();
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+/* CORS for split static/API deploy (Phase 0 variant B) */
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', CORS_ORIGIN);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
+  next();
+});
 
 /* Cache-Control for versioned static assets (JS, CSS, images, fonts) */
 app.use(function (req, res, next) {

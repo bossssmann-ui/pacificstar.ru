@@ -376,7 +376,7 @@
         message: messageField ? messageField.value : ''
       };
 
-      fetch('/api/contact', {
+      fetch((window.PSApi && window.PSApi.url('/api/contact')) || '/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -509,7 +509,7 @@
         source: heroLeadForm.getAttribute('data-track-label') || 'hero_lead_form'
       };
 
-      fetch('/api/contact', {
+      fetch((window.PSApi && window.PSApi.url('/api/contact')) || '/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(heroFormData)
@@ -685,7 +685,7 @@
         submitBtn.textContent = msg('form.js.submitting', 'Отправка...');
       }
 
-      fetch('/api/callback', {
+      fetch((window.PSApi && window.PSApi.url('/api/callback')) || '/api/callback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

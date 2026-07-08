@@ -137,7 +137,7 @@
       btn.disabled = true;
       btn.textContent = 'Регистрируем…';
 
-      fetch('/api/register', {
+      fetch((window.PSApi && window.PSApi.url('/api/register')) || '/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
