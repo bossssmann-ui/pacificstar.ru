@@ -343,6 +343,15 @@ app.get('/api/health', function (_req, res) {
 });
 
 /* ── Start ─────────────────────────────────────────────────────────── */
+process.on('uncaughtException', function (err) {
+  console.error('uncaughtException:', err);
+});
+process.on('unhandledRejection', function (reason) {
+  console.error('unhandledRejection:', reason);
+});
+
+console.log('Pacific Star boot: PORT=' + PORT + ' NODE_ENV=' + (process.env.NODE_ENV || 'unset'));
+
 app.listen(PORT, '0.0.0.0', function () {
-  console.log('🚀 Pacific Star server running on port ' + PORT);
+  console.log('🚀 Pacific Star server listening on 0.0.0.0:' + PORT);
 });

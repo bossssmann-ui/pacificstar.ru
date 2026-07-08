@@ -90,12 +90,13 @@
 
 | Параметр | Значение |
 |----------|----------|
-| Тип | Backend → Express |
+| Тип | Backend → Express (или Dockerfile — см. ниже) |
 | Репозиторий | `bossssmann-ui/pacificstar.ru`, ветка `main` |
-| Команда сборки | `npm install --production` |
-| Команда запуска | `node server.js` |
-| Порт | `3000` (или оставить авто — платформа задаёт `PORT`) |
+| Команда сборки | `npm ci --omit=dev` |
+| Команда запуска | **по умолчанию** (PM2) или `npm start` |
 | Health check | `/api/health` |
+
+> **Не задавайте `PORT` вручную.** Платформа сама передаёт `PORT`; если прописать `PORT=3000`, nginx не достучится до приложения — домен не откроется.
 
 **Переменные окружения** (Настройки → Переменные):
 
@@ -108,9 +109,30 @@
 | `SMTP_PASS` | **пароль приложения Яндекс** (не placeholder!) |
 | `MAIL_FROM` | `Pacific Star <noreply@pacificstar.ru>` |
 | `CORS_ORIGIN` | `https://pacificstar.ru` |
-| `PORT` | `3000` |
+
+**Не добавляйте** `PORT` — платформа задаёт его автоматически.
 
 Опционально: `AMOCRM_WEBHOOK_URL`, `PS_YM_ID` (для аналитики — в `js/config.js` на статике).
+
+#### Домен не открывается (`bossssmann-ui-pacificstar-ru-73ae.twc1.net`)
+
+Симптом: браузер «не удаётся установить соединение» / TLS error. DNS есть, но приложение не отвечает.
+
+**Пошагово в панели App Platform:**
+
+1. **Настройки → Переменные** — удалите `PORT`, если она есть.
+2. **Настройки → Настройки деплоя → Редактировать:**
+   - Сборка: `npm ci --omit=dev`
+   - Запуск: **очистить** кастомную команду → оставить авто (PM2) **или** `npm start`
+   - Health check: `/api/health`
+3. **Деплой** → «Выполнить откат к коммиту» / перезапуск последнего коммита.
+4. **Логи приложения** (не только лог деплоя!) — ищите:
+   - `Pacific Star boot: PORT=...`
+   - `🚀 Pacific Star server listening on 0.0.0.0:...`
+   - ошибки `Error:`, `Cannot find module`
+5. Если Express не заводится — пересоздайте приложение как **Dockerfile** (в репо есть `Dockerfile`).
+
+**Текущий URL API:** `https://bossssmann-ui-pacificstar-ru-73ae.twc1.net`
 
 #### Где взять публичный URL API
 

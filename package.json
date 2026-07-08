@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "Pacific Star website with SMTP email server",
   "main": "server.js",
+  "engines": {
+    "node": ">=20 <25"
+  },
   "scripts": {
+    "build": "npm ci --omit=dev",
     "start": "node server.js",
     "validate": "html-validate *.html",
     "spellcheck": "cspell --no-progress"
