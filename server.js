@@ -1,11 +1,28 @@
 'use strict';
 
-const path        = require('path');
+const fs            = require('fs');
+const path            = require('path');
 const express     = require('express');
 const mailer      = require('nodemailer');
 const compression = require('compression');
+const dotenv      = require('dotenv');
 
-require('dotenv').config({ quiet: true });
+var loadedEnvPath = null;
+var envPaths = [
+  path.join(__dirname, '.env'),
+  path.join(process.cwd(), '.env'),
+  '/app/.env',
+];
+for (var i = 0; i < envPaths.length; i++) {
+  if (fs.existsSync(envPaths[i])) {
+    dotenv.config({ path: envPaths[i], quiet: true });
+    loadedEnvPath = envPaths[i];
+    break;
+  }
+}
+if (!loadedEnvPath) {
+  dotenv.config({ quiet: true });
+}
 
 /* ── Env helpers ───────────────────────────────────────────────────── */
 const REQUIRED_ENV_KEYS = [
@@ -406,6 +423,8 @@ process.on('unhandledRejection', function (reason) {
 console.log(
   'Pacific Star boot: PORT=' + PORT +
   ' NODE_ENV=' + (process.env.NODE_ENV || 'unset') +
+  ' envFile=' + (loadedEnvPath || 'none') +
+  ' envKeys=' + Object.keys(process.env).length +
   ' CONTACT_EMAIL=' + CONTACT_EMAIL +
   ' (env=' + (process.env.CONTACT_EMAIL ? 'set' : 'default') + ')' +
   ' SMTP_USER=' + (SMTP_USER || '(empty)') +
@@ -420,10 +439,13 @@ if (missing.length) {
     '⚠️  App Platform ENV missing (' + missing.length + '): ' + missing.join(', ')
   );
   console.warn(
-    '   Timeweb: Настройки → Настройка деплоя → Редактировать → Переменные → Добавить'
+    '   Timeweb: Настройки → Настройка деплоя → Редактировать → Переменные (по одной!)'
   );
   console.warn(
-    '   или «Загрузить из файла» (.env.app-platform.example). После сохранения — перезапуск.'
+    '   Команда запуска: npm start  (не PM2 по умолчанию — иначе ENV не обновляется)'
+  );
+  console.warn(
+    '   После сохранения ENV: вкладка Деплой → новый деплой (не только перезагрузка).'
   );
 }
 
