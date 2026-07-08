@@ -33,34 +33,43 @@ function ps_smtp_expect(string $response, array $codes): void
     }
 }
 
-function ps_smtp_send(array $cfg, string $to, string $subject, string $html): void
+function ps_smtp_connect(array $cfg)
 {
     $host = $cfg['host'];
     $port = $cfg['port'] ?? 465;
+
+    $attempts = [
+        ['verify_peer' => true, 'verify_peer_name' => true],
+        ['verify_peer' => false, 'verify_peer_name' => false],
+    ];
+
+    $lastErr = '';
+    foreach ($attempts as $ssl) {
+        $ctx = stream_context_create(['ssl' => $ssl + ['allow_self_signed' => false]]);
+        $fp = @stream_socket_client(
+            'ssl://' . $host . ':' . $port,
+            $errno,
+            $errstr,
+            30,
+            STREAM_CLIENT_CONNECT,
+            $ctx
+        );
+        if ($fp) {
+            return $fp;
+        }
+        $lastErr = $errstr;
+    }
+
+    throw new RuntimeException('SMTP connect failed: ' . $lastErr);
+}
+
+function ps_smtp_send(array $cfg, string $to, string $subject, string $html): void
+{
     $user = $cfg['user'];
     $pass = $cfg['pass'];
     $from = $cfg['from'] ?? $user;
 
-    $ctx = stream_context_create([
-        'ssl' => [
-            'verify_peer' => true,
-            'verify_peer_name' => true,
-            'allow_self_signed' => false,
-        ],
-    ]);
-
-    $fp = @stream_socket_client(
-        'ssl://' . $host . ':' . $port,
-        $errno,
-        $errstr,
-        30,
-        STREAM_CLIENT_CONNECT,
-        $ctx
-    );
-
-    if (!$fp) {
-        throw new RuntimeException('SMTP connect failed: ' . $errstr);
-    }
+    $fp = ps_smtp_connect($cfg);
 
     stream_set_timeout($fp, 30);
 

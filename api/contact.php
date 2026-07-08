@@ -33,7 +33,11 @@ try {
         ps_contact_html($payload)
     );
 
-    ps_forward_amocrm($PS_MAIL_CONFIG, ps_amocrm_payload($payload, 'contact_form'));
+    try {
+        ps_forward_amocrm($PS_MAIL_CONFIG, ps_amocrm_payload($payload, 'contact_form'));
+    } catch (Throwable $crmErr) {
+        error_log('contact.php AmoCRM: ' . $crmErr->getMessage());
+    }
 
     echo json_encode(['ok' => true, 'message' => 'Заявка отправлена'], JSON_UNESCAPED_UNICODE);
 } catch (Throwable $e) {
