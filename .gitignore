@@ -22,3 +22,7 @@ build/
 .env.*.local
 api/mail-config.php
 map-test.html
+
+# Raw photo uploads from client (keep folder, ignore heavy files)
+content-inbox/photos/*
+!content-inbox/photos/.gitkeep

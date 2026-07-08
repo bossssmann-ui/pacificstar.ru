@@ -10,15 +10,15 @@
 
 | Направление | Готовность | Комментарий |
 |-------------|------------|-------------|
-| Витрина / контент | ~85% | 19 страниц HTTP 200, html-validate пройден |
+| Витрина / контент | ~85% | 19 страниц HTTP 200; **живые фото с работы — не внедрены** (см. Фаза 6) |
 | Классический SEO (RU) | ~85% | title, canonical, JSON-LD, sitemap |
 | ИИ-поиск (GEO) | ~70% | llms.txt, FAQ, OG-image PNG; карта в JS |
-| Лидогенерация (формы) | ~20% | `/api/contact` → 404 на production (нет Node.js) |
+| Лидогенерация (формы) | ~90% | PHP `api/contact.php` на shared hosting, SMTP + SPF |
 | Инструменты | ~75% | Калькулятор ОК; валюты на ved.html |
 | i18n | ~95% | 5 языков complete; machine-translate, нужен human review |
 | CRM / ЛК | ~15% | Демо-данные, AmoCRM не подключён |
 
-**Критический разрыв:** README описывает `server.js` для форм, но Timeweb раздаёт только статику. Пока backend не развёрнут — лиды с сайта не доходят.
+**Актуально (июль 2026):** формы и почта работают через **PHP на хостинге** (`/api/*.php`), App Platform не используется. Следующий приоритет по продукту — **живой контент** (фото реальных перевозок) и аналитика/CRM (Фаза 2).
 
 ---
 
@@ -62,12 +62,12 @@
 
 | ID | Задача | Критерий готовности | Статус |
 |----|--------|---------------------|--------|
-| 0.1 | Развернуть `server.js` на production (App Platform / VPS) | `GET /api/health` → `{"ok":true}` | ✅ `bossssmann-ui-pacificstar-ru-73ae.twc1.net` + `PS_API_BASE` |
-| 0.2 | Настроить SMTP (Яндекс / Mail.ru) | `/api/health.php` → `"smtp":true`; тестовое письмо | ✅ PHP + `SMTP_PASS` в GitHub |
-| 0.3 | Проверить формы `contacts.html` и `#heroLeadForm` на главной | Сообщение «Заявка отправлена» | 🟡 проверить на сайте + письмо на sales@ |
+| 0.1 | Backend для форм на production | `GET /api/health.php` → `{"ok":true,"backend":"php"}` | ✅ PHP на shared hosting |
+| 0.2 | Настроить SMTP / DNS (SPF) | `/api/health.php` → `"smtp":true`; одна SPF TXT | ✅ Exim + SPF Timeweb+Yandex |
+| 0.3 | Проверить формы на сайте | «Заявка отправлена» + письмо на `sales@` | ✅ форма уходит; письмо — проверка в ящике |
 | 0.4 | `favicon.ico` без 404 | Redirect или файл в `img/` | ✅ `img/favicon.ico` + rewrite |
 
-Инструкция по backend: см. раздел «Деплой server.js» ниже.
+Инструкция: [TIMEWEB_DEPLOY.md](TIMEWEB_DEPLOY.md). App Platform **не нужна** (можно остановить #220769).
 
 ---
 
@@ -97,7 +97,34 @@
 | 2.3 | Яндекс.Метрика: реальный `PS_YM_ID` + цели | 🟡 loader в `analytics.js`, нужен ID счётчика |
 | 2.4 | Телефон/email на мобильном без скролла | ✅ `header-mobile-bar` в `components.js` |
 | 2.5 | SEO-текст тарифов над калькулятором | ✅ блок `#tariffs-overview` на `services.html` |
-| 2.6 | Обратный звонок — реальная отправка (не заглушка) | 🟡 `POST /api/callback`, нужен backend (Фаза 0) |
+| 2.6 | Обратный звонок — реальная отправка | `POST /api/callback.php` → письмо / AmoCRM | ✅ PHP API (как contact) |
+
+---
+
+### Фаза 6 — Живой контент (фото с работы)
+
+**Цель:** заменить «витринный» контент реальными кадрами с перевозок — повысить доверие, конверсию и GEO (ИИ цитируют конкретику + визуальные кейсы).
+
+**Исходные материалы (от заказчика):** рабочие фото по проектам Pacific Star (паром, порт, негабарит, склады, техника, команда и т.д.).
+
+| ID | Задача | Критерий готовности | Статус |
+|----|--------|---------------------|--------|
+| 6.1 | Инвентаризация фото | Таблица/папка: файл → направление (север / каботаж / негабарит / ВЭД) → город/маршрут → год | ⬜ ждём передачу файлов |
+| 6.2 | Подготовка для веба | WebP/JPEG, max ~1920px, вес &lt;200 KB; `img/work/` в репо | ⬜ |
+| 6.3 | Кейсы `cases.html` | ≥6 карточек с **реальным фото**, подпись, маршрут, тоннаж | ⬜ сейчас текст без живых снимков |
+| 6.4 | Блок «Мы в работе» на главной | Галерея 6–12 фото + lazy-load | ⬜ |
+| 6.5 | Фото на страницах услуг | 1–3 кадра на `severnyy-zavoz`, `kabotazh`, `negabarit`, `rail`, `ved` | ⬜ |
+| 6.6 | `about.html` — команда и инфраструктура | Реальные фото офиса/склада/порта (с согласия на публикацию) | ⬜ |
+| 6.7 | SEO: `alt`, подписи, ImageObject в JSON-LD где уместно | Все новые `<img>` с осмысленным `alt` на русском | ⬜ |
+| 6.8 | OG для кейсов (опционально) | Отдельные og-image для топ-кейсов | ⬜ |
+
+**Как передать фото агенту:**
+
+1. Архив (ZIP) в облако **или** папка в репо `content-inbox/photos/` (не в git, если тяжёлые — ссылка).
+2. К каждому кадру (или пакету): *что на фото, маршрут, можно ли в открытый доступ, есть ли лица клиентов*.
+3. Отметить **лучшие 10** для главной и кейсов.
+
+**Порядок работ после получения файлов:** 6.1 → 6.2 → 6.3 + 6.4 (максимальный эффект) → 6.5–6.7.
 
 ---
 
@@ -139,50 +166,55 @@
 
 ---
 
-## Деплой server.js (Фаза 0)
+## Деплой форм и API (актуально)
 
-Timeweb shared hosting по умолчанию отдаёт только статику. Варианты:
+| Компонент | Где |
+|-----------|-----|
+| Статика + PHP API | Timeweb **shared hosting** `public_html` (GitHub Actions → FTP/SSH) |
+| Формы | `api/contact.php`, `callback.php`, `register.php` |
+| Секреты | GitHub: `TIMEWEB_*`, `SMTP_PASS` (опционально для SMTP fallback) |
+| DNS | SPF одна запись: `v=spf1 include:_spf.timeweb.ru include:_spf.yandex.net ~all` |
 
-### Вариант A — Node.js на Timeweb (если тариф поддерживает)
+Подробно: [TIMEWEB_DEPLOY.md](TIMEWEB_DEPLOY.md).
 
-1. Включить Node.js в панели Timeweb.
-2. Загрузить `server.js`, `package.json`, `.env` (не в git).
-3. Проксировать `/api/*` через nginx на процесс Node (порт из панели).
-4. Статику оставить в `public_html`, API — на Node.
+### Архив: App Platform / server.js (не используется)
 
-### Вариант B — Timeweb Cloud App Platform (текущий)
+<details>
+<summary>Историческая схема Node на App Platform — можно не открывать</summary>
 
-1. Backend-приложение Express, репо `bossssmann-ui/pacificstar.ru`, ветка `main`.
-2. Сборка: `npm install --production`, запуск: `node server.js`, health: `/api/health`.
-3. ENV: `SMTP_*`, `CORS_ORIGIN=https://pacificstar.ru` (см. [TIMEWEB_DEPLOY.md](TIMEWEB_DEPLOY.md)).
-4. После деплоя — технический домен `*.twc1.net` на вкладке «Дашборд».
-5. Прописать в `js/config.js`: `window.PS_API_BASE = 'https://….twc1.net'`.
+### Вариант B — Timeweb Cloud App Platform
 
-### Вариант C — Отдельный VPS / serverless
+Заменён на PHP (июль 2026). Приложение #220769 — остановить.
 
-1. Деплой `server.js` на VPS (PM2) или Railway / Render.
-2. CORS + `PS_API_BASE` на `https://api.pacificstar.ru`.
+### Вариант A / C / D
 
-### Вариант D — Внешний сервис форм (быстрый старт)
+См. git history ROADMAP при необходимости VPS / Formspree.
 
-AmoCRM webhook, Formspree или EmailJS — без своего сервера. Минус: меньше контроля над шаблонами писем.
+</details>
 
-**Проверка после деплоя:**
+**Проверка:**
 
 ```bash
-curl -s https://pacificstar.ru/api/health
-curl -s -X POST https://pacificstar.ru/api/contact \
+curl -s https://pacificstar.ru/api/health.php
+curl -s -X POST https://pacificstar.ru/api/contact.php \
   -H 'Content-Type: application/json' \
-  -d '{"name":"Test","email":"test@example.com","phone":"+79990000000","message":"test"}'
+  -d '{"name":"Test","phone":"+79990000000","message":"test"}'
 ```
 
 ---
 
-## Чеклист первых двух недель
+## Чеклист — что дальше (приоритет)
 
-### Неделя 1
+### Сейчас (параллельно)
 
-- [ ] Фаза 0: backend + SMTP + проверка форм *(заблокировано — нужен SSH/Node)*
+- [x] Фаза 0: формы + почта + SPF
+- [ ] **Фаза 6:** живые фото — **ждём архив от заказчика** (см. 6.1)
+- [ ] Фаза 2.3: Яндекс.Метрика — `PS_YM_ID` в `js/config.js`
+- [ ] Фаза 2.2: AmoCRM — `AMOCRM_WEBHOOK_URL` в `api/mail-config` / GitHub Secret
+
+### Неделя 1 (архив)
+
+- [x] Фаза 0: backend + SMTP + формы
 - [x] `llms.txt`, `sameAs`, FAQ на главной
 - [x] Навигация: 2 пропущенные услуги в меню
 - [x] Текстовые маршруты, noscript-nav
@@ -209,7 +241,8 @@ curl -s -X POST https://pacificstar.ru/api/contact \
 | 2026-07-08 | Фаза 0 prep: js/config.js (PS_API_BASE), CORS в server.js |
 | 2026-07-08 | Fix: hero-форма phone-only; config.js на services/privacy; sitemap lastmod |
 | 2026-07-08 | App Platform #220769: инструкция в TIMEWEB_DEPLOY; listen 0.0.0.0 |
-| 2026-07-08 | Phase 0: PS_API_BASE → bossssmann-ui-pacificstar-ru-73ae.twc1.net |
+| 2026-07-08 | Фаза 0 закрыта: PHP API, Exim, SPF; App Platform снята с критического пути |
+| 2026-07-08 | Фаза 6: живой контент (фото с работы) — план и критерии в ROADMAP |
 
 ---
 
