@@ -5,9 +5,31 @@ const express     = require('express');
 const mailer      = require('nodemailer');
 const compression = require('compression');
 
-require('dotenv').config();
+require('dotenv').config({ quiet: true });
 
 /* ── Env helpers ───────────────────────────────────────────────────── */
+const REQUIRED_ENV_KEYS = [
+  'API_ONLY',
+  'CONTACT_EMAIL',
+  'CORS_ORIGIN',
+  'SMTP_HOST',
+  'SMTP_PORT',
+  'SMTP_SECURE',
+  'SMTP_USER',
+  'SMTP_PASS',
+  'MAIL_FROM',
+];
+
+function envPresence(key) {
+  var value = process.env[key];
+  return typeof value === 'string' && value.length > 0;
+}
+
+function missingEnvKeys() {
+  return REQUIRED_ENV_KEYS.filter(function (key) {
+    return !envPresence(key);
+  });
+}
 // Timeweb App Platform uses dynamic PORT; if it's not set for some reason,
 // default to 8080 (matches Dockerfile EXPOSE) to avoid proxy mismatches.
 const PORT      = Number(process.env.PORT) || 8080;
@@ -38,6 +60,11 @@ if (SMTP_HOST && SMTP_USER && SMTP_PASS) {
     .catch(function (err) { console.error('❌ SMTP verify failed:', err.message); });
 } else {
   console.warn('⚠️  SMTP not configured — emails will be logged to console');
+  console.warn(
+    '   SMTP env: HOST=' + (SMTP_HOST ? 'set' : 'EMPTY') +
+    ' USER=' + (SMTP_USER ? 'set' : 'EMPTY') +
+    ' PASS=' + (SMTP_PASS ? 'set' : 'EMPTY')
+  );
 }
 
 /* ── Express app ───────────────────────────────────────────────────── */
@@ -347,6 +374,15 @@ function healthPayload() {
     smtp: !!transporter,
     amocrm: !!AMOCRM_WEBHOOK_URL,
     apiOnly: API_ONLY,
+    env: {
+      apiOnly: envPresence('API_ONLY'),
+      contactEmail: envPresence('CONTACT_EMAIL'),
+      corsOrigin: envPresence('CORS_ORIGIN'),
+      smtpHost: envPresence('SMTP_HOST'),
+      smtpUser: envPresence('SMTP_USER'),
+      smtpPass: envPresence('SMTP_PASS'),
+      mailFrom: envPresence('MAIL_FROM'),
+    },
     time: new Date().toISOString(),
   };
 }
@@ -371,10 +407,25 @@ console.log(
   'Pacific Star boot: PORT=' + PORT +
   ' NODE_ENV=' + (process.env.NODE_ENV || 'unset') +
   ' CONTACT_EMAIL=' + CONTACT_EMAIL +
+  ' (env=' + (process.env.CONTACT_EMAIL ? 'set' : 'default') + ')' +
   ' SMTP_USER=' + (SMTP_USER || '(empty)') +
   ' MAIL_FROM=' + (MAIL_FROM || '(empty)') +
-  ' API_ONLY=' + API_ONLY
+  ' API_ONLY=' + API_ONLY +
+  ' (raw=' + (process.env.API_ONLY || 'unset') + ')'
 );
+
+var missing = missingEnvKeys();
+if (missing.length) {
+  console.warn(
+    '⚠️  App Platform ENV missing (' + missing.length + '): ' + missing.join(', ')
+  );
+  console.warn(
+    '   Timeweb: Настройки → Настройка деплоя → Редактировать → Переменные → Добавить'
+  );
+  console.warn(
+    '   или «Загрузить из файла» (.env.app-platform.example). После сохранения — перезапуск.'
+  );
+}
 
 app.listen(PORT, '0.0.0.0', function () {
   console.log('🚀 Pacific Star server listening on 0.0.0.0:' + PORT);

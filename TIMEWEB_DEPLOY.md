@@ -173,6 +173,39 @@
 
 После смены переменных Timeweb иногда нужен **явный перезапуск**, не только сохранение ENV.
 
+#### Логи: «SMTP not configured» / `SMTP_USER=(empty)`
+
+Типичный вывод (переменные **не дошли** до контейнера):
+
+```
+⚠️  SMTP not configured — emails will be logged to console
+Pacific Star boot: PORT=8080 ... SMTP_USER=(empty) MAIL_FROM=(empty) API_ONLY=false (raw=unset)
+⚠️  App Platform ENV missing (9): API_ONLY, CONTACT_EMAIL, ...
+```
+
+| Строка в логе | Что значит |
+|---------------|------------|
+| `SMTP_USER=(empty)` | `SMTP_*` не заданы в **локальных** переменных приложения |
+| `API_ONLY=false (raw=unset)` | `API_ONLY=true` не задан — backend отдаёт и статику (лишнее на App Platform) |
+| `CONTACT_EMAIL=... (env=default)` | адрес из кода, не из панели |
+| `injected env (0) from .env` | файла `.env` в контейнере нет — **это нормально**; переменные должны приходить из панели |
+
+**Что сделать (5 минут):**
+
+1. [App #220769](https://timeweb.cloud/my/apps/220769/dashboard) → **Настройки** → **Настройка деплоя** → **Редактировать**.
+2. Блок **Переменные** → **Добавить** (или **Загрузить из файла** — только файл с именем `.env`).
+3. Скопируйте шаблон из репозитория [`.env.app-platform.example`](.env.app-platform.example), подставьте реальный `SMTP_PASS` (пароль приложения Яндекс).
+4. **Сохранить** → **Перезагрузка приложения** (не только сохранение ENV).
+5. Проверка:
+
+```bash
+curl -s https://bossssmann-ui-pacificstar-ru-73ae.twc1.net/api/health
+```
+
+Ожидается: `"smtp":true`, `"apiOnly":true`, в `env` все поля `true`.
+
+> Глобальные переменные (App Platform → Переменные) **не подхватятся**, пока вы не привяжете их к приложению в «Настройка деплоя».
+
 #### Где взять публичный URL API
 
 Ссылка на дашборд (`…/apps/220769/dashboard`) — **не** адрес API.
