@@ -15,7 +15,7 @@
 | ИИ-поиск (GEO) | ~70% | llms.txt, FAQ, OG-image PNG; карта в JS |
 | Лидогенерация (формы) | ~20% | `/api/contact` → 404 на production (нет Node.js) |
 | Инструменты | ~75% | Калькулятор ОК; валюты на ved.html |
-| i18n | ~60% | EN complete; calculator/forms i18n; ZH/JA/KO pending |
+| i18n | ~95% | 5 языков complete; machine-translate, нужен human review |
 | CRM / ЛК | ~15% | Демо-данные, AmoCRM не подключён |
 
 **Критический разрыв:** README описывает `server.js` для форм, но Timeweb раздаёт только статику. Пока backend не развёрнут — лиды с сайта не доходят.
@@ -65,7 +65,7 @@
 | 0.1 | Развернуть `server.js` на production (Node на Timeweb / VPS / serverless) | `POST /api/contact` → 200 на pacificstar.ru | ⬜ **блокер:** нет SSH/Node в environment |
 | 0.2 | Настроить SMTP (Яндекс / Mail.ru) | Тестовое письмо на `info@pacificstar.ru` | ⬜ SMTP_* в `.env` локально; production — после 0.1 |
 | 0.3 | Проверить формы `contacts.html` и `#heroLeadForm` на главной | Сообщение «Заявка отправлена» | ⬜ |
-| 0.4 | `favicon.ico` без 404 | Redirect или файл в `img/` | 🟡 redirect в `.htaccess` |
+| 0.4 | `favicon.ico` без 404 | Redirect или файл в `img/` | ✅ `img/favicon.ico` + rewrite |
 
 Инструкция по backend: см. раздел «Деплой server.js» ниже.
 
@@ -106,9 +106,9 @@
 | ID | Задача | Статус |
 |----|--------|--------|
 | 3.1 | Перевести ~911 `[TODO]` в `en.json` | ✅ machine-translate RU→EN |
-| 3.2 | Переводы ZH / JA / KO (приоритет: ZH для ВЭД) | ⬜ |
+| 3.2 | Переводы ZH / JA / KO (приоритет: ZH для ВЭД) | ✅ machine-translate RU→ZH/JA/KO |
 | 3.3 | i18n для `calculator.js` и валидации форм | ✅ |
-| 3.4 | `hreflang` (`ru`, `en` минимум) | ✅ + `?lang=en` в `i18n.js` |
+| 3.4 | `hreflang` (`ru`, `en` минимум) | ✅ ru/en/zh/ja/ko + `?lang=` |
 | 3.5 | Обновлять [i18n-status.md](i18n-status.md) | ✅ |
 
 ---
@@ -198,6 +198,7 @@ curl -s -X POST https://pacificstar.ru/api/contact \
 | 2026-07-08 | Merge PR #213 в main; Фаза 2: mobile-bar, SEO тарифы, Metrika loader, AmoCRM/callback API |
 | 2026-07-08 | Фаза 1.3 OG-image PNG; Фаза 3.1 en.json; 3.4 hreflang + ?lang=en |
 | 2026-07-08 | Фаза 3.3: i18n для calculator.js, form JS messages, field-error data-i18n |
+| 2026-07-08 | Фаза 3.2: zh/ja/ko переводы; hreflang zh/ja/ko; favicon.ico (0.4) |
 
 ---
 

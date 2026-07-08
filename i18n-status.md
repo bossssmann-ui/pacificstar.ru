@@ -10,53 +10,47 @@
 - **Default language**: Russian (text in HTML serves as no-JS fallback)
 - **Dictionary loading**: XHR on demand; cached in memory after first load
 - **HTML `lang` attribute**: Updated dynamically on language switch
+- **URL param**: `?lang=en|zh|ja|ko` — applied on load; synced on switch via `history.replaceState`
+- **Events**: `ps-lang-change` — calculator and other JS modules refresh on language change
 
 ### Key Structure (examples)
 
 ```
 nav.home                          → Navigation links
-nav.services
 footer.copyright                  → Footer elements
-footer.address
 cta.request_quote                 → Call-to-action buttons
-cta.calculate_cost
 index.hero.title_line1            → Page-specific content
-index.advantages.rates.title
-services.list.road.title
 form.callback.title               → Form labels and messages
-form.callback.submit
+calc.transport.auto               → Calculator.js dynamic strings
+form.js.submitting                → Form JS runtime messages
 comp.header.logo_subtitle         → Shared component text
-comp.footer.services_title
 meta.index.title                  → Page titles and meta descriptions
-meta.index.desc
 ```
 
 ### Dictionary Files
 
 | File | Keys | Status |
 |------|------|--------|
-| `locales/ru.json` | 1575 | ✅ Complete |
-| `locales/en.json` | 1587 | ✅ Complete (machine-translated from RU, 2026-07-08) |
-| `locales/zh.json` | 1543 | ⚠️ ~595 translated, ~911 marked `[TODO]` |
-| `locales/ja.json` | 1530 | ⚠️ ~582 translated, ~911 marked `[TODO]` |
-| `locales/ko.json` | 1530 | ⚠️ ~582 translated, ~911 marked `[TODO]` |
+| `locales/ru.json` | 1657 | ✅ Complete (canonical) |
+| `locales/en.json` | 1657 | ✅ Complete (RU→EN, 2026-07-08) |
+| `locales/zh.json` | 1657 | ✅ Complete (RU→ZH, 2026-07-08) |
+| `locales/ja.json` | 1657 | ✅ Complete (RU→JA, 2026-07-08) |
+| `locales/ko.json` | 1657 | ✅ Complete (RU→KO, 2026-07-08) |
 
 ## Refactored Files
 
 | File | Changes |
 |------|---------|
-| `js/i18n.js` | Complete rewrite: 288 lines (was 2938). Lean `data-i18n` engine replacing text-node matching. |
-| `js/components.js` | Added `data-i18n` attributes to header, footer, mobile nav, callback panel, floating contacts, scroll-to-top. |
-| `locales/ru.json` | New file — Russian dictionary (canonical source). |
-| `locales/en.json` | New file — English dictionary. |
-| `locales/zh.json` | New file — Chinese dictionary. |
-| `locales/ja.json` | New file — Japanese dictionary. |
-| `locales/ko.json` | New file — Korean dictionary. |
+| `js/i18n.js` | Lean `data-i18n` engine; `?lang=` URL support; `ps-lang-change` event |
+| `js/calculator.js` | i18n for options, errors, result block |
+| `js/main.js` | i18n for form submit/error runtime messages |
+| `js/components.js` | `data-i18n` on header, footer, mobile nav, callback panel |
+| `locales/*.json` | Flat JSON dictionaries for ru / en / zh / ja / ko |
 
 ## Pages with `data-i18n` Coverage
 
-| Page | Attributes Added | Status |
-|------|-----------------|--------|
+| Page | Attributes | Status |
+|------|------------|--------|
 | `index.html` | 86 | ✅ i18n-complete |
 | `about.html` | 64 | ✅ i18n-complete |
 | `services.html` | 162 | ✅ i18n-complete |
@@ -74,34 +68,28 @@ meta.index.desc
 | `rail.html` | 95 | ✅ i18n-complete |
 | `ved.html` | 72 | ✅ i18n-complete |
 
-**Total**: 1491 `data-i18n` attributes across 16 pages + shared components.
+**Total**: 1491+ `data-i18n` attributes across 16 pages + shared components.
 
 ## Supported Languages
 
 | Language | Code | Switcher | Translations |
 |----------|------|----------|-------------|
 | Russian | `ru` | ✅ | ✅ Complete (base language in HTML) |
-| English | `en` | ✅ | ⚠️ ~640/1587 translated |
-| Chinese | `zh` | ✅ | ⚠️ ~595/1543 translated |
-| Japanese | `ja` | ✅ | ⚠️ ~582/1530 translated |
-| Korean | `ko` | ✅ | ⚠️ ~582/1530 translated |
+| English | `en` | ✅ | ✅ Complete |
+| Chinese | `zh` | ✅ | ✅ Complete |
+| Japanese | `ja` | ✅ | ✅ Complete |
+| Korean | `ko` | ✅ | ✅ Complete |
 
-## TODO
+## SEO / hreflang
 
-### Translation Content
-- [ ] Complete English translations for page-specific content (911 strings marked `[TODO]`)
-- [ ] Complete Chinese translations for page-specific content
-- [ ] Complete Japanese translations for page-specific content
-- [ ] Complete Korean translations for page-specific content
+- [x] `hreflang` tags for `ru`, `en`, `zh`, `ja`, `ko`, `x-default` on public pages
+- [x] English alternate: `?lang=en` (same for zh/ja/ko)
+- [ ] Per-language sitemaps (optional future)
+- [ ] Language-specific URL prefixes `/en/` (optional future)
 
-### Multi-line Elements
-- [ ] Some multi-line text blocks (paragraphs spanning multiple lines in HTML) may not have `data-i18n` attributes yet because they contain child elements (`<span>`, `<a>`, `<strong>` etc.). These still get translated via their parent elements.
+## Remaining i18n work
 
-### SEO
-- [ ] Add `hreflang` tags for per-language alternate URLs
-- [ ] Create per-language sitemaps
-- [ ] Consider language-specific URL prefixes (`/en/`, `/zh/`, etc.)
+- [ ] Human review / edit of machine-translated EN/ZH/JA/KO (especially VED and legal text)
+- [ ] Some multi-line HTML blocks with nested `<a>` / `<strong>` may need split `data-i18n` keys
 
-### Forms
-- [ ] Error/validation messages from JS should use `PSi18n.t()` for translation
-- [ ] Dynamic content generated by `calculator.js` needs i18n keys
+*Last updated: 2026-07-08*
