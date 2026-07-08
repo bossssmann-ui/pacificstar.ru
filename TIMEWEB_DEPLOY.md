@@ -33,6 +33,9 @@
 | `TIMEWEB_HOST` | IP-адрес сервера (из панели Timeweb) |
 | `TIMEWEB_USER` | Логин на хостинге |
 | `TIMEWEB_PASSWORD` | Пароль от хостинга |
+| `SMTP_PASS` | **Пароль приложения Яндекс** для `noreply@pacificstar.ru` (формы на сайте) |
+
+> `SMTP_PASS` — единственный секрет для почты. Остальные SMTP-настройки уже в коде. GitHub при деплое создаёт `api/mail-config.php` на сервере автоматически.
 
 **3.** Нажмите **`Add secret`** для каждого.
 
@@ -80,13 +83,21 @@
 
 ## 🔧 Backend (формы) — Фаза 0
 
-Статика деплоится через GitHub Actions (см. выше). **Формы** (`/api/contact`, обратный звонок) требуют Node.js.
+**Решение (работает без App Platform):** формы шлют запросы на **PHP** в той же папке `public_html/api/` — Timeweb shared hosting выполняет PHP. Пароль SMTP задаётся **один раз** в GitHub Secret `SMTP_PASS`, при деплое создаётся `api/mail-config.php`.
 
-На **shared hosting** (`public_html`) постоянный Node.js **недоступен** — используйте **Timeweb Cloud App Platform** (см. ниже).
+| Что | Где |
+|-----|-----|
+| Обработчик заявок | `https://pacificstar.ru/api/contact.php` |
+| Проверка | `https://pacificstar.ru/api/health.php` → `"smtp":true` |
+| Секрет | GitHub → `SMTP_PASS` (пароль приложения Яндекс) |
 
-### App Platform (рекомендуется)
+После добавления `SMTP_PASS` → **Run workflow** (деплой) → проверка health → тест формы на главной.
 
-Приложение уже создано: [дашборд app #220769](https://timeweb.cloud/my/apps/220769/dashboard).
+### App Platform (опционально, если понадобится отдельный API)
+
+Ранее использовался Node.js на App Platform — **переменные окружения в панели Timeweb не доходили до контейнера**. Формы переведены на PHP; App Platform можно оставить выключенным или использовать позже для AmoCRM/аналитики.
+
+Приложение: [дашборд app #220769](https://timeweb.cloud/my/apps/220769/dashboard).
 
 | Параметр | Значение |
 |----------|----------|

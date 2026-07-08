@@ -40,6 +40,24 @@ jobs:
             echo "SKIP=false" >> "$GITHUB_ENV"
           fi
 
+      - name: Сгенерировать api/mail-config.php (SMTP из GitHub Secrets)
+        if: env.SKIP == 'false'
+        env:
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          SMTP_HOST: smtp.yandex.ru
+          SMTP_USER: noreply@pacificstar.ru
+          MAIL_FROM: noreply@pacificstar.ru
+          CONTACT_EMAIL: sales@pacificstar.ru
+          CORS_ORIGIN: https://pacificstar.ru
+        run: |
+          if [ -z "$SMTP_PASS" ]; then
+            echo "⚠️  SMTP_PASS не задан в GitHub Secrets — формы не будут слать почту."
+            echo "    Добавьте: https://github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions"
+            cp api/mail-config.example.php api/mail-config.php
+          else
+            php scripts/generate-mail-config.php
+          fi
+
       - name: Подготовить файлы сайта (без служебных файлов)
         if: env.SKIP == 'false'
         run: |
@@ -52,7 +70,6 @@ jobs:
             --exclude='previews/' \
             --exclude='.env' \
             --exclude='.env.*' \
-            --exclude='*.php' \
             --exclude='test.html' \
             --exclude='DEPLOY_GUIDE.html' \
             --exclude='*.zip' \
@@ -101,7 +118,6 @@ jobs:
               mirror --reverse --delete --verbose --parallel=1 \
                 --exclude-glob .git* \
                 --exclude-glob *.md \
-                --exclude-glob *.php \
                 --exclude-glob test.html \
                 --exclude-glob DEPLOY_GUIDE.html \
                 --exclude-glob previews/ \

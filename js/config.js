@@ -1,21 +1,26 @@
 /**
  * Pacific Star — runtime configuration (set before other app scripts).
  *
- * Production overrides (inject via deploy or inline before this file):
- *   window.PS_API_BASE = 'https://api.pacificstar.ru';  // Phase 0 variant B
- *   window.PS_YM_ID    = 12345678;
- *   window.PS_GA_ID    = 'G-XXXXXXXX';
+ * Forms use PHP on shared hosting (api/*.php) — no App Platform ENV needed.
+ * Set PS_MAIL_BACKEND = 'node' + PS_API_BASE to use Timeweb App Platform instead.
  */
 (function () {
   'use strict';
 
-  window.PS_API_BASE = window.PS_API_BASE || 'https://bossssmann-ui-pacificstar-ru-73ae.twc1.net';
+  window.PS_MAIL_BACKEND = window.PS_MAIL_BACKEND || 'php';
+  window.PS_API_BASE = window.PS_API_BASE || '';
   window.PS_YM_ID    = window.PS_YM_ID    || 0;
   window.PS_GA_ID    = window.PS_GA_ID    || '';
 
   window.PSApi = {
-    /** Build absolute API URL; empty PS_API_BASE → same-origin /api/* */
+    /**
+     * php → same-origin /api/contact.php (shared hosting)
+     * node → PS_API_BASE + /api/contact (App Platform)
+     */
     url: function (path) {
+      if (window.PS_MAIL_BACKEND === 'php') {
+        return path.replace(/\/api\/([a-z]+)$/, '/api/$1.php');
+      }
       var base = String(window.PS_API_BASE || '').replace(/\/$/, '');
       return base + path;
     }

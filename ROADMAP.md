@@ -63,7 +63,7 @@
 | ID | Задача | Критерий готовности | Статус |
 |----|--------|---------------------|--------|
 | 0.1 | Развернуть `server.js` на production (App Platform / VPS) | `GET /api/health` → `{"ok":true}` | ✅ `bossssmann-ui-pacificstar-ru-73ae.twc1.net` + `PS_API_BASE` |
-| 0.2 | Настроить SMTP (Яндекс / Mail.ru) | `/api/health` → `"smtp":true`; тестовое письмо | ⬜ `SMTP_PASS` в App Platform ENV (`smtp:false` сейчас) |
+| 0.2 | Настроить SMTP (Яндекс / Mail.ru) | `/api/health.php` → `"smtp":true`; тестовое письмо | ⬜ GitHub Secret `SMTP_PASS` + деплой |
 | 0.3 | Проверить формы `contacts.html` и `#heroLeadForm` на главной | Сообщение «Заявка отправлена» | 🟡 код готов: hero без email → phone-only `/api/contact` |
 | 0.4 | `favicon.ico` без 404 | Redirect или файл в `img/` | ✅ `img/favicon.ico` + rewrite |
 

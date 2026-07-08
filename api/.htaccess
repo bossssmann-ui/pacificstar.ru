@@ -1,0 +1,4 @@
+# Block direct HTTP access to secrets file (Apache 2.4+)
+<Files "mail-config.php">
+  Require all denied
+</Files>
