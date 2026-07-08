@@ -18,7 +18,7 @@ jobs:
   deploy-timeweb:
     name: 🚀 Загрузить сайт на Timeweb
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     env:
       TW_HOST: ${{ secrets.TIMEWEB_HOST }}
       TW_USER: ${{ secrets.TIMEWEB_USER }}
@@ -50,6 +50,7 @@ jobs:
           CONTACT_EMAIL: sales@pacificstar.ru
           CORS_ORIGIN: https://pacificstar.ru
         run: |
+          sudo apt-get install -y php-cli -q
           if [ -z "$SMTP_PASS" ]; then
             echo "⚠️  SMTP_PASS не задан в GitHub Secrets — формы не будут слать почту."
             echo "    Добавьте: https://github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions"
@@ -89,77 +90,102 @@ jobs:
           ls -la /tmp/site/
           echo "📊 Всего файлов: $(find /tmp/site -type f | wc -l)"
 
-      # ── Метод 1: FTP через lftp (надёжнее для shared hosting) ──────────
-      - name: Установить lftp
+      # ── Загрузка: FTP (lftp), при сбое — SSH/rsync ─────────────────────
+      - name: Установить инструменты деплоя
         if: env.SKIP == 'false'
-        run: sudo apt-get install -y lftp -q
+        run: sudo apt-get install -y lftp sshpass -q
 
-      - name: Загрузить файлы через FTP
+      - name: Загрузить файлы на Timeweb (FTP → SSH fallback)
         if: env.SKIP == 'false'
-        timeout-minutes: 10
+        timeout-minutes: 18
         env:
           LFTP_PASSWORD: ${{ secrets.TIMEWEB_PASSWORD }}
+          SSHPASS: ${{ secrets.TIMEWEB_PASSWORD }}
         run: |
-          FTP_OK=false
-          for attempt in 1 2 3; do
-            echo "── Попытка $attempt из 3 ──"
-            if lftp -u "$TW_USER,$LFTP_PASSWORD" "ftp://$TW_HOST" <<'LFTP_CMDS'; then
-              set ftp:ssl-allow yes
-              set ftp:ssl-force no
-              set ftp:passive-mode yes
-              set net:timeout 20
-              set net:max-retries 2
-              set net:reconnect-interval-base 5
-              set net:reconnect-interval-multiplier 2
-              set net:reconnect-interval-max 20
-              set xfer:clobber on
-              set cmd:fail-exit yes
-              lcd /tmp/site
-              mirror --reverse --delete --verbose --parallel=1 \
-                --exclude-glob .git* \
-                --exclude-glob *.md \
-                --exclude-glob test.html \
-                --exclude-glob DEPLOY_GUIDE.html \
-                --exclude-glob previews/ \
-                --exclude-glob node_modules/ \
-                --exclude-glob .env* \
-                --exclude-glob .vscode/ \
-                --exclude-glob Dockerfile \
-                --exclude-glob .dockerignore \
-                --exclude-glob *.zip \
-                . /public_html/
-              bye
+          set -euo pipefail
+
+          deploy_ftp() {
+            local attempt="$1"
+            echo "── FTP попытка ${attempt} ──"
+            lftp -u "$TW_USER,$LFTP_PASSWORD" "ftp://$TW_HOST" <<'LFTP_CMDS'
+          set ftp:ssl-allow yes
+          set ftp:ssl-force no
+          set ftp:passive-mode yes
+          set ftp:prefer-epsv no
+          set net:timeout 90
+          set net:max-retries 8
+          set net:reconnect-interval-base 8
+          set net:reconnect-interval-multiplier 1.5
+          set net:reconnect-interval-max 45
+          set xfer:clobber on
+          set cmd:fail-exit yes
+          lcd /tmp/site
+          mirror --reverse --verbose --parallel=1 api /public_html/api
+          mirror --reverse --verbose --parallel=1 \
+            --exclude-glob .git* \
+            --exclude-glob api/ \
+            --exclude-glob *.md \
+            --exclude-glob test.html \
+            --exclude-glob DEPLOY_GUIDE.html \
+            --exclude-glob previews/ \
+            --exclude-glob node_modules/ \
+            --exclude-glob .env* \
+            --exclude-glob .vscode/ \
+            --exclude-glob Dockerfile \
+            --exclude-glob .dockerignore \
+            --exclude-glob *.zip \
+            . /public_html/
+          bye
           LFTP_CMDS
-              FTP_OK=true
+          }
+
+          deploy_ssh() {
+            echo "── SSH/rsync fallback ──"
+            mkdir -p ~/.ssh
+            ssh-keyscan -p 22 -T 15 "$TW_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+            sshpass -e rsync -avz --timeout=120 \
+              -e "ssh -p 22 -o StrictHostKeyChecking=no -o ConnectTimeout=30 -o ServerAliveInterval=15" \
+              /tmp/site/ \
+              "$TW_USER@$TW_HOST:~/public_html/"
+          }
+
+          UPLOAD_OK=false
+          for attempt in 1 2 3; do
+            if deploy_ftp "$attempt"; then
+              UPLOAD_OK=true
+              echo "✅ FTP загрузка завершена"
               break
             fi
             if [ "$attempt" -lt 3 ]; then
-              echo "⚠️ Попытка $attempt не удалась, ждём 15 секунд..."
-              sleep 15
+              echo "⚠️ FTP попытка $attempt не удалась, ждём 20 секунд..."
+              sleep 20
             fi
           done
-          if [ "$FTP_OK" = "true" ]; then
-            echo "✅ FTP загрузка завершена"
-          else
-            echo "❌ FTP загрузка не удалась после 3 попыток"
+
+          if [ "$UPLOAD_OK" = "false" ]; then
+            echo "⚠️ FTP не удался — пробуем SSH/rsync..."
+            if deploy_ssh; then
+              UPLOAD_OK=true
+              echo "✅ SSH/rsync загрузка завершена"
+            fi
+          fi
+
+          if [ "$UPLOAD_OK" = "false" ]; then
+            echo "❌ Не удалось загрузить файлы ни через FTP, ни через SSH"
             exit 1
           fi
 
-      # ── Метод 2: SSH/rsync как запасной ─────────────────────────────────
-      - name: Попробовать SSH/rsync как запасной метод (если FTP не сработал)
+      - name: Проверить api/health.php после деплоя
         if: env.SKIP == 'false'
-        continue-on-error: true
-        env:
-          SSHPASS: ${{ secrets.TIMEWEB_PASSWORD }}
         run: |
-          sudo apt-get install -y sshpass -q 2>/dev/null
-          mkdir -p ~/.ssh
-          ssh-keyscan -p 22 -T 10 "$TW_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
-          sshpass -e rsync -avz \
-            -e "ssh -p 22 -o StrictHostKeyChecking=no -o ConnectTimeout=10" \
-            /tmp/site/ \
-            "$TW_USER@$TW_HOST:~/public_html/" \
-            2>&1 | tail -5 || echo "SSH недоступен — FTP был основным методом"
+          sleep 5
+          HEALTH=$(curl -sS -m 20 "https://pacificstar.ru/api/health.php" 2>/dev/null || echo "fail")
+          echo "health.php: $HEALTH"
+          if echo "$HEALTH" | grep -q '"backend":"php"'; then
+            echo "✅ PHP API на месте"
+          else
+            echo "⚠️ api/health.php пока недоступен — подождите 1–2 мин или проверьте вручную"
+          fi
 
       - name: Проверить доступность сайта
         if: env.SKIP == 'false'
