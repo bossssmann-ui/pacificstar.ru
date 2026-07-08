@@ -9,7 +9,7 @@
 (function () {
   'use strict';
 
-  window.PS_API_BASE = window.PS_API_BASE || '';
+  window.PS_API_BASE = window.PS_API_BASE || 'https://bossssmann-ui-pacificstar-ru-73ae.twc1.net';
   window.PS_YM_ID    = window.PS_YM_ID    || 0;
   window.PS_GA_ID    = window.PS_GA_ID    || '';
 

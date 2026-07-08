@@ -62,7 +62,7 @@
 
 | ID | Задача | Критерий готовности | Статус |
 |----|--------|---------------------|--------|
-| 0.1 | Развернуть `server.js` на production (App Platform / VPS) | `POST /api/contact` → 200 на pacificstar.ru | 🟡 App #220769 создан; нужен публичный `*.twc1.net` + `PS_API_BASE` |
+| 0.1 | Развернуть `server.js` на production (App Platform / VPS) | `POST /api/contact` → 200 на pacificstar.ru | 🟡 API: `bossssmann-ui-pacificstar-ru-73ae.twc1.net`; `PS_API_BASE` в config.js |
 | 0.2 | Настроить SMTP (Яндекс / Mail.ru) | Тестовое письмо на `info@pacificstar.ru` | ⬜ SMTP_* в `.env` локально; production — после 0.1 |
 | 0.3 | Проверить формы `contacts.html` и `#heroLeadForm` на главной | Сообщение «Заявка отправлена» | 🟡 код готов: hero без email → phone-only `/api/contact` |
 | 0.4 | `favicon.ico` без 404 | Redirect или файл в `img/` | ✅ `img/favicon.ico` + rewrite |
@@ -209,6 +209,7 @@ curl -s -X POST https://pacificstar.ru/api/contact \
 | 2026-07-08 | Фаза 0 prep: js/config.js (PS_API_BASE), CORS в server.js |
 | 2026-07-08 | Fix: hero-форма phone-only; config.js на services/privacy; sitemap lastmod |
 | 2026-07-08 | App Platform #220769: инструкция в TIMEWEB_DEPLOY; listen 0.0.0.0 |
+| 2026-07-08 | Phase 0: PS_API_BASE → bossssmann-ui-pacificstar-ru-73ae.twc1.net |
 
 ---
 
