@@ -17,6 +17,7 @@ const SMTP_PASS = process.env.SMTP_PASS || '';
 const MAIL_FROM = process.env.MAIL_FROM || SMTP_USER;
 const AMOCRM_WEBHOOK_URL = process.env.AMOCRM_WEBHOOK_URL || '';
 const CORS_ORIGIN = process.env.CORS_ORIGIN || 'https://pacificstar.ru';
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'sales@pacificstar.ru';
 const API_ONLY    = process.env.API_ONLY === 'true' || process.env.API_ONLY === '1';
 
 /* ── SMTP transport ────────────────────────────────────────────────── */
@@ -285,7 +286,7 @@ app.post('/api/contact', async function (req, res) {
     var payload = normalizeContactBody(req.body);
 
     await sendMail(
-      SMTP_USER || 'info@pacificstar.ru',
+      CONTACT_EMAIL,
       'Заявка с сайта от ' + (payload.name || 'Посетитель'),
       contactHtml(payload)
     );

@@ -160,7 +160,7 @@
       '<div class="header-mobile-bar" aria-label="Контакты">' +
       '<a href="tel:+79147285880" class="header-mobile-link">' +
       PHONE_SVG_16 + ' +7\u00a0(914)\u00a0728\u201158\u201180</a>' +
-      '<a href="mailto:info@pacificstar.ru" class="header-mobile-link">info@pacificstar.ru</a>' +
+      '<a href="mailto:sales@pacificstar.ru" class="header-mobile-link">sales@pacificstar.ru</a>' +
       '</div></div></header>'
     );
   }
@@ -242,7 +242,7 @@
       '<div class="footer-contact-item"><span aria-hidden="true">\u{1F4DE}</span>' +
       '<span><a href="tel:+79147285880">+7\u00a0(914)\u00a0728\u201158\u201180</a></span></div>' +
       '<div class="footer-contact-item"><span aria-hidden="true">\u{2709}\u{FE0F}</span>' +
-      '<span><a href="mailto:info@pacificstar.ru">info@pacificstar.ru</a></span></div>' +
+      '<span><a href="mailto:sales@pacificstar.ru">sales@pacificstar.ru</a></span></div>' +
       '<div class="footer-contact-item"><span aria-hidden="true">\u{1F550}</span>' +
       '<span data-i18n="comp.footer.hours">Пн\u2013Пт: 9:00\u201318:00<br>Сб\u2013Вс: по договорённости</span></div>' +
       '</div></div></div>' +

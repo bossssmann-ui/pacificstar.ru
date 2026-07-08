@@ -110,6 +110,7 @@
 | `MAIL_FROM` | `Pacific Star <noreply@pacificstar.ru>` |
 | `CORS_ORIGIN` | `https://pacificstar.ru` |
 | `API_ONLY` | `true` (статику отдаёт shared hosting, здесь только API) |
+| `CONTACT_EMAIL` | `sales@pacificstar.ru` (куда приходят заявки с форм) |
 
 **Не добавляйте** `PORT` — платформа задаёт его автоматически.
 
