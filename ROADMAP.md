@@ -15,7 +15,7 @@
 | ИИ-поиск (GEO) | ~70% | llms.txt, FAQ, OG-image PNG; карта в JS |
 | Лидогенерация (формы) | ~20% | `/api/contact` → 404 на production (нет Node.js) |
 | Инструменты | ~75% | Калькулятор ОК; валюты на ved.html |
-| i18n | ~55% | EN complete; ZH/JA/KO ~911 TODO each |
+| i18n | ~60% | EN complete; calculator/forms i18n; ZH/JA/KO pending |
 | CRM / ЛК | ~15% | Демо-данные, AmoCRM не подключён |
 
 **Критический разрыв:** README описывает `server.js` для форм, но Timeweb раздаёт только статику. Пока backend не развёрнут — лиды с сайта не доходят.
@@ -107,7 +107,7 @@
 |----|--------|--------|
 | 3.1 | Перевести ~911 `[TODO]` в `en.json` | ✅ machine-translate RU→EN |
 | 3.2 | Переводы ZH / JA / KO (приоритет: ZH для ВЭД) | ⬜ |
-| 3.3 | i18n для `calculator.js` и валидации форм | ⬜ |
+| 3.3 | i18n для `calculator.js` и валидации форм | ✅ |
 | 3.4 | `hreflang` (`ru`, `en` минимум) | ✅ + `?lang=en` в `i18n.js` |
 | 3.5 | Обновлять [i18n-status.md](i18n-status.md) | ✅ |
 
@@ -197,6 +197,7 @@ curl -s -X POST https://pacificstar.ru/api/contact \
 | 2026-07-07 | Создан ROADMAP.md; старт Фазы 1 (llms.txt, FAQ, nav, noscript, currency, sitemap) |
 | 2026-07-08 | Merge PR #213 в main; Фаза 2: mobile-bar, SEO тарифы, Metrika loader, AmoCRM/callback API |
 | 2026-07-08 | Фаза 1.3 OG-image PNG; Фаза 3.1 en.json; 3.4 hreflang + ?lang=en |
+| 2026-07-08 | Фаза 3.3: i18n для calculator.js, form JS messages, field-error data-i18n |
 
 ---
 

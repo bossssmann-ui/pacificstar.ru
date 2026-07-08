@@ -8,8 +8,38 @@
 
   var STORAGE_KEY = 'ps-calculator-session';
 
+  function t(key, fallback) {
+    if (window.PSi18n && typeof window.PSi18n.t === 'function') {
+      var val = window.PSi18n.t(key);
+      if (val && val !== key) return val;
+    }
+    return fallback;
+  }
+
+  function activeLocale() {
+    var lang = (window.PSi18n && window.PSi18n.getLang && window.PSi18n.getLang()) || 'ru';
+    return lang === 'ru' ? 'ru-RU' : 'en-US';
+  }
+
   /* ── Cached DOM element references (set in init after buildOptions) ── */
   var _calcFrom, _calcTo, _calcTransport, _calcCargo, _calcWeight, _calcVolume, _calcResult;
+
+  var CITIES = [
+    { value: 'Москва',               i18n: 'calc.city.moscow' },
+    { value: 'Санкт-Петербург',      i18n: 'calc.city.spb' },
+    { value: 'Новосибирск',          i18n: 'calc.city.novosibirsk' },
+    { value: 'Екатеринбург',         i18n: 'calc.city.ekaterinburg' },
+    { value: 'Красноярск',           i18n: 'calc.city.krasnoyarsk' },
+    { value: 'Хабаровск',            i18n: 'calc.city.khabarovsk' },
+    { value: 'Владивосток',          i18n: 'calc.city.vladivostok' },
+    { value: 'Якутск',               i18n: 'calc.city.yakutsk' },
+    { value: 'Южно-Сахалинск',       i18n: 'calc.city.yuzhno_sakhalinsk' },
+    { value: 'Петропавловsk-Камч.',  i18n: 'calc.city.petropavlovsk' },
+    { value: 'Магадан',              i18n: 'calc.city.magadan' },
+    { value: 'Анадырь',              i18n: 'calc.city.anadyr' },
+    { value: 'Певек',                i18n: 'calc.city.pevek' },
+    { value: 'Другой город',         i18n: 'calc.city.other' }
+  ];
 
   /* ── Distance table (km) between major hubs ──────────────────────── */
   var DIST = {
@@ -35,22 +65,31 @@
 
   /* ── Transport type multipliers ──────────────────────────────────── */
   var TRANSPORT = {
-    auto:  { label: 'Автомобильный',    baseRate: 0.06,  min: 8000  },
-    rail:  { label: 'Железнодорожный',  baseRate: 0.035, min: 12000 },
-    sea:   { label: 'Морской',          baseRate: 0.02,  min: 20000 },
-    air:   { label: 'Авиационный',      baseRate: 0.50,  min: 5000  }
+    auto:  { i18n: 'calc.transport.auto',  baseRate: 0.06,  min: 8000  },
+    rail:  { i18n: 'calc.transport.rail',  baseRate: 0.035, min: 12000 },
+    sea:   { i18n: 'calc.transport.sea',   baseRate: 0.02,  min: 20000 },
+    air:   { i18n: 'calc.transport.air',   baseRate: 0.50,  min: 5000  }
   };
 
   /* ── Cargo type surcharges ──────────────────────────────────────── */
   var CARGO = {
-    general:    { label: 'Генеральный груз',        mult: 1.0 },
-    bulk:       { label: 'Навалочный / сыпучий',    mult: 0.8 },
-    container20:{ label: 'Контейнер 20\'',           mult: 1.1, fixed: 80000 },
-    container40:{ label: 'Контейнер 40\'',           mult: 1.1, fixed: 140000 },
-    ref:        { label: 'Рефрижераторный',          mult: 1.5 },
-    oversized:  { label: 'Негабаритный / тяжеловесный', mult: 1.8 },
-    dangerous:  { label: 'Опасный груз (ADR)',       mult: 2.0 }
+    general:    { i18n: 'calc.cargo.general',    mult: 1.0 },
+    bulk:       { i18n: 'calc.cargo.bulk',       mult: 0.8 },
+    container20:{ i18n: 'calc.cargo.container20', mult: 1.1, fixed: 80000 },
+    container40:{ i18n: 'calc.cargo.container40', mult: 1.1, fixed: 140000 },
+    ref:        { i18n: 'calc.cargo.ref',        mult: 1.5 },
+    oversized:  { i18n: 'calc.cargo.oversized',  mult: 1.8 },
+    dangerous:  { i18n: 'calc.cargo.dangerous',  mult: 2.0 }
   };
+
+  function cityLabel(value) {
+    for (var i = 0; i < CITIES.length; i++) {
+      if (CITIES[i].value === value) {
+        return t(CITIES[i].i18n, CITIES[i].value);
+      }
+    }
+    return value;
+  }
 
   /* ── Arctic surcharge: derived from route keys containing these keywords ── */
   var ARCTIC_KEYWORDS = ['анадырь','певек','магадан','петропавловск'];
@@ -147,15 +186,14 @@
     var cargoSel = document.getElementById('calcCargo');
     if (!fromSel || !toSel || !transSel || !cargoSel) return false;
 
-    var cities = ['Москва','Санкт-Петербург','Новосибирск','Екатеринбург','Красноярск',
-                  'Хабаровск','Владивосток','Якутск','Южно-Сахалинск',
-                  'Петропавловск-Камч.','Магадан','Анадырь','Певек','Другой город'];
+    var cities = CITIES;
 
     [fromSel, toSel].forEach(function (sel) {
       var frag = document.createDocumentFragment();
       cities.forEach(function (c) {
         var opt = document.createElement('option');
-        opt.value = c; opt.textContent = c;
+        opt.value = c.value;
+        opt.textContent = t(c.i18n, c.value);
         frag.appendChild(opt);
       });
       sel.innerHTML = '';
@@ -166,7 +204,8 @@
     var transFrag = document.createDocumentFragment();
     Object.keys(TRANSPORT).forEach(function (k) {
       var opt = document.createElement('option');
-      opt.value = k; opt.textContent = TRANSPORT[k].label;
+      opt.value = k;
+      opt.textContent = t(TRANSPORT[k].i18n, k);
       transFrag.appendChild(opt);
     });
     transSel.innerHTML = '';
@@ -175,7 +214,8 @@
     var cargoFrag = document.createDocumentFragment();
     Object.keys(CARGO).forEach(function (k) {
       var opt = document.createElement('option');
-      opt.value = k; opt.textContent = CARGO[k].label;
+      opt.value = k;
+      opt.textContent = t(CARGO[k].i18n, k);
       cargoFrag.appendChild(opt);
     });
     cargoSel.innerHTML = '';
@@ -197,12 +237,12 @@
     if (!resultBox) return;
 
     if (!from || !to || from === to) {
-      resultBox.innerHTML = '<p class="calc-error">Укажите разные города отправления и назначения.</p>';
+      resultBox.innerHTML = '<p class="calc-error">' + t('calc.error.same_cities', 'Укажите разные города отправления и назначения.') + '</p>';
       resultBox.style.display = 'block';
       return;
     }
     if (weightVal <= 0 && volVal <= 0) {
-      resultBox.innerHTML = '<p class="calc-error">Укажите вес или объём груза.</p>';
+      resultBox.innerHTML = '<p class="calc-error">' + t('calc.error.weight_volume', 'Укажите вес или объём груза.') + '</p>';
       resultBox.style.display = 'block';
       return;
     }
@@ -254,27 +294,32 @@
     var low  = Math.round(base * 0.80);
     var high = Math.round(base * 1.25);
 
+    var locale = activeLocale();
     function fmt(n) {
-      return n.toLocaleString('ru-RU') + ' ₽';
+      return n.toLocaleString(locale) + ' ₽';
     }
+
+    var fromLabel = cityLabel(from);
+    var toLabel   = cityLabel(to);
+    var transLabel = t(trans.i18n, transKey);
 
     resultBox.innerHTML = [
       '<div class="calc-result-grid">',
       '  <div class="calc-result-main">',
-      '    <div class="calc-result-label">Ориентировочная стоимость</div>',
-      '    <div class="calc-result-range">от ' + fmt(low) + ' до ' + fmt(high) + '</div>',
-      '    <div class="calc-result-note">*  расчёт приблизительный, ±25%</div>',
+      '    <div class="calc-result-label">' + t('calc.result.label', 'Ориентировочная стоимость') + '</div>',
+      '    <div class="calc-result-range">' + t('calc.result.range_from', 'от') + ' ' + fmt(low) + ' ' + t('calc.result.range_to', 'до') + ' ' + fmt(high) + '</div>',
+      '    <div class="calc-result-note">' + t('calc.result.approx_note', '*  расчёт приблизительный, ±25%') + '</div>',
       '  </div>',
       '  <div class="calc-result-meta">',
-      '    <div><b>Маршрут:</b> ' + from + ' → ' + to + '</div>',
-      '    <div><b>Расстояние:</b> ~' + dist.toLocaleString('ru-RU') + ' км</div>',
-      '    <div><b>Тариф. вес:</b> ' + chargeableWeight.toLocaleString('ru-RU') + ' кг</div>',
-      '    <div><b>Транспорт:</b> ' + trans.label + '</div>',
-      (arctic ? '    <div class="calc-arctic-note">❄️ Надбавка за Арктику включена</div>' : ''),
+      '    <div><b>' + t('calc.result.route', 'Маршрут:') + '</b> ' + fromLabel + ' → ' + toLabel + '</div>',
+      '    <div><b>' + t('calc.result.distance', 'Расстояние:') + '</b> ~' + dist.toLocaleString(locale) + ' km</div>',
+      '    <div><b>' + t('calc.result.chargeable_weight', 'Тариф. вес:') + '</b> ' + chargeableWeight.toLocaleString(locale) + ' kg</div>',
+      '    <div><b>' + t('calc.result.transport', 'Транспорт:') + '</b> ' + transLabel + '</div>',
+      (arctic ? '    <div class="calc-arctic-note">' + t('calc.result.arctic_note', '❄️ Надбавка за Арктику включена') + '</div>' : ''),
       '  </div>',
       '</div>',
       '<a href="contacts.html" class="btn btn-primary" style="margin-top:20px;">',
-      '  Получить точный расчёт бесплатно',
+      '  ' + t('calc.result.cta', 'Получить точный расчёт бесплатно'),
       '</a>'
     ].join('');
     resultBox.style.display = 'block';
@@ -332,6 +377,12 @@
       estimate();
     }
   }
+
+  document.addEventListener('ps-lang-change', function () {
+    if (!document.getElementById('calcForm')) return;
+    buildOptions();
+    if (_calcResult && _calcResult.style.display !== 'none') estimate();
+  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

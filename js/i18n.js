@@ -187,6 +187,10 @@
     }
 
     updateSwitcherUI(lang);
+
+    try {
+      document.dispatchEvent(new CustomEvent('ps-lang-change', { detail: { lang: lang } }));
+    } catch (e) { /* noop */ }
   }
 
   /* ─── Language switcher UI ───────────────────────────────────────────── */

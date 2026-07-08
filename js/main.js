@@ -5,6 +5,14 @@
 (function () {
   'use strict';
 
+  function msg(key, fallback) {
+    if (window.PSi18n && typeof window.PSi18n.t === 'function') {
+      var val = window.PSi18n.t(key);
+      if (val && val !== key) return val;
+    }
+    return fallback;
+  }
+
   /* =======================================
      HEADER: sticky shadow + active link
      ======================================= */
@@ -358,7 +366,7 @@
 
       /* Send to backend */
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Отправка...';
+      submitBtn.textContent = msg('form.js.submitting', 'Отправка...');
 
       const formData = {
         name:    nameField    ? nameField.value    : '',
@@ -379,7 +387,7 @@
       })
       .then(function () {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Отправить запрос на расчёт <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+        submitBtn.innerHTML = msg('form.js.contact_submit', 'Отправить запрос на расчёт') + ' <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
         contactForm.reset();
 
         if (successMsg) {
@@ -391,10 +399,10 @@
       })
       .catch(function () {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Отправить запрос на расчёт <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
+        submitBtn.innerHTML = msg('form.js.contact_submit', 'Отправить запрос на расчёт') + ' <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
 
         if (successMsg) {
-          successMsg.textContent = '❌ Не удалось отправить заявку. Попробуйте позже или позвоните нам.';
+          successMsg.textContent = msg('form.js.error_send', '❌ Не удалось отправить заявку. Попробуйте позже или позвоните нам.');
           successMsg.classList.add('show');
           setTimeout(function () {
             successMsg.classList.remove('show');
@@ -491,7 +499,7 @@
 
       /* Send to backend */
       heroSubmitBtn.disabled = true;
-      heroSubmitBtn.textContent = 'Отправляем...';
+      heroSubmitBtn.textContent = msg('form.js.hero_submitting', 'Отправляем...');
 
       var heroFormData = {
         name:   heroNameField  ? heroNameField.value.trim()  : '',
@@ -512,11 +520,11 @@
       })
       .then(function () {
         heroSubmitBtn.disabled = false;
-        heroSubmitBtn.textContent = 'Получить расчёт перевозки';
+        heroSubmitBtn.textContent = msg('form.js.hero_submit', 'Получить расчёт перевозки');
         heroLeadForm.reset();
 
         if (heroSuccessMsg) {
-          heroSuccessMsg.innerHTML = '<span aria-hidden="true" style="font-size:1.2rem;">&#x2705;</span> Заявка отправлена! Мы свяжемся с вами в течение 15 минут.';
+          heroSuccessMsg.innerHTML = '<span aria-hidden="true" style="font-size:1.2rem;">&#x2705;</span> ' + msg('form.js.hero_success', 'Заявка отправлена! Мы свяжемся с вами в течение 15 минут.');
           heroSuccessMsg.classList.add('show');
           setTimeout(function () {
             heroSuccessMsg.classList.remove('show');
@@ -525,10 +533,10 @@
       })
       .catch(function () {
         heroSubmitBtn.disabled = false;
-        heroSubmitBtn.textContent = 'Получить расчёт перевозки';
+        heroSubmitBtn.textContent = msg('form.js.hero_submit', 'Получить расчёт перевозки');
 
         if (heroSuccessMsg) {
-          heroSuccessMsg.innerHTML = '<span aria-hidden="true" style="font-size:1.2rem;">&#x274C;</span> Не удалось отправить заявку. Попробуйте позже или позвоните нам.';
+          heroSuccessMsg.innerHTML = '<span aria-hidden="true" style="font-size:1.2rem;">&#x274C;</span> ' + msg('form.js.error_send', 'Не удалось отправить заявку. Попробуйте позже или позвоните нам.');
           heroSuccessMsg.classList.add('show');
           setTimeout(function () {
             heroSuccessMsg.classList.remove('show');
@@ -674,7 +682,7 @@
       var submitBtn = cbForm.querySelector('[type="submit"]');
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Отправка...';
+        submitBtn.textContent = msg('form.js.submitting', 'Отправка...');
       }
 
       fetch('/api/callback', {
@@ -699,7 +707,7 @@
       .catch(function () {
         if (submitBtn) {
           submitBtn.disabled = false;
-          submitBtn.textContent = 'Заказать звонок';
+          submitBtn.textContent = msg('form.js.callback_submit', 'Заказать звонок');
         }
         if (phoneEl) phoneEl.classList.add('field-invalid');
       });
