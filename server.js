@@ -435,17 +435,14 @@ console.log(
 
 var missing = missingEnvKeys();
 if (missing.length) {
-  console.warn(
-    '⚠️  App Platform ENV missing (' + missing.length + '): ' + missing.join(', ')
+  console.log(
+    'ℹ️  Node API без SMTP ENV — это нормально: формы работают через PHP на pacificstar.ru/api/*.php'
   );
-  console.warn(
-    '   Timeweb: Настройки → Настройка деплоя → Редактировать → Переменные (по одной!)'
+  console.log(
+    '   App Platform #220769 можно остановить в панели Timeweb (экономия + нет лишних логов).'
   );
-  console.warn(
-    '   Команда запуска: npm start  (не PM2 по умолчанию — иначе ENV не обновляется)'
-  );
-  console.warn(
-    '   После сохранения ENV: вкладка Деплой → новый деплой (не только перезагрузка).'
+  console.log(
+    '   Проверка почты: https://pacificstar.ru/api/health.php → smtp:true'
   );
 }
 
