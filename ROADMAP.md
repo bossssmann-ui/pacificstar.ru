@@ -12,9 +12,9 @@
 |-------------|------------|-------------|
 | Витрина / контент | ~85% | 19 страниц HTTP 200, html-validate пройден |
 | Классический SEO (RU) | ~85% | title, canonical, JSON-LD, sitemap |
-| ИИ-поиск (GEO) | ~55% | FAQ schema есть; нет llms.txt, карта только в JS |
+| ИИ-поиск (GEO) | ~65% | llms.txt, FAQ, текстовые маршруты; OG-image PNG — нет |
 | Лидогенерация (формы) | ~20% | `/api/contact` → 404 на production (нет Node.js) |
-| Инструменты | ~60% | Калькулятор ОК; валюты без HTML-контейнера |
+| Инструменты | ~75% | Калькулятор ОК; валюты на ved.html |
 | i18n | ~40% | ~911 строк `[TODO]` в EN/ZH/JA/KO |
 | CRM / ЛК | ~15% | Демо-данные, AmoCRM не подключён |
 
@@ -62,8 +62,8 @@
 
 | ID | Задача | Критерий готовности | Статус |
 |----|--------|---------------------|--------|
-| 0.1 | Развернуть `server.js` на production (Node на Timeweb / VPS / serverless) | `POST /api/contact` → 200 на pacificstar.ru | ⬜ |
-| 0.2 | Настроить SMTP (Яндекс / Mail.ru) | Тестовое письмо на `info@pacificstar.ru` | ⬜ |
+| 0.1 | Развернуть `server.js` на production (Node на Timeweb / VPS / serverless) | `POST /api/contact` → 200 на pacificstar.ru | ⬜ **блокер:** нет SSH/Node в environment |
+| 0.2 | Настроить SMTP (Яндекс / Mail.ru) | Тестовое письмо на `info@pacificstar.ru` | ⬜ SMTP_* в `.env` локально; production — после 0.1 |
 | 0.3 | Проверить формы `contacts.html` и `#heroLeadForm` на главной | Сообщение «Заявка отправлена» | ⬜ |
 | 0.4 | `favicon.ico` без 404 | Redirect или файл в `img/` | 🟡 redirect в `.htaccess` |
 
@@ -93,11 +93,11 @@
 | ID | Задача | Статус |
 |----|--------|--------|
 | 2.1 | `<div id="currencyWidget">` на `ved.html` | ✅ |
-| 2.2 | AmoCRM webhook (формы, callback, ЛК) | ⬜ |
-| 2.3 | Яндекс.Метрика: реальный `PS_YM_ID` + цели | ⬜ |
-| 2.4 | Телефон/email на мобильном без скролла | ⬜ |
-| 2.5 | SEO-текст тарифов над калькулятором | ⬜ |
-| 2.6 | Обратный звонок — реальная отправка (не заглушка) | ⬜ |
+| 2.2 | AmoCRM webhook (формы, callback, ЛК) | 🟡 код в `server.js`, нужен `AMOCRM_WEBHOOK_URL` |
+| 2.3 | Яндекс.Метрика: реальный `PS_YM_ID` + цели | 🟡 loader в `analytics.js`, нужен ID счётчика |
+| 2.4 | Телефон/email на мобильном без скролла | ✅ `header-mobile-bar` в `components.js` |
+| 2.5 | SEO-текст тарифов над калькулятором | ✅ блок `#tariffs-overview` на `services.html` |
+| 2.6 | Обратный звонок — реальная отправка (не заглушка) | 🟡 `POST /api/callback`, нужен backend (Фаза 0) |
 
 ---
 
@@ -175,14 +175,15 @@ curl -s -X POST https://pacificstar.ru/api/contact \
 
 ### Неделя 1
 
-- [ ] Фаза 0: backend + SMTP + проверка форм
+- [ ] Фаза 0: backend + SMTP + проверка форм *(заблокировано — нужен SSH/Node)*
 - [x] `llms.txt`, `sameAs`, FAQ на главной
 - [x] Навигация: 2 пропущенные услуги в меню
 - [x] Текстовые маршруты, noscript-nav
 
 ### Неделя 2
 
-- [ ] AmoCRM + Яндекс.Метрика (Фаза 2)
+- [x] AmoCRM + Яндекс.Метрика — код подготовлен (Фаза 2.2–2.3, 2.6)
+- [x] Мобильные контакты + SEO-текст тарифов (2.4–2.5)
 - [x] Виджет валют на `ved.html`
 - [ ] OG-image PNG 1200×630
 - [ ] Повторный QA + проверка в Perplexity / Алисе
@@ -194,6 +195,7 @@ curl -s -X POST https://pacificstar.ru/api/contact \
 | Дата | Изменение |
 |------|-----------|
 | 2026-07-07 | Создан ROADMAP.md; старт Фазы 1 (llms.txt, FAQ, nav, noscript, currency, sitemap) |
+| 2026-07-08 | Merge PR #213 в main; Фаза 2: mobile-bar, SEO тарифы, Metrika loader, AmoCRM/callback API |
 
 ---
 

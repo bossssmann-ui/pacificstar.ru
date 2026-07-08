@@ -15,6 +15,7 @@ const SMTP_SEC  = process.env.SMTP_SECURE !== 'false';
 const SMTP_USER = process.env.SMTP_USER || '';
 const SMTP_PASS = process.env.SMTP_PASS || '';
 const MAIL_FROM = process.env.MAIL_FROM || SMTP_USER;
+const AMOCRM_WEBHOOK_URL = process.env.AMOCRM_WEBHOOK_URL || '';
 
 /* ── SMTP transport ────────────────────────────────────────────────── */
 let transporter = null;
@@ -66,6 +67,40 @@ app.use(express.static(path.join(__dirname), {
 /** Simple email-format check */
 function isValidEmail(value) {
   return typeof value === 'string' && /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(value);
+}
+
+/** Forward lead data to AmoCRM webhook (no-op when URL is not configured) */
+async function forwardToAmoCrm(payload) {
+  if (!AMOCRM_WEBHOOK_URL) {
+    return { skipped: true };
+  }
+
+  var res = await fetch(AMOCRM_WEBHOOK_URL, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    throw new Error('AmoCRM webhook HTTP ' + res.status);
+  }
+
+  return res.json().catch(function () { return { ok: true }; });
+}
+
+/** Build AmoCRM payload from contact / callback form data */
+function amocrmLeadPayload(data, source) {
+  return {
+    source:  source || 'website',
+    name:    data.name || data.firstName || 'Посетитель',
+    email:   data.email || '',
+    phone:   data.phone || '',
+    service: data.service || '',
+    message: data.message || '',
+    time:    data.time || '',
+    page:    data.page || '',
+    sent_at: new Date().toISOString(),
+  };
 }
 
 /** Escape HTML special characters to prevent XSS */
@@ -209,9 +244,49 @@ app.post('/api/contact', async function (req, res) {
       contactHtml(req.body)
     );
 
+    try {
+      await forwardToAmoCrm(amocrmLeadPayload(req.body, 'contact-form'));
+    } catch (crmErr) {
+      console.warn('AmoCRM forward failed (contact):', crmErr.message);
+    }
+
     return res.json({ ok: true, message: 'Заявка отправлена' });
   } catch (err) {
     console.error('Contact email error:', err);
+    return res.status(500).json({ ok: false, error: 'Не удалось отправить заявку' });
+  }
+});
+
+/**
+ * POST /api/callback
+ * Body: { name, phone, time, page }
+ *
+ * Forwards callback widget requests to AmoCRM (when configured).
+ */
+app.post('/api/callback', async function (req, res) {
+  try {
+    var phone = String(req.body.phone || '').trim();
+    if (!phone) {
+      return res.status(400).json({ ok: false, error: 'Телефон обязателен' });
+    }
+
+    var payload = amocrmLeadPayload({
+      name:    req.body.name || 'Обратный звонок',
+      phone:   phone,
+      time:    req.body.time || '',
+      message: 'Запрос обратного звонка',
+      page:    req.body.page || '',
+    }, 'callback-widget');
+
+    if (!AMOCRM_WEBHOOK_URL) {
+      console.log('📞 [dev] Callback request:', JSON.stringify(payload, null, 2));
+      return res.json({ ok: true, message: 'Заявка принята (AmoCRM не настроен)' });
+    }
+
+    await forwardToAmoCrm(payload);
+    return res.json({ ok: true, message: 'Мы перезвоним в указанное время' });
+  } catch (err) {
+    console.error('Callback error:', err);
     return res.status(500).json({ ok: false, error: 'Не удалось отправить заявку' });
   }
 });
@@ -221,6 +296,7 @@ app.get('/api/health', function (_req, res) {
   res.json({
     ok: true,
     smtp: !!transporter,
+    amocrm: !!AMOCRM_WEBHOOK_URL,
     time: new Date().toISOString(),
   });
 });

@@ -20,10 +20,57 @@
 (function () {
   'use strict';
 
-  /* ── Helpers ──────────────────────────────────────────────────────── */
+  /* ── Yandex Metrica loader ─────────────────────────────────────────── */
 
   var ymId = window.PS_YM_ID;
   var gaId = window.PS_GA_ID;
+
+  function initYandexMetrika() {
+    var id = Number(ymId);
+    if (!id || id <= 0) return;
+
+    (function (m, e, t, r, i, k, a) {
+      m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
+      m[i].l = 1 * new Date();
+      for (var j = 0; j < document.scripts.length; j++) {
+        if (document.scripts[j].src === r) return;
+      }
+      k = e.createElement(t);
+      a = e.getElementsByTagName(t)[0];
+      k.async = 1;
+      k.src = r;
+      a.parentNode.insertBefore(k, a);
+    })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+
+    window.ym(id, 'init', {
+      clickmap: true,
+      trackLinks: true,
+      accurateTrackBounce: true,
+      webvisor: true
+    });
+  }
+
+  initYandexMetrika();
+
+  /* ── Google Analytics (gtag.js) loader ─────────────────────────────── */
+
+  function initGoogleAnalytics() {
+    if (!gaId || typeof gaId !== 'string') return;
+
+    var gtagScript = document.createElement('script');
+    gtagScript.async = true;
+    gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(gaId);
+    document.head.appendChild(gtagScript);
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', gaId);
+  }
+
+  initGoogleAnalytics();
+
+  /* ── Helpers ──────────────────────────────────────────────────────── */
 
   /**
    * Send a goal / event to every configured analytics provider.

@@ -125,6 +125,15 @@ html.dark-theme .site-header.scrolled {
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
 }
 
+html.dark-theme .header-mobile-bar {
+  background: #111620;
+  border-top-color: var(--color-border);
+}
+
+html.dark-theme .header-mobile-link {
+  color: var(--color-text);
+}
+
 html.dark-theme .nav-link,
 html.dark-theme .nav-toggle {
   color: var(--color-text);

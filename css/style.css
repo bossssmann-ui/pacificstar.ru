@@ -497,6 +497,25 @@ p { margin-bottom: 1rem; }
   flex-shrink: 0;
 }
 
+/* Mobile contact bar — phone + email visible without opening menu */
+.header-mobile-bar {
+  display: none;
+}
+
+.header-mobile-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--color-primary);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.header-mobile-link svg {
+  flex-shrink: 0;
+}
+
 /* Burger */
 .burger {
   display: none;
@@ -589,6 +608,66 @@ p { margin-bottom: 1rem; }
 
 .mobile-nav-msg svg {
   flex-shrink: 0;
+}
+
+/* =========================================
+   TARIFFS SEO BLOCK (services.html)
+   ========================================= */
+.tariffs-seo-block {
+  background: var(--color-light);
+  border-radius: var(--radius-lg, 16px);
+  padding: 28px 32px;
+  border: 1px solid var(--color-border);
+}
+
+.tariffs-seo-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 12px;
+}
+
+.tariffs-seo-lead {
+  color: var(--color-text);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin: 0 0 20px;
+}
+
+.tariffs-seo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px 28px;
+  margin-bottom: 20px;
+}
+
+.tariffs-seo-grid h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 8px;
+}
+
+.tariffs-seo-grid p {
+  font-size: 0.88rem;
+  color: var(--color-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+.tariffs-seo-note {
+  font-size: 0.88rem;
+  color: var(--color-muted);
+  line-height: 1.55;
+  margin: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.tariffs-seo-note a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: underline;
 }
 
 /* =========================================
@@ -2647,11 +2726,31 @@ select.form-control {
     display: none;
   }
 
+  .header-mobile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px 16px;
+    flex-wrap: wrap;
+    padding: 7px 16px;
+    background: var(--color-light);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .header-inner {
+    height: 64px;
+    gap: 16px;
+  }
+
   .burger {
     display: flex;
   }
 
   /* Hero */
+  .hero {
+    padding-top: 104px;
+  }
+
   .hero-inner {
     grid-template-columns: 1fr;
     gap: 32px;

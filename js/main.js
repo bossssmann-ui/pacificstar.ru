@@ -670,22 +670,39 @@
         if (phoneEl) phoneEl.focus();
         return;
       }
-      /*
-       * TODO: replace stub with AmoCRM webhook after API key is configured.
-       * fetch('/api/callback', {
-       *   method: 'POST',
-       *   headers: { 'Content-Type': 'application/json' },
-       *   body: JSON.stringify({
-       *     name:  document.getElementById('cbName').value,
-       *     phone: phoneEl.value,
-       *     time:  document.getElementById('cbTime').value,
-       *     source: 'callback-widget'
-       *   })
-       * });
-       */
-      cbForm.style.display = 'none';
-      if (cbOk) cbOk.style.display = 'block';
-      setTimeout(closeCallback, 3200);
+
+      var submitBtn = cbForm.querySelector('[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Отправка...';
+      }
+
+      fetch('/api/callback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name:  (document.getElementById('cbName') || {}).value || '',
+          phone: phoneEl.value.trim(),
+          time:  (document.getElementById('cbTime') || {}).value || '',
+          page:  window.location.pathname
+        })
+      })
+      .then(function (response) {
+        if (!response.ok) { throw new Error('HTTP ' + response.status); }
+        return response.json();
+      })
+      .then(function () {
+        cbForm.style.display = 'none';
+        if (cbOk) cbOk.style.display = 'block';
+        setTimeout(closeCallback, 3200);
+      })
+      .catch(function () {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Заказать звонок';
+        }
+        if (phoneEl) phoneEl.classList.add('field-invalid');
+      });
     });
   }
 

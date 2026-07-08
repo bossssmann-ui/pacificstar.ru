@@ -156,6 +156,11 @@
       '<a href="contacts.html#contactForm" class="btn btn-primary header-btn" data-track="cta_click" data-track-label="header_cta" data-i18n="cta.request_quote">Запросить расчёт</a></div>' +
       '<button class="burger" aria-label="Открыть меню" data-i18n-aria-label="comp.header.burger_aria" aria-expanded="false" type="button">' +
       '<span class="burger-line"></span><span class="burger-line"></span><span class="burger-line"></span></button>' +
+      '</div>' +
+      '<div class="header-mobile-bar" aria-label="Контакты">' +
+      '<a href="tel:+79147285880" class="header-mobile-link">' +
+      PHONE_SVG_16 + ' +7\u00a0(914)\u00a0728\u201158\u201180</a>' +
+      '<a href="mailto:info@pacificstar.ru" class="header-mobile-link">info@pacificstar.ru</a>' +
       '</div></div></header>'
     );
   }
