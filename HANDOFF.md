@@ -39,7 +39,7 @@
 | # | Действие | Файлы / зона | Критерий готовности |
 |---|----------|--------------|---------------------|
 | 1.1 | Развернуть `server.js` на production | Инфраструктура Timeweb / VPS | `GET /api/health` → 200 |
-| 1.2 | Настроить SMTP в `.env` | `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS` | Письмо с тестовой заявки на `info@pacificstar.ru` |
+| 1.2 | Настроить SMTP в `.env` | `SMTP_HOST`, `SMTP_USER`, `SMTP_PASS` | Письмо с тестовой заявки на `sales@pacificstar.ru` |
 | 1.3 | Проверить форму контактов | `contacts.html`, `js/main.js` | Успешная отправка, нет ошибки в UI |
 | 1.4 | Проверить hero-форму | `index.html` → `#heroLeadForm` | То же |
 | 1.5 | Обновить ROADMAP | `ROADMAP.md` | Задачи 0.1–0.3 → ✅ |
