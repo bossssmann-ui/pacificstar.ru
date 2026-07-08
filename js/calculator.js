@@ -34,7 +34,7 @@
     { value: 'Владивосток',          i18n: 'calc.city.vladivostok' },
     { value: 'Якутск',               i18n: 'calc.city.yakutsk' },
     { value: 'Южно-Сахалинск',       i18n: 'calc.city.yuzhno_sakhalinsk' },
-    { value: 'Петропавловsk-Камч.',  i18n: 'calc.city.petropavlovsk' },
+    { value: 'Петропавловск-Камч.',  i18n: 'calc.city.petropavlovsk' },
     { value: 'Магадан',              i18n: 'calc.city.magadan' },
     { value: 'Анадырь',              i18n: 'calc.city.anadyr' },
     { value: 'Певек',                i18n: 'calc.city.pevek' },
