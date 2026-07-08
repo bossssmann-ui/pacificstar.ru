@@ -134,17 +134,39 @@ function ps_smtp_ready(array $config): bool
 
 function ps_send_mail(array $config, string $to, string $subject, string $html): void
 {
-    if (!ps_smtp_ready($config)) {
-        throw new RuntimeException('SMTP not configured');
+    $from = (string)($config['mail_from'] ?? $config['smtp_user'] ?? 'noreply@pacificstar.ru');
+    $errors = [];
+
+    if (ps_smtp_ready($config)) {
+        try {
+            ps_smtp_send([
+                'host' => (string)$config['smtp_host'],
+                'port' => (int)($config['smtp_port'] ?? 465),
+                'user' => (string)$config['smtp_user'],
+                'pass' => (string)$config['smtp_pass'],
+                'from' => $from,
+            ], $to, $subject, $html);
+            return;
+        } catch (Throwable $e) {
+            $errors[] = $e->getMessage();
+            error_log('ps_send_mail SMTP: ' . $e->getMessage());
+        }
     }
 
-    ps_smtp_send([
-        'host' => (string)$config['smtp_host'],
-        'port' => (int)($config['smtp_port'] ?? 465),
-        'user' => (string)$config['smtp_user'],
-        'pass' => (string)$config['smtp_pass'],
-        'from' => (string)($config['mail_from'] ?? $config['smtp_user']),
-    ], $to, $subject, $html);
+    if (function_exists('mail')) {
+        $headers = "MIME-Version: 1.0\r\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+        $headers .= 'From: Pacific Star <' . $from . ">\r\n";
+        $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+        if (@mail($to, $encodedSubject, $html, $headers)) {
+            return;
+        }
+        $errors[] = 'mail() returned false';
+    } else {
+        $errors[] = 'mail() not available';
+    }
+
+    throw new RuntimeException(implode(' | ', $errors));
 }
 
 function ps_forward_amocrm(array $config, array $payload): void
