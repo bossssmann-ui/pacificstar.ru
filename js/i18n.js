@@ -207,7 +207,18 @@
   }
 
   /* ─── Persist & read language ────────────────────────────────────────── */
+  function readLangFromUrl() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var urlLang = params.get('lang');
+      if (urlLang && LANGS[urlLang]) return urlLang;
+    } catch (e) { /* old browsers */ }
+    return null;
+  }
+
   function getLang() {
+    var urlLang = readLangFromUrl();
+    if (urlLang) return urlLang;
     var saved;
     try { saved = localStorage.getItem('ps-lang'); } catch (e) { /* private browsing */ }
     if (saved && LANGS[saved]) return saved;
@@ -220,6 +231,16 @@
     if (!LANGS[lang]) return;
     try { localStorage.setItem('ps-lang', lang); } catch (e) { /* private browsing */ }
     applyLang(lang);
+    /* Sync ?lang= in URL for hreflang / shareable links */
+    try {
+      var url = new URL(window.location.href);
+      if (lang === 'ru') {
+        url.searchParams.delete('lang');
+      } else {
+        url.searchParams.set('lang', lang);
+      }
+      window.history.replaceState({}, '', url.pathname + url.search + url.hash);
+    } catch (e) { /* noop */ }
     /* Close dropdown */
     var dd  = document.getElementById('langDropdown');
     var btn = document.getElementById('langBtn');

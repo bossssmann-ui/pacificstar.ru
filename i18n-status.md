@@ -36,7 +36,7 @@ meta.index.desc
 | File | Keys | Status |
 |------|------|--------|
 | `locales/ru.json` | 1575 | ✅ Complete |
-| `locales/en.json` | 1587 | ⚠️ ~640 translated, ~911 marked `[TODO]` |
+| `locales/en.json` | 1587 | ✅ Complete (machine-translated from RU, 2026-07-08) |
 | `locales/zh.json` | 1543 | ⚠️ ~595 translated, ~911 marked `[TODO]` |
 | `locales/ja.json` | 1530 | ⚠️ ~582 translated, ~911 marked `[TODO]` |
 | `locales/ko.json` | 1530 | ⚠️ ~582 translated, ~911 marked `[TODO]` |

@@ -12,10 +12,10 @@
 |-------------|------------|-------------|
 | Витрина / контент | ~85% | 19 страниц HTTP 200, html-validate пройден |
 | Классический SEO (RU) | ~85% | title, canonical, JSON-LD, sitemap |
-| ИИ-поиск (GEO) | ~65% | llms.txt, FAQ, текстовые маршруты; OG-image PNG — нет |
+| ИИ-поиск (GEO) | ~70% | llms.txt, FAQ, OG-image PNG; карта в JS |
 | Лидогенерация (формы) | ~20% | `/api/contact` → 404 на production (нет Node.js) |
 | Инструменты | ~75% | Калькулятор ОК; валюты на ved.html |
-| i18n | ~40% | ~911 строк `[TODO]` в EN/ZH/JA/KO |
+| i18n | ~55% | EN complete; ZH/JA/KO ~911 TODO each |
 | CRM / ЛК | ~15% | Демо-данные, AmoCRM не подключён |
 
 **Критический разрыв:** README описывает `server.js` для форм, но Timeweb раздаёт только статику. Пока backend не развёрнут — лиды с сайта не доходят.
@@ -77,7 +77,7 @@
 |----|--------|--------|
 | 1.1 | Создать `llms.txt` | ✅ |
 | 1.2 | Заполнить `sameAs` в Organization JSON-LD | ✅ |
-| 1.3 | OG-image PNG 1200×630 (вместо SVG) | ⬜ нужен дизайн-ассет |
+| 1.3 | OG-image PNG 1200×630 (вместо SVG) | ✅ `img/og-image.png` |
 | 1.4 | Текстовый блок маршрутов на главной | ✅ |
 | 1.5 | FAQ + FAQPage на `index.html` | ✅ |
 | 1.6 | FAQPage JSON-LD на `services.html` | ✅ |
@@ -105,11 +105,11 @@
 
 | ID | Задача | Статус |
 |----|--------|--------|
-| 3.1 | Перевести ~911 `[TODO]` в `en.json` | ⬜ |
+| 3.1 | Перевести ~911 `[TODO]` в `en.json` | ✅ machine-translate RU→EN |
 | 3.2 | Переводы ZH / JA / KO (приоритет: ZH для ВЭД) | ⬜ |
 | 3.3 | i18n для `calculator.js` и валидации форм | ⬜ |
-| 3.4 | `hreflang` (`ru`, `en` минимум) | ⬜ |
-| 3.5 | Обновлять [i18n-status.md](i18n-status.md) | ⬜ |
+| 3.4 | `hreflang` (`ru`, `en` минимум) | ✅ + `?lang=en` в `i18n.js` |
+| 3.5 | Обновлять [i18n-status.md](i18n-status.md) | ✅ |
 
 ---
 
@@ -185,7 +185,7 @@ curl -s -X POST https://pacificstar.ru/api/contact \
 - [x] AmoCRM + Яндекс.Метрика — код подготовлен (Фаза 2.2–2.3, 2.6)
 - [x] Мобильные контакты + SEO-текст тарифов (2.4–2.5)
 - [x] Виджет валют на `ved.html`
-- [ ] OG-image PNG 1200×630
+- [x] OG-image PNG 1200×630
 - [ ] Повторный QA + проверка в Perplexity / Алисе
 
 ---
@@ -196,6 +196,7 @@ curl -s -X POST https://pacificstar.ru/api/contact \
 |------|-----------|
 | 2026-07-07 | Создан ROADMAP.md; старт Фазы 1 (llms.txt, FAQ, nav, noscript, currency, sitemap) |
 | 2026-07-08 | Merge PR #213 в main; Фаза 2: mobile-bar, SEO тарифы, Metrika loader, AmoCRM/callback API |
+| 2026-07-08 | Фаза 1.3 OG-image PNG; Фаза 3.1 en.json; 3.4 hreflang + ?lang=en |
 
 ---
 
