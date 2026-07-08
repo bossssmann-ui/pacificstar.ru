@@ -48,7 +48,10 @@ jobs:
             --exclude='.git/' \
             --exclude='.github/' \
             --exclude='node_modules/' \
+            --exclude='.vscode/' \
             --exclude='previews/' \
+            --exclude='.env' \
+            --exclude='.env.*' \
             --exclude='*.php' \
             --exclude='test.html' \
             --exclude='DEPLOY_GUIDE.html' \
@@ -60,6 +63,8 @@ jobs:
             --exclude='TILDA_COPILOT_ACCESS.md' \
             --exclude='TILDA_SETUP.md' \
             --exclude='package*.json' \
+            --exclude='Dockerfile' \
+            --exclude='.dockerignore' \
             --exclude='.htmlvalidate.json' \
             --exclude='.gitignore' \
             ./ /tmp/site/
@@ -74,7 +79,7 @@ jobs:
 
       - name: Загрузить файлы через FTP
         if: env.SKIP == 'false'
-        timeout-minutes: 8
+        timeout-minutes: 10
         env:
           LFTP_PASSWORD: ${{ secrets.TIMEWEB_PASSWORD }}
         run: |
@@ -85,20 +90,15 @@ jobs:
               set ftp:ssl-allow yes
               set ftp:ssl-force no
               set ftp:passive-mode yes
-              set net:timeout 60
-              set net:max-retries 5
+              set net:timeout 20
+              set net:max-retries 2
               set net:reconnect-interval-base 5
               set net:reconnect-interval-multiplier 2
-              set net:reconnect-interval-max 60
-              set cmd:verify-path yes
-              set cmd:fail-exit no
-              echo "── Проверяем FTP-подключение ──"
-              pwd
-              ls
-              echo "── Проверяем целевую папку ──"
-              ls /public_html/
+              set net:reconnect-interval-max 20
+              set xfer:clobber on
               set cmd:fail-exit yes
               lcd /tmp/site
+              mkdir -p /public_html/
               mirror --reverse --delete --verbose --parallel=1 \
                 --exclude-glob .git* \
                 --exclude-glob *.md \
@@ -107,11 +107,12 @@ jobs:
                 --exclude-glob DEPLOY_GUIDE.html \
                 --exclude-glob previews/ \
                 --exclude-glob node_modules/ \
+                --exclude-glob .env* \
+                --exclude-glob .vscode/ \
+                --exclude-glob Dockerfile \
+                --exclude-glob .dockerignore \
                 --exclude-glob *.zip \
                 . /public_html/
-              set cmd:fail-exit no
-              echo "── Проверяем файлы после загрузки ──"
-              ls /public_html/
               bye
           LFTP_CMDS
               FTP_OK=true
