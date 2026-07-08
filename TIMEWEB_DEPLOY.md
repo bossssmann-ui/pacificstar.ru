@@ -80,14 +80,67 @@
 
 ## 🔧 Backend (формы) — Фаза 0
 
-Статика деплоится через GitHub Actions (см. выше). **Формы** (`/api/contact`, обратный звонок) требуют отдельного Node.js:
+Статика деплоится через GitHub Actions (см. выше). **Формы** (`/api/contact`, обратный звонок) требуют Node.js.
 
-1. Включить Node.js в панели Timeweb **или** VPS (см. [ROADMAP.md](ROADMAP.md) → «Деплой server.js»).
-2. Загрузить `server.js`, `package.json`, `.env` (SMTP_*).
-3. Проксировать `/api/*` на процесс Node.
-4. Проверка: `curl https://pacificstar.ru/api/health` → `{"ok":true}`.
+На **shared hosting** (`public_html`) постоянный Node.js **недоступен** — используйте **Timeweb Cloud App Platform** (см. ниже).
 
-Вариант B (API на отдельном хосте): задать `window.PS_API_BASE` в `js/config.js` при деплое.
+### App Platform (рекомендуется)
+
+Приложение уже создано: [дашборд app #220769](https://timeweb.cloud/my/apps/220769/dashboard).
+
+| Параметр | Значение |
+|----------|----------|
+| Тип | Backend → Express |
+| Репозиторий | `bossssmann-ui/pacificstar.ru`, ветка `main` |
+| Команда сборки | `npm install --production` |
+| Команда запуска | `node server.js` |
+| Порт | `3000` (или оставить авто — платформа задаёт `PORT`) |
+| Health check | `/api/health` |
+
+**Переменные окружения** (Настройки → Переменные):
+
+| Имя | Значение |
+|-----|----------|
+| `SMTP_HOST` | `smtp.yandex.ru` |
+| `SMTP_PORT` | `465` |
+| `SMTP_SECURE` | `true` |
+| `SMTP_USER` | `noreply@pacificstar.ru` |
+| `SMTP_PASS` | **пароль приложения Яндекс** (не placeholder!) |
+| `MAIL_FROM` | `Pacific Star <noreply@pacificstar.ru>` |
+| `CORS_ORIGIN` | `https://pacificstar.ru` |
+| `PORT` | `3000` |
+
+Опционально: `AMOCRM_WEBHOOK_URL`, `PS_YM_ID` (для аналитики — в `js/config.js` на статике).
+
+#### Где взять публичный URL API
+
+Ссылка на дашборд (`…/apps/220769/dashboard`) — **не** адрес API.
+
+1. Откройте [дашборд приложения](https://timeweb.cloud/my/apps/220769/dashboard).
+2. На вкладке **«Дашборд»** найдите **технический домен** — формат `https://что-то.twc1.net`.
+3. Проверка в терминале:
+
+```bash
+curl -s https://ВАШ-ДОМЕН.twc1.net/api/health
+# ожидается: {"ok":true,"smtp":true,...}
+```
+
+4. **Пришлите одной строкой** этот URL — агент пропишет его в `js/config.js` (`PS_API_BASE`) и задеплоит статику.
+
+После подключения формы на **pacificstar.ru** будут слать запросы на App Platform (CORS уже настроен в `server.js`).
+
+#### Опционально: свой домен `api.pacificstar.ru`
+
+Настройки → Домены → добавить домен → A-запись на IP приложения (виден на дашборде). Тогда `PS_API_BASE = 'https://api.pacificstar.ru'`.
+
+#### Безопасность
+
+- Удалите `.env` из `public_html` на shared hosting — секреты только в App Platform.
+- `server.js` в `public_html` можно оставить или убрать (сейчас отдаётся как статический файл, не выполняется).
+
+### Другие варианты
+
+См. [ROADMAP.md](ROADMAP.md) → «Деплой server.js» (VPS, Railway, Formspree).
 
 ---
 

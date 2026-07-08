@@ -343,6 +343,6 @@ app.get('/api/health', function (_req, res) {
 });
 
 /* ── Start ─────────────────────────────────────────────────────────── */
-app.listen(PORT, function () {
-  console.log('🚀 Pacific Star server running on http://localhost:' + PORT);
+app.listen(PORT, '0.0.0.0', function () {
+  console.log('🚀 Pacific Star server running on port ' + PORT);
 });
