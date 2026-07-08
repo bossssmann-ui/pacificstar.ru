@@ -17,6 +17,7 @@ const SMTP_PASS = process.env.SMTP_PASS || '';
 const MAIL_FROM = process.env.MAIL_FROM || SMTP_USER;
 const AMOCRM_WEBHOOK_URL = process.env.AMOCRM_WEBHOOK_URL || '';
 const CORS_ORIGIN = process.env.CORS_ORIGIN || 'https://pacificstar.ru';
+const API_ONLY    = process.env.API_ONLY === 'true' || process.env.API_ONLY === '1';
 
 /* ── SMTP transport ────────────────────────────────────────────────── */
 let transporter = null;
@@ -67,12 +68,16 @@ app.use(function (req, res, next) {
   next();
 });
 
-/* Serve the static website from the repo root */
-app.use(express.static(path.join(__dirname), {
-  extensions: ['html'],
-  etag:         true,
-  lastModified: true,
-}));
+/* Serve static only when needed (App Platform: API_ONLY=true, static on shared hosting) */
+if (!API_ONLY) {
+  app.use(express.static(path.join(__dirname), {
+    extensions: ['html'],
+    etag:         true,
+    lastModified: true,
+  }));
+} else {
+  console.log('API_ONLY mode — static files not served from this process');
+}
 
 /* ── Helpers ───────────────────────────────────────────────────────── */
 
@@ -333,13 +338,22 @@ app.post('/api/callback', async function (req, res) {
 });
 
 /* ── Health check ──────────────────────────────────────────────────── */
-app.get('/api/health', function (_req, res) {
-  res.json({
+function healthPayload() {
+  return {
     ok: true,
     smtp: !!transporter,
     amocrm: !!AMOCRM_WEBHOOK_URL,
+    apiOnly: API_ONLY,
     time: new Date().toISOString(),
-  });
+  };
+}
+
+app.get('/', function (_req, res) {
+  res.json(healthPayload());
+});
+
+app.get('/api/health', function (_req, res) {
+  res.json(healthPayload());
 });
 
 /* ── Start ─────────────────────────────────────────────────────────── */
