@@ -98,7 +98,6 @@ jobs:
               set xfer:clobber on
               set cmd:fail-exit yes
               lcd /tmp/site
-              mkdir -p /public_html/
               mirror --reverse --delete --verbose --parallel=1 \
                 --exclude-glob .git* \
                 --exclude-glob *.md \
