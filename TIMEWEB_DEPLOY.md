@@ -132,9 +132,34 @@
    - `Pacific Star boot: PORT=...`
    - `🚀 Pacific Star server listening on 0.0.0.0:...`
    - ошибки `Error:`, `Cannot find module`
-5. Если Express не заводится — пересоздайте приложение как **Dockerfile** (в репо есть `Dockerfile`).
+5. Если Express не заводится — **пересоздайте приложение через Dockerfile** (см. ниже).
 
 **Текущий URL API:** `https://bossssmann-ui-pacificstar-ru-73ae.twc1.net`
+
+#### ERR_CONNECTION_TIMED_OUT / таймаут
+
+Симптом: `bossssmann-ui-pacificstar-ru-73ae.twc1.net` не открывается, формы на сайте падают.
+
+**Срочно в панели:**
+
+1. [Дашборд #220769](https://timeweb.cloud/my/apps/220769/dashboard) → статус **«Запущено»** (не «Остановлено»).
+2. **Переменные** → удалить `PORT`, если есть.
+3. **Перезагрузка приложения** (кнопка restart).
+4. **Логи приложения** → последние 30 строк (скриншот, если не помогло).
+
+Если после restart всё ещё таймаут — **пересоздайте backend через Dockerfile** (надёжнее Express-шаблона):
+
+| Шаг | Действие |
+|-----|----------|
+| 1 | App Platform → **Добавить** → тип **Dockerfile** |
+| 2 | Репо `bossssmann-ui/pacificstar.ru`, ветка `main` |
+| 3 | Путь к Dockerfile: корень репо (файл `Dockerfile` уже в репо) |
+| 4 | Health check: `/api/health` |
+| 5 | ENV: `API_ONLY=true`, `CORS_ORIGIN`, `SMTP_*`, `CONTACT_EMAIL=sales@pacificstar.ru` |
+| 6 | **Не добавлять** `PORT` вручную |
+| 7 | После деплоя — новый `*.twc1.net` на вкладке «Дашборд» → прислать нам одной строкой |
+
+Старый URL `bossssmann-ui-pacificstar-ru-73ae.twc1.net` можно удалить после переключения.
 
 #### Было работало — снова не открывается
 
