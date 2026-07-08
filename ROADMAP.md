@@ -2,7 +2,7 @@
 
 Документ фиксирует результаты QA-тестирования (июль 2026), SEO-стратегию для ИИ-поиска (GEO) и пошаговый план доработки [pacificstar.ru](https://pacificstar.ru).
 
-Связанные файлы: [README.md](README.md), [i18n-status.md](i18n-status.md), [TIMEWEB_DEPLOY.md](TIMEWEB_DEPLOY.md), [llms.txt](llms.txt).
+Связанные файлы: [README.md](README.md), [HANDOFF.md](HANDOFF.md), [i18n-status.md](i18n-status.md), [TIMEWEB_DEPLOY.md](TIMEWEB_DEPLOY.md), [llms.txt](llms.txt).
 
 ---
 

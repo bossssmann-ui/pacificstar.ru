@@ -4,6 +4,8 @@ Production website for **Pacific Star** (ООО «Pacific Star»), a B2B freight
 
 **Development roadmap:** [ROADMAP.md](ROADMAP.md) — QA baseline, GEO/AI-search strategy, phased implementation plan.
 
+**Handoff for new agents:** [HANDOFF.md](HANDOFF.md) — recommended order of work and starter prompt.
+
 ---
 
 ## Business purpose
