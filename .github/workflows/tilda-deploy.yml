@@ -94,7 +94,7 @@ jobs:
         if: env.SKIP == 'false'
         run: sudo apt-get install -y lftp sshpass -q
 
-      - name: Загрузить файлы на Timeweb (FTP → SSH fallback)
+      - name: Загрузить файлы на Timeweb (SSH → FTP fallback)
         if: env.SKIP == 'false'
         timeout-minutes: 18
         env:
@@ -149,24 +149,26 @@ jobs:
           }
 
           UPLOAD_OK=false
-          for attempt in 1 2 3; do
-            if deploy_ftp "$attempt"; then
-              UPLOAD_OK=true
-              echo "✅ FTP загрузка завершена"
-              break
-            fi
-            if [ "$attempt" -lt 3 ]; then
-              echo "⚠️ FTP попытка $attempt не удалась, ждём 20 секунд..."
-              sleep 20
-            fi
-          done
+
+          echo "── SSH/rsync (основной метод) ──"
+          if deploy_ssh; then
+            UPLOAD_OK=true
+            echo "✅ SSH/rsync загрузка завершена"
+          fi
 
           if [ "$UPLOAD_OK" = "false" ]; then
-            echo "⚠️ FTP не удался — пробуем SSH/rsync..."
-            if deploy_ssh; then
-              UPLOAD_OK=true
-              echo "✅ SSH/rsync загрузка завершена"
-            fi
+            echo "⚠️ SSH не удался — пробуем FTP..."
+            for attempt in 1 2 3; do
+              if deploy_ftp "$attempt"; then
+                UPLOAD_OK=true
+                echo "✅ FTP загрузка завершена"
+                break
+              fi
+              if [ "$attempt" -lt 3 ]; then
+                echo "⚠️ FTP попытка $attempt не удалась, ждём 20 секунд..."
+                sleep 20
+              fi
+            done
           fi
 
           if [ "$UPLOAD_OK" = "false" ]; then
@@ -180,7 +182,9 @@ jobs:
           sleep 5
           HEALTH=$(curl -sS -m 20 "https://pacificstar.ru/api/health.php" 2>/dev/null || echo "fail")
           echo "health.php: $HEALTH"
-          if echo "$HEALTH" | grep -q '"backend":"php"'; then
+          if echo "$HEALTH" | grep -q '"exim"'; then
+            echo "✅ PHP API обновлён (новая версия)"
+          elif echo "$HEALTH" | grep -q '"backend":"php"'; then
             echo "✅ PHP API на месте"
           else
             echo "⚠️ api/health.php пока недоступен — подождите 1–2 мин или проверьте вручную"
