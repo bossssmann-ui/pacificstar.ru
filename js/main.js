@@ -501,12 +501,16 @@
       heroSubmitBtn.disabled = true;
       heroSubmitBtn.textContent = msg('form.js.hero_submitting', 'Отправляем...');
 
+      var heroParts = [];
+      if (heroRouteField && heroRouteField.value.trim()) heroParts.push('Маршрут: ' + heroRouteField.value.trim());
+      if (heroCargoField && heroCargoField.value.trim()) heroParts.push('Груз: ' + heroCargoField.value.trim());
+
       var heroFormData = {
-        name:   heroNameField  ? heroNameField.value.trim()  : '',
-        phone:  heroPhoneField ? heroPhoneField.value.trim() : '',
-        route:  heroRouteField ? heroRouteField.value.trim() : '',
-        cargo:  heroCargoField ? heroCargoField.value.trim() : '',
-        source: heroLeadForm.getAttribute('data-track-label') || 'hero_lead_form'
+        name:    heroNameField  ? heroNameField.value.trim()  : '',
+        phone:   heroPhoneField ? heroPhoneField.value.trim() : '',
+        service: heroLeadForm.getAttribute('data-track-label') || 'hero_lead_form',
+        message: heroParts.join('\n'),
+        source:  'hero_lead_form'
       };
 
       fetch((window.PSApi && window.PSApi.url('/api/contact')) || '/api/contact', {

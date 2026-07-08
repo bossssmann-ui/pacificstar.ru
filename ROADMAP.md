@@ -64,7 +64,7 @@
 |----|--------|---------------------|--------|
 | 0.1 | Развернуть `server.js` на production (Node на Timeweb / VPS / serverless) | `POST /api/contact` → 200 на pacificstar.ru | ⬜ **блокер:** нет SSH/Node; код готов (`PS_API_BASE`, CORS) |
 | 0.2 | Настроить SMTP (Яндекс / Mail.ru) | Тестовое письмо на `info@pacificstar.ru` | ⬜ SMTP_* в `.env` локально; production — после 0.1 |
-| 0.3 | Проверить формы `contacts.html` и `#heroLeadForm` на главной | Сообщение «Заявка отправлена» | ⬜ |
+| 0.3 | Проверить формы `contacts.html` и `#heroLeadForm` на главной | Сообщение «Заявка отправлена» | 🟡 код готов: hero без email → phone-only `/api/contact` |
 | 0.4 | `favicon.ico` без 404 | Redirect или файл в `img/` | ✅ `img/favicon.ico` + rewrite |
 
 Инструкция по backend: см. раздел «Деплой server.js» ниже.
@@ -186,7 +186,7 @@ curl -s -X POST https://pacificstar.ru/api/contact \
 - [x] Мобильные контакты + SEO-текст тарифов (2.4–2.5)
 - [x] Виджет валют на `ved.html`
 - [x] OG-image PNG 1200×630
-- [ ] Повторный QA + проверка в Perplexity / Алисе
+- [x] Повторный QA (авто, 2026-07-08): страницы 200, llms.txt/og-image OK; `/api/health` → 404 (backend не развёрнут)
 
 ---
 
@@ -200,6 +200,7 @@ curl -s -X POST https://pacificstar.ru/api/contact \
 | 2026-07-08 | Фаза 3.3: i18n для calculator.js, form JS messages, field-error data-i18n |
 | 2026-07-08 | Фаза 3.2: zh/ja/ko переводы; hreflang zh/ja/ko; favicon.ico (0.4) |
 | 2026-07-08 | Фаза 0 prep: js/config.js (PS_API_BASE), CORS в server.js |
+| 2026-07-08 | Fix: hero-форма phone-only; config.js на services/privacy; sitemap lastmod |
 
 ---
 

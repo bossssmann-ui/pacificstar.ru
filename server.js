@@ -81,6 +81,29 @@ function isValidEmail(value) {
   return typeof value === 'string' && /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(value);
 }
 
+/** Phone: at least 10 digits (RU/international) */
+function isValidPhone(value) {
+  return typeof value === 'string' && value.replace(/\D/g, '').length >= 10;
+}
+
+/** Normalize contact/hero payloads into a single shape for email + CRM */
+function normalizeContactBody(raw) {
+  var data = Object.assign({}, raw || {});
+  var parts = [];
+
+  if (data.route) parts.push('Маршрут: ' + data.route);
+  if (data.cargo) parts.push('Груз: ' + data.cargo);
+  if (data.source && !data.service) data.service = data.source;
+  if (!data.message && parts.length) data.message = parts.join('\n');
+  if (data.source && data.message) {
+    data.message = 'Источник: ' + data.source + '\n' + data.message;
+  } else if (data.source) {
+    data.message = 'Источник: ' + data.source;
+  }
+
+  return data;
+}
+
 /** Forward lead data to AmoCRM webhook (no-op when URL is not configured) */
 async function forwardToAmoCrm(payload) {
   if (!AMOCRM_WEBHOOK_URL) {
@@ -195,12 +218,13 @@ function contactRow(label, value, isLast) {
 }
 
 function contactHtml(data) {
+  var d = normalizeContactBody(data);
   return CONTACT_TEMPLATE_PREFIX + '\n' +
-    contactRow('Имя',       escapeHtml(data.name    || '—'), false) + '\n' +
-    contactRow('E-mail',    escapeHtml(data.email   || '—'), false) + '\n' +
-    contactRow('Телефон',   escapeHtml(data.phone   || '—'), false) + '\n' +
-    contactRow('Услуга',    escapeHtml(data.service || '—'), false) + '\n' +
-    contactRow('Сообщение', escapeHtml(data.message || '—'), true)  + '\n' +
+    contactRow('Имя',       escapeHtml(d.name    || '—'), false) + '\n' +
+    contactRow('E-mail',    escapeHtml(d.email   || '—'), false) + '\n' +
+    contactRow('Телефон',   escapeHtml(d.phone   || '—'), false) + '\n' +
+    contactRow('Услуга',    escapeHtml(d.service || '—'), false) + '\n' +
+    contactRow('Сообщение', escapeHtml(d.message || '—'), true)  + '\n' +
     CONTACT_TEMPLATE_SUFFIX;
 }
 
@@ -245,19 +269,24 @@ app.post('/api/register', async function (req, res) {
 app.post('/api/contact', async function (req, res) {
   try {
     var email = String(req.body.email || '').trim();
+    var phone = String(req.body.phone || '').trim();
+    var hasEmail = isValidEmail(email);
+    var hasPhone = isValidPhone(phone);
 
-    if (!isValidEmail(email)) {
-      return res.status(400).json({ ok: false, error: 'Некорректный e-mail' });
+    if (!hasEmail && !hasPhone) {
+      return res.status(400).json({ ok: false, error: 'Укажите e-mail или телефон' });
     }
+
+    var payload = normalizeContactBody(req.body);
 
     await sendMail(
       SMTP_USER || 'info@pacificstar.ru',
-      'Заявка с сайта от ' + (req.body.name || 'Посетитель'),
-      contactHtml(req.body)
+      'Заявка с сайта от ' + (payload.name || 'Посетитель'),
+      contactHtml(payload)
     );
 
     try {
-      await forwardToAmoCrm(amocrmLeadPayload(req.body, 'contact-form'));
+      await forwardToAmoCrm(amocrmLeadPayload(payload, payload.service || 'contact-form'));
     } catch (crmErr) {
       console.warn('AmoCRM forward failed (contact):', crmErr.message);
     }

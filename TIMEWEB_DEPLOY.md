@@ -78,4 +78,17 @@
 
 ---
 
+## 🔧 Backend (формы) — Фаза 0
+
+Статика деплоится через GitHub Actions (см. выше). **Формы** (`/api/contact`, обратный звонок) требуют отдельного Node.js:
+
+1. Включить Node.js в панели Timeweb **или** VPS (см. [ROADMAP.md](ROADMAP.md) → «Деплой server.js»).
+2. Загрузить `server.js`, `package.json`, `.env` (SMTP_*).
+3. Проксировать `/api/*` на процесс Node.
+4. Проверка: `curl https://pacificstar.ru/api/health` → `{"ok":true}`.
+
+Вариант B (API на отдельном хосте): задать `window.PS_API_BASE` в `js/config.js` при деплое.
+
+---
+
 > 📞 Застряли? Напишите мне — отвечу быстро.
