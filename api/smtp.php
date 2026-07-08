@@ -137,26 +137,56 @@ function ps_smtp_auth_and_send($fp, array $cfg, string $to, string $subject, str
     fclose($fp);
 }
 
+function ps_smtp_connect_plain(string $host, int $port)
+{
+    $fp = @stream_socket_client(
+        'tcp://' . $host . ':' . $port,
+        $errno,
+        $errstr,
+        25,
+        STREAM_CLIENT_CONNECT
+    );
+    if (!$fp) {
+        throw new RuntimeException('TCP connect failed: ' . ($errstr ?: ('errno ' . $errno)));
+    }
+    return $fp;
+}
+
 function ps_smtp_send(array $cfg, string $to, string $subject, string $html): void
 {
     $host = $cfg['host'];
+    $port = (int)($cfg['port'] ?? 465);
     $errors = [];
 
-    try {
-        $fp = ps_smtp_connect_ssl($host, (int)($cfg['port'] ?? 465));
-        ps_smtp_auth_and_send($fp, $cfg, $to, $subject, $html);
-        return;
-    } catch (Throwable $e) {
-        $errors[] = '465/ssl: ' . $e->getMessage();
+    if ($port === 465) {
+        try {
+            $fp = ps_smtp_connect_ssl($host, 465);
+            ps_smtp_auth_and_send($fp, $cfg, $to, $subject, $html);
+            return;
+        } catch (Throwable $e) {
+            $errors[] = '465/ssl: ' . $e->getMessage();
+        }
     }
 
-    try {
-        $fp = ps_smtp_connect_starttls($host, 587);
-        $cfg['_starttls_done'] = true;
-        ps_smtp_auth_and_send($fp, $cfg, $to, $subject, $html);
-        return;
-    } catch (Throwable $e) {
-        $errors[] = '587/starttls: ' . $e->getMessage();
+    if ($port === 587) {
+        try {
+            $fp = ps_smtp_connect_starttls($host, 587);
+            $cfg['_starttls_done'] = true;
+            ps_smtp_auth_and_send($fp, $cfg, $to, $subject, $html);
+            return;
+        } catch (Throwable $e) {
+            $errors[] = '587/starttls: ' . $e->getMessage();
+        }
+    }
+
+    if ($port === 25 || $port === 2525) {
+        try {
+            $fp = ps_smtp_connect_plain($host, $port);
+            ps_smtp_auth_and_send($fp, $cfg, $to, $subject, $html);
+            return;
+        } catch (Throwable $e) {
+            $errors[] = $port . '/plain: ' . $e->getMessage();
+        }
     }
 
     throw new RuntimeException(implode(' | ', $errors));

@@ -132,38 +132,58 @@ function ps_smtp_ready(array $config): bool
         && !empty($config['smtp_pass']);
 }
 
+function ps_mail_exim(string $from, string $to, string $subject, string $html): bool
+{
+    if (!function_exists('mail')) {
+        return false;
+    }
+
+    $headers = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $headers .= 'From: Pacific Star <' . $from . ">\r\n";
+    $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
+
+    // Timeweb Exim: обязателен 5-й аргумент -f (см. timeweb.com docs)
+    return @mail($to, $encodedSubject, $html, $headers, '-f' . $from);
+}
+
 function ps_send_mail(array $config, string $to, string $subject, string $html): void
 {
     $from = (string)($config['mail_from'] ?? $config['smtp_user'] ?? 'noreply@pacificstar.ru');
     $errors = [];
 
-    if (ps_smtp_ready($config)) {
-        try {
-            ps_smtp_send([
-                'host' => (string)$config['smtp_host'],
-                'port' => (int)($config['smtp_port'] ?? 465),
-                'user' => (string)$config['smtp_user'],
-                'pass' => (string)$config['smtp_pass'],
-                'from' => $from,
-            ], $to, $subject, $html);
-            return;
-        } catch (Throwable $e) {
-            $errors[] = $e->getMessage();
-            error_log('ps_send_mail SMTP: ' . $e->getMessage());
-        }
+    // 1) Timeweb shared hosting — локальный Exim (без внешнего SMTP)
+    if (ps_mail_exim($from, $to, $subject, $html)) {
+        return;
     }
+    $errors[] = 'exim mail() failed';
 
-    if (function_exists('mail')) {
-        $headers = "MIME-Version: 1.0\r\n";
-        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
-        $headers .= 'From: Pacific Star <' . $from . ">\r\n";
-        $encodedSubject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
-        if (@mail($to, $encodedSubject, $html, $headers)) {
-            return;
+    if (ps_smtp_ready($config)) {
+        $smtpCfg = [
+            'host' => (string)$config['smtp_host'],
+            'port' => (int)($config['smtp_port'] ?? 465),
+            'user' => (string)$config['smtp_user'],
+            'pass' => (string)$config['smtp_pass'],
+            'from' => $from,
+        ];
+
+        // 2) SMTP Timeweb (ящик на хостинге)
+        foreach (['smtp.timeweb.ru', $smtpCfg['host']] as $host) {
+            if ($host === '') {
+                continue;
+            }
+            $try = $smtpCfg;
+            $try['host'] = $host;
+            foreach ([2525, 25, 587, 465] as $port) {
+                try {
+                    $try['port'] = $port;
+                    ps_smtp_send($try, $to, $subject, $html);
+                    return;
+                } catch (Throwable $e) {
+                    $errors[] = $host . ':' . $port . ': ' . $e->getMessage();
+                }
+            }
         }
-        $errors[] = 'mail() returned false';
-    } else {
-        $errors[] = 'mail() not available';
     }
 
     throw new RuntimeException(implode(' | ', $errors));

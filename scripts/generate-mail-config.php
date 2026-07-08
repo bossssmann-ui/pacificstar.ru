@@ -9,15 +9,11 @@ declare(strict_types=1);
 $out = __DIR__ . '/../api/mail-config.php';
 
 $pass = getenv('SMTP_PASS') ?: '';
-if ($pass === '') {
-    fwrite(STDERR, "SMTP_PASS is empty — mail-config.php not generated\n");
-    exit(1);
-}
 
 $config = [
     'contact_email' => getenv('CONTACT_EMAIL') ?: 'sales@pacificstar.ru',
     'cors_origin' => getenv('CORS_ORIGIN') ?: 'https://pacificstar.ru',
-    'smtp_host' => getenv('SMTP_HOST') ?: 'smtp.yandex.ru',
+    'smtp_host' => getenv('SMTP_HOST') ?: 'smtp.timeweb.ru',
     'smtp_port' => (int)(getenv('SMTP_PORT') ?: 465),
     'smtp_user' => getenv('SMTP_USER') ?: 'noreply@pacificstar.ru',
     'smtp_pass' => $pass,

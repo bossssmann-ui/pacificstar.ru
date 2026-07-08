@@ -22,10 +22,10 @@ echo json_encode([
     'ok' => true,
     'backend' => 'php',
     'smtp' => $hasConfig && ps_smtp_ready_static($config),
-    'smtpLive' => $smtpLive['ok'],
+    'exim' => function_exists('mail'),
+    'smtpLive' => $smtpLive['ok'] ?? false,
     'smtpVia' => $smtpLive['via'] ?? null,
     'configPresent' => $hasConfig,
-    'mailFn' => function_exists('mail'),
     'time' => gmdate('c'),
 ], JSON_UNESCAPED_UNICODE);
 

@@ -8,7 +8,7 @@ declare(strict_types=1);
 return [
     'contact_email' => 'sales@pacificstar.ru',
     'cors_origin' => 'https://pacificstar.ru',
-    'smtp_host' => 'smtp.yandex.ru',
+    'smtp_host' => 'smtp.timeweb.ru',
     'smtp_port' => 465,
     'smtp_user' => 'noreply@pacificstar.ru',
     'smtp_pass' => '',

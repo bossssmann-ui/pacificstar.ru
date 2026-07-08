@@ -44,7 +44,7 @@ jobs:
         if: env.SKIP == 'false'
         env:
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
-          SMTP_HOST: smtp.yandex.ru
+          SMTP_HOST: smtp.timeweb.ru
           SMTP_USER: noreply@pacificstar.ru
           MAIL_FROM: noreply@pacificstar.ru
           CONTACT_EMAIL: sales@pacificstar.ru
@@ -52,8 +52,7 @@ jobs:
         run: |
           sudo apt-get install -y php-cli -q
           if [ -z "$SMTP_PASS" ]; then
-            echo "⚠️  SMTP_PASS не задан в GitHub Secrets — формы не будут слать почту."
-            echo "    Добавьте: https://github.com/bossssmann-ui/pacificstar.ru/settings/secrets/actions"
+            echo "ℹ️  SMTP_PASS не задан — почта через Timeweb Exim (mail -f), без внешнего SMTP"
             cp api/mail-config.example.php api/mail-config.php
           else
             php scripts/generate-mail-config.php
