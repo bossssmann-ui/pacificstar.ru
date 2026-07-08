@@ -9,6 +9,7 @@ RUN npm ci --omit=dev
 COPY server.js ./
 
 ENV NODE_ENV=production
+ENV API_ONLY=true
 EXPOSE 8080
 
 CMD ["node", "server.js"]
