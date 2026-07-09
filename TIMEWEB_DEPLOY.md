@@ -34,7 +34,8 @@
 | `TIMEWEB_USER` | Логин на хостинге |
 | `TIMEWEB_PASSWORD` | Пароль от хостинга |
 | `SMTP_PASS` | **Пароль приложения Яндекс** для `noreply@pacificstar.ru` (формы на сайте) |
-| `PS_YM_ID` | **Номер счётчика Яндекс.Метрики** (только цифры, напр. `12345678`) — опционально |
+| `PS_YM_ID` | **Номер счётчика Яндекс.Метрики** (только цифры) — опционально, в репо уже `110523171` |
+| `AMOCRM_WEBHOOK_URL` | **URL входящего вебхука AmoCRM** — опционально, для лидов с форм |
 
 > `SMTP_PASS` — единственный секрет для почты. Остальные SMTP-настройки уже в коде. GitHub при деплое создаёт `api/mail-config.php` на сервере автоматически.
 >
@@ -145,6 +146,23 @@ v=spf1 include:_spf.timeweb.ru include:_spf.yandex.net ~all
 | `telegram_click` | ссылка на `t.me` |
 
 Проверка после деплоя: в браузере на `pacificstar.ru` → DevTools → Network → запросы к `mc.yandex.ru`.
+
+### AmoCRM (лиды с форм)
+
+Формы `contact`, `callback`, регистрация в ЛК шлют JSON на вебхук AmoCRM (если URL задан).
+
+1. AmoCRM → **Настройки → Интеграции → Web hooks** → **Добавить** → скопируйте URL.
+2. GitHub → Secrets → `AMOCRM_WEBHOOK_URL` = этот URL.
+3. Деплой → `api/mail-config.php` на сервере получит URL автоматически.
+
+Проверка:
+
+```bash
+curl -s https://pacificstar.ru/api/health.php
+# "amocrm": true — после добавления секрета и деплоя
+```
+
+Поля лида: `source`, `name`, `email`, `phone`, `service`, `message`, `time`, `page`, `sent_at`.
 
 ### App Platform — можно выключить
 

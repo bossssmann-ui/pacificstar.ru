@@ -35,6 +35,19 @@ try {
         ps_confirmation_html($fullName)
     );
 
+    try {
+        ps_forward_amocrm($PS_MAIL_CONFIG, ps_amocrm_payload([
+            'firstName' => $firstName,
+            'lastName' => $lastName,
+            'name' => $fullName,
+            'email' => $email,
+            'service' => 'account_register',
+            'message' => 'Регистрация в личном кабинете',
+        ], 'account_register'));
+    } catch (Throwable $crmErr) {
+        error_log('register.php AmoCRM: ' . $crmErr->getMessage());
+    }
+
     echo json_encode(['ok' => true, 'message' => 'Письмо с подтверждением отправлено'], JSON_UNESCAPED_UNICODE);
 } catch (Throwable $e) {
     error_log('register.php: ' . $e->getMessage());

@@ -46,10 +46,11 @@ jobs:
           PS_YM_ID: ${{ secrets.PS_YM_ID }}
         run: node scripts/inject-ym-id.js
 
-      - name: Сгенерировать api/mail-config.php (SMTP из GitHub Secrets)
+      - name: Сгенерировать api/mail-config.php (секреты GitHub)
         if: env.SKIP == 'false'
         env:
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          AMOCRM_WEBHOOK_URL: ${{ secrets.AMOCRM_WEBHOOK_URL }}
           SMTP_HOST: smtp.timeweb.ru
           SMTP_USER: noreply@pacificstar.ru
           MAIL_FROM: noreply@pacificstar.ru
@@ -57,11 +58,14 @@ jobs:
           CORS_ORIGIN: https://pacificstar.ru
         run: |
           sudo apt-get install -y php-cli -q
+          php scripts/generate-mail-config.php
           if [ -z "$SMTP_PASS" ]; then
             echo "ℹ️  SMTP_PASS не задан — почта через Timeweb Exim (mail -f), без внешнего SMTP"
-            cp api/mail-config.example.php api/mail-config.php
+          fi
+          if [ -z "$AMOCRM_WEBHOOK_URL" ]; then
+            echo "ℹ️  AMOCRM_WEBHOOK_URL не задан — лиды только на sales@ (AmoCRM выкл.)"
           else
-            php scripts/generate-mail-config.php
+            echo "✅ AmoCRM webhook будет записан в mail-config.php"
           fi
 
       - name: Подготовить файлы сайта (без служебных файлов)

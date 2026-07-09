@@ -93,7 +93,7 @@
 | ID | Задача | Статус |
 |----|--------|--------|
 | 2.1 | `<div id="currencyWidget">` на `ved.html` | ✅ |
-| 2.2 | AmoCRM webhook (формы, callback, ЛК) | 🟡 код в `server.js`, нужен `AMOCRM_WEBHOOK_URL` |
+| 2.2 | AmoCRM webhook (формы, callback, ЛК) | 🟡 код готов; нужен GitHub Secret `AMOCRM_WEBHOOK_URL` |
 | 2.3 | Яндекс.Метрика: `PS_YM_ID` + цели | ✅ счётчик `110523171`, цели в `analytics.js` |
 | 2.4 | Телефон/email на мобильном без скролла | ✅ `header-mobile-bar` в `components.js` |
 | 2.5 | SEO-текст тарифов над калькулятором | ✅ блок `#tariffs-overview` на `services.html` |
@@ -210,7 +210,7 @@ curl -s -X POST https://pacificstar.ru/api/contact.php \
 - [x] Фаза 0: формы + почта + SPF
 - [ ] **Фаза 6:** живые фото — **ждём архив от заказчика** (см. 6.1)
 - [x] Фаза 2.3: Яндекс.Метрика — `PS_YM_ID=110523171`
-- [ ] Фаза 2.2: AmoCRM — `AMOCRM_WEBHOOK_URL` в `api/mail-config` / GitHub Secret
+- [ ] Фаза 2.2: AmoCRM — GitHub Secret `AMOCRM_WEBHOOK_URL` (см. TIMEWEB_DEPLOY.md)
 
 ### Неделя 1 (архив)
 
@@ -242,7 +242,7 @@ curl -s -X POST https://pacificstar.ru/api/contact.php \
 | 2026-07-08 | Fix: hero-форма phone-only; config.js на services/privacy; sitemap lastmod |
 | 2026-07-08 | App Platform #220769: инструкция в TIMEWEB_DEPLOY; listen 0.0.0.0 |
 | 2026-07-08 | Фаза 0 закрыта: PHP API, Exim, SPF; App Platform снята с критического пути |
-| 2026-07-08 | Фаза 6: живой контент (фото с работы) — план и критерии в ROADMAP |
+| 2026-07-09 | Метрика `110523171` в main; deploy inject PS_YM_ID; AmoCRM через mail-config при деплое |
 
 ---
 

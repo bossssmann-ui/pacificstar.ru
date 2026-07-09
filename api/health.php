@@ -25,6 +25,7 @@ echo json_encode([
     'exim' => function_exists('mail'),
     'smtpLive' => $smtpLive['ok'] ?? false,
     'smtpVia' => $smtpLive['via'] ?? null,
+    'amocrm' => $hasConfig && !empty($config['amocrm_webhook_url']),
     'configPresent' => $hasConfig,
     'time' => gmdate('c'),
 ], JSON_UNESCAPED_UNICODE);
