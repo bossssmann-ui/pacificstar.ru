@@ -31,9 +31,9 @@ meta.index.title                  → Page titles and meta descriptions
 
 | File | Keys | Status |
 |------|------|--------|
-| `locales/ru.json` | 1657 | ✅ Complete (canonical) |
-| `locales/en.json` | 1657 | ✅ Complete (RU→EN, 2026-07-08) |
-| `locales/zh.json` | 1657 | ✅ Complete (RU→ZH, 2026-07-08) |
+| `locales/ru.json` | 2204 | ✅ Complete (canonical) |
+| `locales/en.json` | 2216 | ✅ Rewired + human-reviewed logistics terms |
+| `locales/zh.json` | 2216 | ✅ Rewired + human-reviewed logistics terms |
 | `locales/ja.json` | 1657 | ✅ Complete (RU→JA, 2026-07-08) |
 | `locales/ko.json` | 1657 | ✅ Complete (RU→KO, 2026-07-08) |
 
@@ -68,7 +68,7 @@ meta.index.title                  → Page titles and meta descriptions
 | `rail.html` | 95 | ✅ i18n-complete |
 | `ved.html` | 72 | ✅ i18n-complete |
 
-**Total**: 1491+ `data-i18n` attributes across 16 pages + shared components.
+**Total**: 1900+ `data-i18n` / `data-i18n-html` attributes across 16 pages + shared components.
 
 ## Supported Languages
 

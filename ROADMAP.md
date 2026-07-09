@@ -222,7 +222,7 @@ curl -s -X POST https://pacificstar.ru/api/contact.php \
 | 1 | Цели в панели Метрики (`form_submit`, `phone_click`…) | ручная настройка в metrika.yandex.ru |
 | 2 | PWA (manifest + service worker) | ✅ базовый PWA; push — позже |
 | 3 | Telegram-бот уведомлений | токен бота от заказчика |
-| 4 | Human review переводов EN/ZH | контент |
+| 4 | Human review переводов EN/ZH | ✅ body text wired; glossary pass (2026-07-09) |
 | 5 | Остановить App Platform #220769 | панель Timeweb |
 
 ### Неделя 1 (архив)

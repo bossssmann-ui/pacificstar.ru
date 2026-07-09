@@ -88,12 +88,22 @@
     ruSnapshot = {};
     attrSnapshot = [];
 
-    /* Text content via data-i18n */
+    /* HTML content via data-i18n-html */
+    var htmlEls = document.querySelectorAll('[data-i18n-html]');
+    htmlEls.forEach(function (el) {
+      var key = el.getAttribute('data-i18n-html');
+      if (key && !ruSnapshot['html:' + key + '__' + elId(el)]) {
+        ruSnapshot['html:' + key + '__' + elId(el)] = { el: el, orig: el.innerHTML, mode: 'html' };
+      }
+    });
+
+    /* Text content via data-i18n (skip if data-i18n-html on same node) */
     var els = document.querySelectorAll('[data-i18n]');
     els.forEach(function (el) {
+      if (el.hasAttribute('data-i18n-html')) return;
       var key = el.getAttribute('data-i18n');
       if (key && !ruSnapshot[key + '__' + elId(el)]) {
-        ruSnapshot[key + '__' + elId(el)] = { el: el, orig: el.textContent };
+        ruSnapshot[key + '__' + elId(el)] = { el: el, orig: el.textContent, mode: 'text' };
       }
     });
 
@@ -122,15 +132,30 @@
 
   /* ─── Apply translations ─────────────────────────────────────────────── */
   function applyDict(dict, isRussian) {
+    /* HTML content */
+    var htmlEls = document.querySelectorAll('[data-i18n-html]');
+    htmlEls.forEach(function (el) {
+      var key = el.getAttribute('data-i18n-html');
+      if (!key) return;
+      var snapKey = 'html:' + key + '__' + elId(el);
+
+      if (isRussian) {
+        var snapHtml = ruSnapshot[snapKey];
+        if (snapHtml) el.innerHTML = snapHtml.orig;
+      } else if (dict[key] !== undefined) {
+        el.innerHTML = dict[key];
+      }
+    });
+
     /* Text content */
     var els = document.querySelectorAll('[data-i18n]');
     els.forEach(function (el) {
+      if (el.hasAttribute('data-i18n-html')) return;
       var key = el.getAttribute('data-i18n');
       if (!key) return;
       var snapKey = key + '__' + elId(el);
 
       if (isRussian) {
-        /* Restore original Russian text */
         var snap = ruSnapshot[snapKey];
         if (snap) el.textContent = snap.orig;
       } else if (dict[key] !== undefined) {
