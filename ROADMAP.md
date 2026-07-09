@@ -94,7 +94,7 @@
 |----|--------|--------|
 | 2.1 | `<div id="currencyWidget">` на `ved.html` | ✅ |
 | 2.2 | AmoCRM webhook (формы, callback, ЛК) | 🟡 код в `server.js`, нужен `AMOCRM_WEBHOOK_URL` |
-| 2.3 | Яндекс.Метрика: реальный `PS_YM_ID` + цели | 🟡 loader в `analytics.js`, нужен ID счётчика |
+| 2.3 | Яндекс.Метрика: реальный `PS_YM_ID` + цели | 🟡 GitHub Secret `PS_YM_ID` → deploy inject; нужен номер счётчика |
 | 2.4 | Телефон/email на мобильном без скролла | ✅ `header-mobile-bar` в `components.js` |
 | 2.5 | SEO-текст тарифов над калькулятором | ✅ блок `#tariffs-overview` на `services.html` |
 | 2.6 | Обратный звонок — реальная отправка | `POST /api/callback.php` → письмо / AmoCRM | ✅ PHP API (как contact) |
@@ -209,7 +209,7 @@ curl -s -X POST https://pacificstar.ru/api/contact.php \
 
 - [x] Фаза 0: формы + почта + SPF
 - [ ] **Фаза 6:** живые фото — **ждём архив от заказчика** (см. 6.1)
-- [ ] Фаза 2.3: Яндекс.Метрика — `PS_YM_ID` в `js/config.js`
+- [ ] Фаза 2.3: Яндекс.Метрика — GitHub Secret `PS_YM_ID` (номер счётчика)
 - [ ] Фаза 2.2: AmoCRM — `AMOCRM_WEBHOOK_URL` в `api/mail-config` / GitHub Secret
 
 ### Неделя 1 (архив)

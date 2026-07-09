@@ -34,8 +34,11 @@
 | `TIMEWEB_USER` | Логин на хостинге |
 | `TIMEWEB_PASSWORD` | Пароль от хостинга |
 | `SMTP_PASS` | **Пароль приложения Яндекс** для `noreply@pacificstar.ru` (формы на сайте) |
+| `PS_YM_ID` | **Номер счётчика Яндекс.Метрики** (только цифры, напр. `12345678`) — опционально |
 
 > `SMTP_PASS` — единственный секрет для почты. Остальные SMTP-настройки уже в коде. GitHub при деплое создаёт `api/mail-config.php` на сервере автоматически.
+>
+> `PS_YM_ID` — при деплое подставляется в `js/config.js`; без него Метрика не загружается (`0` = выкл.).
 
 **3.** Нажмите **`Add secret`** для каждого.
 
@@ -122,6 +125,26 @@ v=spf1 include:_spf.timeweb.ru include:_spf.yandex.net ~all
 5. Подождать 15–60 минут (обновление DNS), плашка SPF должна исчезнуть.
 
 **Зачем:** сайт шлёт письма с серверов Timeweb (Exim), а ящик `sales@` принимает на Яндексе — в SPF нужны **оба** `include`.
+
+### Яндекс.Метрика (`PS_YM_ID`)
+
+1. [metrika.yandex.ru](https://metrika.yandex.ru/) → счётчик для `pacificstar.ru` → скопируйте **номер** (6–8 цифр).
+2. GitHub → **Settings → Secrets → Actions** → `New repository secret`:
+   - Name: `PS_YM_ID`
+   - Value: номер счётчика (только цифры)
+3. Запустите деплой (push в `main` или **Run workflow**). Скрипт `scripts/inject-ym-id.js` подставит ID в `js/config.js`.
+
+**Цели в панели Метрики** (тип «JavaScript-событие») — уже шлются из `js/analytics.js`:
+
+| Цель | Когда срабатывает |
+|------|-------------------|
+| `form_submit` | отправка любой формы |
+| `phone_click` | клик по `tel:` |
+| `email_click` | клик по `mailto:` |
+| `whatsapp_click` | ссылка на `wa.me` |
+| `telegram_click` | ссылка на `t.me` |
+
+Проверка после деплоя: в браузере на `pacificstar.ru` → DevTools → Network → запросы к `mc.yandex.ru`.
 
 ### App Platform — можно выключить
 

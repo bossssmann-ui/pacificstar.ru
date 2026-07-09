@@ -40,6 +40,12 @@ jobs:
             echo "SKIP=false" >> "$GITHUB_ENV"
           fi
 
+      - name: Подставить PS_YM_ID (Яндекс.Метрика)
+        if: env.SKIP == 'false'
+        env:
+          PS_YM_ID: ${{ secrets.PS_YM_ID }}
+        run: node scripts/inject-ym-id.js
+
       - name: Сгенерировать api/mail-config.php (SMTP из GitHub Secrets)
         if: env.SKIP == 'false'
         env:

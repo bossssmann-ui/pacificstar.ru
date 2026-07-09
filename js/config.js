@@ -3,6 +3,8 @@
  *
  * Forms use PHP on shared hosting (api/*.php) — no App Platform ENV needed.
  * Set PS_MAIL_BACKEND = 'node' + PS_API_BASE to use Timeweb App Platform instead.
+ *
+ * Yandex Metrika: set PS_YM_ID below or GitHub Secret PS_YM_ID (injected at deploy).
  */
 (function () {
   'use strict';
