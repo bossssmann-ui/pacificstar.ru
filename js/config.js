@@ -11,7 +11,7 @@
 
   window.PS_MAIL_BACKEND = window.PS_MAIL_BACKEND || 'php';
   window.PS_API_BASE = window.PS_API_BASE || '';
-  window.PS_YM_ID    = window.PS_YM_ID    || 0;
+  window.PS_YM_ID    = window.PS_YM_ID    || 110523171;
   window.PS_GA_ID    = window.PS_GA_ID    || '';
 
   window.PSApi = {

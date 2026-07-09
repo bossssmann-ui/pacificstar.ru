@@ -38,7 +38,7 @@
       k = e.createElement(t);
       a = e.getElementsByTagName(t)[0];
       k.async = 1;
-      k.src = r;
+      k.src = r + '?id=' + id;
       a.parentNode.insertBefore(k, a);
     })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
 
@@ -46,7 +46,8 @@
       clickmap: true,
       trackLinks: true,
       accurateTrackBounce: true,
-      webvisor: true
+      webvisor: true,
+      ecommerce: 'dataLayer'
     });
   }
 
