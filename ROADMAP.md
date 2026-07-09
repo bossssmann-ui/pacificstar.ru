@@ -159,10 +159,10 @@
 
 | Квартал | Задача |
 |---------|--------|
-| Q2 2025 | AmoCRM, Яндекс.Метрика |
+| Q2 2025 | AmoCRM (отложено), Яндекс.Метрика ✅ |
 | Q3 2025 | Telegram-бот, SeaRates трекинг |
 | Q4 2025 | ЭДО, интеграция 1С |
-| Q1 2026 | PWA |
+| Q1 2026 | PWA | ✅ manifest + SW + offline (база); push — позже |
 | Q2 2026 | Open API |
 
 ---
@@ -211,6 +211,7 @@ curl -s -X POST https://pacificstar.ru/api/contact.php \
 - [x] Фаза 0: формы + почта + SPF
 - [x] Фаза 2.3: Яндекс.Метрика — `PS_YM_ID=110523171`
 - [x] Фаза 2.7: cookie-баннер + opt-in Метрики
+- [x] PWA (база): manifest + service worker + offline
 - [ ] Фаза 2.2: AmoCRM — **отложено** (нужен `AMOCRM_WEBHOOK_URL`)
 - [ ] Фаза 6: живые фото — **отложено** (архив / ссылка → `content-inbox/photos/`)
 
@@ -219,7 +220,7 @@ curl -s -X POST https://pacificstar.ru/api/contact.php \
 | Приоритет | Задача | Зависимость |
 |-----------|--------|-------------|
 | 1 | Цели в панели Метрики (`form_submit`, `phone_click`…) | ручная настройка в metrika.yandex.ru |
-| 2 | PWA (manifest + service worker) | Фаза 5 Q1 2026 |
+| 2 | PWA (manifest + service worker) | ✅ базовый PWA; push — позже |
 | 3 | Telegram-бот уведомлений | токен бота от заказчика |
 | 4 | Human review переводов EN/ZH | контент |
 | 5 | Остановить App Platform #220769 | панель Timeweb |
@@ -254,7 +255,7 @@ curl -s -X POST https://pacificstar.ru/api/contact.php \
 | 2026-07-08 | Fix: hero-форма phone-only; config.js на services/privacy; sitemap lastmod |
 | 2026-07-08 | App Platform #220769: инструкция в TIMEWEB_DEPLOY; listen 0.0.0.0 |
 | 2026-07-08 | Фаза 0 закрыта: PHP API, Exim, SPF; App Platform снята с критического пути |
-| 2026-07-09 | Cookie opt-in для Метрики; integrations ✅ Метрика; инструкция Google Фото |
+| 2026-07-09 | Базовый PWA: manifest.webmanifest, sw.js, offline.html |
 
 ---
 

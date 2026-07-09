@@ -1,0 +1,31 @@
+{
+  "name": "Pacific Star — Логистика ДФО",
+  "short_name": "Pacific Star",
+  "description": "Северный завоз, каботаж и проектная логистика на Дальнем Востоке",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0d2b5e",
+  "theme_color": "#0d2b5e",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "/img/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/img/og-image.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/logo-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

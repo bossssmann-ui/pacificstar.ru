@@ -22,6 +22,12 @@
   <link rel="alternate" hreflang="x-default" href="https://pacificstar.ru/integrations.html" >
   <title>Цифровые инструменты и интеграции — Pacific Star</title>
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#0d2b5e">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Pacific Star">
+  <link rel="apple-touch-icon" href="/img/og-image.png">
   <noscript><style>.fade-in{opacity:1!important;transform:none!important;animation:none!important}</style></noscript>
   <link rel="preconnect" href="https://fonts.googleapis.com" >
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
@@ -790,9 +796,8 @@
             <div>
               <p class="roadmap-title" data-i18n="integrations.mobil_noe_prilozhenie_pwa">Мобильное приложение (PWA)</p>
               <p class="roadmap-desc">
-                Прогрессивное веб-приложение: клиент добавляет сайт на экран смартфона и
-                получает push-уведомления о грузах. Работает без AppStore/Google Play.
-                Стоимость разработки в 3–4 раза ниже нативного приложения.
+                <strong>✅ Базовая версия</strong> — manifest, «Добавить на экран», офлайн-страница.
+                Далее: push-уведомления о грузах. Работает без AppStore/Google Play.
               </p>
             </div>
           </div>
@@ -920,5 +925,6 @@
   <script defer src="js/main.js?v=20260708c"></script>
   <script defer src="js/cookie-consent.js?v=20260709b"></script>
   <script defer src="js/analytics.js?v=20260709b"></script>
+  <script defer src="js/pwa-register.js?v=20260709c"></script>
 </body>
 </html>
