@@ -98,6 +98,7 @@
 | 2.4 | Телефон/email на мобильном без скролла | ✅ `header-mobile-bar` в `components.js` |
 | 2.5 | SEO-текст тарифов над калькулятором | ✅ блок `#tariffs-overview` на `services.html` |
 | 2.6 | Обратный звонок — реальная отправка | `POST /api/callback.php` → письмо / AmoCRM | ✅ PHP API (как contact) |
+| 2.7 | Cookie-баннер + opt-in для Метрики (152-ФЗ) | ✅ `cookie-consent.js`, Метрика после согласия |
 
 ---
 
@@ -208,9 +209,20 @@ curl -s -X POST https://pacificstar.ru/api/contact.php \
 ### Сейчас (параллельно)
 
 - [x] Фаза 0: формы + почта + SPF
-- [ ] **Фаза 6:** живые фото — **ждём архив от заказчика** (см. 6.1)
 - [x] Фаза 2.3: Яндекс.Метрика — `PS_YM_ID=110523171`
-- [ ] Фаза 2.2: AmoCRM — GitHub Secret `AMOCRM_WEBHOOK_URL` (см. TIMEWEB_DEPLOY.md)
+- [x] Фаза 2.7: cookie-баннер + opt-in Метрики
+- [ ] Фаза 2.2: AmoCRM — **отложено** (нужен `AMOCRM_WEBHOOK_URL`)
+- [ ] Фаза 6: живые фото — **отложено** (архив / ссылка → `content-inbox/photos/`)
+
+### Следующие задачи (без AmoCRM и фото)
+
+| Приоритет | Задача | Зависимость |
+|-----------|--------|-------------|
+| 1 | Цели в панели Метрики (`form_submit`, `phone_click`…) | ручная настройка в metrika.yandex.ru |
+| 2 | PWA (manifest + service worker) | Фаза 5 Q1 2026 |
+| 3 | Telegram-бот уведомлений | токен бота от заказчика |
+| 4 | Human review переводов EN/ZH | контент |
+| 5 | Остановить App Platform #220769 | панель Timeweb |
 
 ### Неделя 1 (архив)
 
@@ -242,7 +254,7 @@ curl -s -X POST https://pacificstar.ru/api/contact.php \
 | 2026-07-08 | Fix: hero-форма phone-only; config.js на services/privacy; sitemap lastmod |
 | 2026-07-08 | App Platform #220769: инструкция в TIMEWEB_DEPLOY; listen 0.0.0.0 |
 | 2026-07-08 | Фаза 0 закрыта: PHP API, Exim, SPF; App Platform снята с критического пути |
-| 2026-07-09 | Метрика `110523171` в main; deploy inject PS_YM_ID; AmoCRM через mail-config при деплое |
+| 2026-07-09 | Cookie opt-in для Метрики; integrations ✅ Метрика; инструкция Google Фото |
 
 ---
 

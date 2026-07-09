@@ -51,10 +51,6 @@
     });
   }
 
-  initYandexMetrika();
-
-  /* ── Google Analytics (gtag.js) loader ─────────────────────────────── */
-
   function initGoogleAnalytics() {
     if (!gaId || typeof gaId !== 'string') return;
 
@@ -69,7 +65,20 @@
     window.gtag('config', gaId);
   }
 
-  initGoogleAnalytics();
+  function bootAnalytics() {
+    initYandexMetrika();
+    initGoogleAnalytics();
+  }
+
+  function hasAnalyticsConsent() {
+    try { return localStorage.getItem('ps_cookie_consent') === 'all'; } catch (_) { return false; }
+  }
+
+  if (hasAnalyticsConsent()) {
+    bootAnalytics();
+  } else {
+    window.addEventListener('ps:analytics-consent', bootAnalytics, { once: true });
+  }
 
   /* ── Helpers ──────────────────────────────────────────────────────── */
 

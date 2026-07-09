@@ -5036,3 +5036,56 @@ select.form-control {
   .service-card-actions { flex-direction: column; }
   .service-card-actions .btn { width: 100%; justify-content: center; text-align: center; }
 }
+
+/* =====================================================
+   COOKIE CONSENT (152-FZ / analytics opt-in)
+   ===================================================== */
+.cookie-consent {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10050;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: rgba(15, 23, 42, 0.96);
+  color: #f1f5f9;
+  transform: translateY(110%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.25);
+}
+.cookie-consent--visible { transform: translateY(0); opacity: 1; }
+.cookie-consent--hide { transform: translateY(110%); opacity: 0; }
+.cookie-consent-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  justify-content: space-between;
+}
+.cookie-consent-text {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  flex: 1 1 280px;
+  color: rgba(241, 245, 249, 0.92);
+}
+.cookie-consent-text a { color: #93c5fd; text-decoration: underline; }
+.cookie-consent-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.cookie-consent-actions .btn {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+@media (max-width: 479px) {
+  .cookie-consent-actions { width: 100%; }
+  .cookie-consent-actions .btn { flex: 1; justify-content: center; }
+  .floating-contacts { bottom: 120px; }
+}
