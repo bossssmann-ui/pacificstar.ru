@@ -338,20 +338,31 @@
     if (el) el.outerHTML = html;
   }
 
+  /* Sanitise a root-path value so it can only contain safe path characters.
+   * Accepts only dots, forward slashes, hyphens, underscores, and word chars. */
+  function sanitiseRootPath(raw) {
+    if (!raw || typeof raw !== 'string') return '';
+    /* Strip anything that is not a safe path character */
+    return raw.replace(/[^a-zA-Z0-9_.\-\/]/g, '');
+  }
+
   /* Header — data-theme-toggle attribute controls theme toggle visibility */
   /* data-root-path attribute sets the path prefix for subdirectory pages  */
   var headerEl = document.querySelector('[data-component="header"]');
   var globalRootPath = '';
   if (headerEl) {
     var showThemeToggle = headerEl.hasAttribute('data-theme-toggle');
-    globalRootPath = headerEl.getAttribute('data-root-path') || '';
+    globalRootPath = sanitiseRootPath(headerEl.getAttribute('data-root-path'));
     headerEl.outerHTML = buildHeader(showThemeToggle, globalRootPath) + buildMobileNav(globalRootPath);
   }
 
   /* Footer — data-description="extended|arctic" controls description text */
   var footerEl = document.querySelector('[data-component="footer"]');
   if (footerEl) {
-    footerEl.outerHTML = buildFooter(footerEl.getAttribute('data-description') || '', globalRootPath);
+    /* Only allow known description variant values */
+    var rawDesc = footerEl.getAttribute('data-description') || '';
+    var safeDesc = (rawDesc === 'extended' || rawDesc === 'arctic') ? rawDesc : '';
+    footerEl.outerHTML = buildFooter(safeDesc, globalRootPath);
   }
 
   /* Floating contacts */
