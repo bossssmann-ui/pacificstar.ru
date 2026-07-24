@@ -219,3 +219,15 @@ crossties
 viewBox
 Catmull
 Perouse
+
+# News section (#228)
+хаб
+хабы
+хабов
+букинга
+Нингбо
+Минвостокразвития
+контейнерооборота
+sanitise
+Sanitise
+sanitiseRootPath

@@ -9,7 +9,7 @@
   "scripts": {
     "build": "npm ci --omit=dev",
     "start": "node server.js",
-    "validate": "html-validate *.html",
+    "validate": "html-validate *.html news/*.html",
     "spellcheck": "cspell --no-progress"
   },
   "devDependencies": {

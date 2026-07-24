@@ -10,7 +10,7 @@
 
 | Направление | Готовность | Комментарий |
 |-------------|------------|-------------|
-| Витрина / контент | ~85% | 19 страниц HTTP 200; **живые фото с работы — не внедрены** (см. Фаза 6) |
+| Витрина / контент | ~90% | листинг новостей + статьи; **живые фото с работы — не внедрены** (см. Фаза 6) |
 | Классический SEO (RU) | ~85% | title, canonical, JSON-LD, sitemap |
 | ИИ-поиск (GEO) | ~70% | llms.txt, FAQ, OG-image PNG; карта в JS |
 | Лидогенерация (формы) | ~90% | PHP `api/contact.php` на shared hosting, SMTP + SPF |
@@ -99,6 +99,20 @@
 | 2.5 | SEO-текст тарифов над калькулятором | ✅ блок `#tariffs-overview` на `services.html` |
 | 2.6 | Обратный звонок — реальная отправка | `POST /api/callback.php` → письмо / AmoCRM | ✅ PHP API (как contact) |
 | 2.7 | Cookie-баннер + opt-in для Метрики (152-ФЗ) | ✅ `cookie-consent.js`, Метрика после согласия |
+
+---
+
+### Фаза 7 — Раздел новостей (SEO / GEO)
+
+| ID | Задача | Статус |
+|----|--------|--------|
+| 7.1 | Листинг `news.html` (фильтры рубрик, карточки) | ✅ |
+| 7.2 | Шаблон статьи `news/YYYY-MM-slug.html` + 3 стартовых материала | ✅ |
+| 7.3 | Пункт «Новости» в header / mobile-nav / footer, ключ `nav.news` | ✅ |
+| 7.4 | Canonical / OG / JSON-LD `NewsArticle` + `BreadcrumbList` | ✅ |
+| 7.5 | `sitemap.xml` + `llms.txt` | ✅ |
+
+Issue: [#228](https://github.com/bossssmann-ui/pacificstar.ru/issues/228). Контент статей — RU-only; каркас с `data-i18n`.
 
 ---
 
@@ -224,6 +238,7 @@ curl -s -X POST https://pacificstar.ru/api/contact.php \
 | 3 | Telegram-бот уведомлений | токен бота от заказчика |
 | 4 | Human review переводов EN/ZH | ✅ body text wired; glossary pass (2026-07-09) |
 | 5 | Остановить App Platform #220769 | панель Timeweb |
+| 6 | Раздел новостей (`news.html`) | ✅ Issue #228 |
 
 ### Неделя 1 (архив)
 

@@ -120,30 +120,32 @@
     ' fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">' +
     '<polyline points="6 9 12 15 18 9"/></svg>';
 
-  function buildHeader(showThemeToggle) {
+  function buildHeader(showThemeToggle, rootPath) {
+    var r = rootPath || '';
     return (
       '<header class="site-header"><div class="container"><div class="header-inner">' +
-      '<a href="index.html" class="logo" aria-label="Pacific Star — главная страница">' +
-      '<div class="logo-icon" aria-hidden="true"><img src="img/logo-icon.svg" alt="" width="44" height="44" loading="eager"></div>' +
+      '<a href="' + r + 'index.html" class="logo" aria-label="Pacific Star — главная страница">' +
+      '<div class="logo-icon" aria-hidden="true"><img src="' + r + 'img/logo-icon.svg" alt="" width="44" height="44" loading="eager"></div>' +
       '<div class="logo-text"><strong>Pacific Star</strong><span data-i18n="comp.header.logo_subtitle">Логистика</span></div></a>' +
       '<nav class="nav-menu" aria-label="Основное меню">' +
-      '<a href="index.html" class="nav-link" data-i18n="nav.home">Главная</a>' +
-      '<a href="about.html" class="nav-link" data-i18n="nav.about">О нас</a>' +
+      '<a href="' + r + 'index.html" class="nav-link" data-i18n="nav.home">Главная</a>' +
+      '<a href="' + r + 'about.html" class="nav-link" data-i18n="nav.about">О нас</a>' +
       '<div class="nav-item">' +
       '<button type="button" class="nav-toggle" aria-expanded="false" aria-haspopup="true" data-i18n="nav.services">Услуги ' + NAV_CHEVRON + '</button>' +
       '<div class="nav-dropdown" role="menu"><div class="nav-dropdown-inner">' +
-      '<a href="services.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.all_services_rates">Все услуги и тарифы</a>' +
-      '<a href="severnyy-zavoz.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.northern_supply">Северный завоз</a>' +
-      '<a href="kabotazh.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.cabotage">Каботажные перевозки</a>' +
-      '<a href="avto-dfo.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.truck_dfo">Автодоставка ДФО</a>' +
-      '<a href="negabarit.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.negabarit">Негабаритные грузы</a>' +
-      '<a href="rail.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.rail">Ж/Д перевозки</a>' +
-      '<a href="ved.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.ved">ВЭД логистика</a>' +
-      '<a href="remote-regions.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.remote_regions">Морские в труднодоступные</a>' +
-      '<a href="truck-delivery.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.truck_north">Авто в труднодоступные</a>' +
+      '<a href="' + r + 'services.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.all_services_rates">Все услуги и тарифы</a>' +
+      '<a href="' + r + 'severnyy-zavoz.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.northern_supply">Северный завоз</a>' +
+      '<a href="' + r + 'kabotazh.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.cabotage">Каботажные перевозки</a>' +
+      '<a href="' + r + 'avto-dfo.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.truck_dfo">Автодоставка ДФО</a>' +
+      '<a href="' + r + 'negabarit.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.negabarit">Негабаритные грузы</a>' +
+      '<a href="' + r + 'rail.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.rail">Ж/Д перевозки</a>' +
+      '<a href="' + r + 'ved.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.ved">ВЭД логистика</a>' +
+      '<a href="' + r + 'remote-regions.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.remote_regions">Морские в труднодоступные</a>' +
+      '<a href="' + r + 'truck-delivery.html" class="nav-dropdown-link" role="menuitem" data-i18n="nav.truck_north">Авто в труднодоступные</a>' +
       '</div></div></div>' +
+      '<a href="' + r + 'news.html" class="nav-link" data-i18n="nav.news">Новости</a>' +
       '<a href="https://career.pacificstar.ru/careers/" class="nav-link" data-i18n="nav.careers">Наши вакансии</a>' +
-      '<a href="contacts.html" class="nav-link" data-i18n="nav.contacts">Контакты</a></nav>' +
+      '<a href="' + r + 'contacts.html" class="nav-link" data-i18n="nav.contacts">Контакты</a></nav>' +
       '<div class="header-cta">' +
       '<a href="tel:+79147285880" class="header-phone" aria-label="Позвонить нам" data-i18n-aria-label="comp.header.call_aria">' +
       PHONE_SVG_16 + ' +7\u00a0(914)\u00a0728\u201158\u201180</a>' +
@@ -153,7 +155,7 @@
       ' target="_blank" rel="noopener noreferrer">' + TG_SVG_16 + '</a>' +
       (showThemeToggle ? THEME_TOGGLE : '') +
       LANG_SWITCHER +
-      '<a href="contacts.html#contactForm" class="btn btn-primary header-btn" data-track="cta_click" data-track-label="header_cta" data-i18n="cta.request_quote">Запросить расчёт</a></div>' +
+      '<a href="' + r + 'contacts.html#contactForm" class="btn btn-primary header-btn" data-track="cta_click" data-track-label="header_cta" data-i18n="cta.request_quote">Запросить расчёт</a></div>' +
       '<button class="burger" aria-label="Открыть меню" data-i18n-aria-label="comp.header.burger_aria" aria-expanded="false" type="button">' +
       '<span class="burger-line"></span><span class="burger-line"></span><span class="burger-line"></span></button>' +
       '</div>' +
@@ -167,25 +169,27 @@
 
   /* ── Mobile nav ─────────────────────────────────────────────────────── */
 
-  var MOBILE_NAV =
-    '<nav class="mobile-nav" aria-label="Мобильное меню">' +
-    '<a href="index.html" class="nav-link" data-i18n="nav.home">Главная</a>' +
-    '<a href="about.html" class="nav-link" data-i18n="nav.about">О нас</a>' +
+  function buildMobileNav(rootPath) {
+    var r = rootPath || '';
+    return '<nav class="mobile-nav" aria-label="Мобильное меню">' +
+    '<a href="' + r + 'index.html" class="nav-link" data-i18n="nav.home">Главная</a>' +
+    '<a href="' + r + 'about.html" class="nav-link" data-i18n="nav.about">О нас</a>' +
     '<div class="mobile-nav-group">' +
     '<button type="button" class="mobile-nav-toggle nav-link" data-i18n="nav.services">Услуги <span class="mobile-nav-arrow" aria-hidden="true">\u203A</span></button>' +
     '<div class="mobile-nav-sub">' +
-    '<a href="services.html" class="nav-link" data-i18n="nav.all_services_rates">Все услуги и тарифы</a>' +
-    '<a href="severnyy-zavoz.html" class="nav-link" data-i18n="nav.northern_supply">Северный завоз</a>' +
-    '<a href="kabotazh.html" class="nav-link" data-i18n="nav.cabotage">Каботажные перевозки</a>' +
-    '<a href="avto-dfo.html" class="nav-link" data-i18n="nav.truck_dfo">Автодоставка ДФО</a>' +
-    '<a href="negabarit.html" class="nav-link" data-i18n="nav.negabarit">Негабаритные грузы</a>' +
-    '<a href="rail.html" class="nav-link" data-i18n="nav.rail">Ж/Д перевозки</a>' +
-    '<a href="ved.html" class="nav-link" data-i18n="nav.ved">ВЭД логистика</a>' +
-    '<a href="remote-regions.html" class="nav-link" data-i18n="nav.remote_regions">Морские в труднодоступные</a>' +
-    '<a href="truck-delivery.html" class="nav-link" data-i18n="nav.truck_north">Авто в труднодоступные</a>' +
+    '<a href="' + r + 'services.html" class="nav-link" data-i18n="nav.all_services_rates">Все услуги и тарифы</a>' +
+    '<a href="' + r + 'severnyy-zavoz.html" class="nav-link" data-i18n="nav.northern_supply">Северный завоз</a>' +
+    '<a href="' + r + 'kabotazh.html" class="nav-link" data-i18n="nav.cabotage">Каботажные перевозки</a>' +
+    '<a href="' + r + 'avto-dfo.html" class="nav-link" data-i18n="nav.truck_dfo">Автодоставка ДФО</a>' +
+    '<a href="' + r + 'negabarit.html" class="nav-link" data-i18n="nav.negabarit">Негабаритные грузы</a>' +
+    '<a href="' + r + 'rail.html" class="nav-link" data-i18n="nav.rail">Ж/Д перевозки</a>' +
+    '<a href="' + r + 'ved.html" class="nav-link" data-i18n="nav.ved">ВЭД логистика</a>' +
+    '<a href="' + r + 'remote-regions.html" class="nav-link" data-i18n="nav.remote_regions">Морские в труднодоступные</a>' +
+    '<a href="' + r + 'truck-delivery.html" class="nav-link" data-i18n="nav.truck_north">Авто в труднодоступные</a>' +
     '</div></div>' +
+    '<a href="' + r + 'news.html" class="nav-link" data-i18n="nav.news">Новости</a>' +
     '<a href="https://career.pacificstar.ru/careers/" class="nav-link" data-i18n="nav.careers">Наши вакансии</a>' +
-    '<a href="contacts.html" class="nav-link" data-i18n="nav.contacts">Контакты</a>' +
+    '<a href="' + r + 'contacts.html" class="nav-link" data-i18n="nav.contacts">Контакты</a>' +
     '<a href="tel:+79147285880" class="header-phone">' +
     PHONE_SVG_18 + ' +7\u00a0(914)\u00a0728\u201158\u201180</a>' +
     '<div class="mobile-nav-messengers">' +
@@ -193,7 +197,8 @@
     ' target="_blank" rel="noopener noreferrer">' + WA_SVG_16 + ' WhatsApp</a>' +
     '<a href="https://t.me/KhmelRoman" class="mobile-nav-msg" aria-label="Telegram"' +
     ' target="_blank" rel="noopener noreferrer">' + TG_SVG_16 + ' Telegram</a></div>' +
-    '<a href="contacts.html#contactForm" class="btn btn-primary header-btn" data-track="cta_click" data-track-label="mobile_nav_cta" data-i18n="cta.request_quote">Запросить расчёт</a></nav>';
+    '<a href="' + r + 'contacts.html#contactForm" class="btn btn-primary header-btn" data-track="cta_click" data-track-label="mobile_nav_cta" data-i18n="cta.request_quote">Запросить расчёт</a></nav>';
+  }
 
   /* ── Footer ─────────────────────────────────────────────────────────── */
 
@@ -201,7 +206,8 @@
   var FOOTER_DESC_EXTENDED = 'Транспортно-логистическая компания, оказывающая полный спектр услуг по перевозке, хранению и экспедированию грузов по России и за рубежом с 2012\u00a0года.';
   var FOOTER_DESC_ARCTIC = 'Транспортно-логистическая компания, оказывающая полный спектр услуг по перевозке, хранению и экспедированию грузов с 2012\u00a0года. Специализируемся на Дальнем Востоке и Арктике.';
 
-  function buildFooter(descVariant) {
+  function buildFooter(descVariant, rootPath) {
+    var r = rootPath || '';
     var desc = FOOTER_DESC_DEFAULT;
     if (descVariant === 'extended') desc = FOOTER_DESC_EXTENDED;
     else if (descVariant === 'arctic') desc = FOOTER_DESC_ARCTIC;
@@ -209,8 +215,8 @@
     return (
       '<footer class="site-footer"><div class="container"><div class="footer-grid">' +
       '<div class="footer-brand">' +
-      '<a href="index.html" class="logo" aria-label="Pacific Star — главная">' +
-      '<div class="logo-icon" aria-hidden="true"><img src="img/logo-icon.svg" alt="" width="44" height="44" loading="eager"></div>' +
+      '<a href="' + r + 'index.html" class="logo" aria-label="Pacific Star — главная">' +
+      '<div class="logo-icon" aria-hidden="true"><img src="' + r + 'img/logo-icon.svg" alt="" width="44" height="44" loading="eager"></div>' +
       '<div class="logo-text"><strong>Pacific Star</strong><span data-i18n="comp.header.logo_subtitle">Логистика</span></div></a>' +
       '<p data-i18n="footer.desc_' + (descVariant || 'default') + '">' + desc + '</p>' +
       '<nav class="social-links" aria-label="Мы в социальных сетях" data-i18n-aria-label="comp.footer.social_aria">' +
@@ -220,21 +226,22 @@
       '</nav></div>' +
       '<div><p class="footer-col-title" data-i18n="footer.nav_title">Навигация</p>' +
       '<nav class="footer-nav" aria-label="Навигация в подвале" data-i18n-aria-label="comp.footer.nav_footer_aria">' +
-      '<a href="index.html" data-i18n="nav.home">Главная</a>' +
-      '<a href="about.html" data-i18n="footer.about">О компании</a>' +
-      '<a href="services.html" data-i18n="nav.services">Услуги</a>' +
-      '<a href="severnyy-zavoz.html" data-i18n="nav.northern_supply">Северный завоз</a>' +
-      '<a href="kabotazh.html" data-i18n="nav.cabotage">Каботажные перевозки</a>' +
-      '<a href="avto-dfo.html" data-i18n="nav.truck_dfo">Автодоставка ДФО</a>' +
-      '<a href="contacts.html" data-i18n="nav.contacts">Контакты</a>' +
-      '<a href="integrations.html" data-i18n="comp.footer.integrations">Интеграции</a></nav></div>' +
+      '<a href="' + r + 'index.html" data-i18n="nav.home">Главная</a>' +
+      '<a href="' + r + 'about.html" data-i18n="footer.about">О компании</a>' +
+      '<a href="' + r + 'services.html" data-i18n="nav.services">Услуги</a>' +
+      '<a href="' + r + 'severnyy-zavoz.html" data-i18n="nav.northern_supply">Северный завоз</a>' +
+      '<a href="' + r + 'kabotazh.html" data-i18n="nav.cabotage">Каботажные перевозки</a>' +
+      '<a href="' + r + 'avto-dfo.html" data-i18n="nav.truck_dfo">Автодоставка ДФО</a>' +
+      '<a href="' + r + 'news.html" data-i18n="nav.news">Новости</a>' +
+      '<a href="' + r + 'contacts.html" data-i18n="nav.contacts">Контакты</a>' +
+      '<a href="' + r + 'integrations.html" data-i18n="comp.footer.integrations">Интеграции</a></nav></div>' +
       '<div><p class="footer-col-title" data-i18n="comp.footer.services_title">Услуги</p>' +
       '<nav class="footer-nav" aria-label="Услуги">' +
-      '<a href="services.html" data-i18n="comp.footer.freight">Грузоперевозки</a>' +
-      '<a href="severnyy-zavoz.html" data-i18n="nav.northern_supply">Северный завоз</a>' +
-      '<a href="kabotazh.html" data-i18n="nav.cabotage">Каботажные перевозки</a>' +
-      '<a href="avto-dfo.html" data-i18n="nav.truck_dfo">Автодоставка ДФО</a>' +
-      '<a href="services.html" data-i18n="comp.footer.forwarding">Экспедирование</a></nav></div>' +
+      '<a href="' + r + 'services.html" data-i18n="comp.footer.freight">Грузоперевозки</a>' +
+      '<a href="' + r + 'severnyy-zavoz.html" data-i18n="nav.northern_supply">Северный завоз</a>' +
+      '<a href="' + r + 'kabotazh.html" data-i18n="nav.cabotage">Каботажные перевозки</a>' +
+      '<a href="' + r + 'avto-dfo.html" data-i18n="nav.truck_dfo">Автодоставка ДФО</a>' +
+      '<a href="' + r + 'services.html" data-i18n="comp.footer.forwarding">Экспедирование</a></nav></div>' +
       '<div><p class="footer-col-title" data-i18n="comp.footer.contacts_title">Контакты</p>' +
       '<div class="footer-contacts">' +
       '<div class="footer-contact-item"><span aria-hidden="true">\u{1F4CD}</span>' +
@@ -250,8 +257,8 @@
       '<p class="footer-bottom-text" data-i18n="footer.copyright">\u00a9 2012\u20132026 ООО \u00abPacific Star\u00bb. Все права защищены.</p>' +
       '<p class="footer-bottom-text footer-legal" data-i18n="comp.footer.legal">ИНН\u00a02508139498 / ОГРН\u00a01192536024498</p>' +
       '<div class="footer-bottom-links">' +
-      '<a href="privacy.html" data-i18n="footer.privacy_policy">Политика конфиденциальности</a>' +
-      '<a href="privacy.html" data-i18n="comp.footer.terms">Условия использования</a>' +
+      '<a href="' + r + 'privacy.html" data-i18n="footer.privacy_policy">Политика конфиденциальности</a>' +
+      '<a href="' + r + 'privacy.html" data-i18n="comp.footer.terms">Условия использования</a>' +
       '</div></div></div></footer>'
     );
   }
@@ -311,8 +318,13 @@
     '<div class="callback-success" id="callbackSuccess" style="display:none;" aria-live="polite">' +
     '<div class="cb-ok-icon" aria-hidden="true">\u2705</div>' +
     '<h4 data-i18n="form.callback.success_title">Заявка принята!</h4>' +
-    '<p data-i18n="form.callback.success_desc">Перезвоним в ближайшее время</p></div>' +
-    '<p class="callback-notice" data-i18n="form.privacy_notice">Нажимая кнопку, вы соглашаетесь на <a href="privacy.html">обработку персональных данных</a></p></div>';
+    '<p data-i18n="form.callback.success_desc">Перезвоним в ближайшее время</p></div>';
+
+  function buildCallbackPanel(rootPath) {
+    var r = rootPath || '';
+    return CALLBACK_PANEL +
+      '<p class="callback-notice" data-i18n="form.privacy_notice">Нажимая кнопку, вы соглашаетесь на <a href="' + r + 'privacy.html">обработку персональных данных</a></p></div>';
+  }
 
   /* ── Scroll-to-top button ───────────────────────────────────────────── */
 
@@ -327,24 +339,41 @@
     if (el) el.outerHTML = html;
   }
 
+  /* Sanitise a root-path value so it can only contain safe path characters.
+   * Accepts only dots, forward slashes, hyphens, underscores, and word chars. */
+  function sanitiseRootPath(raw) {
+    if (!raw || typeof raw !== 'string') return '';
+    /* Only relative upward prefixes (../) — blocks protocol-relative //host paths */
+    var cleaned = raw.replace(/[^a-zA-Z0-9_.\-\/]/g, '');
+    if (!cleaned) return '';
+    if (/^(\.\.\/)+$/.test(cleaned)) return cleaned;
+    return '';
+  }
+
   /* Header — data-theme-toggle attribute controls theme toggle visibility */
+  /* data-root-path attribute sets the path prefix for subdirectory pages  */
   var headerEl = document.querySelector('[data-component="header"]');
+  var globalRootPath = '';
   if (headerEl) {
     var showThemeToggle = headerEl.hasAttribute('data-theme-toggle');
-    headerEl.outerHTML = buildHeader(showThemeToggle) + MOBILE_NAV;
+    globalRootPath = sanitiseRootPath(headerEl.getAttribute('data-root-path'));
+    headerEl.outerHTML = buildHeader(showThemeToggle, globalRootPath) + buildMobileNav(globalRootPath);
   }
 
   /* Footer — data-description="extended|arctic" controls description text */
   var footerEl = document.querySelector('[data-component="footer"]');
   if (footerEl) {
-    footerEl.outerHTML = buildFooter(footerEl.getAttribute('data-description') || '');
+    /* Only allow known description variant values */
+    var rawDesc = footerEl.getAttribute('data-description') || '';
+    var safeDesc = (rawDesc === 'extended' || rawDesc === 'arctic') ? rawDesc : '';
+    footerEl.outerHTML = buildFooter(safeDesc, globalRootPath);
   }
 
   /* Floating contacts */
   inject('[data-component="floating-contacts"]', FLOATING_CONTACTS);
 
   /* Callback panel */
-  inject('[data-component="callback-panel"]', CALLBACK_PANEL);
+  inject('[data-component="callback-panel"]', buildCallbackPanel(globalRootPath));
 
   /* Scroll-to-top button */
   inject('[data-component="scroll-top"]', SCROLL_TOP);
