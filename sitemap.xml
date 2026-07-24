@@ -73,6 +73,12 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://pacificstar.ru/integrations.html</loc>
+    <lastmod>2026-07-24</lastmod>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://pacificstar.ru/news.html</loc>
     <lastmod>2026-07-24</lastmod>
     <priority>0.7</priority>
