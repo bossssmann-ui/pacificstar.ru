@@ -697,12 +697,23 @@ p { margin-bottom: 1rem; }
   transform: translateY(0);
 }
 
-/* ── Декоративный SVG-паттерн поверх фото, под текстом ── */
+/* ── Декоративный SVG-паттерн + тёмный скрим слева для читаемости текста ── */
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-image:
+    linear-gradient(
+      90deg,
+      rgba(13, 43, 94, 0.88) 0%,
+      rgba(13, 43, 94, 0.62) 38%,
+      rgba(13, 43, 94, 0.28) 62%,
+      rgba(13, 43, 94, 0.08) 82%,
+      transparent 100%
+    ),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat, repeat;
+  background-size: cover, 60px 60px;
   z-index: 1;
 }
 
@@ -735,22 +746,37 @@ p { margin-bottom: 1rem; }
   padding: 6px 16px;
   border-radius: 50px;
   margin-bottom: 24px;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.55),
+    0 0 1px rgba(0, 0, 0, 0.75);
 }
 
 .hero-title {
   color: var(--color-white);
   margin-bottom: 20px;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.65),
+    0 2px 10px rgba(0, 0, 0, 0.45),
+    0 0 1px rgba(0, 0, 0, 0.85);
 }
 
 .hero-title .accent {
   color: var(--color-accent);
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.65),
+    0 2px 10px rgba(0, 0, 0, 0.4),
+    0 0 1px rgba(0, 0, 0, 0.8);
 }
 
 .hero-desc {
-  color: rgba(255,255,255,0.82);
+  color: rgba(255,255,255,0.92);
   font-size: 1.08rem;
   margin-bottom: 36px;
   max-width: 480px;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.6),
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    0 0 1px rgba(0, 0, 0, 0.75);
 }
 
 .hero-actions {
@@ -846,9 +872,12 @@ p { margin-bottom: 1rem; }
   display: flex;
   align-items: center;
   gap: 10px;
-  color: rgba(255,255,255,0.88);
+  color: rgba(255,255,255,0.92);
   font-size: 0.95rem;
   line-height: 1.45;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.55),
+    0 0 1px rgba(0, 0, 0, 0.7);
 }
 
 .hero-bullet-icon {
