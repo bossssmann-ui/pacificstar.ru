@@ -223,6 +223,12 @@ npm start              # starts Express on port 3000
 
 ---
 
+## News content policy
+
+- Publish only summaries of real logistics news from verifiable primary sources; do not invent Pacific Star-authored news items.
+- Every news article in `news/` must end with a visible `Источник` block that names the outlet, includes the author when the source provides one, and links to the original publication with `target="_blank"` and `rel="nofollow noopener"`.
+- In each `NewsArticle` JSON-LD block, keep `publisher` as Pacific Star, set `author` to the real author or outlet, and include both `citation` and `isBasedOn` pointing to the source publication.
+
 ## What not to break
 
 - **Auto-deploy pipeline** — every merge to `main` goes live. Don't commit broken HTML.

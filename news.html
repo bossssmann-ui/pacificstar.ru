@@ -62,7 +62,6 @@
     </nav>
   </noscript>
 
-  <!-- ========== PRELOADER ========== -->
   <div class="preloader" id="preloader" aria-hidden="true">
     <div class="preloader-logo">
       <div class="preloader-icon"><img src="img/logo-icon.svg" alt="" width="80" height="80"></div>
@@ -71,12 +70,9 @@
     </div>
   </div>
 
-  <!-- ========== HEADER (injected by components.js) ========== -->
   <div data-component="header" data-theme-toggle=""></div>
 
   <main>
-
-    <!-- ========== HERO ========== -->
     <section class="service-hero" aria-label="Новости">
       <div class="container">
         <span class="service-hero-label" data-i18n="news.label">Отраслевые новости</span>
@@ -90,7 +86,6 @@
       </div>
     </section>
 
-    <!-- ========== FILTER + NEWS ========== -->
     <section class="section" aria-labelledby="news-title">
       <div class="container">
         <div class="section-header">
@@ -98,7 +93,6 @@
           <p data-i18n="news.section_desc">Новости, обзоры и комментарии по ключевым направлениям логистики Дальнего&nbsp;Востока: Северный завоз, каботажные перевозки, негабарит, автодоставка, ж/д и ВЭД.</p>
         </div>
 
-        <!-- Category filter -->
         <div class="cases-filter" role="toolbar" aria-label="Фильтр по рубрикам">
           <button type="button" class="cases-filter-btn active" data-filter="all" data-i18n="cases.vse">Все</button>
           <button type="button" class="cases-filter-btn" data-filter="northern" data-i18n="nav.northern_supply">Северный завоз</button>
@@ -109,42 +103,35 @@
           <button type="button" class="cases-filter-btn" data-filter="foreign" data-i18n="cases.ved">ВЭД</button>
         </div>
 
-        <!-- News grid -->
         <div class="cases-grid news-grid" id="newsGrid">
-
-          <!-- Article 1 — Northern supply -->
-          <article class="case-card news-card fade-in" data-category="northern">
+          <article class="case-card news-card fade-in" data-category="rail">
             <div class="case-card-header">
-              <span class="case-card-tag" data-i18n="nav.northern_supply">Северный завоз</span>
-              <time class="news-card-date" datetime="2026-07-21">21 июля 2026</time>
+              <span class="case-card-tag" data-i18n="cases.zh_d">Ж/Д</span>
+              <time class="news-card-date" datetime="2026-06-24">24 июня 2026</time>
             </div>
-            <h3><a href="news/2026-07-severnyy-zavoz-navigatsiya-2026.html">Навигация 2026: Pacific Star вошла в реестр операторов Северного завоза по 411-ФЗ</a></h3>
-            <p class="news-card-lead">Компания включена в федеральный реестр уполномоченных операторов Северного завоза. Это открывает новые возможности для участия в государственных контрактах на снабжение арктических территорий.</p>
+            <h3><a href="news/2026-06-konteynery-poluvagony-dvzhd-rost.html">Полувагоны везут контейнеры: рост в 2,3 раза на ДВЖД за 5 месяцев 2026</a></h3>
+            <p class="news-card-lead">Краткий пересказ публикации газеты «Гудок» о росте контейнерных отправок в полувагонах и разгрузке восточного железнодорожного полигона.</p>
           </article>
 
-          <!-- Article 2 — Cabotage -->
-          <article class="case-card news-card fade-in" data-category="cabotage">
-            <div class="case-card-header">
-              <span class="case-card-tag" data-i18n="cases.kabotazh">Каботаж</span>
-              <time class="news-card-date" datetime="2026-07-10">10 июля 2026</time>
-            </div>
-            <h3><a href="news/2026-07-kabotazh-sakhalin-kamchatka.html">Каботажные линии на Сахалин и Камчатку: расписание и тарифы на второе полугодие</a></h3>
-            <p class="news-card-lead">Pacific Star публикует актуальное расписание каботажных рейсов и тарифную сетку на период июль–декабрь 2026 по ключевым направлениям ДФО.</p>
-          </article>
-
-          <!-- Article 3 — Foreign trade -->
           <article class="case-card news-card fade-in" data-category="foreign">
             <div class="case-card-header">
               <span class="case-card-tag" data-i18n="cases.ved">ВЭД</span>
-              <time class="news-card-date" datetime="2026-06-28">28 июня 2026</time>
+              <time class="news-card-date" datetime="2026-05-19">19 мая 2026</time>
             </div>
-            <h3><a href="news/2026-06-ved-aziatskie-porty.html">Логистика из Китая, Японии и Кореи: новые маршруты через порты ДФО</a></h3>
-            <p class="news-card-lead">Обзор изменений в маршрутизации грузов из стран АТР. Владивосток, Находка и Восточный укрепляют позиции в качестве хабов для импорта из Азии.</p>
+            <h3><a href="news/2026-05-porty-dfo-44-protsenta-konteynerov-rf.html">ДФО — контейнерный лидер страны: 44% оборота РФ за январь–апрель 2026</a></h3>
+            <p class="news-card-lead">Краткий пересказ публикации РБК Приморье о том, как дальневосточные порты закрепили лидерство в российском контейнерообороте.</p>
           </article>
 
+          <article class="case-card news-card fade-in" data-category="northern">
+            <div class="case-card-header">
+              <span class="case-card-tag" data-i18n="nav.northern_supply">Северный завоз</span>
+              <time class="news-card-date" datetime="2026-01-14">14 января 2026</time>
+            </div>
+            <h3><a href="news/2026-01-severnyy-zavoz-plan-3-9-mln-tonn.html">Северный завоз — 2026: план 3,9 млн тонн и новый единый оператор</a></h3>
+            <p class="news-card-lead">Краткий пересказ публикации PortNews о росте плана северного завоза, регулируемых каботажных рейсах и новой роли АО «Росатом Арктика».</p>
+          </article>
         </div>
 
-        <!-- No results state -->
         <div class="cases-empty" id="newsEmpty" style="display:none;" aria-live="polite">
           <div class="cases-empty-icon" aria-hidden="true">
             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -157,13 +144,10 @@
           <button type="button" class="btn btn-outline cases-empty-reset" data-i18n="news.empty_reset">Показать все новости</button>
         </div>
 
-        <!-- Counter -->
         <div class="cases-count" id="newsCount" aria-live="polite"></div>
-
       </div>
     </section>
 
-    <!-- ========== CTA ========== -->
     <section class="service-cta" aria-label="Запросить расчёт">
       <div class="container">
         <h2 data-i18n="news.cta_heading">Нужна логистика на Дальний Восток?</h2>
@@ -171,22 +155,13 @@
         <a href="contacts.html#contactForm" class="btn btn-white" data-i18n="cta.request_quote">Запросить расчёт</a>
       </div>
     </section>
-
   </main>
 
-  <!-- ========== FOOTER (injected by components.js) ========== -->
   <div data-component="footer"></div>
-
-  <!-- ========== FLOATING CONTACTS (injected by components.js) ========== -->
   <div data-component="floating-contacts"></div>
-
-  <!-- ========== CALLBACK PANEL (injected by components.js) ========== -->
   <div data-component="callback-panel"></div>
-
-  <!-- ========== SCROLL TOP (injected by components.js) ========== -->
   <div data-component="scroll-top"></div>
 
-  <!-- News filter logic -->
   <script>
   (function () {
     'use strict';
