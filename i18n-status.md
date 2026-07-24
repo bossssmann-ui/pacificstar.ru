@@ -56,6 +56,7 @@ meta.index.title                  → Page titles and meta descriptions
 | `services.html` | 162 | ✅ i18n-complete |
 | `contacts.html` | 59 | ✅ i18n-complete |
 | `cases.html` | 44 | ✅ i18n-complete |
+| `news.html` | skeleton keys | ✅ RU-only articles; `nav.news` + `news.*` in all 5 locales |
 | `privacy.html` | 35 | ✅ i18n-complete |
 | `account.html` | 121 | ✅ i18n-complete |
 | `integrations.html` | 109 | ✅ i18n-complete |
