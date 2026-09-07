@@ -4,8 +4,8 @@
   "terminals": [
     {
       "name": "dev-server",
-      "command": "npm start",
-      "description": "Express server (server.js) serving the static site and the /api/* lead-capture endpoints on port 3000. Contact/register email delivery needs real SMTP_* secrets; without them the server logs emails to the console. Run `npm run validate` (html-validate) and `npm run spellcheck` (cspell) for the repo's lint checks."
+      "command": "PORT=3000 npm start",
+      "description": "Dev Express server (server.js) serving the static site and the /api/* endpoints on port 3000. PORT is set explicitly so it does not depend on a local .env (.env is untracked). This is the DEV backend; production forms use PHP handlers (api/*.php) per js/config.js. Email delivery needs real SMTP_* secrets; without them the server logs emails to the console. Repo lint: `npm run validate` (html-validate), `npm run spellcheck` (cspell)."
     }
   ],
   "ports": [
