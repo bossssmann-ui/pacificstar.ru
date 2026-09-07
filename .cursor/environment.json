@@ -1,0 +1,17 @@
+{
+  "name": "Pacific Star",
+  "install": "npm install",
+  "terminals": [
+    {
+      "name": "dev-server",
+      "command": "npm start",
+      "description": "Express server (server.js) serving the static site and the /api/* lead-capture endpoints on port 3000. Contact/register email delivery needs real SMTP_* secrets; without them the server logs emails to the console. Run `npm run validate` (html-validate) and `npm run spellcheck` (cspell) for the repo's lint checks."
+    }
+  ],
+  "ports": [
+    {
+      "name": "web",
+      "port": 3000
+    }
+  ]
+}
