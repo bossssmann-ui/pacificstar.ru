@@ -224,23 +224,161 @@
     });
   }
 
-  /* New Order form */
+  /* New Order form — real submit via /api/contact (source: order) */
   var newOrderForm = document.getElementById('newOrderForm');
   if (newOrderForm) {
+    var orderSubmitBtn = newOrderForm.querySelector('[type="submit"]');
+    var orderSubmitLabel = orderSubmitBtn ? orderSubmitBtn.textContent : 'Отправить заявку';
+    var orderSuccess = document.getElementById('newOrderSuccess');
+    var orderError = document.getElementById('newOrderError');
+
+    if (!orderError) {
+      orderError = document.createElement('p');
+      orderError.id = 'newOrderError';
+      orderError.setAttribute('aria-live', 'polite');
+      orderError.style.cssText = 'display:none;color:#b91c1c;margin:12px 0 0;font-size:0.95rem;';
+      newOrderForm.appendChild(orderError);
+    }
+
+    function showOrderError(text) {
+      orderError.textContent = text;
+      orderError.style.display = 'block';
+    }
+
+    function clearOrderError() {
+      orderError.textContent = '';
+      orderError.style.display = 'none';
+    }
+
+    function markInvalid(field, on) {
+      if (!field) return;
+      if (on) field.classList.add('field-invalid');
+      else field.classList.remove('field-invalid');
+    }
+
     newOrderForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      var btn = newOrderForm.querySelector('[type="submit"]');
-      btn.disabled = true;
-      btn.textContent = 'Отправляем…';
-      /*
-       * TODO: replace with AmoCRM webhook after API key is configured.
-       * fetch('/api/order', { method:'POST', body: new FormData(newOrderForm) });
-       */
-      setTimeout(function () {
-        newOrderForm.style.display = 'none';
-        var ok = document.getElementById('newOrderSuccess');
-        if (ok) ok.style.display = 'block';
-      }, 1000);
+      clearOrderError();
+
+      var originField = document.getElementById('orderFrom');
+      var destField = document.getElementById('orderTo');
+      var cargoField = document.getElementById('orderCargo');
+      var nameField = document.getElementById('orderName');
+      var phoneField = document.getElementById('orderPhone');
+      var emailField = document.getElementById('orderEmail');
+      var privacyCheck = document.getElementById('orderPrivacy');
+      var weightField = document.getElementById('orderWeight');
+      var volumeField = document.getElementById('orderVolume');
+      var descField = document.getElementById('orderDesc');
+      var dateField = document.getElementById('orderDate');
+      var companyField = document.getElementById('orderCompany');
+      var commentField = document.getElementById('orderComment');
+
+      var valid = true;
+
+      function requireText(field, minLen) {
+        var val = field ? String(field.value || '').trim() : '';
+        var ok = val.length >= (minLen || 1);
+        markInvalid(field, !ok);
+        if (!ok) valid = false;
+        return val;
+      }
+
+      var origin = requireText(originField, 2);
+      var destination = requireText(destField, 2);
+      var cargoType = requireText(cargoField, 1);
+      var contactName = requireText(nameField, 2);
+      var contactPhone = requireText(phoneField, 6);
+
+      if (privacyCheck && !privacyCheck.checked) {
+        valid = false;
+        markInvalid(privacyCheck, true);
+      } else if (privacyCheck) {
+        markInvalid(privacyCheck, false);
+      }
+
+      if (!valid) {
+        showOrderError('Заполните обязательные поля и подтвердите согласие на обработку данных.');
+        return;
+      }
+
+      var specials = [];
+      var specialInputs = newOrderForm.querySelectorAll('input[name^="special_"]');
+      for (var i = 0; i < specialInputs.length; i++) {
+        if (specialInputs[i].checked) {
+          var lab = specialInputs[i].parentNode ? specialInputs[i].parentNode.textContent : specialInputs[i].name;
+          specials.push(String(lab || specialInputs[i].name).replace(/\s+/g, ' ').trim());
+        }
+      }
+
+      var cargoLabel = cargoField.options && cargoField.selectedIndex >= 0
+        ? cargoField.options[cargoField.selectedIndex].text
+        : cargoType;
+
+      var messageLines = [
+        'Маршрут: ' + origin + ' → ' + destination,
+        'Тип груза: ' + cargoLabel
+      ];
+      if (weightField && weightField.value) messageLines.push('Вес: ' + weightField.value + ' кг');
+      if (volumeField && volumeField.value) messageLines.push('Объём: ' + volumeField.value + ' м³');
+      if (descField && descField.value) messageLines.push('Описание: ' + descField.value.trim());
+      if (dateField && dateField.value) messageLines.push('Готовность груза: ' + dateField.value);
+      if (specials.length) messageLines.push('Особые условия: ' + specials.join('; '));
+      if (companyField && companyField.value) messageLines.push('Компания: ' + companyField.value.trim());
+      if (commentField && commentField.value) messageLines.push('Комментарий: ' + commentField.value.trim());
+
+      var payload = {
+        name: contactName,
+        phone: contactPhone,
+        email: emailField ? String(emailField.value || '').trim() : '',
+        service: 'order',
+        source: 'order',
+        message: messageLines.join('\n'),
+        page: window.location.pathname || 'account.html'
+      };
+
+      if (orderSubmitBtn) {
+        orderSubmitBtn.disabled = true;
+        orderSubmitBtn.textContent = 'Отправляем…';
+      }
+
+      fetch((window.PSApi && window.PSApi.url('/api/contact')) || '/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (response) {
+          if (!response.ok) throw new Error('HTTP ' + response.status);
+          return response.json();
+        })
+        .then(function () {
+          newOrderForm.style.display = 'none';
+          if (orderSuccess) orderSuccess.style.display = 'block';
+          if (orderSubmitBtn) {
+            orderSubmitBtn.disabled = false;
+            orderSubmitBtn.textContent = orderSubmitLabel;
+          }
+        })
+        .catch(function () {
+          if (orderSubmitBtn) {
+            orderSubmitBtn.disabled = false;
+            orderSubmitBtn.textContent = orderSubmitLabel;
+          }
+          showOrderError('Не удалось отправить заявку. Попробуйте позже или позвоните нам.');
+        });
     });
+
+    /* Clear field errors on input */
+    var liveFields = newOrderForm.querySelectorAll('.form-control, #orderPrivacy');
+    for (var j = 0; j < liveFields.length; j++) {
+      liveFields[j].addEventListener('input', function () {
+        this.classList.remove('field-invalid');
+        clearOrderError();
+      });
+      liveFields[j].addEventListener('change', function () {
+        this.classList.remove('field-invalid');
+        clearOrderError();
+      });
+    }
   }
 })();

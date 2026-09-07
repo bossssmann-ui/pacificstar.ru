@@ -52,6 +52,15 @@
   var dictCache = {};
   var ruSnapshot = {};  /* key -> original Russian text from DOM */
   var attrSnapshot = []; /* [{el, attr, key, orig}] */
+  var metaSnapshot = { title: '', description: '' };
+
+  /* Treat empty / [TODO] dictionary values as missing translations */
+  function isMissingTranslation(val) {
+    if (val === undefined || val === null) return true;
+    var s = String(val).replace(/^\s+/, '');
+    if (!s) return true;
+    return s.indexOf('[TODO]') === 0;
+  }
 
   /* ─── Load a language dictionary ────────────────────────────────────── */
   function loadDict(lang, callback) {
@@ -87,6 +96,9 @@
   function snapshotDOM() {
     ruSnapshot = {};
     attrSnapshot = [];
+    metaSnapshot.title = document.title || '';
+    var metaDescEl = document.querySelector('meta[name="description"]');
+    metaSnapshot.description = metaDescEl ? (metaDescEl.getAttribute('content') || '') : '';
 
     /* HTML content via data-i18n-html */
     var htmlEls = document.querySelectorAll('[data-i18n-html]');
@@ -142,7 +154,7 @@
       if (isRussian) {
         var snapHtml = ruSnapshot[snapKey];
         if (snapHtml) el.innerHTML = snapHtml.orig;
-      } else if (dict[key] !== undefined) {
+      } else if (dict && !isMissingTranslation(dict[key])) {
         el.innerHTML = dict[key];
       }
     });
@@ -158,7 +170,7 @@
       if (isRussian) {
         var snap = ruSnapshot[snapKey];
         if (snap) el.textContent = snap.orig;
-      } else if (dict[key] !== undefined) {
+      } else if (dict && !isMissingTranslation(dict[key])) {
         el.textContent = dict[key];
       }
     });
@@ -167,7 +179,7 @@
     attrSnapshot.forEach(function (entry) {
       if (isRussian) {
         entry.el.setAttribute(entry.attr, entry.orig);
-      } else if (dict[entry.key] !== undefined) {
+      } else if (dict && !isMissingTranslation(dict[entry.key])) {
         entry.el.setAttribute(entry.attr, dict[entry.key]);
       }
     });
@@ -182,6 +194,9 @@
     }
 
     loadDict(lang, function (dict) {
+      /* Always reset to Russian snapshot first so non-RU → non-RU
+       * switches do not leave leftover strings from the previous language. */
+      applyDict(null, true);
       applyDict(dict, false);
       loadCJKFont(lang);
       finalizeLang(lang);
@@ -200,15 +215,22 @@
     };
     document.body.style.fontFamily = fontMap[lang] || '';
 
-    /* Page title & meta description */
+    /* Page title & meta description — restore RU base, then apply target lang */
+    document.title = metaSnapshot.title || document.title;
+    var metaEl = document.querySelector('meta[name="description"]');
+    if (metaEl) metaEl.setAttribute('content', metaSnapshot.description || '');
+
     var page = (window.location.pathname.split('/').pop() || 'index.html');
     var titleKey = 'meta.' + page.replace('.html', '').replace(/-/g, '_') + '.title';
     var descKey  = 'meta.' + page.replace('.html', '').replace(/-/g, '_') + '.desc';
 
     if (lang !== 'ru' && dictCache[lang]) {
-      if (dictCache[lang][titleKey]) document.title = dictCache[lang][titleKey];
-      var metaEl = document.querySelector('meta[name="description"]');
-      if (metaEl && dictCache[lang][descKey]) metaEl.setAttribute('content', dictCache[lang][descKey]);
+      if (!isMissingTranslation(dictCache[lang][titleKey])) {
+        document.title = dictCache[lang][titleKey];
+      }
+      if (metaEl && !isMissingTranslation(dictCache[lang][descKey])) {
+        metaEl.setAttribute('content', dictCache[lang][descKey]);
+      }
     }
 
     updateSwitcherUI(lang);
