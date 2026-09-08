@@ -125,6 +125,7 @@
       var pwd = document.getElementById('regPassword');
       var cnf = document.getElementById('regConfirm');
       if (pwd && cnf && pwd.value !== cnf.value) {
+        if (window.PSTrack) window.PSTrack('form_error', { form_id: 'registerForm', page: window.location.pathname, error_code: 'validation' });
         cnf.style.borderColor = '#e74c3c';
         cnf.focus();
         return;
@@ -151,11 +152,16 @@
       .then(function (data) {
         btn.disabled = false;
         btn.textContent = 'Зарегистрироваться';
+        if (window.PSTrack) {
+          if (data && data.ok) window.PSTrack('lead_accepted', { form_id: 'registerForm', page: window.location.pathname });
+          else window.PSTrack('form_error', { form_id: 'registerForm', page: window.location.pathname, error_code: 'server' });
+        }
         showDashboard(fullName, emailVal, !data.ok);
       })
       .catch(function () {
         btn.disabled = false;
         btn.textContent = 'Зарегистрироваться';
+        if (window.PSTrack) window.PSTrack('form_error', { form_id: 'registerForm', page: window.location.pathname, error_code: 'network_or_server' });
         showDashboard(fullName, emailVal, true);
       });
     });
@@ -298,6 +304,7 @@
       }
 
       if (!valid) {
+        if (window.PSTrack) window.PSTrack('form_error', { form_id: 'newOrderForm', page: window.location.pathname, error_code: 'validation' });
         showOrderError('Заполните обязательные поля и подтвердите согласие на обработку данных.');
         return;
       }
@@ -351,7 +358,9 @@
           if (!response.ok) throw new Error('HTTP ' + response.status);
           return response.json();
         })
-        .then(function () {
+        .then(function (data) {
+          if (!data || data.ok !== true) { throw new Error('server'); }
+          if (window.PSTrack) window.PSTrack('lead_accepted', { form_id: 'newOrderForm', page: window.location.pathname });
           newOrderForm.style.display = 'none';
           if (orderSuccess) orderSuccess.style.display = 'block';
           if (orderSubmitBtn) {
@@ -360,6 +369,7 @@
           }
         })
         .catch(function () {
+          if (window.PSTrack) window.PSTrack('form_error', { form_id: 'newOrderForm', page: window.location.pathname, error_code: 'network_or_server' });
           if (orderSubmitBtn) {
             orderSubmitBtn.disabled = false;
             orderSubmitBtn.textContent = orderSubmitLabel;

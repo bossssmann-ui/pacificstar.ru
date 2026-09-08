@@ -117,12 +117,13 @@
 
   /* ── Auto-detect link type from href ─────────────────────────────── */
 
-  function detectGoal(href) {
+  /* Returns { goal, channel? } — never the raw href (no phone/email in analytics). */
+  function detectContact(href) {
     if (!href) return null;
-    if (href.indexOf('tel:') === 0)     return 'phone_click';
-    if (href.indexOf('mailto:') === 0)  return 'email_click';
-    if (href.indexOf('wa.me') !== -1)   return 'whatsapp_click';
-    if (href.indexOf('t.me') !== -1)    return 'telegram_click';
+    if (href.indexOf('tel:') === 0)     return { goal: 'phone_click' };
+    if (href.indexOf('mailto:') === 0)  return { goal: 'email_click' };
+    if (href.indexOf('wa.me') !== -1)   return { goal: 'messenger_click', channel: 'whatsapp' };
+    if (href.indexOf('t.me') !== -1)    return { goal: 'messenger_click', channel: 'telegram' };
     return null;
   }
 
@@ -143,15 +144,14 @@
         return;
       }
 
-      /* Auto-detect links */
+      /* Auto-detect contact links — send ONLY safe params (no phone/email/href) */
       if (el.tagName && el.tagName.toUpperCase() === 'A') {
         var href = el.getAttribute('href') || '';
-        var goal = detectGoal(href);
-        if (goal) {
-          track(goal, {
-            track_label: href,
-            page: window.location.pathname
-          });
+        var contact = detectContact(href);
+        if (contact) {
+          var params = { page: window.location.pathname };
+          if (contact.channel) params.channel = contact.channel;
+          track(contact.goal, params);
           return;
         }
       }
@@ -161,20 +161,22 @@
     }
   });
 
-  /* ── Form submission delegation ──────────────────────────────────── */
+  /* ── form_start: first interaction with a lead form (once per form) ──
+     Attempt/success/error are fired explicitly from form handlers via PSTrack:
+     form_error (validation/network/server) and lead_accepted (server ok:true only).
+     The calculator fires calculator_used, never a lead. This replaces the old
+     generic form_submit, which conflated attempts, calculator use and leads. */
 
-  document.addEventListener('submit', function (e) {
-    var form = e.target;
-    if (!form || !form.tagName || form.tagName.toUpperCase() !== 'FORM') return;
+  var LEAD_FORMS = { contactForm: 1, heroLeadForm: 1, newOrderForm: 1, registerForm: 1, callbackForm: 1 };
+  var formStarted = {};
 
-    var formId = form.id || form.getAttribute('name') || 'unknown';
-    var label = form.getAttribute('data-track-label') || formId;
-
-    track('form_submit', {
-      track_label: label,
-      form_id: formId,
-      page: window.location.pathname
-    });
+  document.addEventListener('focusin', function (e) {
+    var el = e.target;
+    var form = (el && el.form) ? el.form : (el && el.closest ? el.closest('form') : null);
+    if (!form || !form.id || !LEAD_FORMS[form.id]) return;
+    if (formStarted[form.id]) return;
+    formStarted[form.id] = 1;
+    track('form_start', { form_id: form.id, page: window.location.pathname });
   });
 
 })();
