@@ -341,11 +341,17 @@
     _calcResult    = document.getElementById('calcResult');
 
     var restored = restoreSession();
+    var calcTracked = false;
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       saveSession();
       estimate();
+      /* Calculator use is NOT a lead. Fire once per page load. */
+      if (!calcTracked && window.PSTrack) {
+        calcTracked = true;
+        window.PSTrack('calculator_used', { page: window.location.pathname });
+      }
     });
 
     /* Live update on input change */

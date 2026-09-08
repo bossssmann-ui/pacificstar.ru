@@ -362,7 +362,10 @@
         privacyCheck.classList.remove('field-invalid');
       }
 
-      if (!valid) return;
+      if (!valid) {
+        if (window.PSTrack) window.PSTrack('form_error', { form_id: 'contactForm', page: window.location.pathname, error_code: 'validation' });
+        return;
+      }
 
       /* Send to backend (guard against double-submit) */
       if (submitBtn.disabled) return;
@@ -388,6 +391,7 @@
       })
       .then(function (data) {
         if (!data || data.ok !== true) { throw new Error('server'); }
+        if (window.PSTrack) window.PSTrack('lead_accepted', { form_id: 'contactForm', page: window.location.pathname });
         submitBtn.disabled = false;
         submitBtn.innerHTML = msg('form.js.contact_submit', 'Отправить запрос на расчёт') + ' <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
         contactForm.reset();
@@ -400,6 +404,7 @@
         }
       })
       .catch(function () {
+        if (window.PSTrack) window.PSTrack('form_error', { form_id: 'contactForm', page: window.location.pathname, error_code: 'network_or_server' });
         submitBtn.disabled = false;
         submitBtn.innerHTML = msg('form.js.contact_submit', 'Отправить запрос на расчёт') + ' <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
 
@@ -494,6 +499,7 @@
       }
 
       if (!valid) {
+        if (window.PSTrack) window.PSTrack('form_error', { form_id: 'heroLeadForm', page: window.location.pathname, error_code: 'validation' });
         var firstInvalid = heroLeadForm.querySelector('.field-invalid');
         if (firstInvalid) firstInvalid.focus();
         return;
@@ -527,6 +533,7 @@
       })
       .then(function (data) {
         if (!data || data.ok !== true) { throw new Error('server'); }
+        if (window.PSTrack) window.PSTrack('lead_accepted', { form_id: 'heroLeadForm', page: window.location.pathname });
         heroSubmitBtn.disabled = false;
         heroSubmitBtn.textContent = msg('form.js.hero_submit', 'Получить расчёт перевозки');
         heroLeadForm.reset();
@@ -540,6 +547,7 @@
         }
       })
       .catch(function () {
+        if (window.PSTrack) window.PSTrack('form_error', { form_id: 'heroLeadForm', page: window.location.pathname, error_code: 'network_or_server' });
         heroSubmitBtn.disabled = false;
         heroSubmitBtn.textContent = msg('form.js.hero_submit', 'Получить расчёт перевозки');
 
@@ -683,6 +691,7 @@
       e.preventDefault();
       var phoneEl = document.getElementById('cbPhone');
       if (!phoneEl || !phoneEl.value.trim()) {
+        if (window.PSTrack) window.PSTrack('form_error', { form_id: 'callbackForm', page: window.location.pathname, error_code: 'validation' });
         if (phoneEl) phoneEl.focus();
         return;
       }
@@ -707,12 +716,15 @@
         if (!response.ok) { throw new Error('HTTP ' + response.status); }
         return response.json();
       })
-      .then(function () {
+      .then(function (data) {
+        if (!data || data.ok !== true) { throw new Error('server'); }
+        if (window.PSTrack) window.PSTrack('lead_accepted', { form_id: 'callbackForm', page: window.location.pathname });
         cbForm.style.display = 'none';
         if (cbOk) cbOk.style.display = 'block';
         setTimeout(closeCallback, 3200);
       })
       .catch(function () {
+        if (window.PSTrack) window.PSTrack('form_error', { form_id: 'callbackForm', page: window.location.pathname, error_code: 'network_or_server' });
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.textContent = msg('form.js.callback_submit', 'Заказать звонок');
