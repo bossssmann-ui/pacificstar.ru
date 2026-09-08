@@ -21,6 +21,19 @@
   pointer-events: none;
 }
 
+/* PS-06: fail-safe — never let the overlay block content if JS fails to hide it.
+   0s duration (no motion, respects reduced-motion) applied after a short delay. */
+.preloader {
+  animation: ps-preloader-failsafe 0s linear 5s forwards;
+}
+@keyframes ps-preloader-failsafe {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+/* PS-06: decorative custom cursor removed */
+.custom-cursor,
+.custom-cursor-ring { display: none !important; }
+
 .preloader-logo {
   display: flex;
   flex-direction: column;
