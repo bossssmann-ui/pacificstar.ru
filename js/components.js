@@ -255,7 +255,7 @@
       '</div></div></div>' +
       '<div class="footer-bottom">' +
       '<p class="footer-bottom-text" data-i18n="footer.copyright">\u00a9 2012\u20132026 ООО \u00abPacific Star\u00bb. Все права защищены.</p>' +
-      '<p class="footer-bottom-text footer-legal" data-i18n="comp.footer.legal">ИНН\u00a02508139498 / ОГРН\u00a01192536024498</p>' +
+      '<p class="footer-bottom-text footer-legal" data-i18n="comp.footer.legal">ИНН\u00a02508025295 / ОГРН\u00a01022500704863</p>' +
       '<div class="footer-bottom-links">' +
       '<a href="' + r + 'privacy.html" data-i18n="footer.privacy_policy">Политика конфиденциальности</a>' +
       '<a href="' + r + 'privacy.html" data-i18n="comp.footer.terms">Условия использования</a>' +

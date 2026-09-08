@@ -35,6 +35,15 @@
   <link rel="stylesheet" href="css/style.css?v=20260724b">
   <link rel="stylesheet" href="css/premium-theme.css?v=20260412">
   <link rel="stylesheet" href="css/premium-features.css?v=20260413">
+  <style media="print">
+    /* Company card: on print / save-to-PDF show only the official requisites */
+    body * { visibility: hidden; }
+    #rekvizity, #rekvizity * { visibility: visible; }
+    #rekvizity { position: absolute; left: 0; top: 0; width: 100%; padding: 0; }
+    #rekvizity .legal-print-actions,
+    #rekvizity .divider { display: none; }
+    #rekvizity a { color: #000; text-decoration: none; }
+  </style>
 
   <script src="js/config.js?v=20260709a"></script>
   <script type="application/ld+json">
@@ -57,7 +66,7 @@
         "streetAddress": "ул. Северный проспект, 47с2",
         "addressLocality": "Находка",
         "addressRegion": "Приморский край",
-        "postalCode": "692902",
+        "postalCode": "692906",
         "addressCountry": "RU"
       },
       "geo": {
@@ -218,7 +227,7 @@
                   <p class="contact-info-value" data-i18n-html="contacts.p.contact_info_value_b5cafd">
                     г. Находка, ул. Северный проспект, 47с2<br>
                     <small style="color:var(--color-muted);font-weight:400;font-size:0.85rem;">
-                      Приморский край, 692902
+                      Приморский край, 692906
                     </small>
                   </p>
                 </div>
@@ -420,12 +429,15 @@
     </section>
 
     <!-- ========== LEGAL / COMPANY DETAILS ========== -->
-    <section class="section legal-details-section" aria-labelledby="legal-title">
+    <section id="rekvizity" class="section legal-details-section" aria-labelledby="legal-title">
       <div class="container">
         <div class="section-header">
           <span class="section-label" data-i18n="contacts.rekvizity_kompanii">Реквизиты компании</span>
           <h2 class="section-title" id="legal-title" data-i18n="contacts.yuridicheskaya_informatsiya">Юридическая информация</h2>
           <p class="section-desc" data-i18n="contacts.ofitsial_nye_rekvizity_dlya_dogovorov_i_dokumentoo">Официальные реквизиты для договоров и документооборота</p>
+          <p class="legal-print-actions">
+            <button type="button" class="btn btn-outline legal-print-btn" onclick="window.print()" data-i18n="contacts.print_card">Скачать карточку предприятия (PDF)</button>
+          </p>
           <div class="divider" aria-hidden="true"></div>
         </div>
         <div class="legal-details-grid">
@@ -476,19 +488,19 @@
             <dl class="legal-details-list">
               <div class="legal-detail-row">
                 <dt data-i18n="contacts.bank">Банк</dt>
-                <dd data-i18n="contacts.dd.dd_a564f2">БАНК ГПБ (АО), г.&nbsp;Москва</dd>
+                <dd data-i18n="contacts.dd.dd_a564f2">ДАЛЬНЕВОСТОЧНЫЙ БАНК ПАО СБЕРБАНК</dd>
               </div>
               <div class="legal-detail-row">
                 <dt data-i18n="contacts.raschyotnyy_schyot">Расчётный счёт</dt>
-                <dd class="legal-detail-numeric">40702810200000232912</dd>
+                <dd class="legal-detail-numeric">40702810650000042805</dd>
               </div>
               <div class="legal-detail-row">
                 <dt data-i18n="contacts.bik">БИК</dt>
-                <dd class="legal-detail-numeric">044525823</dd>
+                <dd class="legal-detail-numeric">040813608</dd>
               </div>
               <div class="legal-detail-row">
                 <dt data-i18n="contacts.korrespondentskiy_schyot">Корреспондентский счёт</dt>
-                <dd class="legal-detail-numeric">30101810200000000823</dd>
+                <dd class="legal-detail-numeric">30101810600000000608</dd>
               </div>
             </dl>
           </div>
@@ -498,7 +510,7 @@
             <dl class="legal-details-list">
               <div class="legal-detail-row">
                 <dt data-i18n="contacts.yuridicheskiy_adres">Юридический адрес</dt>
-                <dd data-i18n="contacts.dd.dd_1db753">692953, Приморский край, г.&nbsp;Находка, ул.&nbsp;Луговая, д.&nbsp;14</dd>
+                <dd data-i18n="contacts.dd.dd_1db753">692906, Приморский край, г.&nbsp;Находка, ул.&nbsp;Северный проспект, д.&nbsp;47, стр.&nbsp;2, офис&nbsp;1</dd>
               </div>
               <div class="legal-detail-row">
                 <dt data-i18n="contacts.pochtovyy_adres">Почтовый адрес</dt>
@@ -515,6 +527,14 @@
               <div class="legal-detail-row">
                 <dt data-i18n="contacts.edo_id">ЭДО ID</dt>
                 <dd class="legal-detail-numeric">2BE9ef07c765783441cab2033489a8edad9</dd>
+              </div>
+              <div class="legal-detail-row">
+                <dt data-i18n="contacts.edo_id_epd">ЭДО ID (ЭПД, Контур Логистика)</dt>
+                <dd class="legal-detail-numeric">2BM-2508025295-250801001-201412170121449457695</dd>
+              </div>
+              <div class="legal-detail-row">
+                <dt data-i18n="contacts.courier_dispatcher">Диспетчер курьерской доставки</dt>
+                <dd><a href="tel:+79149690488">+7&nbsp;(914)&nbsp;969&#8209;04&#8209;88</a></dd>
               </div>
             </dl>
           </div>
@@ -534,7 +554,7 @@
 
   <div data-component="scroll-top"></div>
 
-  <script defer src="js/components.js?v=20260724a"></script>
+  <script defer src="js/components.js?v=20260908a"></script>
   <script defer src="js/i18n.js?v=20260724b"></script>
   <script defer src="js/main.js?v=20260708c"></script>
   <script defer src="js/animations.js?v=20260412"></script>
