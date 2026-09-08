@@ -1,0 +1,60 @@
+name: CI
+
+# Обязательные проверки перед merge (контракт PS-00): PHP lint + HTML validation.
+# GitGuardian Security Checks — отдельная внешняя проверка (GitHub App), здесь не дублируется.
+# Запускается на любой PR в main (включая docs и настройки окружения), чтобы согласованная
+# тройка проверок присутствовала на каждом PR. Секретов не требует и сайт не публикует.
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  php-lint:
+    name: PHP lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          # Зафиксированная версия. Требуется сверка с фактической версией PHP на Timeweb.
+          php-version: '8.2'
+      - name: php -l over all tracked PHP files
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(git ls-files '*.php')
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "::error::No tracked PHP files found — expected production backend under api/"
+            exit 1
+          fi
+          if [ -z "$(git ls-files 'api/*.php')" ]; then
+            echo "::error::No PHP files under api/ — production backend missing from checkout"
+            exit 1
+          fi
+          echo "Linting ${#files[@]} PHP file(s):"
+          printf '  %s\n' "${files[@]}"
+          rc=0
+          for f in "${files[@]}"; do
+            if ! php -l "$f"; then
+              echo "::error file=$f::PHP syntax error"
+              rc=1
+            fi
+          done
+          exit $rc
+
+  html-validation:
+    name: HTML validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install html-validate (pinned)
+        run: npm install --no-save html-validate@10.17.0
+      - name: Validate published HTML pages
+        run: npx html-validate *.html news/*.html
