@@ -247,80 +247,46 @@
       return;
     }
 
-    /* Find distance */
-    var distKey  = from + '-' + to;
-    var distKeyR = to + '-' + from;
-    var dist = DIST[distKey] || DIST[distKeyR];
-
-    if (!dist) {
-      /* Generic fallback by region */
-      var farEast = ['Владивосток','Хабаровск','Якутск','Южно-Сахалинск',
-                     'Петропавловск-Камч.','Магадан','Анадырь','Певек'];
-      var fromFE  = farEast.indexOf(from)  !== -1;
-      var toFE    = farEast.indexOf(to)    !== -1;
-      if (fromFE !== toFE) dist = 7000;  /* rough cross-country */
-      else if (fromFE && toFE) dist = 1500;
-      else dist = 2000;
+    /* PS-05: no unverified price is shown. Build a rate-request that carries
+       the entered route and cargo parameters to the contact form. A numeric
+       calculator returns only in PS-13, after approved tariffs. */
+    function selectedText(sel, fallback) {
+      if (sel && sel.options && sel.selectedIndex >= 0 && sel.options[sel.selectedIndex]) {
+        return sel.options[sel.selectedIndex].text;
+      }
+      return fallback;
     }
+    var fromLabel  = cityLabel(from);
+    var toLabel    = cityLabel(to);
+    var transLabel = selectedText(_calcTransport, transKey);
+    var cargoLabel = selectedText(_calcCargo, cargoKey);
 
-    /* Chargeable weight: max(actual weight, volumetric weight) */
-    /* Volumetric weight = volume(m³) × 333 kg/m³ (road), 167 (sea), 1000 (air) */
-    var volFactors = { auto: 333, rail: 200, sea: 167, air: 1000 };
-    var volFactor  = volFactors[transKey] || 333;
-    var chargeableWeight = Math.max(weightVal, volVal * volFactor);
-    if (chargeableWeight <= 0) chargeableWeight = 1000; /* default 1 tonne */
+    var paramRows = '';
+    if (weightVal > 0) paramRows += '<div><b>' + t('calc.result.weight', 'Вес:') + '</b> ' + weightVal + ' kg</div>';
+    if (volVal > 0)    paramRows += '<div><b>' + t('calc.result.volume', 'Объём:') + '</b> ' + volVal + ' m³</div>';
 
-    var trans = TRANSPORT[transKey];
-    var cargo = CARGO[cargoKey];
-
-    /* Base cost */
-    var base;
-    if (cargo.fixed) {
-      /* Container: fixed rate per container */
-      base = cargo.fixed + dist * 20; /* 20 ₽/km surcharge */
-    } else {
-      /* Rate per tonne-km × chargeable weight */
-      base = trans.baseRate * dist * (chargeableWeight / 1000);
-    }
-    base = Math.max(base, trans.min);
-    base *= cargo.mult;
-
-    /* Arctic surcharge +30% */
-    var arctic = isArctic(to) || isArctic(from);
-    if (arctic && transKey === 'sea')  base *= 1.3;
-    if (arctic && transKey === 'auto') base *= 1.5;
-
-    /* ±25% range */
-    var low  = Math.round(base * 0.80);
-    var high = Math.round(base * 1.25);
-
-    var locale = activeLocale();
-    function fmt(n) {
-      return n.toLocaleString(locale) + ' ₽';
-    }
-
-    var fromLabel = cityLabel(from);
-    var toLabel   = cityLabel(to);
-    var transLabel = t(trans.i18n, transKey);
+    var routeStr  = fromLabel + ' \u2192 ' + toLabel;
+    var cargoStr  = cargoLabel + ', ' + transLabel
+      + (weightVal > 0 ? ', ' + weightVal + ' \u043a\u0433' : '')
+      + (volVal > 0 ? ', ' + volVal + ' \u043c\u00b3' : '');
+    var href = 'contacts.html?route=' + encodeURIComponent(routeStr)
+      + '&cargo=' + encodeURIComponent(cargoStr) + '#contactForm';
 
     resultBox.innerHTML = [
       '<div class="calc-result-grid">',
       '  <div class="calc-result-main">',
-      '    <div class="calc-result-label">' + t('calc.result.label', 'Ориентировочная стоимость') + '</div>',
-      '    <div class="calc-result-range">' + t('calc.result.range_from', 'от') + ' ' + fmt(low) + ' ' + t('calc.result.range_to', 'до') + ' ' + fmt(high) + '</div>',
-      '    <div class="calc-result-note">' + t('calc.result.approx_note', '*  расчёт приблизительный, ±25%') + '</div>',
+      '    <div class="calc-result-label">' + t('calc.result.quote_label', 'Запрос ставки') + '</div>',
+      '    <div class="calc-result-note">' + t('calc.result.quote_note', 'Точную стоимость рассчитает менеджер по вашему маршруту и параметрам груза: ставки зависят от направления, сезона и наличия транспорта.') + '</div>',
       '  </div>',
       '  <div class="calc-result-meta">',
-      '    <div><b>' + t('calc.result.route', 'Маршрут:') + '</b> ' + fromLabel + ' → ' + toLabel + '</div>',
-      '    <div><b>' + t('calc.result.distance', 'Расстояние:') + '</b> ~' + dist.toLocaleString(locale) + ' km</div>',
-      '    <div><b>' + t('calc.result.chargeable_weight', 'Тариф. вес:') + '</b> ' + chargeableWeight.toLocaleString(locale) + ' kg</div>',
+      '    <div><b>' + t('calc.result.route', 'Маршрут:') + '</b> ' + fromLabel + ' \u2192 ' + toLabel + '</div>',
       '    <div><b>' + t('calc.result.transport', 'Транспорт:') + '</b> ' + transLabel + '</div>',
-      (arctic ? '    <div class="calc-arctic-note">' + t('calc.result.arctic_note', '❄️ Надбавка за Арктику включена') + '</div>' : ''),
+      '    <div><b>' + t('calc.result.cargo_label', 'Груз:') + '</b> ' + cargoLabel + '</div>',
+      paramRows,
       '  </div>',
       '</div>',
-      '<a href="contacts.html" class="btn btn-primary" style="margin-top:20px;">',
-      '  ' + t('calc.result.cta', 'Получить точный расчёт бесплатно'),
-      '</a>'
+      '<a href="' + href + '" class="btn btn-primary" style="margin-top:20px;">',
+      '  ' + t('calc.result.cta_quote', 'Запросить расчёт стоимости') + '</a>'
     ].join('');
     resultBox.style.display = 'block';
   }

@@ -317,6 +317,20 @@
     const serviceField = contactForm.querySelector('[name="service"]');
     const messageField = contactForm.querySelector('[name="message"]');
 
+    /* PS-05: prefill route/cargo from calculator rate-request (?route=&cargo=) */
+    var _qs = window.location.search;
+    if (_qs && _qs.length > 1) {
+      var _pairs = _qs.substring(1).split('&');
+      var _qp = {};
+      for (var _qi = 0; _qi < _pairs.length; _qi++) {
+        var _kv = _pairs[_qi].split('=');
+        _qp[decodeURIComponent(_kv[0] || '')] = decodeURIComponent((_kv[1] || '').replace(/\+/g, ' '));
+      }
+      var _routeField = document.getElementById('route');
+      if (_qp.route && _routeField && !_routeField.value) _routeField.value = _qp.route;
+      if (_qp.cargo && messageField && !messageField.value) messageField.value = _qp.cargo;
+    }
+
     contactForm.addEventListener('submit', function (e) {
       e.preventDefault();
 
