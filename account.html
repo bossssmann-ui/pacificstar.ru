@@ -30,7 +30,7 @@
   <link rel="apple-touch-icon" href="/img/og-image.png">
   <noscript><style>.fade-in{opacity:1!important;transform:none!important;animation:none!important}</style></noscript>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css?v=20260724b">
   <link rel="stylesheet" href="css/premium-theme.css?v=20260412">
@@ -88,15 +88,15 @@
             <div class="account-form-icon" aria-hidden="true">🔐</div>
             <h2 id="account-title" data-i18n="auto.sign_in">Войти в аккаунт</h2>
             <p class="account-form-desc" data-i18n="auto.enter_your_account_login_details">Введите данные для входа в личный кабинет</p>
-            <form id="signinForm" class="account-form" novalidate="">
+            <form id="signinForm" class="account-form" novalidate>
               <div class="form-group">
                 <label for="signinEmail" class="form-label" data-i18n="auto.email_username">Электронная почта / Логин</label>
-                <input type="email" id="signinEmail" name="email" class="form-control" placeholder="ivan@example.com" required="" autocomplete="email">
+                <input type="email" id="signinEmail" name="email" class="form-control" placeholder="ivan@example.com" required autocomplete="email">
               </div>
               <div class="form-group">
                 <label for="signinPassword" class="form-label" data-i18n="auto.password">Пароль</label>
                 <div class="password-wrap">
-                  <input type="password" id="signinPassword" name="password" class="form-control" placeholder="••••••••" required="" autocomplete="current-password">
+                  <input type="password" id="signinPassword" name="password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
                   <button type="button" class="password-toggle" aria-label="Показать пароль" id="toggleSigninPwd">👁</button>
                 </div>
               </div>
@@ -124,11 +124,11 @@
             <div class="account-form-icon" aria-hidden="true">📝</div>
             <h2 data-i18n="auto.create_account">Создать аккаунт</h2>
             <p class="account-form-desc" data-i18n="auto.get_free_access_to_your_account">Получите доступ к личному кабинету бесплатно</p>
-            <form id="registerForm" class="account-form" novalidate="">
+            <form id="registerForm" class="account-form" novalidate>
               <div class="form-row">
                 <div class="form-group">
                   <label for="regName" class="form-label" data-i18n="account.label.form_label_ac50a2">Имя <span class="form-required" data-i18n="account.span.form_required_2ab4c9">(обязательно)</span></label>
-                  <input type="text" id="regName" name="firstName" class="form-control" placeholder="Иван" required="" autocomplete="given-name">
+                  <input type="text" id="regName" name="firstName" class="form-control" placeholder="Иван" required autocomplete="given-name">
                 </div>
                 <div class="form-group">
                   <label for="regLastName" class="form-label" data-i18n="auto.last_name">Фамилия</label>
@@ -137,7 +137,7 @@
               </div>
               <div class="form-group">
                 <label for="regEmail" class="form-label" data-i18n="account.label.form_label_a9e44f">E-mail <span class="form-required" data-i18n="account.span.form_required_2ab4c9">(обязательно)</span></label>
-                <input type="email" id="regEmail" name="email" class="form-control" placeholder="ivan@example.com" required="" autocomplete="email">
+                <input type="email" id="regEmail" name="email" class="form-control" placeholder="ivan@example.com" required autocomplete="email">
               </div>
               <div class="form-group">
                 <label for="regPhone" class="form-label" data-i18n="form.phone_label">Телефон</label>
@@ -150,17 +150,17 @@
               <div class="form-group">
                 <label for="regPassword" class="form-label" data-i18n="account.label.form_label_e2c9e8">Пароль <span class="form-required" data-i18n="account.span.form_required_2ab4c9">(обязательно)</span></label>
                 <div class="password-wrap">
-                  <input type="password" id="regPassword" name="password" class="form-control" placeholder="Не менее 8 символов" required="" autocomplete="new-password">
+                  <input type="password" id="regPassword" name="password" class="form-control" placeholder="Не менее 8 символов" required autocomplete="new-password">
                   <button type="button" class="password-toggle" aria-label="Показать пароль" id="toggleRegPwd">👁</button>
                 </div>
                 <div class="password-strength" id="pwdStrength" aria-live="polite"></div>
               </div>
               <div class="form-group">
                 <label for="regConfirm" class="form-label" data-i18n="account.label.form_label_06e3ae">Подтверждение пароля <span class="form-required" data-i18n="account.span.form_required_2ab4c9">(обязательно)</span></label>
-                <input type="password" id="regConfirm" name="confirm" class="form-control" placeholder="Повторите пароль" required="" autocomplete="new-password">
+                <input type="password" id="regConfirm" name="confirm" class="form-control" placeholder="Повторите пароль" required autocomplete="new-password">
               </div>
               <div class="form-check">
-                <input type="checkbox" id="regPrivacy" name="privacy" required="">
+                <input type="checkbox" id="regPrivacy" name="privacy" required>
                 <label for="regPrivacy">
                   Я согласен(на) на
                   <a href="privacy.html" target="_blank" rel="noopener noreferrer" data-i18n="auto.processing_of_personal_data">обработку персональных данных</a>
@@ -305,11 +305,11 @@
             <div class="account-form-icon" aria-hidden="true">🔍</div>
             <h2 data-i18n="auto.track_shipment">Отследить груз</h2>
             <p class="account-form-desc" data-i18n="auto.enter_the_request_tracking_number_to_get_the_status">Введите трек-номер заявки для получения статуса</p>
-            <form id="trackForm" class="account-form" novalidate="">
+            <form id="trackForm" class="account-form" novalidate>
               <div class="form-group">
                 <label for="trackNumber" class="form-label" data-i18n="account.label.form_label_64c75c">Трек-номер <span class="form-required" data-i18n="account.span.form_required_2ab4c9">(обязательно)</span></label>
                 <div class="track-input-wrap">
-                  <input type="text" id="trackNumber" name="track" class="form-control track-input" placeholder="PS-2025-XXXXXX" required="" pattern="[Pp][Ss]-\d{4}-[A-Za-z0-9]+">
+                  <input type="text" id="trackNumber" name="track" class="form-control track-input" placeholder="PS-2025-XXXXXX" required pattern="[Pp][Ss]-\d{4}-[A-Za-z0-9]+">
                   <button type="submit" class="btn btn-primary" data-i18n="auto.search">Найти</button>
                 </div>
                 <span class="form-hint" data-i18n="auto.the_tracking_number_is_listed_in_the_request_confirmation_fo">Трек-номер указан в подтверждении заявки (например: PS-2025-001234)</span>
@@ -404,24 +404,24 @@
             <h2 data-i18n="auto.create_request">Создать заявку</h2>
             <p class="account-form-desc" data-i18n="auto.fill_out_the_form_a_manager_will_contact_you_within_30_minut">Заполните форму — менеджер свяжется с вами в течение 30 минут</p>
 
-            <form id="newOrderForm" class="account-form" novalidate="">
+            <form id="newOrderForm" class="account-form" novalidate>
 
               <p style="font-weight:700;margin-bottom:12px;color:var(--color-primary);" data-i18n="form.route_label">Маршрут</p>
               <div class="form-row">
                 <div class="form-group">
                   <label for="orderFrom" class="form-label" data-i18n="account.label.form_label_6065ab">Откуда <span class="form-required" data-i18n="account.span.form_required_2ab4c9">(обязательно)</span></label>
-                  <input type="text" id="orderFrom" name="origin" class="form-control" placeholder="Шанхай, Китай" required="">
+                  <input type="text" id="orderFrom" name="origin" class="form-control" placeholder="Шанхай, Китай" required>
                 </div>
                 <div class="form-group">
                   <label for="orderTo" class="form-label" data-i18n="account.label.form_label_12aef5">Куда <span class="form-required" data-i18n="account.span.form_required_2ab4c9">(обязательно)</span></label>
-                  <input type="text" id="orderTo" name="destination" class="form-control" placeholder="Магадан, Россия" required="">
+                  <input type="text" id="orderTo" name="destination" class="form-control" placeholder="Магадан, Россия" required>
                 </div>
               </div>
 
               <p style="font-weight:700;margin:16px 0 12px;color:var(--color-primary);" data-i18n="auto.cargo">Груз</p>
               <div class="form-group">
                 <label for="orderCargo" class="form-label" data-i18n="account.label.form_label_0a547a">Тип груза <span class="form-required" data-i18n="account.span.form_required_2ab4c9">(обязательно)</span></label>
-                <select id="orderCargo" name="cargoType" class="form-control" required="">
+                <select id="orderCargo" name="cargoType" class="form-control" required>
                   <option value="" data-i18n="auto._select_type_">— выберите тип —</option>
                   <option value="container_20" data-i18n="auto.20_container">Контейнер 20'</option>
                   <option value="container_40" data-i18n="auto.40_container">Контейнер 40'</option>
@@ -474,11 +474,11 @@
               <div class="form-row">
                 <div class="form-group">
                   <label for="orderName" class="form-label" data-i18n="account.label.form_label_ac50a2">Имя <span class="form-required" data-i18n="account.span.form_required_2ab4c9">(обязательно)</span></label>
-                  <input type="text" id="orderName" name="contactName" class="form-control" placeholder="Иван Иванов" required="" autocomplete="name">
+                  <input type="text" id="orderName" name="contactName" class="form-control" placeholder="Иван Иванов" required autocomplete="name">
                 </div>
                 <div class="form-group">
                   <label for="orderPhone" class="form-label" data-i18n="account.label.form_label_b846c0">Телефон <span class="form-required" data-i18n="account.span.form_required_2ab4c9">(обязательно)</span></label>
-                  <input type="tel" id="orderPhone" name="contactPhone" class="form-control" placeholder="+7 (___) ___-__-__" required="" autocomplete="tel">
+                  <input type="tel" id="orderPhone" name="contactPhone" class="form-control" placeholder="+7 (___) ___-__-__" required autocomplete="tel">
                 </div>
               </div>
 
@@ -498,7 +498,7 @@
               </div>
 
               <div class="form-check" style="margin-bottom:16px;">
-                <input type="checkbox" id="orderPrivacy" name="privacy" required="">
+                <input type="checkbox" id="orderPrivacy" name="privacy" required>
                 <label for="orderPrivacy">
                   Согласен(на) на
                   <a href="privacy.html" target="_blank" rel="noopener noreferrer" data-i18n="auto.processing_of_personal_data">обработку персональных данных</a>
@@ -628,12 +628,12 @@
 
   <div data-component="scroll-top"></div>
 
-  <script defer="" src="js/components.js?v=20260724a"></script>
-  <script defer="" src="js/i18n.js?v=20260724b"></script>
-  <script defer="" src="js/main.js?v=20260708c"></script>
-  <script defer="" src="js/cookie-consent.js?v=20260709b"></script>
-  <script defer="" src="js/analytics.js?v=20260709b"></script>
-  <script defer="" src="js/account.js?v=20260724a"></script>
-  <script defer="" src="js/pwa-register.js?v=20260709c"></script>
+  <script defer src="js/components.js?v=20260724a"></script>
+  <script defer src="js/i18n.js?v=20260724b"></script>
+  <script defer src="js/main.js?v=20260708c"></script>
+  <script defer src="js/cookie-consent.js?v=20260709b"></script>
+  <script defer src="js/analytics.js?v=20260709b"></script>
+  <script defer src="js/account.js?v=20260724a"></script>
+  <script defer src="js/pwa-register.js?v=20260709c"></script>
 
 
