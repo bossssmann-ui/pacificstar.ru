@@ -364,7 +364,8 @@
 
       if (!valid) return;
 
-      /* Send to backend */
+      /* Send to backend (guard against double-submit) */
+      if (submitBtn.disabled) return;
       submitBtn.disabled = true;
       submitBtn.textContent = msg('form.js.submitting', 'Отправка...');
 
@@ -498,7 +499,8 @@
         return;
       }
 
-      /* Send to backend */
+      /* Send to backend (guard against double-submit) */
+      if (heroSubmitBtn.disabled) return;
       heroSubmitBtn.disabled = true;
       heroSubmitBtn.textContent = msg('form.js.hero_submitting', 'Отправляем...');
 
