@@ -940,7 +940,7 @@
   "footer.privacy_policy": "Privacy Policy",
   "footer.rates": "Rates",
   "footer.toll_free": "toll-free",
-  "form.callback.desc": "A manager will contact you within 5 minutes during business hours",
+  "form.callback.desc": "A manager will contact you during business hours",
   "form.callback.name_label": "Your Name",
   "form.callback.submit": "Call me back",
   "form.callback.success_desc": "We will call you back shortly",

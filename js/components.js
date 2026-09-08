@@ -299,7 +299,7 @@
     '<button type="button" class="callback-close" id="callbackClose" aria-label="Закрыть панель" data-i18n-aria-label="comp.callback.close_aria">\u2715</button>' +
     '<div class="callback-icon" aria-hidden="true">\u{1F4DE}</div>' +
     '<h3 id="callback-title" data-i18n="form.callback.title">Перезвоним вам</h3>' +
-    '<p class="callback-desc" data-i18n="form.callback.desc">Менеджер свяжется с вами в течение 5\u00a0минут в рабочее время</p>' +
+    '<p class="callback-desc" data-i18n="form.callback.desc">Менеджер свяжется с вами в рабочее время</p>' +
     '<form id="callbackForm" novalidate>' +
     '<div class="form-group">' +
     '<label for="cbName" class="form-label" data-i18n="form.callback.name_label">Ваше имя</label>' +

@@ -364,7 +364,8 @@
 
       if (!valid) return;
 
-      /* Send to backend */
+      /* Send to backend (guard against double-submit) */
+      if (submitBtn.disabled) return;
       submitBtn.disabled = true;
       submitBtn.textContent = msg('form.js.submitting', 'Отправка...');
 
@@ -385,7 +386,8 @@
         if (!response.ok) { throw new Error('HTTP ' + response.status); }
         return response.json();
       })
-      .then(function () {
+      .then(function (data) {
+        if (!data || data.ok !== true) { throw new Error('server'); }
         submitBtn.disabled = false;
         submitBtn.innerHTML = msg('form.js.contact_submit', 'Отправить запрос на расчёт') + ' <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>';
         contactForm.reset();
@@ -497,7 +499,8 @@
         return;
       }
 
-      /* Send to backend */
+      /* Send to backend (guard against double-submit) */
+      if (heroSubmitBtn.disabled) return;
       heroSubmitBtn.disabled = true;
       heroSubmitBtn.textContent = msg('form.js.hero_submitting', 'Отправляем...');
 
@@ -522,13 +525,14 @@
         if (!response.ok) { throw new Error('HTTP ' + response.status); }
         return response.json();
       })
-      .then(function () {
+      .then(function (data) {
+        if (!data || data.ok !== true) { throw new Error('server'); }
         heroSubmitBtn.disabled = false;
         heroSubmitBtn.textContent = msg('form.js.hero_submit', 'Получить расчёт перевозки');
         heroLeadForm.reset();
 
         if (heroSuccessMsg) {
-          heroSuccessMsg.innerHTML = '<span aria-hidden="true" style="font-size:1.2rem;">&#x2705;</span> ' + msg('form.js.hero_success', 'Заявка отправлена! Мы свяжемся с вами в течение 15 минут.');
+          heroSuccessMsg.innerHTML = '<span aria-hidden="true" style="font-size:1.2rem;">&#x2705;</span> ' + msg('form.js.hero_success', 'Заявка отправлена! Мы свяжемся с вами в ближайшее рабочее время.');
           heroSuccessMsg.classList.add('show');
           setTimeout(function () {
             heroSuccessMsg.classList.remove('show');
