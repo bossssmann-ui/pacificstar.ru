@@ -220,7 +220,6 @@
       '<div class="logo-text"><strong>Pacific Star</strong><span data-i18n="comp.header.logo_subtitle">Логистика</span></div></a>' +
       '<p data-i18n="footer.desc_' + (descVariant || 'default') + '">' + desc + '</p>' +
       '<nav class="social-links" aria-label="Мы в социальных сетях" data-i18n-aria-label="comp.footer.social_aria">' +
-      '<a href="#" class="social-link" aria-label="ВКонтакте">ВК</a>' +
       '<a href="https://t.me/KhmelRoman" class="social-link" aria-label="Telegram" target="_blank" rel="noopener noreferrer">TG</a>' +
       '<a href="https://wa.me/79147285880" class="social-link" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">WA</a>' +
       '</nav></div>' +
