@@ -350,6 +350,10 @@
     snapshotDOM();
     initSwitcher();
     var lang = getLang();
+    /* Keep <html lang> in sync with the actually selected language for every
+     * language (including ru): the root pages ship without a static <html lang>,
+     * so without this the attribute stays empty for the default language. */
+    document.documentElement.lang = lang;
     if (lang !== 'ru') {
       applyLang(lang);
     } else {
