@@ -109,8 +109,8 @@
               <span class="case-card-tag" data-i18n="cases.zh_d">Ж/Д</span>
               <time class="news-card-date" datetime="2026-06-24">24 июня 2026</time>
             </div>
-            <h3><a href="news/2026-06-konteynery-poluvagony-dvzhd-rost.html">Полувагоны везут контейнеры: рост в 2,3 раза на ДВЖД за 5 месяцев 2026</a></h3>
-            <p class="news-card-lead">Краткий пересказ публикации газеты «Гудок» о росте контейнерных отправок в полувагонах и разгрузке восточного железнодорожного полигона.</p>
+            <h3><a href="news/2026-06-konteynery-poluvagony-dvzhd-rost.html">Перевозки контейнеров в полувагонах на сети РЖД выросли в 2,3 раза</a></h3>
+            <p class="news-card-lead">Краткий пересказ публикации газеты «Гудок»: отправка контейнеров в полувагонах на сети РЖД выросла в 2,3 раза; на станциях ДВЖД сформирован 1&nbsp;581 состав.</p>
           </article>
 
           <article class="case-card news-card fade-in" data-category="foreign">
@@ -144,6 +144,10 @@
           <button type="button" class="btn btn-outline cases-empty-reset" data-i18n="news.empty_reset">Показать все новости</button>
         </div>
 
+        <div class="news-more" id="newsMoreWrap" style="display:none;text-align:center;margin-top:1.5rem;">
+          <button type="button" class="btn btn-outline" id="newsMoreBtn" data-i18n="news.show_more">Показать ещё</button>
+        </div>
+
         <div class="cases-count" id="newsCount" aria-live="polite"></div>
       </div>
     </section>
@@ -166,16 +170,25 @@
   (function () {
     'use strict';
 
+    // PS-16B: up to PAGE_SIZE items shown without pagination; the rest are
+    // hidden but kept in the DOM (crawlable) and revealed via "Показать ещё".
+    var PAGE_SIZE = 30;
+
     var grid = document.getElementById('newsGrid');
     var empty = document.getElementById('newsEmpty');
     var counter = document.getElementById('newsCount');
     var filterBar = document.querySelector('.cases-filter');
     var resetBtn = document.querySelector('.cases-empty-reset');
+    var moreWrap = document.getElementById('newsMoreWrap');
+    var moreBtn = document.getElementById('newsMoreBtn');
 
     if (!grid || !filterBar) return;
 
     var cards = grid.querySelectorAll('.news-card');
     var buttons = filterBar.querySelectorAll('.cases-filter-btn');
+
+    var currentCategory = 'all';
+    var shown = PAGE_SIZE;
 
     function pluralArticles(n) {
       if (n === 1) return 'материал';
@@ -183,34 +196,49 @@
       return 'материалов';
     }
 
-    function applyFilter(category) {
-      var visible = 0;
+    function render() {
+      var matched = 0;
 
       for (var i = 0; i < cards.length; i++) {
         var card = cards[i];
-        var match = category === 'all' || card.getAttribute('data-category') === category;
-        card.style.display = match ? '' : 'none';
-        if (match) visible++;
+        var match = currentCategory === 'all' ||
+          card.getAttribute('data-category') === currentCategory;
+        if (match) {
+          card.style.display = matched < shown ? '' : 'none';
+          matched++;
+        } else {
+          card.style.display = 'none';
+        }
       }
 
       if (empty) {
-        empty.style.display = visible === 0 ? '' : 'none';
+        empty.style.display = matched === 0 ? '' : 'none';
+      }
+
+      if (moreWrap) {
+        moreWrap.style.display = matched > shown ? '' : 'none';
       }
 
       if (counter) {
-        if (category === 'all') {
+        if (currentCategory === 'all') {
           counter.textContent = '';
         } else {
-          counter.textContent = 'Найдено: ' + visible + ' ' + pluralArticles(visible);
+          counter.textContent = 'Найдено: ' + matched + ' ' + pluralArticles(matched);
         }
       }
 
       for (var j = 0; j < buttons.length; j++) {
         var btn = buttons[j];
-        var isActive = btn.getAttribute('data-filter') === category;
+        var isActive = btn.getAttribute('data-filter') === currentCategory;
         btn.classList.toggle('active', isActive);
         btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
       }
+    }
+
+    function applyFilter(category) {
+      currentCategory = category;
+      shown = PAGE_SIZE;
+      render();
     }
 
     for (var k = 0; k < buttons.length; k++) {
@@ -225,10 +253,14 @@
       });
     }
 
-    for (var m = 0; m < buttons.length; m++) {
-      buttons[m].setAttribute('aria-pressed',
-        buttons[m].classList.contains('active') ? 'true' : 'false');
+    if (moreBtn) {
+      moreBtn.addEventListener('click', function () {
+        shown += PAGE_SIZE;
+        render();
+      });
     }
+
+    render();
   })();
   </script>
 
