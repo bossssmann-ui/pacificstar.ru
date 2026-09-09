@@ -94,6 +94,8 @@ jobs:
             --exclude='.dockerignore' \
             --exclude='.htmlvalidate.json' \
             --exclude='.gitignore' \
+            --exclude='docs/' \
+            --exclude='.cursor/' \
             ./ /tmp/site/
           echo "📦 Файлы для загрузки:"
           ls -la /tmp/site/
