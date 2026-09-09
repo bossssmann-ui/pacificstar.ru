@@ -269,8 +269,12 @@
     var cargoStr  = cargoLabel + ', ' + transLabel
       + (weightVal > 0 ? ', ' + weightVal + ' \u043a\u0433' : '')
       + (volVal > 0 ? ', ' + volVal + ' \u043c\u00b3' : '');
-    var href = 'contacts.html?route=' + encodeURIComponent(routeStr)
-      + '&cargo=' + encodeURIComponent(cargoStr) + '#contactForm';
+    /* PS-05: hand off via short-lived same-tab sessionStorage — the request
+       content is NOT placed in the URL. Cleared by the contact form on read. */
+    try {
+      sessionStorage.setItem('ps_quote_request', JSON.stringify({ route: routeStr, cargo: cargoStr, ts: Date.now() }));
+    } catch (e) { /* storage unavailable — the form still opens, just without prefill */ }
+    var href = 'contacts.html#contactForm';
 
     resultBox.innerHTML = [
       '<div class="calc-result-grid">',
