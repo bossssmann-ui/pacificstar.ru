@@ -317,6 +317,24 @@
     const serviceField = contactForm.querySelector('[name="service"]');
     const messageField = contactForm.querySelector('[name="message"]');
 
+    /* PS-05: prefill route/cargo from a short-lived, same-tab sessionStorage
+       hand-off (no request content in the URL). Read once, then cleared.
+       Values are written via .value (never innerHTML). If storage is
+       unavailable, the payload is stale (>10 min) or missing, the form simply
+       opens without prefill and works normally. */
+    try {
+      var _raw = sessionStorage.getItem('ps_quote_request');
+      if (_raw) {
+        sessionStorage.removeItem('ps_quote_request');
+        var _d = JSON.parse(_raw);
+        if (_d && _d.ts && (Date.now() - _d.ts) < 600000) {
+          var _routeField = document.getElementById('route');
+          if (_d.route && _routeField && !_routeField.value) _routeField.value = String(_d.route);
+          if (_d.cargo && messageField && !messageField.value) messageField.value = String(_d.cargo);
+        }
+      }
+    } catch (_e) { /* storage unavailable or invalid JSON — open without prefill */ }
+
     contactForm.addEventListener('submit', function (e) {
       e.preventDefault();
 
