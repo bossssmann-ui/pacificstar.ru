@@ -23,11 +23,15 @@
   }
 
   if (preloader) {
-    if (document.readyState === 'complete') {
+    /* PS-06: hide as soon as the DOM is ready — do NOT gate the first screen on
+       all resources (images/fonts). A safety timeout guarantees the overlay is
+       never left up if a resource is slow or fails. */
+    if (document.readyState !== 'loading') {
       hidePreloader();
     } else {
-      window.addEventListener('load', hidePreloader);
+      document.addEventListener('DOMContentLoaded', hidePreloader);
     }
+    setTimeout(hidePreloader, 3000);
   }
 
   /* =============================================
@@ -67,6 +71,9 @@
      requestAnimationFrame lerp for smooth lag
      ============================================= */
   document.addEventListener('DOMContentLoaded', function () {
+    /* PS-06: decorative custom cursor removed (distracting, hurts usability,
+       and can mask the native pointer). Also hidden via CSS as a safeguard. */
+    return;
 
     /* Only enable on pointer-fine devices */
     if (!window.matchMedia || !window.matchMedia('(pointer: fine)').matches) return;
