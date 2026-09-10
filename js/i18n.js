@@ -31,6 +31,7 @@
 
   /* ─── Dictionary cache ──────────────────────────────────────────────── */
   var dictCache = {};
+  var languageRequest = 0;
   var ruSnapshot = {};  /* key -> original Russian text from DOM */
   var attrSnapshot = []; /* [{el, attr, key, orig}] */
   var metaSnapshot = { title: '', description: '' };
@@ -168,6 +169,7 @@
 
   /* ─── Full language switch ──────────────────────────────────────────── */
   function applyLang(lang) {
+    var request = ++languageRequest;
     if (lang === 'ru') {
       applyDict(null, true);
       finalizeLang(lang);
@@ -175,6 +177,8 @@
     }
 
     loadDict(lang, function (dict) {
+      /* A late dictionary reply must not override a newer selection. */
+      if (request !== languageRequest) return;
       /* Always reset to Russian snapshot first so non-RU → non-RU
        * switches do not leave leftover strings from the previous language. */
       applyDict(null, true);
