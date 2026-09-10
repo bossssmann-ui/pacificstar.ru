@@ -1,9 +1,12 @@
 {
-  "extends": ["html-validate:recommended"],
+  "extends": [
+    "html-validate:recommended"
+  ],
   "rules": {
     "void-style": ["error", { "style": "omit" }],
     "no-inline-style": "off",
     "prefer-native-element": "off",
-    "hidden-focusable": "off"
+    "hidden-focusable": "off",
+    "missing-doctype": "error"
   }
 }

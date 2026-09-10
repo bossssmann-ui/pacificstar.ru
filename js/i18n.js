@@ -29,25 +29,6 @@
     ko: { flag: '\u{1F1F0}\u{1F1F7}', label: '\uD55C\uAD6D\uC5B4', code: '\uD55C\uAD6D\uC5B4' }
   };
 
-  /* ─── CJK font loader ────────────────────────────────────────────────── */
-  var CJK_FONTS = {
-    zh: 'Noto+Sans+SC:wght@400;500;700',
-    ja: 'Noto+Sans+JP:wght@400;500;700',
-    ko: 'Noto+Sans+KR:wght@400;500;700'
-  };
-
-  function loadCJKFont(lang) {
-    if (!CJK_FONTS[lang]) return;
-    if (document.querySelector('[data-cjk="' + lang + '"]')) return;
-    var old = document.querySelector('[data-cjk]');
-    if (old) old.remove();
-    var link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.dataset.cjk = lang;
-    link.href = 'https://fonts.googleapis.com/css2?family=' + CJK_FONTS[lang] + '&display=swap';
-    document.head.appendChild(link);
-  }
-
   /* ─── Dictionary cache ──────────────────────────────────────────────── */
   var dictCache = {};
   var ruSnapshot = {};  /* key -> original Russian text from DOM */
@@ -198,7 +179,6 @@
        * switches do not leave leftover strings from the previous language. */
       applyDict(null, true);
       applyDict(dict, false);
-      loadCJKFont(lang);
       finalizeLang(lang);
     });
   }
@@ -206,14 +186,6 @@
   function finalizeLang(lang) {
     /* html lang attribute */
     document.documentElement.lang = lang;
-
-    /* CJK body font */
-    var fontMap = {
-      zh: "'Noto Sans SC',sans-serif",
-      ja: "'Noto Sans JP',sans-serif",
-      ko: "'Noto Sans KR',sans-serif"
-    };
-    document.body.style.fontFamily = fontMap[lang] || '';
 
     /* Page title & meta description — restore RU base, then apply target lang */
     document.title = metaSnapshot.title || document.title;

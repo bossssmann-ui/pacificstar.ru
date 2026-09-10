@@ -58,3 +58,5 @@ jobs:
         run: npm install --no-save html-validate@10.17.0
       - name: Validate published HTML pages
         run: npx html-validate *.html news/*.html
+      - name: Check document structure and metadata restoration
+        run: node scripts/check-document-regressions.cjs

@@ -14,7 +14,7 @@ const ROOT = path.resolve(import.meta.dirname, '..');
 const DRY = process.argv.includes('--dry-run');
 
 const SKIP_FILES = new Set([
-  'offline.html', 'START.html', 'hello.html', 'logos.html',
+  'offline.html', 'logos.html',
   'DEPLOY_GUIDE.html', 'test.html'
 ]);
 
