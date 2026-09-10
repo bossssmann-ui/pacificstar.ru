@@ -349,3 +349,16 @@
   src: url(../fonts/inter/inter-800-latin.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+
+/* Use locally installed CJK fonts; language switching never loads a CDN.
+ * Inter remains self-hosted for Latin/Cyrillic. The final generic family
+ * delegates unavailable glyphs to the operating system. */
+html[lang="zh"] {
+  --font-sans: 'Inter', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Heiti SC', sans-serif;
+}
+html[lang="ja"] {
+  --font-sans: 'Inter', 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+}
+html[lang="ko"] {
+  --font-sans: 'Inter', 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+}
