@@ -18,12 +18,13 @@ function metadataTest(file, initialLanguage) {
   const original = { title: $('title').text(), description: $('meta[name="description"]').attr('content') || '' };
   let description = original.description;
   let ready;
+  const injectedResources = [];
   let savedLanguage;
   const location = new URL('https://example.test/' + file + '?lang=' + initialLanguage);
   const meta = { getAttribute: () => description, setAttribute: (_, value) => { description = value; } };
   const document = {
     title: original.title, documentElement: { lang: 'ru' }, body: { style: {} },
-    head: { appendChild() {} },
+    head: { appendChild(element) { injectedResources.push(element.href || element.src || ""); } },
     createElement: () => ({ dataset: {} }),
     getElementById: () => null,
     querySelectorAll: () => [],
@@ -55,6 +56,7 @@ function metadataTest(file, initialLanguage) {
     assert.equal(document.title, expected('title'), file + ': title / ' + language);
     assert.equal(description, expected('desc'), file + ': description / ' + language);
     assert.equal(document.documentElement.lang, language);
+    assert.equal(injectedResources.length, 0, file + ": switching language must not inject remote resources");
   }
 }
 
