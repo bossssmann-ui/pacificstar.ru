@@ -60,3 +60,5 @@ jobs:
         run: npx html-validate *.html news/*.html
       - name: Check document structure and metadata restoration
         run: node scripts/check-document-regressions.cjs
+      - name: Check asynchronous language switching
+        run: node scripts/check-language-races.cjs
