@@ -62,3 +62,5 @@ jobs:
         run: node scripts/check-document-regressions.cjs
       - name: Check asynchronous language switching
         run: node scripts/check-language-races.cjs
+      - name: Check analytics consent gates
+        run: node scripts/check-analytics-consent.cjs

@@ -8,7 +8,7 @@
  *   window.PS_GA_ID = 'G-XXXXXX'; // Google Analytics measurement ID (optional)
  *
  * Tracked events:
- *   - form submissions  (auto-detected by <form> submit)
+ *   - form interactions and explicitly confirmed lead events
  *   - phone clicks      (auto-detected by href="tel:…")
  *   - email clicks      (auto-detected by href="mailto:…")
  *   - WhatsApp clicks   (auto-detected by href containing wa.me)
@@ -65,7 +65,11 @@
     window.gtag('config', gaId);
   }
 
+  var analyticsBooted = false;
+
   function bootAnalytics() {
+    if (analyticsBooted || !hasAnalyticsConsent()) return;
+    analyticsBooted = true;
     initYandexMetrika();
     initGoogleAnalytics();
   }
@@ -77,7 +81,7 @@
   if (hasAnalyticsConsent()) {
     bootAnalytics();
   } else {
-    window.addEventListener('ps:analytics-consent', bootAnalytics, { once: true });
+    window.addEventListener('ps:analytics-consent', bootAnalytics);
   }
 
   /* ── Helpers ──────────────────────────────────────────────────────── */
@@ -88,6 +92,7 @@
    * @param {Object} [params] — optional key-value payload
    */
   function track(goalName, params) {
+    if (!hasAnalyticsConsent()) return;
     /* Yandex Metrica */
     if (ymId && typeof window.ym === 'function') {
       try { window.ym(ymId, 'reachGoal', goalName, params || {}); } catch (_) { /* noop */ }
@@ -171,6 +176,7 @@
   var formStarted = {};
 
   document.addEventListener('focusin', function (e) {
+    if (!hasAnalyticsConsent()) return;
     var el = e.target;
     var form = (el && el.form) ? el.form : (el && el.closest ? el.closest('form') : null);
     if (!form || !form.id || !LEAD_FORMS[form.id]) return;
